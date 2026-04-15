@@ -1,7 +1,7 @@
 #!/bin/sh
 # Lance un conteneur sandbox pour le TP du module 6 (gestion d'environnements
-# Python). L'image continuumio/miniconda3 fournit python + conda ; pixi est
-# installé au démarrage via le script officiel.
+# Python). L'image continuumio/miniconda3 fournit python + conda. `curl` et
+# `pixi` sont installés au démarrage (miniconda3 ne les contient pas).
 #
 # Usage (depuis la racine du dossier stagiaire) :
 #     ./sandbox-exe.sh
@@ -30,7 +30,7 @@ fi
 echo "▶ Démarrage du conteneur sandbox (TP environnements Python)"
 echo "  Image  : continuumio/miniconda3"
 echo "  Mount  : $SANDBOX_DIR → /workspace"
-echo "  Outils : python, conda, pixi (installé à la volée)"
+echo "  Outils : python, conda, pixi (installés à la volée)"
 echo "  Pour quitter : tapez 'exit'"
 echo
 
@@ -40,23 +40,40 @@ docker container run -it --rm --name cours-ml-sandbox \
     continuumio/miniconda3:latest \
     bash -c '
         set -e
+
+        # curl nest pas dans limage miniconda3. On linstalle (~5 s) pour
+        # pouvoir ensuite telecharger pixi depuis pixi.sh.
+        if ! command -v curl >/dev/null 2>&1; then
+            echo "▶ Installation de curl (prerequis pour pixi)..."
+            apt-get update -qq >/dev/null
+            apt-get install -y -qq curl ca-certificates >/dev/null
+            echo "  OK"
+        fi
+
+        # pixi : binaire telecharge depuis pixi.sh et place dans /usr/local/bin
+        # (PIXI_HOME=/usr/local -> linstalleur ecrit dans /usr/local/bin/pixi).
         if ! command -v pixi >/dev/null 2>&1; then
-            echo "▶ Installation de pixi (une seule fois par session)..."
-            curl -fsSL https://pixi.sh/install.sh | bash >/dev/null 2>&1 || {
-                echo "  ⚠ Installation de pixi échouée (pas de réseau ?). venv et conda restent dispos."
-            }
-            export PATH="/root/.pixi/bin:$PATH"
-            if command -v pixi >/dev/null 2>&1; then
-                echo "  pixi $(pixi --version | cut -d\" \" -f2)"
+            echo "▶ Installation de pixi dans /usr/local/bin..."
+            if PIXI_HOME=/usr/local curl -fsSL https://pixi.sh/install.sh | bash; then
+                if command -v pixi >/dev/null 2>&1; then
+                    echo "  OK"
+                else
+                    echo "  ATTENTION : installeur termine mais binaire introuvable."
+                fi
+            else
+                echo "  ATTENTION : telechargement de pixi echoue (pas de reseau ?)."
+                echo "  venv et conda restent disponibles pour le TP."
             fi
         fi
-        export PATH="/root/.pixi/bin:$PATH"
+
         echo
         echo "▶ Bienvenue dans le sandbox !"
-        echo "  python $(python --version 2>&1 | cut -d\" \" -f2)"
-        echo "  conda  $(conda --version | cut -d\" \" -f2)"
+        printf "  "; python --version
+        printf "  "; conda --version
         if command -v pixi >/dev/null 2>&1; then
-            echo "  pixi   $(pixi --version | cut -d\" \" -f2)"
+            printf "  "; pixi --version
+        else
+            echo "  pixi (non disponible)"
         fi
         echo
         echo "  Les instructions du TP sont dans le site du cours :"

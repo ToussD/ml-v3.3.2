@@ -1,0 +1,1657 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Améliorer une « mauvaise » distribution &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"RR": "\\mathbb{R}", "NN": "\\mathbb{N}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours-exe/08-advanced-feature-engineering/03-improve-distribution';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Réduction de dimensions" href="04-dimensionality-reduction.html" />
+    <link rel="prev" title="Traitement des valeurs manquantes — compléments" href="02-null-values-advanced.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours-exe/08-advanced-feature-engineering/03-improve-distribution.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Améliorer une « mauvaise » distribution</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-probleme-certains-algorithmes-preferent-les-gaussiennes">Le problème : certains algorithmes préfèrent les gaussiennes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-c-est-genant-quand-ca-deraille">Pourquoi c’est gênant quand ça déraille</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-plan-de-ce-notebook">Le plan de ce notebook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creation-des-jeux-d-apprentissage-et-de-test">Création des jeux d’apprentissage et de test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-selection-suppression-des-colonnes-inutiles">Feature selection — suppression des colonnes inutiles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-valorisation-des-donnees-manquantes">Data cleaning — valorisation des données manquantes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-embarked">La colonne <code class="docutils literal notranslate"><span class="pre">embarked</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-fare">La colonne <code class="docutils literal notranslate"><span class="pre">fare</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-age">La colonne <code class="docutils literal notranslate"><span class="pre">age</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#valorisation-la-fonction-complete">Valorisation — la fonction complète</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerisation-des-variables-categorielles">Numérisation des variables catégorielles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-d-une-mauvaise-distribution-les-transformations">Gestion d’une mauvaise distribution — les transformations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-transformations-classiques">Les transformations classiques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-ca-aide-parfois">Pourquoi ça aide (parfois)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-age">La variable <code class="docutils literal notranslate"><span class="pre">age</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-fare">La variable <code class="docutils literal notranslate"><span class="pre">fare</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fonction-de-pretraitement-complete">Fonction de prétraitement complète</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisation-centrer-reduire">Normalisation — centrer-réduire</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-standardscaler-de-scikit-learn">Le StandardScaler de scikit-learn</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage">Apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-modeles">Autres modèles</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-transformations-de-distribution">🎯 Pour résumer — transformations de distribution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-investir-dans-ces-techniques">Quand investir dans ces techniques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-outils-scikit-learn-a-connaitre">Les outils scikit-learn à connaître</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-bonnes-pratiques">Les bonnes pratiques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-a-eviter">Les pièges à éviter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ameliorer-une-mauvaise-distribution">
+<h1>Améliorer une « mauvaise » distribution<a class="headerlink" href="#ameliorer-une-mauvaise-distribution" title="Lien permanent vers cette rubrique">#</a></h1>
+<p><img alt="feature engineering" src="../../_images/feature-engineering-process.png" /></p>
+<section id="le-probleme-certains-algorithmes-preferent-les-gaussiennes">
+<h2>Le problème : certains algorithmes préfèrent les gaussiennes<a class="headerlink" href="#le-probleme-certains-algorithmes-preferent-les-gaussiennes" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Beaucoup d’algorithmes de machine learning font des <strong>hypothèses implicites sur la distribution</strong> des variables d’entrée. La plus courante : <em>« les données sont à peu près gaussiennes »</em> — c’est-à-dire en forme de cloche, symétriques, centrées autour de leur moyenne avec une dispersion régulière.</p>
+<p><strong>Les algorithmes qui aiment les données gaussiennes (ou au moins symétriques) :</strong></p>
+<ul class="simple">
+<li><p><strong>Régression linéaire / logistique</strong> (surtout avec régularisation <span class="math notranslate nohighlight">\(L_1\)</span> ou <span class="math notranslate nohighlight">\(L_2\)</span>).</p></li>
+<li><p><strong>KNN, K-Means</strong> (tout ce qui utilise des distances euclidiennes).</p></li>
+<li><p><strong>SVM avec kernel linéaire ou RBF.</strong></p></li>
+<li><p><strong>Réseaux de neurones</strong> (les activations convergent mieux si les entrées sont standardisées).</p></li>
+<li><p><strong>Analyses statistiques</strong> (ANOVA, tests de Student, etc.).</p></li>
+</ul>
+<p><strong>Les algorithmes qui s’en moquent :</strong></p>
+<ul class="simple">
+<li><p><strong>Arbres de décision, Random Forest, XGBoost, LightGBM.</strong> Ils découpent par seuils, donc l’échelle et la forme de la distribution n’ont aucune importance pour eux.</p></li>
+</ul>
+<section id="pourquoi-c-est-genant-quand-ca-deraille">
+<h3>Pourquoi c’est gênant quand ça déraille<a class="headerlink" href="#pourquoi-c-est-genant-quand-ca-deraille" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> imagine que tu compares deux amis avec deux balances différentes. Si ta balance A lit les valeurs en grammes (de 0 à 100 000) et la balance B en kilos (de 0 à 100), tu vas forcément <strong>donner plus de poids</strong> (pardon du jeu de mots) à la première dans ta comparaison. C’est exactement ce que fait un modèle linéaire avec des variables de distributions très différentes : <code class="docutils literal notranslate"><span class="pre">fare</span></code> (0 à 500) va dominer <code class="docutils literal notranslate"><span class="pre">pclass</span></code> (1 à 3) dans les calculs, <strong>sans raison métier</strong>.</p>
+<p>Et au-delà de l’échelle, <strong>la forme</strong> de la distribution compte aussi. Une variable très asymétrique peut avoir un effet non linéaire sur le modèle — un modèle linéaire passera à côté, tandis qu’une transformation simple (log, racine, puissance) peut lui redonner une forme exploitable.</p>
+</div></blockquote>
+<p><img alt="feature engineering" src="../../_images/skew.png" /></p>
+</section>
+</section>
+<section id="le-plan-de-ce-notebook">
+<h2>Le plan de ce notebook<a class="headerlink" href="#le-plan-de-ce-notebook" title="Lien permanent vers cette rubrique">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Détecter</strong> les distributions asymétriques (via le <strong>skew</strong>).</p></li>
+<li><p><strong>Transformer</strong> les variables problématiques avec log, racine ou puissance.</p></li>
+<li><p><strong>Normaliser</strong> l’ensemble des variables (scaling centré-réduit).</p></li>
+<li><p><strong>Vérifier</strong> si ça apporte un gain mesurable sur les modèles.</p></li>
+</ol>
+<blockquote>
+<div><p><strong>Spoiler :</strong> ça ne marche <strong>pas à tous les coups</strong>. Le feature engineering, c’est de l’expérimentation — et ce notebook finira sur un résultat « rien de mieux », ce qui est une leçon tout aussi importante que les succès.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;titanic&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">titanic1</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">data</span>
+<span class="n">survived</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/conda/lib/python3.11/site-packages/sklearn/datasets/_openml.py:1002: FutureWarning: The default value of `parser` will change from `&#39;liac-arff&#39;` to `&#39;auto&#39;` in 1.4. You can set `parser=&#39;auto&#39;` to silence this warning. Therefore, an `ImportError` will be raised from 1.4 if the dataset is dense and pandas is not installed. Note that the pandas parser may return different data types. See the Notes Section in fetch_openml&#39;s API doc for details.
+  warn(
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creation-des-jeux-d-apprentissage-et-de-test">
+<h2>Création des jeux d’apprentissage et de test<a class="headerlink" href="#creation-des-jeux-d-apprentissage-et-de-test" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>On utilise un split stratifié</strong> (<code class="docutils literal notranslate"><span class="pre">stratify=y</span></code>) pour garantir que les deux jeux ont la même proportion de survivants — critique quand les classes sont déséquilibrées, comme vu dans le notebook précédent.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X1_train</span><span class="p">,</span> <span class="n">X1_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">titanic1</span><span class="p">,</span>
+    <span class="n">survived</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+    <span class="n">stratify</span><span class="o">=</span><span class="n">survived</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>On vérifie à nouveau la distribution des labels pour confirmer que les deux jeux sont bien alignés.</p>
+</section>
+<section id="feature-selection-suppression-des-colonnes-inutiles">
+<h2>Feature selection — suppression des colonnes inutiles<a class="headerlink" href="#feature-selection-suppression-des-colonnes-inutiles" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Conformément aux choix faits dans les notebooks précédents</strong>, on supprime les colonnes problématiques : trop de NaN (<code class="docutils literal notranslate"><span class="pre">cabin</span></code>, <code class="docutils literal notranslate"><span class="pre">home.dest</span></code>), fuites de données (<code class="docutils literal notranslate"><span class="pre">boat</span></code>, <code class="docutils literal notranslate"><span class="pre">body</span></code>), haute cardinalité non exploitée (<code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">ticket</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">drop_columns</span><span class="p">(</span><span class="n">X_df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">X_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;cabin&quot;</span><span class="p">,</span> <span class="s2">&quot;home.dest&quot;</span><span class="p">,</span> <span class="s2">&quot;boat&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;ticket&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X2_train</span> <span class="o">=</span> <span class="n">drop_columns</span><span class="p">(</span><span class="n">X1_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-cleaning-valorisation-des-donnees-manquantes">
+<h2>Data cleaning — valorisation des données manquantes<a class="headerlink" href="#data-cleaning-valorisation-des-donnees-manquantes" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Rappel rapide de la stratégie du notebook précédent :</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">embarked</span></code> : imputé par le mode (<code class="docutils literal notranslate"><span class="pre">S</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fare</span></code> : imputé par la moyenne conditionnée à <code class="docutils literal notranslate"><span class="pre">pclass</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> : imputé par un tirage aléatoire autour de la moyenne de sa classe.</p></li>
+</ul>
+<section id="la-colonne-embarked">
+<h3>La colonne <code class="docutils literal notranslate"><span class="pre">embarked</span></code><a class="headerlink" href="#la-colonne-embarked" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On remplace la valeur manquante par la valeur la plus fréquente — <strong><code class="docutils literal notranslate"><span class="pre">S</span></code></strong> (Southampton).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">impute_embarked</span><span class="p">(</span><span class="n">X_df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;embarked&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">impute_embarked</span><span class="p">(</span><span class="n">X2_train</span><span class="p">)</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="la-colonne-fare">
+<h3>La colonne <code class="docutils literal notranslate"><span class="pre">fare</span></code><a class="headerlink" href="#la-colonne-fare" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On valorise les valeurs manquantes de <code class="docutils literal notranslate"><span class="pre">fare</span></code> <strong>en fonction de <code class="docutils literal notranslate"><span class="pre">pclass</span></code></strong> (imputation conditionnelle, cf. notebook précédent).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_fare_per_class</span> <span class="o">=</span> <span class="n">X2_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span> <span class="s2">&quot;pclass&quot;</span><span class="p">)[</span><span class="s2">&quot;fare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">mean_fare_per_class</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pclass
+1.0    82.752701
+2.0    21.298985
+3.0    13.410947
+Name: fare, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">impute_fare</span><span class="p">(</span><span class="n">X_df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">X2_train</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">mean_fare_per_class</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;pclass&quot;</span><span class="p">]]</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">])</span> <span class="k">else</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">],</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">impute_fare</span><span class="p">(</span><span class="n">X2_train</span><span class="p">)</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="la-colonne-age">
+<h3>La colonne <code class="docutils literal notranslate"><span class="pre">age</span></code><a class="headerlink" href="#la-colonne-age" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Nous allons valoriser les valeurs de <code class="docutils literal notranslate"><span class="pre">age</span></code> autour de l”<strong>âge moyen de la classe</strong> des voyageurs (imputation conditionnelle avec bruit pour préserver la distribution).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_ages_class</span> <span class="o">=</span> <span class="n">X2_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;pclass&quot;</span><span class="p">)[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">std_ages_class</span> <span class="o">=</span> <span class="n">X2_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;pclass&quot;</span><span class="p">)[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(pclass
+ 1.0    39.778325
+ 2.0    29.574292
+ 3.0    24.637874
+ Name: age, dtype: float64,
+ pclass
+ 1.0    14.287973
+ 2.0    13.380506
+ 3.0    11.802561
+ Name: age, dtype: float64)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_age</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">mean_ages</span><span class="p">,</span> <span class="n">std_ages</span><span class="p">):</span>
+    <span class="n">pclass</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;pclass&#39;</span><span class="p">]</span>
+    <span class="n">mean_age</span> <span class="o">=</span> <span class="n">mean_ages</span><span class="p">[</span><span class="n">pclass</span><span class="p">]</span>
+    <span class="n">std_age</span> <span class="o">=</span> <span class="n">std_ages</span><span class="p">[</span><span class="n">pclass</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mean_age</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">std_age</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">impute_age</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">mean_ages</span><span class="p">,</span> <span class="n">std_ages</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">X_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">get_age</span><span class="p">(</span>
+            <span class="n">row</span><span class="p">,</span> <span class="n">mean_ages</span><span class="p">,</span> <span class="n">std_ages</span>
+        <span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">])</span> <span class="k">else</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+<span class="k">assert</span> <span class="n">impute_age</span><span class="p">(</span><span class="n">X2_train</span><span class="p">,</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">)</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">impute_age</span><span class="p">(</span><span class="n">X2_train</span><span class="p">,</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">X2_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Vérification</strong> : on compare les distributions <strong>avant</strong> et <strong>après</strong> imputation. On veut s’assurer que notre stratégie n’a pas créé d’artefact (pic démesuré à une valeur unique).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">X2_train</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution d&#39;origine&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">impute_age</span><span class="p">(</span><span class="n">X2_train</span><span class="p">,</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">),</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution après valorisation&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
+</pre></div>
+</div>
+<img alt="../../_images/7f9951e3c074a54a86a292c99a55bd2e0ea91997643e23a1ad27e175454f7f2e.png" src="../../_images/7f9951e3c074a54a86a292c99a55bd2e0ea91997643e23a1ad27e175454f7f2e.png" />
+</div>
+</div>
+<p><strong>La valorisation n’a pas radicalement déformé la distribution</strong> — c’est bon signe. L’imputation conditionnelle avec tirage aléatoire préserve mieux la forme naturelle que l’imputation par une constante.</p>
+</section>
+<section id="valorisation-la-fonction-complete">
+<h3>Valorisation — la fonction complète<a class="headerlink" href="#valorisation-la-fonction-complete" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On rassemble toutes les stratégies d’imputation dans une seule fonction réutilisable sur le train <strong>et</strong> le test.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">impute_null_values</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">mean_ages</span><span class="p">,</span> <span class="n">std_ages</span><span class="p">):</span>
+    <span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;embarked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">impute_embarked</span><span class="p">(</span><span class="n">X_df</span><span class="p">)</span>
+    <span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">impute_fare</span><span class="p">(</span><span class="n">X_df</span><span class="p">)</span>
+    <span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">impute_age</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">mean_ages</span><span class="p">,</span> <span class="n">std_ages</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X_df</span>
+
+<span class="n">impute_null_values</span><span class="p">(</span><span class="n">X2_train</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>sex</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>fare</th>
+      <th>embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>male</td>
+      <td>30.000000</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>151.5500</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>798</th>
+      <td>3.0</td>
+      <td>male</td>
+      <td>15.845669</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.0500</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>1.0</td>
+      <td>male</td>
+      <td>41.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>30.5000</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>367</th>
+      <td>2.0</td>
+      <td>male</td>
+      <td>52.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>13.5000</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>803</th>
+      <td>3.0</td>
+      <td>male</td>
+      <td>26.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.8792</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>727</th>
+      <td>3.0</td>
+      <td>male</td>
+      <td>70.500000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.7500</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>645</th>
+      <td>3.0</td>
+      <td>male</td>
+      <td>23.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.7958</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>380</th>
+      <td>2.0</td>
+      <td>female</td>
+      <td>22.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>10.5000</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>366</th>
+      <td>2.0</td>
+      <td>male</td>
+      <td>54.000000</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>26.0000</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1117</th>
+      <td>3.0</td>
+      <td>male</td>
+      <td>21.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.9250</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+<p>981 rows × 7 columns</p>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="numerisation-des-variables-categorielles">
+<h2>Numérisation des variables catégorielles<a class="headerlink" href="#numerisation-des-variables-categorielles" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Dernière étape avant les transformations de distribution</strong> : convertir <code class="docutils literal notranslate"><span class="pre">sex</span></code> et <code class="docutils literal notranslate"><span class="pre">embarked</span></code> en variables numériques via one-hot encoding (avec <code class="docutils literal notranslate"><span class="pre">drop_first=True</span></code> pour éviter la colinéarité).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">convert_categorical</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+    <span class="n">one_hot_encoded</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X_df</span><span class="p">[</span><span class="n">cols</span><span class="p">],</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">one_hot_encoded</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">convert_categorical</span><span class="p">(</span><span class="n">X2_train</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;embarked&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 981 entries, 3 to 1117
+Data columns (total 8 columns):
+ #   Column      Non-Null Count  Dtype  
+---  ------      --------------  -----  
+ 0   pclass      981 non-null    float64
+ 1   age         771 non-null    float64
+ 2   sibsp       981 non-null    float64
+ 3   parch       981 non-null    float64
+ 4   fare        980 non-null    float64
+ 5   sex_male    981 non-null    bool   
+ 6   embarked_Q  981 non-null    bool   
+ 7   embarked_S  981 non-null    bool   
+dtypes: bool(3), float64(5)
+memory usage: 81.1 KB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="gestion-d-une-mauvaise-distribution-les-transformations">
+<h2>Gestion d’une mauvaise distribution — les transformations<a class="headerlink" href="#gestion-d-une-mauvaise-distribution-les-transformations" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>C’est le cœur de ce notebook.</strong> On va maintenant s’attaquer aux variables dont la distribution est <strong>asymétrique</strong> (<em>skewed</em>), et voir si une transformation mathématique simple peut la rendre plus symétrique.</p>
+<section id="les-transformations-classiques">
+<h3>Les transformations classiques<a class="headerlink" href="#les-transformations-classiques" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Quand une variable a une <strong>traîne à droite</strong> (skew positif — cas très fréquent : prix, revenus, temps d’attente), on peut essayer :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Transformation</p></th>
+<th class="head"><p>Formule</p></th>
+<th class="head"><p>Effet</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Log</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(y = \log(x + 1)\)</span></p></td>
+<td><p>Compression forte des grandes valeurs. Classique pour les prix, revenus.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Racine carrée</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(y = \sqrt{x}\)</span></p></td>
+<td><p>Compression modérée. Bon compromis pour des variables peu asymétriques.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Puissance</strong> <span class="math notranslate nohighlight">\(p &lt; 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(y = x^p\)</span></p></td>
+<td><p>Effet modulable en jouant sur <span class="math notranslate nohighlight">\(p\)</span> (<span class="math notranslate nohighlight">\(p=0{,}5\)</span> = racine, <span class="math notranslate nohighlight">\(p=0{,}3\)</span> = plus fort).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Box-Cox</strong></p></td>
+<td><p>automatique</p></td>
+<td><p>Trouve le meilleur <span class="math notranslate nohighlight">\(p\)</span> automatiquement (variables strictement positives).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Yeo-Johnson</strong></p></td>
+<td><p>automatique</p></td>
+<td><p>Comme Box-Cox mais accepte les valeurs négatives ou nulles.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>Mental model :</strong> une traîne à droite, c’est comme un élastique qu’on a trop tiré d’un côté. Les transformations compressent les grandes valeurs et « ramènent » l’élastique vers une forme plus équilibrée. Plus la transformation est « forte » (log &gt; racine &gt; puissance 0,7), plus elle compresse.</p>
+</div></blockquote>
+</section>
+<section id="pourquoi-ca-aide-parfois">
+<h3>Pourquoi ça aide (parfois)<a class="headerlink" href="#pourquoi-ca-aide-parfois" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong>Les algorithmes linéaires</strong> (régression, régression logistique) apprennent mieux sur des variables <strong>symétriques</strong> — ils peuvent mieux ajuster un coefficient unique qui s’applique de façon équilibrée.</p></li>
+<li><p><strong>Les tests statistiques</strong> qui reposent sur l’hypothèse de normalité deviennent valides.</p></li>
+<li><p><strong>La régularisation</strong> (Ridge, Lasso) traite mieux les variables d’échelles comparables.</p></li>
+</ul>
+</section>
+<section id="la-variable-age">
+<h3>La variable <code class="docutils literal notranslate"><span class="pre">age</span></code><a class="headerlink" href="#la-variable-age" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>L’histogramme (vu plus haut) révèle une <strong>traîne à droite</strong> de la variable <code class="docutils literal notranslate"><span class="pre">age</span></code>. On peut <strong>quantifier</strong> cette asymétrie avec la fonction <strong><code class="docutils literal notranslate"><span class="pre">skew()</span></code></strong> de pandas.</p>
+<blockquote>
+<div><p><strong>Rappel du notebook <code class="docutils literal notranslate"><span class="pre">01-intro-datascience/06-statistics-basics</span></code> :</strong></p>
+<ul class="simple">
+<li><p><strong>skew = 0</strong> → distribution symétrique (gaussienne parfaite).</p></li>
+<li><p><strong>skew &gt; 0</strong> → traîne à droite (queue vers les grandes valeurs). <strong>Plus la valeur est grande, plus l’asymétrie est forte.</strong></p></li>
+<li><p><strong>skew &lt; 0</strong> → traîne à gauche (queue vers les petites valeurs).</p></li>
+</ul>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age</span> <span class="o">=</span> <span class="n">impute_age</span><span class="p">(</span><span class="n">X2_train</span><span class="p">,</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">)</span>
+<span class="n">age</span><span class="o">.</span><span class="n">skew</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.5923447081289369
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Une valeur positive</strong> confirme une traîne à droite (quelques voyageurs âgés tirent la distribution vers la droite). Pour corriger cela, on va essayer plusieurs transformations et comparer visuellement — <strong>log</strong>, <strong>racine carrée</strong>, <strong>puissance 0,7</strong> — puis choisir celle qui rend la distribution la plus symétrique (skew le plus proche de 0).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">((</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">),</span> <span class="p">(</span><span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">))</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">age</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution initiale&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\mathit</span><span class="si">{age}</span><span class="s2">$&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">age</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution log&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\log({\mathit</span><span class="si">{age}</span><span class="s2">})$&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">age</span><span class="p">),</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution racine carrée&quot;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\sqrt{\mathit</span><span class="si">{age}</span><span class="s2">}$&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">),</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax4</span><span class="p">)</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution racine carrée&quot;</span><span class="p">)</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\mathit</span><span class="si">{age}</span><span class="s2">^</span><span class="si">{0.7}</span><span class="s2">$&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
+</pre></div>
+</div>
+<img alt="../../_images/f29c56b8707f45b12cf91ea7c2a0fe842a3da2f3638342a158a6e9604db6fc1f.png" src="../../_images/f29c56b8707f45b12cf91ea7c2a0fe842a3da2f3638342a158a6e9604db6fc1f.png" />
+</div>
+</div>
+<p><strong>Observation</strong> : la distribution <span class="math notranslate nohighlight">\(\mathit{age}^{0{,}7}\)</span> semble la plus <strong>équilibrée</strong> entre gauche et droite. On le confirme numériquement en comparant les valeurs de skew des trois transformations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">age</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">skew</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="o">.</span><span class="n">skew</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span><span class="o">.</span><span class="n">skew</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-2.1020575312702237, -0.5660094004249648, -0.01895522927713372)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">power_0_7_age_distribution</span><span class="p">(</span><span class="n">X_df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span> <span class="mf">0.7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="la-variable-fare">
+<h3>La variable <code class="docutils literal notranslate"><span class="pre">fare</span></code><a class="headerlink" href="#la-variable-fare" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong><code class="docutils literal notranslate"><span class="pre">fare</span></code> est connue pour être très asymétrique</strong> (c’est ce qu’on avait vu dès le notebook <code class="docutils literal notranslate"><span class="pre">04-summarize-data</span></code> : quelques billets très chers en 1ère classe tirent la distribution). C’est un candidat idéal pour une transformation.</p>
+<p>On calcule d’abord le skew de la distribution originale pour avoir un point de comparaison.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fare</span> <span class="o">=</span> <span class="n">impute_fare</span><span class="p">(</span><span class="n">X2_train</span><span class="p">)</span>
+<span class="n">fare</span><span class="o">.</span><span class="n">skew</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.329339554980521
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">((</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">),</span> <span class="p">(</span><span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">))</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fare</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution d&#39;origine&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\mathit</span><span class="si">{fare}</span><span class="s2">$&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">fare</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span> <span class="c1"># log(x+1) évite les valeurs nulles</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution log&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\log({\mathit</span><span class="si">{fare}</span><span class="s2">+1})$&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">fare</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">),</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution racine carrée&quot;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\sqrt{\mathit</span><span class="si">{fare}</span><span class="s2">}$&quot;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">fare</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax4</span><span class="p">)</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution racine cinquième&quot;</span><span class="p">)</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\mathit</span><span class="si">{fare}</span><span class="s2">^{1/5}$&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
+  if pd.api.types.is_categorical_dtype(vector):
+/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
+</pre></div>
+</div>
+<img alt="../../_images/c8d4d6b445fb5afd26dfebe08e8128d336aa8a9c5347fb7f2d5031c1a5e7252a.png" src="../../_images/c8d4d6b445fb5afd26dfebe08e8128d336aa8a9c5347fb7f2d5031c1a5e7252a.png" />
+</div>
+</div>
+<p><strong>Stratégie :</strong> on teste plusieurs transformations, on regarde visuellement ce qui donne la distribution la plus symétrique, puis on choisit celle qui <strong>minimise le skew</strong>.</p>
+<blockquote>
+<div><p><strong>⚠️ Nuance importante :</strong> chercher à minimiser le skew par itération est acceptable en pédagogie, mais en pratique on préfère souvent utiliser <strong>Box-Cox</strong> ou <strong>Yeo-Johnson</strong> qui trouvent <strong>automatiquement</strong> la meilleure puissance. Ces outils sont disponibles dans <code class="docutils literal notranslate"><span class="pre">sklearn.preprocessing.PowerTransformer</span></code>.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">fare</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">skew</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">fare</span><span class="p">)</span><span class="o">.</span><span class="n">skew</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">fare</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span><span class="o">.</span><span class="n">skew</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.48547537906712096, 2.021520169909295, -0.028605542047637985)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fifth_root_fare_distribution</span><span class="p">(</span><span class="n">X_df</span><span class="p">):</span>
+    <span class="k">return</span>  <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">],</span> <span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">improve_distributions</span><span class="p">(</span><span class="n">X_df</span><span class="p">):</span>
+    <span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;power_0_7_age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">power_0_7_age_distribution</span><span class="p">(</span><span class="n">X_df</span><span class="p">)</span>
+    <span class="n">X_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;fifth_root_fare&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fifth_root_fare_distribution</span><span class="p">(</span><span class="n">X_df</span><span class="p">)</span>
+    <span class="n">X_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;fare&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="fonction-de-pretraitement-complete">
+<h2>Fonction de prétraitement complète<a class="headerlink" href="#fonction-de-pretraitement-complete" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>On enchaîne toutes les transformations</strong> dans une seule fonction :</p>
+<ol class="arabic simple">
+<li><p>Suppression des colonnes inutiles</p></li>
+<li><p>Imputation des NaN (stratégies conditionnelles)</p></li>
+<li><p>Transformations de distribution (<code class="docutils literal notranslate"><span class="pre">age^0.7</span></code>, <code class="docutils literal notranslate"><span class="pre">fare^0.2</span></code>)</p></li>
+<li><p>One-hot encoding des catégorielles</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">mean_age</span><span class="p">,</span> <span class="n">std_age</span><span class="p">,</span> <span class="n">cat_cols</span><span class="p">):</span>
+    <span class="n">X_df</span> <span class="o">=</span> <span class="n">drop_columns</span><span class="p">(</span><span class="n">X_df</span><span class="p">)</span>
+    <span class="n">X_df</span> <span class="o">=</span> <span class="n">impute_null_values</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">mean_age</span><span class="p">,</span> <span class="n">std_age</span><span class="p">)</span>
+    <span class="n">X_df</span> <span class="o">=</span> <span class="n">convert_categorical</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">cat_cols</span><span class="p">)</span>
+    <span class="n">X_df</span> <span class="o">=</span> <span class="n">improve_distributions</span><span class="p">(</span><span class="n">X_df</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="normalisation-centrer-reduire">
+<h2>Normalisation — centrer-réduire<a class="headerlink" href="#normalisation-centrer-reduire" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Pourquoi normaliser ?</strong> Après les transformations, les variables ont toujours des <strong>échelles très différentes</strong> (<code class="docutils literal notranslate"><span class="pre">pclass</span> <span class="pre">∈</span> <span class="pre">[1,</span> <span class="pre">3]</span></code>, <code class="docutils literal notranslate"><span class="pre">sibsp</span> <span class="pre">∈</span> <span class="pre">[0,</span> <span class="pre">8]</span></code>, <code class="docutils literal notranslate"><span class="pre">age^0.7</span> <span class="pre">∈</span> <span class="pre">[0,</span> <span class="pre">~15]</span></code>). Pour les modèles qui utilisent des <strong>distances</strong> ou des <strong>coefficients régularisés</strong>, cette hétérogénéité pose problème.</p>
+<section id="le-standardscaler-de-scikit-learn">
+<h3>Le StandardScaler de scikit-learn<a class="headerlink" href="#le-standardscaler-de-scikit-learn" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Pour chaque colonne, il calcule sa moyenne <span class="math notranslate nohighlight">\(\mu\)</span> et son écart-type <span class="math notranslate nohighlight">\(\sigma\)</span> <strong>sur le train</strong>, puis transforme chaque valeur via :</p>
+<div class="math notranslate nohighlight">
+\[
+\Large{
+z = \frac{x - \mu}{\sigma}
+}
+\]</div>
+<p><strong>Résultat :</strong> chaque variable a une <strong>moyenne de 0</strong> et un <strong>écart-type de 1</strong>. Toutes les variables sont désormais sur la même échelle.</p>
+<blockquote>
+<div><p><strong>⚠️ Très important :</strong> le <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code> doit être <strong>fitté uniquement sur le train</strong> (<code class="docutils literal notranslate"><span class="pre">scaler.fit(X_train)</span></code>), puis <strong>appliqué au test</strong> (<code class="docutils literal notranslate"><span class="pre">scaler.transform(X_test)</span></code>). Si on fitte sur le dataset complet, on fuite de l’information du test dans le train — erreur classique.</p>
+<p><strong>Alternatives :</strong></p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code></strong> : met tout entre 0 et 1 — utile quand on veut préserver la forme de la distribution originale (pas de recentrage).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">RobustScaler</span></code></strong> : utilise médiane et IQR au lieu de moyenne et écart-type — robuste aux outliers.</p></li>
+</ul>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">process_data</span><span class="p">(</span><span class="n">X1_train</span><span class="p">,</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;embarked&quot;</span><span class="p">])</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>sex_male</th>
+      <th>embarked_Q</th>
+      <th>embarked_S</th>
+      <th>power_0_7_age</th>
+      <th>fifth_root_fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>9.810000e+02</td>
+      <td>9.810000e+02</td>
+      <td>9.810000e+02</td>
+      <td>9.810000e+02</td>
+      <td>9.810000e+02</td>
+      <td>9.810000e+02</td>
+      <td>9.810000e+02</td>
+      <td>9.810000e+02</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>-3.259370e-17</td>
+      <td>5.432284e-17</td>
+      <td>-5.070132e-17</td>
+      <td>-9.415959e-17</td>
+      <td>-9.053807e-18</td>
+      <td>6.880893e-17</td>
+      <td>-4.318666e-16</td>
+      <td>-2.634658e-16</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.000510e+00</td>
+      <td>1.000510e+00</td>
+      <td>1.000510e+00</td>
+      <td>1.000510e+00</td>
+      <td>1.000510e+00</td>
+      <td>1.000510e+00</td>
+      <td>1.000510e+00</td>
+      <td>1.000510e+00</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>-1.555210e+00</td>
+      <td>-4.680829e-01</td>
+      <td>-4.404351e-01</td>
+      <td>-1.348690e+00</td>
+      <td>-3.331445e-01</td>
+      <td>-1.551209e+00</td>
+      <td>-2.835236e+00</td>
+      <td>-4.250874e+00</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>-3.481996e-01</td>
+      <td>-4.680829e-01</td>
+      <td>-4.404351e-01</td>
+      <td>-1.348690e+00</td>
+      <td>-3.331445e-01</td>
+      <td>-1.551209e+00</td>
+      <td>-5.363947e-01</td>
+      <td>-6.970509e-01</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>8.588104e-01</td>
+      <td>-4.680829e-01</td>
+      <td>-4.404351e-01</td>
+      <td>7.414601e-01</td>
+      <td>-3.331445e-01</td>
+      <td>6.446584e-01</td>
+      <td>-1.049962e-01</td>
+      <td>-2.402182e-01</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>8.588104e-01</td>
+      <td>4.558393e-01</td>
+      <td>-4.404351e-01</td>
+      <td>7.414601e-01</td>
+      <td>-3.331445e-01</td>
+      <td>6.446584e-01</td>
+      <td>5.534352e-01</td>
+      <td>4.117712e-01</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>8.588104e-01</td>
+      <td>6.923294e+00</td>
+      <td>1.063820e+01</td>
+      <td>7.414601e-01</td>
+      <td>3.001700e+00</td>
+      <td>6.446584e-01</td>
+      <td>3.256686e+00</td>
+      <td>3.936156e+00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="apprentissage">
+<h2>Apprentissage<a class="headerlink" href="#apprentissage" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Le moment de vérité</strong> : est-ce que toutes ces transformations apportent un gain mesurable ? On entraîne une régression logistique et on compare les scores en cross-validation à ceux du notebook précédent.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logreg_clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">logreg_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">scores</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.82828283, 0.78571429, 0.85714286, 0.75510204, 0.73469388,
+        0.82653061, 0.78571429, 0.84693878, 0.80612245, 0.83673469]),
+ 0.8062976705833849,
+ 0.03827733236801413)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="autres-modeles">
+<h3>Autres modèles<a class="headerlink" href="#autres-modeles" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On teste aussi un <strong>Random Forest</strong> — mais avec une attente différente.</p>
+<blockquote>
+<div><p><strong>⚠️ Rappel important :</strong> les modèles à base d’arbres (Random Forest, XGBoost) sont <strong>quasiment insensibles</strong> aux transformations de distribution et à la normalisation. Ils découpent par seuils, et un seuil reste un seuil que la variable soit en échelle linéaire, en log ou en puissance.</p>
+<p><strong>Conséquence :</strong> ne t’attends pas à un gain avec Random Forest. Si tu vois une amélioration, elle est probablement due au hasard (bruit de cross-validation).</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="n">rf_clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">scores</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.84848485, 0.81632653, 0.87755102, 0.78571429, 0.75510204,
+        0.85714286, 0.78571429, 0.78571429, 0.81632653, 0.80612245]),
+ 0.8134199134199134,
+ 0.03609428470188344)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Résultat observé :</strong> pas d’amélioration notable pour les deux modèles.</p>
+<blockquote>
+<div><p><strong>🎯 Ça ne marche pas à tous les coups — et c’est normal.</strong> Le feature engineering, c’est un processus <strong>expérimental</strong> : on forme des hypothèses, on les teste, on mesure, on garde ce qui marche et on jette le reste. Une expérience qui échoue n’est <strong>pas</strong> un échec — c’est une information.</p>
+<p><strong>Pourquoi ça n’a pas marché ici ?</strong> Plusieurs raisons possibles :</p>
+<ul class="simple">
+<li><p>Le dataset Titanic est <strong>petit</strong> (~1300 lignes) : la variance du score en cross-validation peut noyer tout gain réel.</p></li>
+<li><p>Les <strong>deux modèles</strong> testés sont en grande partie <strong>insensibles</strong> aux transformations : la régression logistique avec <code class="docutils literal notranslate"><span class="pre">C=0.8</span></code> a peu de régularisation, et le Random Forest ne se soucie pas de la forme.</p></li>
+<li><p>Les transformations ont été appliquées <strong>sans tuning systématique</strong> — peut-être qu’un <code class="docutils literal notranslate"><span class="pre">PowerTransformer</span></code> avec ajustement automatique donnerait mieux.</p></li>
+</ul>
+<p><strong>Leçon pour la pratique :</strong> toujours <strong>mesurer</strong> l’impact d’une transformation avant de la garder dans ton pipeline. La complexité ajoutée doit être justifiée par un gain mesurable — sinon, c’est du code en plus qui peut cacher des bugs, sans bénéfice.</p>
+</div></blockquote>
+</section>
+<section id="pour-resumer-transformations-de-distribution">
+<h2>🎯 Pour résumer — transformations de distribution<a class="headerlink" href="#pour-resumer-transformations-de-distribution" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="quand-investir-dans-ces-techniques">
+<h3>Quand investir dans ces techniques<a class="headerlink" href="#quand-investir-dans-ces-techniques" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Candidats pertinents</strong> (où ça peut payer) :</p>
+<ul class="simple">
+<li><p>✅ Variables avec <strong>skew fort</strong> (&gt;1 en valeur absolue) et <strong>distribution clairement asymétrique</strong>.</p></li>
+<li><p>✅ <strong>Régression linéaire</strong> ou <strong>logistique</strong> comme modèle principal.</p></li>
+<li><p>✅ Algorithmes basés sur <strong>distances</strong> (KNN, K-Means, SVM).</p></li>
+<li><p>✅ <strong>Réseaux de neurones</strong> (convergence plus rapide avec entrées standardisées).</p></li>
+</ul>
+<p><strong>Candidats moins utiles</strong> (où le gain est souvent nul) :</p>
+<ul class="simple">
+<li><p>❌ <strong>Random Forest, XGBoost, LightGBM</strong> — ils sont insensibles à la forme des distributions.</p></li>
+<li><p>❌ Variables déjà à peu près symétriques.</p></li>
+<li><p>❌ Datasets très grands où le modèle peut apprendre les non-linéarités tout seul.</p></li>
+</ul>
+</section>
+<section id="les-outils-scikit-learn-a-connaitre">
+<h3>Les outils scikit-learn à connaître<a class="headerlink" href="#les-outils-scikit-learn-a-connaitre" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Outil</p></th>
+<th class="head"><p>Usage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code></strong></p></td>
+<td><p>Centrer-réduire : moyenne 0, écart-type 1</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code></strong></p></td>
+<td><p>Mettre entre 0 et 1 (préserve la forme)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">RobustScaler</span></code></strong></p></td>
+<td><p>Centrer-réduire avec médiane et IQR (robuste aux outliers)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">PowerTransformer</span></code></strong> (Box-Cox / Yeo-Johnson)</p></td>
+<td><p>Recherche automatique de la transformation optimale</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">QuantileTransformer</span></code></strong></p></td>
+<td><p>Transforme en gaussienne ou uniforme par rangs (très robuste)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">FunctionTransformer</span></code></strong></p></td>
+<td><p>Pour intégrer une fonction custom (log, sqrt…) dans un pipeline</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="les-bonnes-pratiques">
+<h3>Les bonnes pratiques<a class="headerlink" href="#les-bonnes-pratiques" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Mesurer avant/après</strong> : toujours vérifier que la transformation apporte un gain. Sinon, garder la version simple.</p></li>
+<li><p>✅ <strong>Automatiser avec <code class="docutils literal notranslate"><span class="pre">PowerTransformer</span></code></strong> plutôt que de choisir une puissance à la main — moins de biais, meilleur tuning.</p></li>
+<li><p>✅ <strong>Fitter sur le train uniquement</strong>, appliquer au test. Utiliser un <strong><code class="docutils literal notranslate"><span class="pre">Pipeline</span></code></strong> pour éviter les fuites automatiquement.</p></li>
+<li><p>✅ <strong>Tester la cohérence métier</strong> : une transformation log sur un revenu est très courante ; une transformation log sur un âge est plus bizarre — se demander si ça a du sens.</p></li>
+<li><p>✅ <strong>Comparer plusieurs transformations</strong> (log, sqrt, puissance, Box-Cox, QuantileTransformer) et choisir celle qui donne le meilleur skew <strong>ET</strong> le meilleur score en CV.</p></li>
+</ul>
+</section>
+<section id="les-pieges-a-eviter">
+<h3>Les pièges à éviter<a class="headerlink" href="#les-pieges-a-eviter" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>⚠️ <strong>Appliquer log sur des valeurs négatives ou nulles</strong> → NaN/Inf. Utiliser <code class="docutils literal notranslate"><span class="pre">np.log1p(x)</span> <span class="pre">=</span> <span class="pre">log(1+x)</span></code> ou <code class="docutils literal notranslate"><span class="pre">PowerTransformer</span></code> (Yeo-Johnson) pour gérer ce cas.</p></li>
+<li><p>⚠️ <strong>Transformer la cible sans l’inverser</strong> pour interpréter les prédictions (typique en régression : <code class="docutils literal notranslate"><span class="pre">log(price)</span></code>).</p></li>
+<li><p>⚠️ <strong>Normaliser avant d’imputer</strong> → les imputations sont faussées. Faire d’abord l’imputation, puis la normalisation.</p></li>
+<li><p>⚠️ <strong>Tout normaliser par réflexe</strong> → inutile pour les arbres, et peut compliquer l’interprétation.</p></li>
+<li><p>⚠️ <strong>Surestimer le gain</strong> : un gain de 0,2% en cross-validation sur un dataset de 1000 lignes est probablement du bruit.</p></li>
+</ul>
+</section>
+<section id="le-mot-de-la-fin">
+<h3>Le mot de la fin<a class="headerlink" href="#le-mot-de-la-fin" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>Une bonne distribution n’est pas une fin en soi, c’est un moyen.</strong> L’objectif reste la <strong>performance du modèle en production</strong>, pas la beauté des histogrammes. Si transformer tes variables apporte un gain mesurable et stable en cross-validation, garde-le. Sinon, abandonne — la simplicité est ton amie. Le feature engineering est un art de l”<strong>expérimentation éclairée</strong>, pas de la théorie pure.</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours-exe/08-advanced-feature-engineering"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02-null-values-advanced.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Traitement des valeurs manquantes — compléments</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04-dimensionality-reduction.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Réduction de dimensions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-probleme-certains-algorithmes-preferent-les-gaussiennes">Le problème : certains algorithmes préfèrent les gaussiennes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-c-est-genant-quand-ca-deraille">Pourquoi c’est gênant quand ça déraille</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-plan-de-ce-notebook">Le plan de ce notebook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creation-des-jeux-d-apprentissage-et-de-test">Création des jeux d’apprentissage et de test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-selection-suppression-des-colonnes-inutiles">Feature selection — suppression des colonnes inutiles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-valorisation-des-donnees-manquantes">Data cleaning — valorisation des données manquantes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-embarked">La colonne <code class="docutils literal notranslate"><span class="pre">embarked</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-fare">La colonne <code class="docutils literal notranslate"><span class="pre">fare</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-age">La colonne <code class="docutils literal notranslate"><span class="pre">age</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#valorisation-la-fonction-complete">Valorisation — la fonction complète</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerisation-des-variables-categorielles">Numérisation des variables catégorielles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gestion-d-une-mauvaise-distribution-les-transformations">Gestion d’une mauvaise distribution — les transformations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-transformations-classiques">Les transformations classiques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-ca-aide-parfois">Pourquoi ça aide (parfois)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-age">La variable <code class="docutils literal notranslate"><span class="pre">age</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-fare">La variable <code class="docutils literal notranslate"><span class="pre">fare</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fonction-de-pretraitement-complete">Fonction de prétraitement complète</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisation-centrer-reduire">Normalisation — centrer-réduire</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-standardscaler-de-scikit-learn">Le StandardScaler de scikit-learn</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage">Apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-modeles">Autres modèles</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-transformations-de-distribution">🎯 Pour résumer — transformations de distribution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-investir-dans-ces-techniques">Quand investir dans ces techniques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-outils-scikit-learn-a-connaitre">Les outils scikit-learn à connaître</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-bonnes-pratiques">Les bonnes pratiques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-a-eviter">Les pièges à éviter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

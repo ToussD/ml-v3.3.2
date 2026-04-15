@@ -1,0 +1,1167 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Comprendre les arbres de décision &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"RR": "\\mathbb{R}", "NN": "\\mathbb{N}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours-exe/03-use-sklearn-algorithms/02-understand-decision-tree';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Évaluation d’un modèle" href="03-evaluate-regression-model.html" />
+    <link rel="prev" title="Utiliser les algorithmes de scikit-learn" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours-exe/03-use-sklearn-algorithms/02-understand-decision-tree.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Comprendre les arbres de décision</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-modele-construit-par-l-algorithme-classification">Le modèle construit par l’algorithme — Classification</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-de-l-arbre">Structure de l’arbre</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lire-l-arbre">Lire l’arbre</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-que-contient-chaque-noeud">Ce que contient chaque nœud</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-indice-de-gini-a-quoi-il-sert">L’indice de Gini — à quoi il sert</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choix-des-seuils-lors-de-l-apprentissage">Choix des seuils lors de l’apprentissage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimation-de-la-probabilite-d-appartenance-a-une-classe-k">Estimation de la probabilité d’appartenance à une classe <span class="math notranslate nohighlight">\(k\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-phase-d-apprentissage">La phase d’apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-fonction-de-cout">La fonction de coût</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#critere-d-arret-et-hyperparametres">Critère d’arrêt et hyperparamètres</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complexite-de-l-algorithme">Complexité de l’algorithme</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-prediction">Décision (prédiction)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage">Apprentissage</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression">Régression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-les-arbres-de-decision-en-data-science">🎯 Pour résumer — les arbres de décision en data science</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="comprendre-les-arbres-de-decision">
+<h1>Comprendre les arbres de décision<a class="headerlink" href="#comprendre-les-arbres-de-decision" title="Lien permanent vers cette rubrique">#</a></h1>
+<p>Un <strong>arbre de décision</strong> est un des modèles de machine learning les plus intuitifs : il prend des décisions en <strong>posant une suite de questions</strong> simples de type <em>oui/non</em>, exactement comme dans un jeu de « Qui est-ce ? ».</p>
+<blockquote>
+<div><p><strong>L’idée en une image :</strong> imaginez un médecin qui diagnostique un patient. Il demande :</p>
+<ul class="simple">
+<li><p><em>« Température &gt; 38° ? »</em> Oui → il demande une autre question. Non → autre question.</p></li>
+<li><p><em>« Toux sèche ? »</em> Oui → … Non → …</p></li>
+<li><p>Après quelques questions, il arrive à un diagnostic.</p></li>
+</ul>
+<p>Un arbre de décision fait <em>exactement</em> la même chose, mais les questions et leurs seuils sont <strong>appris automatiquement</strong> à partir des données.</p>
+</div></blockquote>
+<p>Dans ce notebook on va :</p>
+<ol class="arabic simple">
+<li><p>Voir à quoi <strong>ressemble concrètement</strong> un arbre entraîné (sur le dataset Iris) ;</p></li>
+<li><p>Comprendre <strong>comment il fait ses prédictions</strong> (classification et probabilités) ;</p></li>
+<li><p>Découvrir <strong>comment il apprend</strong> (algorithme CART, indice de Gini) ;</p></li>
+<li><p>Voir sa <strong>variante pour la régression</strong> (prédire un nombre au lieu d’une classe).</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="le-modele-construit-par-l-algorithme-classification">
+<h2>Le modèle construit par l’algorithme — Classification<a class="headerlink" href="#le-modele-construit-par-l-algorithme-classification" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>On va entraîner un arbre de décision sur le <strong>dataset Iris</strong> (un classique) : il contient 150 fleurs d’iris appartenant à 3 espèces (<em>setosa</em>, <em>versicolor</em>, <em>virginica</em>), décrites par la longueur et la largeur de leurs pétales et sépales.</p>
+<p><strong>Objectif :</strong> à partir des mesures d’une fleur, prédire son espèce. C’est donc un problème de <strong>classification</strong> (la sortie est une catégorie, pas un nombre).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="c1"># petal length and petal width</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tree_clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">tree_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier(max_depth=2, random_state=2)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeClassifier</label><div class="sk-toggleable__content"><pre>DecisionTreeClassifier(max_depth=2, random_state=2)</pre></div></div></div></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">iris</span><span class="o">.</span><span class="n">target_names</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;setosa&#39;, &#39;versicolor&#39;, &#39;virginica&#39;], dtype=&#39;&lt;U10&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="structure-de-l-arbre">
+<h3>Structure de l’arbre<a class="headerlink" href="#structure-de-l-arbre" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Une fois l’arbre entraîné, on peut le <strong>visualiser</strong> directement — c’est l’un des grands atouts de ce modèle. Chaque nœud correspond à une question posée sur une feature, et chaque feuille à une prédiction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">export_graphviz</span>
+<span class="kn">from</span> <span class="nn">graphviz</span> <span class="kn">import</span> <span class="n">Source</span>
+
+<span class="n">dot_data</span> <span class="o">=</span> <span class="n">export_graphviz</span><span class="p">(</span><span class="n">tree_clf</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                           <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;petal_length&quot;</span><span class="p">,</span> <span class="s2">&quot;petal_width&quot;</span><span class="p">],</span>  
+                           <span class="n">class_names</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">target_names</span><span class="p">,</span>  
+                           <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  
+                           <span class="n">special_characters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Source</span><span class="p">(</span><span class="n">dot_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/6d3ec57190c58638f0b4d526a3d9ce2b525845c38e6007badffb44185f06c305.svg" src="../../_images/6d3ec57190c58638f0b4d526a3d9ce2b525845c38e6007badffb44185f06c305.svg" /></div>
+</div>
+</section>
+<section id="lire-l-arbre">
+<h3>Lire l’arbre<a class="headerlink" href="#lire-l-arbre" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Comment classer un iris ?</strong> On démarre tout en haut (la racine, niveau 0) et on descend en répondant aux questions :</p>
+<ol class="arabic simple">
+<li><p><em>« <span class="math notranslate nohighlight">\(\mathit{petal\_length} \le 2{,}35\)</span> ? »</em></p>
+<ul class="simple">
+<li><p><strong>Oui</strong> → on descend à gauche. C’est déjà une <strong>feuille</strong> (un nœud sans enfant) → le modèle prédit <strong>setosa</strong>. Terminé !</p></li>
+<li><p><strong>Non</strong> → on descend à droite et on continue.</p></li>
+</ul>
+</li>
+<li><p>On recommence avec la question suivante, jusqu’à atteindre une feuille.</p></li>
+</ol>
+<p>Un arbre de décision, c’est donc littéralement un <strong>enchaînement de <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">/</span> <span class="pre">else</span></code></strong> appris automatiquement.</p>
+</section>
+<section id="ce-que-contient-chaque-noeud">
+<h3>Ce que contient chaque nœud<a class="headerlink" href="#ce-que-contient-chaque-noeud" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">samples</span></code></strong> : le nombre de fleurs d’entraînement qui « passent » par ce nœud. Tout en haut : toutes les fleurs. Plus on descend, plus les effectifs diminuent à mesure que les données se séparent.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">value</span></code></strong> : le nombre de fleurs de chaque classe dans ce nœud. Par exemple <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">38,</span> <span class="pre">3]</span></code> signifie 0 setosa, 38 versicolor, 3 virginica.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">class</span></code></strong> : la classe majoritaire, celle que le modèle prédit si on s’arrête à ce nœud.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">gini</span></code></strong> : l’indice d”<strong>impureté</strong> du nœud (expliqué juste après).</p></li>
+</ul>
+</section>
+<section id="l-indice-de-gini-a-quoi-il-sert">
+<h3>L’indice de Gini — à quoi il sert<a class="headerlink" href="#l-indice-de-gini-a-quoi-il-sert" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée intuitive :</strong> le Gini mesure à quel point un nœud est « mélangé ».</p>
+<ul class="simple">
+<li><p>Si toutes les fleurs d’un nœud sont de la <strong>même classe</strong> → nœud <strong>pur</strong> → Gini = 0. Parfait, on peut prédire avec certitude.</p></li>
+<li><p>Si les classes sont <strong>équitablement mélangées</strong> → nœud très impur → Gini proche de son maximum.</p></li>
+</ul>
+<p>La formule :</p>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+G_i = 1 - \sum_{k=1}^{n} p_{i,k}^2
+}
+\)</span></p>
+<p><strong>Décodage :</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(i\)</span> : l’indice du nœud (on calcule un Gini par nœud).</p></li>
+<li><p><span class="math notranslate nohighlight">\(k\)</span> : l’indice de la classe (setosa, versicolor, virginica → <span class="math notranslate nohighlight">\(k = 1, 2, 3\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(p_{i,k}\)</span> : la <strong>proportion</strong> d’instances de la classe <span class="math notranslate nohighlight">\(k\)</span> dans le nœud <span class="math notranslate nohighlight">\(i\)</span>. Par exemple si le nœud contient <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">38,</span> <span class="pre">3]</span></code> sur 41 fleurs, alors <span class="math notranslate nohighlight">\(p_{i,\text{setosa}} = 0\)</span>, <span class="math notranslate nohighlight">\(p_{i,\text{versicolor}} = \frac{38}{41} \approx 0{,}93\)</span>, <span class="math notranslate nohighlight">\(p_{i,\text{virginica}} = \frac{3}{41} \approx 0{,}07\)</span>.</p></li>
+<li><p>On fait la <strong>somme des carrés</strong> des proportions, et on soustrait à 1.</p></li>
+</ul>
+<p><strong>Vérification rapide :</strong></p>
+<ul class="simple">
+<li><p>Nœud 100% pur (une seule classe) : <span class="math notranslate nohighlight">\(p = 1\)</span> pour cette classe, 0 pour les autres. Gini = <span class="math notranslate nohighlight">\(1 - 1^2 = 0\)</span>. ✔</p></li>
+<li><p>Nœud parfaitement mélangé entre 2 classes (50/50) : Gini = <span class="math notranslate nohighlight">\(1 - (0{,}5^2 + 0{,}5^2) = 1 - 0{,}5 = 0{,}5\)</span>. ✔</p></li>
+</ul>
+<p>Plus le Gini est <strong>faible</strong>, plus le nœud est « homogène », et meilleure est la prédiction qu’on peut en tirer. L’apprentissage de l’arbre cherche justement à créer des nœuds les plus purs possibles à chaque split.</p>
+</section>
+<section id="choix-des-seuils-lors-de-l-apprentissage">
+<h3>Choix des seuils lors de l’apprentissage<a class="headerlink" href="#choix-des-seuils-lors-de-l-apprentissage" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On voit que la racine pose la question <em>« <span class="math notranslate nohighlight">\(\mathit{petal\_length} \le 2{,}35\)</span> ? »</em>. Mais pourquoi <span class="math notranslate nohighlight">\(2{,}35\)</span> et pas <span class="math notranslate nohighlight">\(3\)</span>, <span class="math notranslate nohighlight">\(1{,}8\)</span> ou autre chose ? Et pourquoi utiliser <code class="docutils literal notranslate"><span class="pre">petal_length</span></code> et pas <code class="docutils literal notranslate"><span class="pre">petal_width</span></code> ?</p>
+<p><strong>La réponse :</strong> l’algorithme a <strong>testé plein de seuils</strong> et plein de features, et a gardé le couple <code class="docutils literal notranslate"><span class="pre">(feature,</span> <span class="pre">seuil)</span></code> qui <strong>sépare le mieux les classes</strong> (c’est-à-dire qui rend les deux sous-groupes issus du split les plus « purs » possibles, au sens du Gini).</p>
+<p>L’outil <code class="docutils literal notranslate"><span class="pre">dtreeviz</span></code> ci-dessous permet de <strong>voir les distributions</strong> sous chaque nœud et de comprendre visuellement pourquoi l’algorithme a choisi ces seuils.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dtreeviz</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">viz_model</span> <span class="o">=</span> <span class="n">dtreeviz</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">tree_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+               <span class="n">feature_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;petal_length&quot;</span><span class="p">,</span> <span class="s2">&quot;petal_width&quot;</span><span class="p">],</span>
+               <span class="n">target_name</span><span class="o">=</span><span class="s2">&quot;target&quot;</span><span class="p">,</span>
+               <span class="n">class_names</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">target_names</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">viz_model</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fontname</span><span class="o">=</span><span class="s2">&quot;DejaVu Sans&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/b57fdde50e4a29f88656d4816697bab076c8832616496c64586a86205bcc9333.svg" src="../../_images/b57fdde50e4a29f88656d4816697bab076c8832616496c64586a86205bcc9333.svg" /></div>
+</div>
+<p>Les arbres de décision sont des modèles <strong>« boîte blanche »</strong>, ou encore <strong>interprétables</strong> : on peut facilement lire leurs décisions et expliquer <em>pourquoi</em> ils prédisent telle classe. Ce n’est pas le cas de la plupart des algorithmes de machine learning (réseaux de neurones, forêts aléatoires, SVM…), qu’on qualifie à l’inverse de <strong>« boîtes noires »</strong>.</p>
+<blockquote>
+<div><p><strong>🎯 À quoi sert cette interprétabilité en data science ?</strong></p>
+<p>C’est loin d’être un détail esthétique — dans beaucoup de contextes, l’interprétabilité est <strong>obligatoire ou critique</strong> :</p>
+<ul class="simple">
+<li><p><strong>Santé</strong> : un médecin qui utilise un modèle pour poser un diagnostic veut <strong>comprendre pourquoi</strong> le modèle recommande tel traitement. Une boîte noire qui dit <em>« proba(cancer) = 0,87 »</em> sans explication est inutilisable en pratique.</p></li>
+<li><p><strong>Banque, assurance, crédit</strong> : le <strong>RGPD</strong> et d’autres réglementations donnent aux clients le droit à une explication quand une décision automatisée les affecte (refus de crédit, tarif d’assurance…). Un arbre de décision permet de répondre : <em>« votre dossier a été refusé parce que votre ratio d’endettement &gt; 42% et votre ancienneté &lt; 2 ans »</em>.</p></li>
+<li><p><strong>Debug et confiance</strong> : quand un modèle se trompe, pouvoir lire ses règles permet de <strong>comprendre l’erreur</strong> et de l’améliorer. Avec une boîte noire, on subit.</p></li>
+<li><p><strong>Détection de biais</strong> : un arbre qui se met à segmenter sur une variable sensible (genre, origine, âge) le montre <strong>noir sur blanc</strong>. Plus difficile à repérer dans un réseau de neurones.</p></li>
+</ul>
+<p><strong>Autres avantages pratiques des arbres :</strong></p>
+<ul class="simple">
+<li><p>Pas besoin de <strong>normaliser</strong> les features (contrairement à KNN, SVM, NN) — l’arbre découpe par seuils, donc l’échelle n’a pas d’importance.</p></li>
+<li><p>Gère naturellement les <strong>features numériques et catégorielles</strong>.</p></li>
+<li><p>Capture des relations <strong>non linéaires</strong> sans avoir à créer des features polynomiales.</p></li>
+</ul>
+<p><strong>Limite à connaître :</strong> un arbre seul a tendance à <strong>overfitter</strong> (sur-apprendre). D’où l’intérêt des <strong>forêts aléatoires</strong> et du <strong>gradient boosting</strong> (XGBoost, LightGBM), qui combinent plein d’arbres pour gagner en performance… au prix d’une partie de l’interprétabilité.</p>
+</div></blockquote>
+</section>
+<section id="estimation-de-la-probabilite-d-appartenance-a-une-classe-k">
+<h3>Estimation de la probabilité d’appartenance à une classe <span class="math notranslate nohighlight">\(k\)</span><a class="headerlink" href="#estimation-de-la-probabilite-d-appartenance-a-une-classe-k" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Un arbre ne prédit pas seulement <em>une classe</em>, il peut aussi donner une <strong>probabilité</strong> pour chaque classe. C’est utile quand on veut savoir à quel point le modèle est « sûr » de sa prédiction.</p>
+<p><strong>Le principe :</strong> quand une fleur arrive dans une feuille de l’arbre, on regarde <strong>la composition des fleurs d’entraînement</strong> qui sont tombées dans cette même feuille pendant l’apprentissage. La probabilité de chaque classe est simplement sa <strong>proportion</strong> dans la feuille.</p>
+<p><strong>Exemple.</strong> Supposons un iris avec des pétales de <span class="math notranslate nohighlight">\(4{,}8\)</span> cm de longueur et <span class="math notranslate nohighlight">\(1{,}4\)</span> cm de largeur. En descendant l’arbre, on arrive à la feuille de profondeur 2 à gauche, qui contient 41 fleurs d’entraînement réparties ainsi : <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">38,</span> <span class="pre">3]</span></code>. Les probabilités estimées sont donc :</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(p_{\text{setosa}} = \frac{0}{41} = 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(p_{\text{versicolor}} = \frac{38}{41} \approx 0{,}93\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(p_{\text{virginica}} = \frac{3}{41} \approx 0{,}07\)</span></p></li>
+</ul>
+<p><strong>Remarque importante :</strong> toutes les fleurs qui tombent dans la même feuille auront exactement les mêmes probabilités prédites. L’arbre ne « raffine » pas au sein d’une feuille. C’est une des raisons pour lesquelles les probabilités d’un arbre seul sont souvent grossières — les ensembles (random forest, gradient boosting) les lissent beaucoup mieux.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tree_clf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">([[</span><span class="mf">4.8</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">]]),</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.  , 0.92, 0.08]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="la-phase-d-apprentissage">
+<h2>La phase d’apprentissage<a class="headerlink" href="#la-phase-d-apprentissage" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>L’algorithme CART</strong> (Classification And Regression Tree) est la méthode utilisée par scikit-learn pour construire l’arbre. Son fonctionnement est d’une simplicité déconcertante :</p>
+<ol class="arabic simple">
+<li><p>À chaque nœud, l’algorithme <strong>essaie toutes les features et tous les seuils possibles</strong>.</p></li>
+<li><p>Il garde le couple (feature <span class="math notranslate nohighlight">\(k\)</span>, seuil <span class="math notranslate nohighlight">\(t_k\)</span>) qui <strong>minimise une fonction de coût</strong> — autrement dit, celui qui produit les deux sous-groupes les plus « purs » possible.</p></li>
+<li><p>Il recommence récursivement sur chaque sous-groupe.</p></li>
+<li><p>Il s’arrête quand un critère d’arrêt est atteint (profondeur max, nœud pur, trop peu d’échantillons…).</p></li>
+</ol>
+<section id="la-fonction-de-cout">
+<h3>La fonction de coût<a class="headerlink" href="#la-fonction-de-cout" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+J(k, t_k) = \frac{m_{\mathit{left}}}{m} G_{\mathit{left}} + \frac{m_{\mathit{right}}}{m} G_{\mathit{right}}
+}
+\)</span></p>
+<p><strong>Décodage :</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(k\)</span> : la feature candidate (ex : <code class="docutils literal notranslate"><span class="pre">petal_length</span></code>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(t_k\)</span> : le seuil candidat (ex : <span class="math notranslate nohighlight">\(2{,}35\)</span>).</p></li>
+<li><p><span class="math notranslate nohighlight">\(m\)</span> : le nombre total d’échantillons dans le nœud courant.</p></li>
+<li><p><span class="math notranslate nohighlight">\(m_{\mathit{left}}\)</span> et <span class="math notranslate nohighlight">\(m_{\mathit{right}}\)</span> : combien d’échantillons tombent à gauche (ceux qui vérifient <span class="math notranslate nohighlight">\(X_k \le t_k\)</span>) et à droite après le split.</p></li>
+<li><p><span class="math notranslate nohighlight">\(G_{\mathit{left}}\)</span>, <span class="math notranslate nohighlight">\(G_{\mathit{right}}\)</span> : le Gini (impureté) de chaque sous-groupe.</p></li>
+<li><p>Les rapports <span class="math notranslate nohighlight">\(\frac{m_{\mathit{left}}}{m}\)</span> et <span class="math notranslate nohighlight">\(\frac{m_{\mathit{right}}}{m}\)</span> sont des <strong>pondérations</strong> : un sous-groupe qui ne contient que 2 fleurs pèse moins qu’un qui en contient 100.</p></li>
+</ul>
+<p><strong>En langage courant :</strong> le coût est la <strong>moyenne pondérée des impuretés</strong> des deux sous-groupes issus du split. On cherche le split qui <strong>minimise l’impureté moyenne</strong> des enfants — c’est-à-dire celui qui rend les classes le plus séparées possible.</p>
+</section>
+<section id="critere-d-arret-et-hyperparametres">
+<h3>Critère d’arrêt et hyperparamètres<a class="headerlink" href="#critere-d-arret-et-hyperparametres" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>L’algorithme s’arrête lorsque la profondeur maximale <code class="docutils literal notranslate"><span class="pre">max_depth</span></code> est atteinte (ici fixée à 2). <code class="docutils literal notranslate"><span class="pre">max_depth</span></code> est un exemple d”<strong>hyperparamètre</strong> — un réglage que l’utilisateur choisit <em>avant</em> l’entraînement et qui contrôle le comportement de l’algorithme. D’autres hyperparamètres utiles :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">min_samples_split</span></code> : nombre minimum d’échantillons pour autoriser un split ;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_samples_leaf</span></code> : nombre minimum d’échantillons dans une feuille ;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_leaf_nodes</span></code> : nombre maximum de feuilles.</p></li>
+</ul>
+<p><strong>Tous servent à la même chose : contrôler la complexité de l’arbre et éviter l’overfitting.</strong> Un arbre trop profond apprend « par cœur » ses données d’entraînement et généralise mal. On les ajuste typiquement par validation croisée (voir un prochain notebook).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tree_clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9642857142857143
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tree_clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9473684210526315
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="complexite-de-l-algorithme">
+<h2>Complexité de l’algorithme<a class="headerlink" href="#complexite-de-l-algorithme" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><em>Notations :</em> <span class="math notranslate nohighlight">\(m\)</span> = nombre d’échantillons d’entraînement, <span class="math notranslate nohighlight">\(n\)</span> = nombre de features.</p>
+<section id="decision-prediction">
+<h3>Décision (prédiction)<a class="headerlink" href="#decision-prediction" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Pour classer un nouvel échantillon, il suffit de descendre l’arbre de la racine jusqu’à une feuille en répondant à une question à chaque niveau. Comme les arbres construits par CART sont généralement à peu près <strong>équilibrés</strong>, leur profondeur est en <span class="math notranslate nohighlight">\(\log_2(m)\)</span>. La décision est donc en <span class="math notranslate nohighlight">\(\mathcal{O}(\log_2(m))\)</span>, <strong>quel que soit le nombre de features</strong>.</p>
+<p><strong>C’est extrêmement rapide :</strong> 1 million d’échantillons → environ 20 questions à poser pour classer un nouvel exemple. C’est ce qui rend les arbres attractifs pour les systèmes qui doivent prédire en temps réel.</p>
+</section>
+<section id="apprentissage">
+<h3>Apprentissage<a class="headerlink" href="#apprentissage" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>À chaque nœud, l’algorithme doit comparer <strong>toutes les features</strong> et <strong>tous les seuils candidats</strong>, pour chaque donnée. Sur un arbre équilibré, cela donne une complexité totale en <span class="math notranslate nohighlight">\(\mathcal{O}(n \times m \log_2(m))\)</span>.</p>
+<p><strong>En pratique :</strong> l’entraînement est rapide sur des jeux de taille modeste (&lt; 1M lignes). Sur de gros jeux, on préférera des implémentations optimisées comme <strong>LightGBM</strong> ou <strong>XGBoost</strong>, qui utilisent des histogrammes pour ne pas avoir à trier les valeurs continues à chaque split.</p>
+</section>
+</section>
+<section id="regression">
+<h2>Régression<a class="headerlink" href="#regression" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Jusqu’ici, l’arbre prédisait une <strong>classe</strong> (setosa / versicolor / virginica). On peut aussi utiliser exactement la même structure d’arbre pour prédire un <strong>nombre continu</strong> — par exemple un prix, une température, une note.</p>
+<blockquote>
+<div><p><strong>Exemple de problèmes de régression :</strong></p>
+<ul class="simple">
+<li><p>Prédire le <strong>prix d’une maison</strong> à partir de ses caractéristiques.</p></li>
+<li><p>Prédire la <strong>progression d’une maladie</strong> à partir de mesures biologiques (c’est le dataset <code class="docutils literal notranslate"><span class="pre">diabetes</span></code> qu’on va utiliser ci-dessous).</p></li>
+<li><p>Prédire une <strong>température</strong> en fonction de l’heure, de la saison, de la météo…</p></li>
+</ul>
+</div></blockquote>
+<p><strong>Deux différences avec la classification :</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Ce que contiennent les feuilles.</strong> En classification, chaque feuille prédit une <em>classe</em>. En régression, chaque feuille prédit un <em>nombre</em> — en pratique, la <strong>moyenne</strong> des <span class="math notranslate nohighlight">\(y\)</span> d’entraînement tombés dans cette feuille.</p></li>
+<li><p><strong>Le critère de split.</strong> On ne peut plus utiliser le Gini (qui parle de classes). À la place, on utilise la <strong>MSE</strong> (<em>Mean Squared Error</em>), c’est-à-dire la moyenne des carrés des écarts à la moyenne dans chaque sous-groupe. L’algorithme cherche le split qui minimise cette MSE pondérée — autrement dit, qui regroupe dans chaque sous-groupe des valeurs <span class="math notranslate nohighlight">\(y\)</span> <strong>les plus proches possibles les unes des autres</strong>.</p></li>
+</ol>
+<p>Le reste (descente dans l’arbre, hyperparamètres, complexité) fonctionne exactement pareil.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_diabetes</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diabetes</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">diabetes</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.. _diabetes_dataset:
+
+Diabetes dataset
+----------------
+
+Ten baseline variables, age, sex, body mass index, average blood
+pressure, and six blood serum measurements were obtained for each of n =
+442 diabetes patients, as well as the response of interest, a
+quantitative measure of disease progression one year after baseline.
+
+**Data Set Characteristics:**
+
+  :Number of Instances: 442
+
+  :Number of Attributes: First 10 columns are numeric predictive values
+
+  :Target: Column 11 is a quantitative measure of disease progression one year after baseline
+
+  :Attribute Information:
+      - age     age in years
+      - sex
+      - bmi     body mass index
+      - bp      average blood pressure
+      - s1      tc, total serum cholesterol
+      - s2      ldl, low-density lipoproteins
+      - s3      hdl, high-density lipoproteins
+      - s4      tch, total cholesterol / HDL
+      - s5      ltg, possibly log of serum triglycerides level
+      - s6      glu, blood sugar level
+
+Note: Each of these 10 feature variables have been mean centered and scaled by the standard deviation times the square root of `n_samples` (i.e. the sum of squares of each column totals 1).
+
+Source URL:
+https://www4.stat.ncsu.edu/~boos/var.select/diabetes.html
+
+For more information see:
+Bradley Efron, Trevor Hastie, Iain Johnstone and Robert Tibshirani (2004) &quot;Least Angle Regression,&quot; Annals of Statistics (with discussion), 407-499.
+(https://web.stanford.edu/~hastie/Papers/LARS/LeastAngle_2002.pdf)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">diabetes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">diabetes</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-0.00188202, -0.04464164, -0.06979687, ..., -0.03949338,
+        -0.06291688,  0.04034337],
+       [-0.00914709, -0.04464164,  0.01103904, ..., -0.03949338,
+         0.01703607, -0.0052198 ],
+       [ 0.02354575,  0.05068012, -0.02021751, ..., -0.03949338,
+        -0.09643495, -0.01764613],
+       ...,
+       [ 0.06350368,  0.05068012, -0.00405033, ..., -0.00259226,
+         0.08449153, -0.01764613],
+       [-0.05273755,  0.05068012, -0.01806189, ...,  0.1081111 ,
+         0.03606033, -0.04249877],
+       [ 0.00175052,  0.05068012,  0.05954058, ...,  0.1081111 ,
+         0.06898589,  0.12732762]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tree_reg</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">tree_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-2 {color: black;}#sk-container-id-2 pre{padding: 0;}#sk-container-id-2 div.sk-toggleable {background-color: white;}#sk-container-id-2 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-2 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-2 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-2 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-2 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-2 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-2 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-2 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-2 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-2 div.sk-item {position: relative;z-index: 1;}#sk-container-id-2 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-2 div.sk-item::before, #sk-container-id-2 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-2 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-2 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-2 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-2 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-2 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-2 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-2 div.sk-label-container {text-align: center;}#sk-container-id-2 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-2 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeRegressor(max_depth=2, random_state=2)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" checked><label for="sk-estimator-id-2" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeRegressor</label><div class="sk-toggleable__content"><pre>DecisionTreeRegressor(max_depth=2, random_state=2)</pre></div></div></div></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dot_data</span> <span class="o">=</span> <span class="n">export_graphviz</span><span class="p">(</span><span class="n">tree_reg</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                           <span class="n">feature_names</span><span class="o">=</span><span class="n">diabetes</span><span class="o">.</span><span class="n">feature_names</span><span class="p">,</span>  
+                           <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  
+                           <span class="n">special_characters</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Source</span><span class="p">(</span><span class="n">dot_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/69382055a4715b9adc5026db8d90a5eb8b42eebf3ea92769febc37876107aafb.svg" src="../../_images/69382055a4715b9adc5026db8d90a5eb8b42eebf3ea92769febc37876107aafb.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">viz_model</span> <span class="o">=</span> <span class="n">dtreeviz</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">tree_reg</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+               <span class="n">feature_names</span><span class="o">=</span><span class="n">diabetes</span><span class="o">.</span><span class="n">feature_names</span><span class="p">,</span>
+               <span class="n">target_name</span><span class="o">=</span><span class="s2">&quot;target&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">viz_model</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">fontname</span><span class="o">=</span><span class="s2">&quot;DejaVu Sans&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/53baff96dfddc9c694975a4db9c15cf52a43dfdf1f01e2c77cb0d034882d634f.svg" src="../../_images/53baff96dfddc9c694975a4db9c15cf52a43dfdf1f01e2c77cb0d034882d634f.svg" /></div>
+</div>
+<p>L’arbre prédit une valeur (un nombre), et non plus une classe. On peut évaluer sa qualité avec des métriques de régression classiques comme la <strong>MAE</strong> (Mean Absolute Error) : <em>« en moyenne, de combien se trompe-t-on, dans les mêmes unités que la cible ? »</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">tree_reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>47.51175956214455
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_test</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 73., 233.,  97., 111., 277., 341.,  64.,  68.,  65., 178., 142.,
+        77., 244., 115., 258.,  87., 220.,  86.,  74., 132., 136., 220.,
+        91., 235., 148., 317., 131.,  84.,  65., 217., 306.,  79., 158.,
+        54., 123., 174., 237., 212., 179., 281., 187., 200.,  68., 163.,
+       141., 202., 178., 242.,  47., 131., 243., 142., 200.,  89., 232.,
+        55., 253., 128., 104., 184., 110., 198.,  81., 195., 150.,  63.,
+       151., 233., 178.,  84., 237., 109., 131., 252., 200., 160., 200.,
+        51., 111.,  77., 201.,  88.,  78., 243., 268.,  55., 270., 288.,
+        91.])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([166.32323232, 228.1875    ,  93.0647482 ,  93.0647482 ,
+       228.1875    , 228.1875    ,  93.0647482 ,  93.0647482 ,
+        93.0647482 , 228.1875    , 166.32323232,  93.0647482 ,
+       155.85714286, 166.32323232, 228.1875    ,  93.0647482 ,
+       228.1875    , 166.32323232, 166.32323232,  93.0647482 ,
+       155.85714286, 228.1875    , 166.32323232, 166.32323232,
+        93.0647482 , 228.1875    , 155.85714286,  93.0647482 ,
+        93.0647482 , 228.1875    , 228.1875    ,  93.0647482 ,
+        93.0647482 ,  93.0647482 , 166.32323232, 166.32323232,
+       228.1875    , 166.32323232,  93.0647482 , 166.32323232,
+       155.85714286,  93.0647482 , 228.1875    , 166.32323232,
+       228.1875    , 166.32323232, 155.85714286, 228.1875    ,
+        93.0647482 , 166.32323232, 228.1875    , 155.85714286,
+        93.0647482 ,  93.0647482 , 228.1875    ,  93.0647482 ,
+        93.0647482 ,  93.0647482 ,  93.0647482 , 155.85714286,
+       166.32323232, 155.85714286,  93.0647482 , 228.1875    ,
+       166.32323232,  93.0647482 , 166.32323232, 166.32323232,
+        93.0647482 , 166.32323232, 228.1875    , 155.85714286,
+       166.32323232, 166.32323232, 166.32323232,  93.0647482 ,
+        93.0647482 ,  93.0647482 , 166.32323232,  93.0647482 ,
+       155.85714286,  93.0647482 , 228.1875    , 228.1875    ,
+       166.32323232, 155.85714286, 228.1875    , 155.85714286,
+        93.0647482 ])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pour-resumer-les-arbres-de-decision-en-data-science">
+<h2>🎯 Pour résumer — les arbres de décision en data science<a class="headerlink" href="#pour-resumer-les-arbres-de-decision-en-data-science" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Quand utiliser un arbre de décision seul ?</strong></p>
+<ul class="simple">
+<li><p>Quand <strong>l’interprétabilité</strong> est cruciale (santé, finance, juridique, audit).</p></li>
+<li><p>Comme <strong>baseline rapide</strong> pour comprendre un problème, voir quelles features sont importantes et visualiser les règles que les données « contiennent ».</p></li>
+<li><p>Quand on veut un modèle <strong>sans préparation</strong> (pas besoin de normaliser, peu sensible aux outliers, gère les types mixtes).</p></li>
+</ul>
+<p><strong>Quand passer à autre chose ?</strong></p>
+<ul class="simple">
+<li><p>Un arbre seul <strong>overfitte facilement</strong> et plafonne vite en performance. Pour des problèmes prédictifs réels, on utilise presque toujours des <strong>ensembles d’arbres</strong> :</p>
+<ul>
+<li><p><strong>Random Forest</strong> : on entraîne plein d’arbres sur des sous-échantillons différents et on vote / moyenne. Simple et robuste.</p></li>
+<li><p><strong>Gradient Boosting</strong> (XGBoost, LightGBM, CatBoost) : chaque arbre corrige les erreurs du précédent. <strong>État de l’art</strong> sur la plupart des problèmes de données tabulaires, et souvent vainqueurs des compétitions Kaggle.</p></li>
+</ul>
+</li>
+<li><p>Si on a des <strong>images, du texte ou des séries temporelles complexes</strong>, les réseaux de neurones sont généralement plus adaptés.</p></li>
+</ul>
+<p><strong>À retenir :</strong> l’arbre de décision est à la fois <strong>le modèle le plus simple à expliquer</strong> et la <strong>brique de base</strong> des modèles tabulaires les plus performants du marché. Bien comprendre comment il marche, c’est comprendre les fondations de tout l’écosystème boosting/forest qui domine le ML tabulaire aujourd’hui.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours-exe/03-use-sklearn-algorithms"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Utiliser les algorithmes de scikit-learn</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03-evaluate-regression-model.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Évaluation d’un modèle</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-modele-construit-par-l-algorithme-classification">Le modèle construit par l’algorithme — Classification</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-de-l-arbre">Structure de l’arbre</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lire-l-arbre">Lire l’arbre</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-que-contient-chaque-noeud">Ce que contient chaque nœud</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-indice-de-gini-a-quoi-il-sert">L’indice de Gini — à quoi il sert</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choix-des-seuils-lors-de-l-apprentissage">Choix des seuils lors de l’apprentissage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimation-de-la-probabilite-d-appartenance-a-une-classe-k">Estimation de la probabilité d’appartenance à une classe <span class="math notranslate nohighlight">\(k\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-phase-d-apprentissage">La phase d’apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-fonction-de-cout">La fonction de coût</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#critere-d-arret-et-hyperparametres">Critère d’arrêt et hyperparamètres</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complexite-de-l-algorithme">Complexité de l’algorithme</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-prediction">Décision (prédiction)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage">Apprentissage</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression">Régression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-les-arbres-de-decision-en-data-science">🎯 Pour résumer — les arbres de décision en data science</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+# Challenge — version pixi
+# Même mini projet ML (analyse de churn clients).
+[project]
+name = "challenge-pixi"
+version = "0.1.0"
+description = "Mini projet ML pour le TP environnements du module 6"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
+
+[dependencies]
+python = "3.11.*"
+scikit-learn = "1.5.*"
+pandas = "2.2.*"
+numpy = "1.26.*"
+matplotlib = "3.9.*"
+joblib = "1.4.*"
+
+[tasks]
+check = "python -c 'import sklearn, pandas, numpy, matplotlib, joblib; print(\"OK\")'"
+versions = "python -c 'import sklearn, pandas, numpy; print(\"sklearn\", sklearn.__version__); print(\"pandas\", pandas.__version__); print(\"numpy\", numpy.__version__)'"

@@ -1,0 +1,12 @@
+# Challenge — version conda
+# Même mini projet ML (analyse de churn clients).
+name: challenge-conda
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - scikit-learn=1.5
+  - pandas=2.2
+  - numpy=1.26
+  - matplotlib=3.9
+  - joblib=1.4

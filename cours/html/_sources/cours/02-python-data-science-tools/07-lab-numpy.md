@@ -1,0 +1,1 @@
+# Exercice: [Numpy](../../labs/02-python-data-science-tools/numpy)

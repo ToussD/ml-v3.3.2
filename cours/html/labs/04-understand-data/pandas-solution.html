@@ -1,0 +1,2750 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Solution: Pandas - Manipuler et analyser vos données &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'labs/04-understand-data/pandas-solution';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Exercice: Pandas Stats - les bases" href="pandas-stats-basics.html" />
+    <link rel="prev" title="Exercice: Pandas - Manipuler et analyser vos données" href="pandas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="04-understand-data.html">Comprendre les données</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/labs/04-understand-data/pandas-solution.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Solution: Pandas - Manipuler et analyser vos données</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importer-les-librairies">Importer les librairies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipuler-un-dataframe">Manipuler un dataframe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialisation-a-partir-d-un-fichier">Initialisation à partir d’un fichier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialisation-statique">Initialisation statique</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframes-et-indexes">Dataframes et Indexes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing">Slicing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selectionner-des-lignes-colonnes-boolean-indexing">Sélectionner des lignes &amp; colonnes : Boolean indexing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetiser-vos-donnees-avec-pandas">Synthétiser vos données avec Pandas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#somme-des-colonnes">Somme des colonnes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetiser-vos-donnees-categorielles-avec-pandas">Synthétiser vos données catégorielles avec Pandas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer-une-variable-en-une-variable-categorielle">Transformer une variable en une variable catégorielle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#croiser-les-donnees-categorielle-avec-un-crosstab">Croiser les données catégorielle avec un crosstab</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apply">Apply</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="solution-pandas-manipuler-et-analyser-vos-donnees">
+<h1>Solution: Pandas - Manipuler et analyser vos données<a class="headerlink" href="#solution-pandas-manipuler-et-analyser-vos-donnees" title="Lien permanent vers cette rubrique">#</a></h1>
+<p>Cet exercice utilisera le dataset <code class="docutils literal notranslate"><span class="pre">mtcars</span></code> qui comprend 32 observations sur 11 variables :</p>
+<ol class="arabic simple" start="0">
+<li><p><strong>mpg</strong> Miles/(US) gallon</p></li>
+<li><p><strong>cyl</strong> Number of cylinders</p></li>
+<li><p><strong>disp</strong> Displacement (<a class="reference external" href="http://cu.in">cu.in</a>.)</p></li>
+<li><p><strong>hp</strong> Gross horsepower</p></li>
+<li><p><strong>drat</strong> Rear axle ratio</p></li>
+<li><p><strong>wt</strong> Weight (1000 lbs)</p></li>
+<li><p><strong>qsec</strong> 1/4 mile time</p></li>
+<li><p><strong>vs</strong> Engine (0 = V-shaped, 1 = straight)</p></li>
+<li><p><strong>am</strong> Transmission (0 = automatic, 1 = manual)</p></li>
+<li><p><strong>gear</strong> Number of forward gears</p></li>
+<li><p><strong>carb</strong> Number of carburators</p></li>
+</ol>
+<section id="importer-les-librairies">
+<h2>Importer les librairies<a class="headerlink" href="#importer-les-librairies" title="Lien permanent vers cette rubrique">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandas</span> <span class="kn">import</span> <span class="n">Series</span><span class="p">,</span> <span class="n">DataFrame</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sb</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="manipuler-un-dataframe">
+<h2>Manipuler un dataframe<a class="headerlink" href="#manipuler-un-dataframe" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Il est important de savoir manipuler un dataframe afin de pouvoir l’analyser et éventuellement en adapter la structure aux besoin à venir.</p>
+<section id="initialisation-a-partir-d-un-fichier">
+<h3>Initialisation à partir d’un fichier<a class="headerlink" href="#initialisation-a-partir-d-un-fichier" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Utilisez la fonction <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html">pandas.read_csv</a> afin d’initialiser un dataframe à patir des données lues dans le fichier <code class="docutils literal notranslate"><span class="pre">data/mtcars.csv</span></code></p>
+<p>Vous afficherez les 10 premières lignes de ce dataframe en utilisant <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.head.html">pandas.DataFrame.head</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Initialisez un dataframe à partir du fichier &#39;mtcars.csv&#39;</span>
+<span class="c1"># Affichez les dix premières lignes de ce dataframe</span>
+
+<span class="n">cars</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/mtcars.csv&quot;</span><span class="p">)</span>
+
+<span class="n">cars</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model</th>
+      <th>mpg</th>
+      <th>cyl</th>
+      <th>disp</th>
+      <th>hp</th>
+      <th>drat</th>
+      <th>wt</th>
+      <th>qsec</th>
+      <th>vs</th>
+      <th>am</th>
+      <th>gear</th>
+      <th>carb</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Mazda RX4</td>
+      <td>21.0</td>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+      <td>2.620</td>
+      <td>16.46</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Mazda RX4 Wag</td>
+      <td>21.0</td>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+      <td>2.875</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Datsun 710</td>
+      <td>22.8</td>
+      <td>4</td>
+      <td>108.0</td>
+      <td>93</td>
+      <td>3.85</td>
+      <td>2.320</td>
+      <td>18.61</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Hornet 4 Drive</td>
+      <td>21.4</td>
+      <td>6</td>
+      <td>258.0</td>
+      <td>110</td>
+      <td>3.08</td>
+      <td>3.215</td>
+      <td>19.44</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Hornet Sportabout</td>
+      <td>18.7</td>
+      <td>8</td>
+      <td>360.0</td>
+      <td>175</td>
+      <td>3.15</td>
+      <td>3.440</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Valiant</td>
+      <td>18.1</td>
+      <td>6</td>
+      <td>225.0</td>
+      <td>105</td>
+      <td>2.76</td>
+      <td>3.460</td>
+      <td>20.22</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Duster 360</td>
+      <td>14.3</td>
+      <td>8</td>
+      <td>360.0</td>
+      <td>245</td>
+      <td>3.21</td>
+      <td>3.570</td>
+      <td>15.84</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Merc 240D</td>
+      <td>24.4</td>
+      <td>4</td>
+      <td>146.7</td>
+      <td>62</td>
+      <td>3.69</td>
+      <td>3.190</td>
+      <td>20.00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Merc 230</td>
+      <td>22.8</td>
+      <td>4</td>
+      <td>140.8</td>
+      <td>95</td>
+      <td>3.92</td>
+      <td>3.150</td>
+      <td>22.90</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Merc 280</td>
+      <td>19.2</td>
+      <td>6</td>
+      <td>167.6</td>
+      <td>123</td>
+      <td>3.92</td>
+      <td>3.440</td>
+      <td>18.30</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="initialisation-statique">
+<h3>Initialisation statique<a class="headerlink" href="#initialisation-statique" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Il arrivera régulièrement que vous ayez besoin de créer des dataframes à partir de données en dur dans votre code. Le format JSON est utilisé à ces fins :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+    <span class="s1">&#39;client&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;client1&#39;</span><span class="p">,</span><span class="s1">&#39;client2&#39;</span><span class="p">,</span><span class="s1">&#39;client3&#39;</span><span class="p">,</span><span class="s1">&#39;client4&#39;</span><span class="p">,</span><span class="s1">&#39;client5&#39;</span><span class="p">,</span><span class="s1">&#39;client6&#39;</span><span class="p">,</span><span class="s1">&#39;client7&#39;</span><span class="p">,</span><span class="s1">&#39;client8&#39;</span><span class="p">,</span><span class="s1">&#39;client9&#39;</span><span class="p">,</span><span class="s1">&#39;client10&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;montant&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">125</span><span class="p">,</span><span class="mi">456</span><span class="p">,</span><span class="mi">41</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">89</span><span class="p">,</span><span class="mi">42</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>décrit un dataframe ayant 3 colonnes <code class="docutils literal notranslate"><span class="pre">id</span></code>, <code class="docutils literal notranslate"><span class="pre">client</span></code> et <code class="docutils literal notranslate"><span class="pre">montant</span></code>. Le dataframe contient 10 lignes</p>
+<blockquote>
+<div><p>Les valeurs sont fournies colonne par colonne !</p>
+</div></blockquote>
+<p>A partir de la documentation de <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html">DataFrame</a>, initialisez un dataframe ayant trois colonnes : <code class="docutils literal notranslate"><span class="pre">facture_id</span></code>, <code class="docutils literal notranslate"><span class="pre">client_id</span></code> et <code class="docutils literal notranslate"><span class="pre">montant</span></code>. Ce dataframe contiendra les données du document json ci-dessus.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO initialisation d&#39;un dataframe :</span>
+<span class="n">factures</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;facture_id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">900</span><span class="p">,</span><span class="mi">1000</span><span class="p">],</span>
+    <span class="s1">&#39;client_id&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;client1&#39;</span><span class="p">,</span><span class="s1">&#39;client2&#39;</span><span class="p">,</span><span class="s1">&#39;client3&#39;</span><span class="p">,</span><span class="s1">&#39;client4&#39;</span><span class="p">,</span><span class="s1">&#39;client5&#39;</span><span class="p">,</span><span class="s1">&#39;client6&#39;</span><span class="p">,</span><span class="s1">&#39;client7&#39;</span><span class="p">,</span><span class="s1">&#39;client8&#39;</span><span class="p">,</span><span class="s1">&#39;client9&#39;</span><span class="p">,</span><span class="s1">&#39;client10&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;montant&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">98</span><span class="p">,</span><span class="mi">125</span><span class="p">,</span><span class="mi">456</span><span class="p">,</span><span class="mi">41</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">89</span><span class="p">,</span><span class="mi">42</span><span class="p">]</span>
+<span class="p">})[[</span><span class="s1">&#39;facture_id&#39;</span><span class="p">,</span><span class="s1">&#39;client_id&#39;</span><span class="p">,</span><span class="s2">&quot;montant&quot;</span><span class="p">]]</span>
+
+<span class="c1"># TODO : Affichez les données du dataframe</span>
+<span class="n">factures</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>facture_id</th>
+      <th>client_id</th>
+      <th>montant</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>100</td>
+      <td>client1</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>200</td>
+      <td>client2</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>300</td>
+      <td>client3</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>400</td>
+      <td>client4</td>
+      <td>125</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>500</td>
+      <td>client5</td>
+      <td>456</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>600</td>
+      <td>client6</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>700</td>
+      <td>client7</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>800</td>
+      <td>client8</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>900</td>
+      <td>client9</td>
+      <td>89</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1000</td>
+      <td>client10</td>
+      <td>42</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="dataframes-et-indexes">
+<h3>Dataframes et Indexes<a class="headerlink" href="#dataframes-et-indexes" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Les lignes d’un dataframe sont toujours indexées afin de permettre de les référencer.
+Par défaut, l’index d’un dataframe est une suite consécutive d’entier : 0, 1, 2, …</p>
+<p>Le type et la valeur d’un index peuvent être modifiés : <code class="docutils literal notranslate"><span class="pre">df.set_index(colname)</span></code></p>
+<ul class="simple">
+<li><p>Affichez la ligne associée à l’index 5 dans le dataframe <code class="docutils literal notranslate"><span class="pre">cars</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cars</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>model    Valiant
+mpg         18.1
+cyl            6
+disp       225.0
+hp           105
+drat        2.76
+wt          3.46
+qsec       20.22
+vs             1
+am             0
+gear           3
+carb           1
+Name: 5, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Affichez la valeur de la colonne <code class="docutils literal notranslate"><span class="pre">gear</span></code> de la ligne associée à l’index 5 dans le dataframe <code class="docutils literal notranslate"><span class="pre">cars</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cars</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="s1">&#39;gear&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Proposez une colonne du dataframe <code class="docutils literal notranslate"><span class="pre">factures</span></code> pour servir d’index. Modifiez le dataframe en conséquence</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">factures</span> <span class="o">=</span> <span class="n">factures</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;facture_id&#39;</span><span class="p">)</span>
+<span class="n">factures</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>client_id</th>
+      <th>montant</th>
+    </tr>
+    <tr>
+      <th>facture_id</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>100</th>
+      <td>client1</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>200</th>
+      <td>client2</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <th>300</th>
+      <td>client3</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>400</th>
+      <td>client4</td>
+      <td>125</td>
+    </tr>
+    <tr>
+      <th>500</th>
+      <td>client5</td>
+      <td>456</td>
+    </tr>
+    <tr>
+      <th>600</th>
+      <td>client6</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <th>700</th>
+      <td>client7</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>800</th>
+      <td>client8</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>900</th>
+      <td>client9</td>
+      <td>89</td>
+    </tr>
+    <tr>
+      <th>1000</th>
+      <td>client10</td>
+      <td>42</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="slicing">
+<h3>Slicing<a class="headerlink" href="#slicing" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Exemples :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,:]</span>  <span class="c1"># Retourne un dataframe référencant les ligne 1 à 2 et toutes les colonnes </span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span>   <span class="c1"># Retourne un dataframe contenant la dernière ligne du dataframe (par index)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">7</span><span class="p">,[</span><span class="s1">&#39;col1&#39;</span><span class="p">,</span><span class="s1">&#39;col5&#39;</span><span class="p">]]</span> <span class="c1"># Retourne un dataframe référencant les ligne 3 à 7 et les colonnes &#39;col1&#39; et &#39;col5&#39; (par nom de colonne)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span><span class="s1">&#39;col1&#39;</span><span class="p">:</span><span class="s1">&#39;col5&#39;</span><span class="p">]</span> <span class="c1"># Retourne un dataframe référencant les ligne 3 à 7 et les colonnes &#39;col1&#39; à &#39;col5&#39; (par nom de colonne)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Faîtes afficher la valeurs des cellules des lignes de 2 à 5 pour les colonnes 1 à 2 du dataframe `cars`</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>cyl</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>22.8</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>21.4</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>18.7</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>18.1</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Faites afficher la valeurs des cellules des colonnes allant de &#39;cyl&#39; à &#39;drat&#39;</span>
+<span class="c1"># pour les lignes 1 à 3 du dataframe `cars`</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;cyl&#39;</span><span class="p">:</span><span class="s1">&#39;drat&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cyl</th>
+      <th>disp</th>
+      <th>hp</th>
+      <th>drat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>108.0</td>
+      <td>93</td>
+      <td>3.85</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>6</td>
+      <td>258.0</td>
+      <td>110</td>
+      <td>3.08</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Faîtes afficher toutes les colonnes de l&#39;avant dernière ligne du dataframe `cars`</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>model    Maserati Bora
+mpg               15.0
+cyl                  8
+disp             301.0
+hp                 335
+drat              3.54
+wt                3.57
+qsec              14.6
+vs                   0
+am                   1
+gear                 5
+carb                 8
+Name: 30, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="selectionner-des-lignes-colonnes-boolean-indexing">
+<h3>Sélectionner des lignes &amp; colonnes : Boolean indexing<a class="headerlink" href="#selectionner-des-lignes-colonnes-boolean-indexing" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Il s’agit d’une méthode de filtrage des données de votre dataset. Le filtre utilisé est multi-colonne. La syntaxe est la suivante :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span> <span class="p">[</span> <span class="p">(</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;col_to_test&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">val</span><span class="p">)</span>  <span class="p">,</span> <span class="p">[</span> <span class="n">col1_to_return</span> <span class="p">,</span> <span class="n">col2_to_return</span> <span class="p">,</span> <span class="o">...</span> <span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Initialisez un nouveau dataframe qui référencera les colonnes `models`</span>
+<span class="c1"># et `am` du dataframe `cars` respectant les critères suivants :</span>
+<span class="c1">#    am == 0</span>
+<span class="c1">#    gear == 3</span>
+<span class="n">cars2</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">cars</span><span class="p">[</span><span class="s1">&#39;am&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">cars</span><span class="p">[</span><span class="s1">&#39;gear&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">3</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">,</span><span class="s1">&#39;am&#39;</span><span class="p">]]</span>
+
+<span class="c1"># TODO : affichez le dataframe créé</span>
+<span class="n">cars2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model</th>
+      <th>am</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>Hornet 4 Drive</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Hornet Sportabout</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Valiant</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Duster 360</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Merc 450SE</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Merc 450SL</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Merc 450SLC</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Cadillac Fleetwood</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Lincoln Continental</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Chrysler Imperial</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Toyota Corona</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Dodge Challenger</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>AMC Javelin</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Camaro Z28</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Pontiac Firebird</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A quoi sert la ligne de code suivante ?</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 32 entries, 0 to 31
+Data columns (total 12 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   model   32 non-null     object 
+ 1   mpg     32 non-null     float64
+ 2   cyl     32 non-null     int64  
+ 3   disp    32 non-null     float64
+ 4   hp      32 non-null     int64  
+ 5   drat    32 non-null     float64
+ 6   wt      32 non-null     float64
+ 7   qsec    32 non-null     float64
+ 8   vs      32 non-null     int64  
+ 9   am      32 non-null     int64  
+ 10  gear    32 non-null     int64  
+ 11  carb    32 non-null     int64  
+dtypes: float64(5), int64(6), object(1)
+memory usage: 3.1+ KB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="synthetiser-vos-donnees-avec-pandas">
+<h2>Synthétiser vos données avec Pandas<a class="headerlink" href="#synthetiser-vos-donnees-avec-pandas" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="somme-des-colonnes">
+<h3>Somme des colonnes<a class="headerlink" href="#somme-des-colonnes" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Procédez à la somme des données de chacune des colonnes du dataframe `factures`</span>
+<span class="c1"># Quels sens donnez vous au résultat ?</span>
+<span class="n">factures</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>client_id    client1client2client3client4client5client6clie...
+montant                                                    975
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">factures</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>client_id</th>
+      <th>montant</th>
+    </tr>
+    <tr>
+      <th>facture_id</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>100</th>
+      <td>client1</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>200</th>
+      <td>client2</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <th>300</th>
+      <td>client3</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>400</th>
+      <td>client4</td>
+      <td>125</td>
+    </tr>
+    <tr>
+      <th>500</th>
+      <td>client5</td>
+      <td>456</td>
+    </tr>
+    <tr>
+      <th>600</th>
+      <td>client6</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <th>700</th>
+      <td>client7</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>800</th>
+      <td>client8</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>900</th>
+      <td>client9</td>
+      <td>89</td>
+    </tr>
+    <tr>
+      <th>1000</th>
+      <td>client10</td>
+      <td>42</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Procédez à la somme de l&#39;ensemble des données de chacune des lignes du dataframe `factures`</span>
+<span class="c1"># Quels sens donnez vous au résultat ?</span>
+<span class="n">factures</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>facture_id
+100      50
+200      45
+300      98
+400     125
+500     456
+600      41
+700      25
+800       4
+900      89
+1000     42
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Procédez au calcul de la valeur médiane de chacune des colonnes du dataframe `cars`</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mpg      19.200
+cyl       6.000
+disp    196.300
+hp      123.000
+drat      3.695
+wt        3.325
+qsec     17.710
+vs        0.000
+am        0.000
+gear      4.000
+carb      2.000
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Procédez à la valeur moyenne de l&#39;ensemble des données des colonnes du dataframe `cars`</span>
+<span class="c1"># Quels sens donnez vous au résultat ?</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mpg      20.090625
+cyl       6.187500
+disp    230.721875
+hp      146.687500
+drat      3.596563
+wt        3.217250
+qsec     17.848750
+vs        0.437500
+am        0.406250
+gear      3.687500
+carb      2.812500
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Déterminez la valeur maximale de chacune des colonnes du dataframe `cars`</span>
+<span class="c1"># Quels sens donnez vous au résultat ?</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mpg      33.900
+cyl       8.000
+disp    472.000
+hp      335.000
+drat      4.930
+wt        5.424
+qsec     22.900
+vs        1.000
+am        1.000
+gear      5.000
+carb      8.000
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="synthetiser-vos-donnees-categorielles-avec-pandas">
+<h2>Synthétiser vos données catégorielles avec Pandas<a class="headerlink" href="#synthetiser-vos-donnees-categorielles-avec-pandas" title="Lien permanent vers cette rubrique">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Faites en sorte que la colonne &#39;model&#39; du dataframe &#39;cars&#39; soit utilisée comme index</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/version/0.21/generated/pandas.Series.value_counts.html">Documentation</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cars</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model</th>
+      <th>mpg</th>
+      <th>cyl</th>
+      <th>disp</th>
+      <th>hp</th>
+      <th>drat</th>
+      <th>wt</th>
+      <th>qsec</th>
+      <th>vs</th>
+      <th>am</th>
+      <th>gear</th>
+      <th>carb</th>
+    </tr>
+    <tr>
+      <th>model</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>Mazda RX4</td>
+      <td>21.0</td>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+      <td>2.620</td>
+      <td>16.46</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>Mazda RX4 Wag</td>
+      <td>21.0</td>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+      <td>2.875</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>Datsun 710</td>
+      <td>22.8</td>
+      <td>4</td>
+      <td>108.0</td>
+      <td>93</td>
+      <td>3.85</td>
+      <td>2.320</td>
+      <td>18.61</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>Hornet 4 Drive</td>
+      <td>21.4</td>
+      <td>6</td>
+      <td>258.0</td>
+      <td>110</td>
+      <td>3.08</td>
+      <td>3.215</td>
+      <td>19.44</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>Hornet Sportabout</td>
+      <td>18.7</td>
+      <td>8</td>
+      <td>360.0</td>
+      <td>175</td>
+      <td>3.15</td>
+      <td>3.440</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Valiant</th>
+      <td>Valiant</td>
+      <td>18.1</td>
+      <td>6</td>
+      <td>225.0</td>
+      <td>105</td>
+      <td>2.76</td>
+      <td>3.460</td>
+      <td>20.22</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Duster 360</th>
+      <td>Duster 360</td>
+      <td>14.3</td>
+      <td>8</td>
+      <td>360.0</td>
+      <td>245</td>
+      <td>3.21</td>
+      <td>3.570</td>
+      <td>15.84</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Merc 240D</th>
+      <td>Merc 240D</td>
+      <td>24.4</td>
+      <td>4</td>
+      <td>146.7</td>
+      <td>62</td>
+      <td>3.69</td>
+      <td>3.190</td>
+      <td>20.00</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Merc 230</th>
+      <td>Merc 230</td>
+      <td>22.8</td>
+      <td>4</td>
+      <td>140.8</td>
+      <td>95</td>
+      <td>3.92</td>
+      <td>3.150</td>
+      <td>22.90</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Merc 280</th>
+      <td>Merc 280</td>
+      <td>19.2</td>
+      <td>6</td>
+      <td>167.6</td>
+      <td>123</td>
+      <td>3.92</td>
+      <td>3.440</td>
+      <td>18.30</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Merc 280C</th>
+      <td>Merc 280C</td>
+      <td>17.8</td>
+      <td>6</td>
+      <td>167.6</td>
+      <td>123</td>
+      <td>3.92</td>
+      <td>3.440</td>
+      <td>18.90</td>
+      <td>1</td>
+      <td>0</td>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Merc 450SE</th>
+      <td>Merc 450SE</td>
+      <td>16.4</td>
+      <td>8</td>
+      <td>275.8</td>
+      <td>180</td>
+      <td>3.07</td>
+      <td>4.070</td>
+      <td>17.40</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>Merc 450SL</th>
+      <td>Merc 450SL</td>
+      <td>17.3</td>
+      <td>8</td>
+      <td>275.8</td>
+      <td>180</td>
+      <td>3.07</td>
+      <td>3.730</td>
+      <td>17.60</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>Merc 450SLC</th>
+      <td>Merc 450SLC</td>
+      <td>15.2</td>
+      <td>8</td>
+      <td>275.8</td>
+      <td>180</td>
+      <td>3.07</td>
+      <td>3.780</td>
+      <td>18.00</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>Cadillac Fleetwood</th>
+      <td>Cadillac Fleetwood</td>
+      <td>10.4</td>
+      <td>8</td>
+      <td>472.0</td>
+      <td>205</td>
+      <td>2.93</td>
+      <td>5.250</td>
+      <td>17.98</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Lincoln Continental</th>
+      <td>Lincoln Continental</td>
+      <td>10.4</td>
+      <td>8</td>
+      <td>460.0</td>
+      <td>215</td>
+      <td>3.00</td>
+      <td>5.424</td>
+      <td>17.82</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Chrysler Imperial</th>
+      <td>Chrysler Imperial</td>
+      <td>14.7</td>
+      <td>8</td>
+      <td>440.0</td>
+      <td>230</td>
+      <td>3.23</td>
+      <td>5.345</td>
+      <td>17.42</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Fiat 128</th>
+      <td>Fiat 128</td>
+      <td>32.4</td>
+      <td>4</td>
+      <td>78.7</td>
+      <td>66</td>
+      <td>4.08</td>
+      <td>2.200</td>
+      <td>19.47</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Honda Civic</th>
+      <td>Honda Civic</td>
+      <td>30.4</td>
+      <td>4</td>
+      <td>75.7</td>
+      <td>52</td>
+      <td>4.93</td>
+      <td>1.615</td>
+      <td>18.52</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Toyota Corolla</th>
+      <td>Toyota Corolla</td>
+      <td>33.9</td>
+      <td>4</td>
+      <td>71.1</td>
+      <td>65</td>
+      <td>4.22</td>
+      <td>1.835</td>
+      <td>19.90</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Toyota Corona</th>
+      <td>Toyota Corona</td>
+      <td>21.5</td>
+      <td>4</td>
+      <td>120.1</td>
+      <td>97</td>
+      <td>3.70</td>
+      <td>2.465</td>
+      <td>20.01</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Dodge Challenger</th>
+      <td>Dodge Challenger</td>
+      <td>15.5</td>
+      <td>8</td>
+      <td>318.0</td>
+      <td>150</td>
+      <td>2.76</td>
+      <td>3.520</td>
+      <td>16.87</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>AMC Javelin</th>
+      <td>AMC Javelin</td>
+      <td>15.2</td>
+      <td>8</td>
+      <td>304.0</td>
+      <td>150</td>
+      <td>3.15</td>
+      <td>3.435</td>
+      <td>17.30</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Camaro Z28</th>
+      <td>Camaro Z28</td>
+      <td>13.3</td>
+      <td>8</td>
+      <td>350.0</td>
+      <td>245</td>
+      <td>3.73</td>
+      <td>3.840</td>
+      <td>15.41</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Pontiac Firebird</th>
+      <td>Pontiac Firebird</td>
+      <td>19.2</td>
+      <td>8</td>
+      <td>400.0</td>
+      <td>175</td>
+      <td>3.08</td>
+      <td>3.845</td>
+      <td>17.05</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Fiat X1-9</th>
+      <td>Fiat X1-9</td>
+      <td>27.3</td>
+      <td>4</td>
+      <td>79.0</td>
+      <td>66</td>
+      <td>4.08</td>
+      <td>1.935</td>
+      <td>18.90</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Porsche 914-2</th>
+      <td>Porsche 914-2</td>
+      <td>26.0</td>
+      <td>4</td>
+      <td>120.3</td>
+      <td>91</td>
+      <td>4.43</td>
+      <td>2.140</td>
+      <td>16.70</td>
+      <td>0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Lotus Europa</th>
+      <td>Lotus Europa</td>
+      <td>30.4</td>
+      <td>4</td>
+      <td>95.1</td>
+      <td>113</td>
+      <td>3.77</td>
+      <td>1.513</td>
+      <td>16.90</td>
+      <td>1</td>
+      <td>1</td>
+      <td>5</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Ford Pantera L</th>
+      <td>Ford Pantera L</td>
+      <td>15.8</td>
+      <td>8</td>
+      <td>351.0</td>
+      <td>264</td>
+      <td>4.22</td>
+      <td>3.170</td>
+      <td>14.50</td>
+      <td>0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>Ferrari Dino</th>
+      <td>Ferrari Dino</td>
+      <td>19.7</td>
+      <td>6</td>
+      <td>145.0</td>
+      <td>175</td>
+      <td>3.62</td>
+      <td>2.770</td>
+      <td>15.50</td>
+      <td>0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>Maserati Bora</th>
+      <td>Maserati Bora</td>
+      <td>15.0</td>
+      <td>8</td>
+      <td>301.0</td>
+      <td>335</td>
+      <td>3.54</td>
+      <td>3.570</td>
+      <td>14.60</td>
+      <td>0</td>
+      <td>1</td>
+      <td>5</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>Volvo 142E</th>
+      <td>Volvo 142E</td>
+      <td>21.4</td>
+      <td>4</td>
+      <td>121.0</td>
+      <td>109</td>
+      <td>4.11</td>
+      <td>2.780</td>
+      <td>18.60</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Combien de voitures ont le même nombre de carburateur (&#39;carb&#39;)</span>
+<span class="n">carb</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="n">carb</span>
+<span class="n">carb</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>carb
+4    10
+2    10
+1     7
+3     3
+6     1
+8     1
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Afin de simplifier l&#39;explication sur la méthode groupby, nous isolons un sous ensemble du dataframe initial</span>
+<span class="n">cars_cat</span> <span class="o">=</span> <span class="n">cars</span><span class="p">[[</span><span class="s1">&#39;cyl&#39;</span><span class="p">,</span><span class="s1">&#39;vs&#39;</span><span class="p">,</span><span class="s1">&#39;am&#39;</span><span class="p">,</span><span class="s1">&#39;gear&#39;</span><span class="p">,</span><span class="s1">&#39;carb&#39;</span><span class="p">]]</span>
+<span class="n">cars_cat</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+
+<span class="c1"># Avec l&#39;aide de votre formateur, analysez le résultat du code suivant</span>
+<span class="n">gears_group</span> <span class="o">=</span> <span class="n">cars_cat</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;gear&#39;</span><span class="p">)</span>
+<span class="n">gears_group</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="8" halign="left">cyl</th>
+      <th colspan="2" halign="left">vs</th>
+      <th>...</th>
+      <th colspan="2" halign="left">am</th>
+      <th colspan="8" halign="left">carb</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+      <th>count</th>
+      <th>mean</th>
+      <th>...</th>
+      <th>75%</th>
+      <th>max</th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>gear</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>15.0</td>
+      <td>7.466667</td>
+      <td>1.187234</td>
+      <td>4.0</td>
+      <td>8.0</td>
+      <td>8.0</td>
+      <td>8.0</td>
+      <td>8.0</td>
+      <td>15.0</td>
+      <td>0.200000</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>15.0</td>
+      <td>2.666667</td>
+      <td>1.175139</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>12.0</td>
+      <td>4.666667</td>
+      <td>0.984732</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>6.0</td>
+      <td>6.0</td>
+      <td>12.0</td>
+      <td>0.833333</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>12.0</td>
+      <td>2.333333</td>
+      <td>1.302678</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5.0</td>
+      <td>6.000000</td>
+      <td>2.000000</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>6.0</td>
+      <td>8.0</td>
+      <td>8.0</td>
+      <td>5.0</td>
+      <td>0.200000</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>5.0</td>
+      <td>4.400000</td>
+      <td>2.607681</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>4.0</td>
+      <td>6.0</td>
+      <td>8.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 32 columns</p>
+</div></div></div>
+</div>
+<section id="transformer-une-variable-en-une-variable-categorielle">
+<h3>Transformer une variable en une variable catégorielle<a class="headerlink" href="#transformer-une-variable-en-une-variable-categorielle" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO </span>
+<span class="c1"># Affichez le type de la colonne &#39;am&#39;</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">dtype</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dtype(&#39;int64&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dans un dataframe, un colonne est de type <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.value_counts.html">Serie</a>. En parcourant la documentation, affichez les valeurs différentes ainsi que leur nombre de la colonne “am”</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Combien de valeurs différentes y-a t&#39;il dans la colonne &#39;am&#39; ?</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>am
+0    19
+1    13
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<span class="c1"># Rajoutez une colonne &#39;am_cat&#39; qui sera de type category et qui sera valorisée à partir de la colonne &#39;am&#39;</span>
+<span class="n">cars</span><span class="p">[</span><span class="s1">&#39;am_cat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">cars</span><span class="o">.</span><span class="n">am</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+<span class="c1">#cars[&#39;am_cat&#39;] = cars.am.astype(&#39;category&#39;)</span>
+<span class="n">cars</span><span class="p">[</span><span class="s1">&#39;am_cat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CategoricalDtype(categories=[0, 1], ordered=False, categories_dtype=int64)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On aurait pu simplement modifier le type de la colonne &#39;am&#39;, mais on préfère rajouter une colonne pour ne pas</span>
+<span class="c1"># perdre l&#39;originale</span>
+<span class="n">cars</span><span class="p">[</span><span class="s1">&#39;am&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cars</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="croiser-les-donnees-categorielle-avec-un-crosstab">
+<h3>Croiser les données catégorielle avec un crosstab<a class="headerlink" href="#croiser-les-donnees-categorielle-avec-un-crosstab" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Interprétez le résultat du code suivant</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">cars</span><span class="p">[</span><span class="s1">&#39;am&#39;</span><span class="p">],</span> <span class="n">cars</span><span class="p">[</span><span class="s1">&#39;gear&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>gear</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+    </tr>
+    <tr>
+      <th>am</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>15</td>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>8</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="apply">
+<h3>Apply<a class="headerlink" href="#apply" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>La fonction <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.Series.apply.html">pandas.Series.apply</a> est très souvent utilisée. Elle permet d’appliquer une fonction à l’ensemble des valeurs d’une colonne d’un dataframe (qui est de type <code class="docutils literal notranslate"><span class="pre">Serie</span></code>) : Cette fonction peut-être standard (i.e. fournie par Python), ou d’une fonction que vous aurez implémentée selon vos besoin.</p>
+<ul class="simple">
+<li><p>La fonction <code class="docutils literal notranslate"><span class="pre">apply</span></code> retourne une <code class="docutils literal notranslate"><span class="pre">Serie</span></code> (i.e. une colonne) qui est souvent affectée à une nouvelle colonne du dataframe d’origine.</p></li>
+<li><p>Elle prend une fonction <code class="docutils literal notranslate"><span class="pre">thefunc</span></code> en paramètre</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thefunc</span></code> sera appelée autant de fois qu’il y a de lignes dans la <code class="docutils literal notranslate"><span class="pre">Serie</span></code>sur laquelle on l’applique</p></li>
+<li><p>le paramétre de <code class="docutils literal notranslate"><span class="pre">thefunc</span></code> correspond à la valeur de l’élément en cours de traitement dans la <code class="docutils literal notranslate"><span class="pre">Serie</span></code>en cours</p></li>
+</ul>
+<p><strong>Exemple 1</strong> :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">nb_mots</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span>
+
+<span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;nb_word&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">nb_mots</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Exemple 2</strong> :</p>
+<p>En déclarant une lambda expression (i.e. une fonction anonyme) :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;nb_word&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)))</span>
+
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO : Créez une colonne &#39;conso&#39; (kilomètre / litre) dont la valeur sera calculée</span>
+<span class="c1"># à partir de la colonne existante &#39;mpg&#39;</span>
+<span class="c1"># https://www.mpgtolitres.com/mpg-to-kml</span>
+
+<span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mf">0.425143707</span>
+    <span class="k">return</span> <span class="n">result</span> 
+
+<span class="n">cars</span><span class="p">[</span><span class="s1">&#39;conso&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cars</span><span class="p">[</span><span class="s1">&#39;mpg&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span> <span class="o">*</span> <span class="mf">0.42</span><span class="p">)</span>
+<span class="n">cars</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model</th>
+      <th>mpg</th>
+      <th>cyl</th>
+      <th>disp</th>
+      <th>hp</th>
+      <th>drat</th>
+      <th>wt</th>
+      <th>qsec</th>
+      <th>vs</th>
+      <th>am</th>
+      <th>gear</th>
+      <th>carb</th>
+      <th>am_cat</th>
+      <th>conso</th>
+    </tr>
+    <tr>
+      <th>model</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mazda RX4</th>
+      <td>Mazda RX4</td>
+      <td>21.0</td>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+      <td>2.620</td>
+      <td>16.46</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+      <td>1</td>
+      <td>8.820</td>
+    </tr>
+    <tr>
+      <th>Mazda RX4 Wag</th>
+      <td>Mazda RX4 Wag</td>
+      <td>21.0</td>
+      <td>6</td>
+      <td>160.0</td>
+      <td>110</td>
+      <td>3.90</td>
+      <td>2.875</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>1</td>
+      <td>4</td>
+      <td>4</td>
+      <td>1</td>
+      <td>8.820</td>
+    </tr>
+    <tr>
+      <th>Datsun 710</th>
+      <td>Datsun 710</td>
+      <td>22.8</td>
+      <td>4</td>
+      <td>108.0</td>
+      <td>93</td>
+      <td>3.85</td>
+      <td>2.320</td>
+      <td>18.61</td>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>9.576</td>
+    </tr>
+    <tr>
+      <th>Hornet 4 Drive</th>
+      <td>Hornet 4 Drive</td>
+      <td>21.4</td>
+      <td>6</td>
+      <td>258.0</td>
+      <td>110</td>
+      <td>3.08</td>
+      <td>3.215</td>
+      <td>19.44</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>0</td>
+      <td>8.988</td>
+    </tr>
+    <tr>
+      <th>Hornet Sportabout</th>
+      <td>Hornet Sportabout</td>
+      <td>18.7</td>
+      <td>8</td>
+      <td>360.0</td>
+      <td>175</td>
+      <td>3.15</td>
+      <td>3.440</td>
+      <td>17.02</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>2</td>
+      <td>0</td>
+      <td>7.854</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">cars</span><span class="p">[</span><span class="s1">&#39;am&#39;</span><span class="p">],</span> <span class="n">cars</span><span class="p">[</span><span class="s1">&#39;gear&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>gear</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+    </tr>
+    <tr>
+      <th>am</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>15</td>
+      <td>4</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>8</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO : Créez une colonne &#39;conso&#39; (kilomètre / litre) dont la valeur sera calculée à partir de la colonne existante &#39;mpg&#39;</span>
+<span class="c1"># https://www.mpgtolitres.com/mpg-to-kml</span>
+<span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span><span class="mf">0.425143707</span>
+    <span class="k">return</span> <span class="n">result</span> 
+
+<span class="n">cars</span><span class="p">[</span><span class="s1">&#39;conso&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cars</span><span class="p">[</span><span class="s1">&#39;mpg&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">convert</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cars</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./labs/04-understand-data"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pandas.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Exercice: Pandas - Manipuler et analyser vos données</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="pandas-stats-basics.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Exercice: Pandas Stats - les bases</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importer-les-librairies">Importer les librairies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipuler-un-dataframe">Manipuler un dataframe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialisation-a-partir-d-un-fichier">Initialisation à partir d’un fichier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialisation-statique">Initialisation statique</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframes-et-indexes">Dataframes et Indexes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing">Slicing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selectionner-des-lignes-colonnes-boolean-indexing">Sélectionner des lignes &amp; colonnes : Boolean indexing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetiser-vos-donnees-avec-pandas">Synthétiser vos données avec Pandas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#somme-des-colonnes">Somme des colonnes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetiser-vos-donnees-categorielles-avec-pandas">Synthétiser vos données catégorielles avec Pandas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transformer-une-variable-en-une-variable-categorielle">Transformer une variable en une variable catégorielle</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#croiser-les-donnees-categorielle-avec-un-crosstab">Croiser les données catégorielle avec un crosstab</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apply">Apply</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

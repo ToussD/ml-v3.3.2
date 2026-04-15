@@ -1,0 +1,25 @@
+/* Sidebar repliable par module — affiche uniquement le module actif dépliés.
+   Les autres captions sont cliquables pour déplier/replier. */
+
+#bd-docs-nav p.caption {
+  cursor: pointer;
+  user-select: none;
+}
+
+#bd-docs-nav p.caption::before {
+  content: "▾";
+  display: inline-block;
+  width: 1em;
+  margin-right: 0.15em;
+  font-size: 0.85em;
+  transition: transform 0.15s ease;
+  opacity: 0.7;
+}
+
+#bd-docs-nav p.caption.sbt-collapsed::before {
+  transform: rotate(-90deg);
+}
+
+#bd-docs-nav ul.sbt-hidden {
+  display: none !important;
+}

@@ -1,0 +1,1264 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Réduction de dimensions &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"RR": "\\mathbb{R}", "NN": "\\mathbb{N}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours-exe/08-advanced-feature-engineering/04-dimensionality-reduction';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Deep learning" href="../../cours/09-deep-learning/01-deep-learning.html" />
+    <link rel="prev" title="Améliorer une « mauvaise » distribution" href="03-improve-distribution.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours-exe/08-advanced-feature-engineering/04-dimensionality-reduction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Réduction de dimensions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-reduire-la-dimensionnalite">Pourquoi réduire la dimensionnalité ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-trois-problemes-d-avoir-trop-de-features">Les trois problèmes d’avoir trop de features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-malediction-de-la-dimensionnalite">La malédiction de la dimensionnalité</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-calcul-qui-fait-peur">Le calcul qui fait peur</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-phenomene-de-hughes">Le phénomène de Hughes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-plan-de-ce-notebook">Le plan de ce notebook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features-inutiles">Features « inutiles »</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantifier-l-importance-avec-feature-importances">Quantifier l’importance avec <code class="docutils literal notranslate"><span class="pre">feature_importances_</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-principal-component-analysis">PCA (Principal Component Analysis)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-idee-intuitive">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-peu-de-mathematiques-pour-les-curieux">Un peu de mathématiques (pour les curieux)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-que-permet-la-pca">Ce que permet la PCA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-pca-inverse-reconstituer-les-donnees">La PCA inverse — reconstituer les données</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pieges-a-connaitre">⚠️ Pièges à connaître</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effet-de-la-pca-sur-l-apprentissage">Effet de la PCA sur l’apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sans-pca-le-baseline">Sans PCA — le baseline</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#avec-pca-compression-a-256-64-et-16-dimensions">Avec PCA — compression à 256, 64 et 16 dimensions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utiliser-des-algorithmes-pour-selectionner-les-features">Utiliser des algorithmes pour <strong>sélectionner</strong> les features</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#utiliser-feature-importances">Utiliser <code class="docutils literal notranslate"><span class="pre">feature_importances_</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#utiliser-la-regularisation-lasso">Utiliser la régularisation Lasso</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-outils-scikit-learn">Autres outils scikit-learn</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manifold-learning-quand-la-pca-ne-suffit-pas">Manifold learning — quand la PCA ne suffit pas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-idee-du-manifold-ou-variete">L’idée du « manifold » (ou <em>variété</em>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-hypothese-du-manifold">L’hypothèse du manifold</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-principales-techniques">Les principales techniques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-utiliser-chaque-outil">Quand utiliser chaque outil</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-reduction-de-dimensions-en-pratique">🎯 Pour résumer — réduction de dimensions en pratique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-l-utiliser">Quand l’utiliser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-ne-pas-s-en-occuper">Quand ne pas s’en occuper</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-outils-a-connaitre">Les outils à connaître</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-bonnes-pratiques">Les bonnes pratiques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-a-eviter">Les pièges à éviter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="reduction-de-dimensions">
+<h1>Réduction de dimensions<a class="headerlink" href="#reduction-de-dimensions" title="Lien permanent vers cette rubrique">#</a></h1>
+<section id="pourquoi-reduire-la-dimensionnalite">
+<h2>Pourquoi réduire la dimensionnalité ?<a class="headerlink" href="#pourquoi-reduire-la-dimensionnalite" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Une <strong>feature</strong>, c’est une colonne. Un dataset avec <strong>10 features</strong> est facile à manipuler. Un dataset avec <strong>10 000 features</strong> (images, textes, logs bruts…) devient beaucoup plus compliqué. Au-delà d’un certain seuil, <strong>ajouter des features dégrade les performances</strong> plutôt que de les améliorer. C’est contre-intuitif — et c’est au cœur de ce notebook.</p>
+<section id="les-trois-problemes-d-avoir-trop-de-features">
+<h3>Les trois problèmes d’avoir trop de features<a class="headerlink" href="#les-trois-problemes-d-avoir-trop-de-features" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Temps d’apprentissage long.</strong> Plus il y a de features, plus les calculs sont lourds. Un modèle qui prendrait 1 minute sur 10 features peut prendre des heures sur 10 000.</p></li>
+<li><p><strong>Convergence difficile.</strong> Beaucoup d’algorithmes ont du mal à « trouver » la bonne solution quand l’espace est trop grand. Le bruit noie le signal.</p></li>
+<li><p><strong>Impossible à visualiser.</strong> On sait dessiner des scatter plots en 2D ou 3D. Au-delà, on ne « voit » plus les données — on perd l’intuition visuelle qui est cruciale en EDA.</p></li>
+</ol>
+</section>
+<section id="la-malediction-de-la-dimensionnalite">
+<h3>La malédiction de la dimensionnalité<a class="headerlink" href="#la-malediction-de-la-dimensionnalite" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Ce phénomène a un nom : la <strong><a class="reference external" href="https://en.wikipedia.org/wiki/Curse_of_dimensionality">curse of dimensionality</a></strong>. L’idée est simple : <strong>en haute dimension, les données deviennent « clairsemées » de manière dramatique</strong>, même si on en a beaucoup.</p>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> imagine qu’on te demande de remplir un petit cube de 1 m × 1 m × 1 m avec des boules distantes de 10 cm. Il t’en faut environ 1000. Maintenant, on te demande de faire la même chose dans un hypercube en 4 dimensions. Puis en 10. Puis en 100. Le nombre de boules explose <strong>exponentiellement</strong> — en 10 dimensions, il t’en faut déjà <span class="math notranslate nohighlight">\(10^{10}\)</span> = <strong>10 milliards</strong>.</p>
+<p><strong>Conséquence en ML :</strong> au lieu d’être entourée de voisins proches (ce qui est le principe de base du machine learning — <em>« les points qui se ressemblent ont tendance à avoir la même étiquette »</em>), une donnée se retrouve <strong>loin de tout le monde</strong>. La notion même de « voisinage » perd son sens. KNN, K-Means, SVM… tous ces algorithmes basés sur la distance commencent à patiner.</p>
+</div></blockquote>
+</section>
+<section id="le-calcul-qui-fait-peur">
+<h3>Le calcul qui fait peur<a class="headerlink" href="#le-calcul-qui-fait-peur" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Si on veut avoir des points espacés de 0,01 (= <span class="math notranslate nohighlight">\(10^{-2}\)</span>) dans un hypercube de côté 1 :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Dimension</p></th>
+<th class="head text-center"><p>Nombre de points nécessaires</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>1 (segment)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(10^2\)</span> = 100</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>2 (carré)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(10^4\)</span> = 10 000</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>3 (cube)</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(10^6\)</span> = 1 million</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>10</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(10^{20}\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>100</p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(10^{200}\)</span> (plus que d’atomes dans l’univers)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Conséquence pratique :</strong> une nouvelle donnée risque de se trouver très loin des autres → difficile à classifier → <strong>comme si on avait un dataset insuffisant</strong>, même avec des millions d’exemples.</p>
+</section>
+<section id="le-phenomene-de-hughes">
+<h3>Le phénomène de Hughes<a class="headerlink" href="#le-phenomene-de-hughes" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>La performance d’un classifieur en fonction du nombre de features</strong> suit une courbe en cloche, connue sous le nom de <strong>phénomène de Hughes</strong> :</p>
+<ul class="simple">
+<li><p><strong>Peu de features</strong> → le modèle sous-apprend (pas assez d’information).</p></li>
+<li><p><strong>Nombre optimal</strong> → le modèle apprend le signal.</p></li>
+<li><p><strong>Trop de features</strong> → la malédiction de la dimensionnalité frappe : le modèle apprend du bruit, sa performance <strong>dégringole</strong>.</p></li>
+</ul>
+<p><img alt="Optimal number of features" src="https://cdn.builtin.com/sites/www.builtin.com/files/styles/ckeditor_optimize/public/inline-images/national/classifier%2520performance%2520dimensionality.png" /></p>
+<blockquote>
+<div><p><strong>🎯 Conclusion :</strong> plus n’est pas toujours mieux. Parfois, <strong>supprimer des features améliore les performances</strong> — en éliminant du bruit, en simplifiant le problème, en rapprochant les données les unes des autres. C’est ce que fait la <strong>réduction de dimensions</strong>.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="le-plan-de-ce-notebook">
+<h2>Le plan de ce notebook<a class="headerlink" href="#le-plan-de-ce-notebook" title="Lien permanent vers cette rubrique">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Identifier les features inutiles</strong> (illustration sur MNIST avec <code class="docutils literal notranslate"><span class="pre">feature_importances_</span></code>).</p></li>
+<li><p><strong>PCA (Principal Component Analysis)</strong> — la technique reine de réduction de dimensions.</p></li>
+<li><p><strong>Mesurer l’impact</strong> de la PCA sur la performance d’un modèle.</p></li>
+<li><p><strong>Manifold learning</strong> — pour les cas où la PCA ne suffit pas.</p></li>
+</ol>
+</section>
+<section id="features-inutiles">
+<h2>Features « inutiles »<a class="headerlink" href="#features-inutiles" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Prenons un exemple visuel.</strong> Les images MNIST (chiffres manuscrits) sont des matrices 28×28 = <strong>784 pixels</strong>. Mais est-ce que les 784 pixels sont <strong>tous utiles</strong> pour reconnaître un chiffre ?</p>
+<p><strong>Intuition rapide :</strong> les pixels aux <strong>coins</strong> et sur les <strong>bords</strong> sont presque toujours noirs (vides), quelle que soit l’image. Ils n’apportent <strong>aucune information</strong> pour distinguer un 3 d’un 8. Seuls les pixels du <strong>centre</strong> contiennent vraiment le signal.</p>
+<blockquote>
+<div><p><strong>Le principe général :</strong> dans de nombreux datasets, beaucoup de features apportent <strong>peu ou pas d’information</strong>. Certaines sont constantes, d’autres redondantes, d’autres purement bruit. Les identifier et les supprimer <strong>améliore</strong> typiquement à la fois la <strong>vitesse</strong> et la <strong>performance</strong> du modèle.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+
+<span class="n">mnist</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s1">&#39;mnist_784&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mnist_csv = pd.read_csv(&quot;../../data/mnist.csv&quot;)</span>
+<span class="c1"># X = mnist_csv.drop(&quot;class&quot;, axis=1).values</span>
+<span class="c1"># y = mnist_csv[&quot;class&quot;]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">display_digits</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">digit</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">digit</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">binary</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       ...,
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_digits</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/f5df63633bc906aa12fdface5d5a0e2328ee6b594111c4e15a08d25c755ff3ec.png" src="../../_images/f5df63633bc906aa12fdface5d5a0e2328ee6b594111c4e15a08d25c755ff3ec.png" />
+</div>
+</div>
+<p><strong>Intuition confirmée visuellement</strong> : les pixels périphériques sont presque toujours noirs et n’apportent rien à la classification.</p>
+<section id="quantifier-l-importance-avec-feature-importances">
+<h3>Quantifier l’importance avec <code class="docutils literal notranslate"><span class="pre">feature_importances_</span></code><a class="headerlink" href="#quantifier-l-importance-avec-feature-importances" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>On va le confirmer algorithmiquement</strong> en utilisant un <code class="docutils literal notranslate"><span class="pre">RandomForestClassifier</span></code>, qui fournit gratuitement un <strong>ordre d’importance</strong> des features via son attribut <code class="docutils literal notranslate"><span class="pre">feature_importances_</span></code>.</p>
+<blockquote>
+<div><p><strong>Comment ça marche ?</strong> Pour chaque feature, le Random Forest mesure à quel point elle est utilisée par les arbres pour séparer les classes. Une feature utilisée souvent et haut dans les arbres → importance élevée. Une feature jamais utilisée (ou rarement) → importance faible.</p>
+<p><strong>Le résultat est un vecteur</strong> qui, pour MNIST, se transforme en une <strong>carte thermique 28×28</strong> montrant quels pixels comptent vraiment. On va voir qu’elle ressemble à une « auréole » concentrée au centre — exactement là où les chiffres sont dessinés.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="n">rnd_clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">rnd_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>RandomForestClassifier(n_jobs=-1, random_state=42)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">RandomForestClassifier</label><div class="sk-toggleable__content"><pre>RandomForestClassifier(n_jobs=-1, random_state=42)</pre></div></div></div></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_digit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">yticklabels</span><span class="p">):</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;hot&quot;</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+        <span class="n">ticks</span><span class="o">=</span><span class="p">[</span><span class="n">rnd_clf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">rnd_clf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+    <span class="p">)</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">yticklabels</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_digit</span><span class="p">(</span><span class="n">rnd_clf</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Not important&#39;</span><span class="p">,</span> <span class="s1">&#39;Very important&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e7803afbd15254322495b894c85d6062ddd5b7e151c905519d953b5f3f50f58e.png" src="../../_images/e7803afbd15254322495b894c85d6062ddd5b7e151c905519d953b5f3f50f58e.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="pca-principal-component-analysis">
+<h2>PCA (Principal Component Analysis)<a class="headerlink" href="#pca-principal-component-analysis" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="l-idee-intuitive">
+<h3>L’idée intuitive<a class="headerlink" href="#l-idee-intuitive" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>La PCA est l”<strong>outil le plus célèbre et le plus utilisé</strong> de réduction de dimensions. Son principe est une <strong>transformation des axes</strong> des données :</p>
+<ul class="simple">
+<li><p>On cherche de <strong>nouveaux axes</strong> (appelés <strong>composantes principales</strong>) qui capturent <strong>le maximum de variance</strong> possible dans les données.</p></li>
+<li><p>Le <strong>premier axe</strong> est celui sur lequel les données sont les plus étalées.</p></li>
+<li><p>Le <strong>deuxième</strong> est perpendiculaire au premier et capture le maximum de variance restante.</p></li>
+<li><p>Etc.</p></li>
+<li><p>On <strong>conserve les <span class="math notranslate nohighlight">\(k\)</span> premiers axes</strong> (les plus informatifs) et on <strong>supprime les autres</strong>.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> imagine un nuage de points 3D qui ressemble en fait à une « crêpe » aplatie — tous les points sont presque dans un même plan, mais ce plan n’est pas aligné avec les axes X, Y, Z. La PCA <strong>fait pivoter le repère</strong> pour aligner le premier axe avec la direction la plus étalée du nuage, le deuxième avec la deuxième plus étalée, et le troisième (perpendiculaire aux deux autres) capture ce qui reste — très peu, puisque les points sont quasi-plans. On peut alors <strong>ignorer le troisième axe</strong> et passer de 3D à 2D <strong>sans presque rien perdre</strong>.</p>
+</div></blockquote>
+<p><img alt="PCA" src="https://upload.wikimedia.org/wikipedia/commons/f/f5/GaussianScatterPCA.svg" /></p>
+</section>
+<section id="un-peu-de-mathematiques-pour-les-curieux">
+<h3>Un peu de mathématiques (pour les curieux)<a class="headerlink" href="#un-peu-de-mathematiques-pour-les-curieux" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Les composantes principales sont les <strong>vecteurs propres</strong> de la matrice de <strong>covariance</strong> des données — classés par <strong>valeurs propres décroissantes</strong> (la valeur propre d’un vecteur = quantité de variance capturée par cet axe).</p>
+<p><strong>En langage courant :</strong> on trouve les directions les plus « gonflées » du nuage, et on les ordonne de la plus gonflée à la moins gonflée. On garde les <span class="math notranslate nohighlight">\(k\)</span> premières et on ignore les autres.</p>
+</section>
+<section id="ce-que-permet-la-pca">
+<h3>Ce que permet la PCA<a class="headerlink" href="#ce-que-permet-la-pca" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Compression</strong> : passer de 784 dimensions à 64 ou même 16, tout en gardant l’essentiel de l’information.</p></li>
+<li><p><strong>Visualisation</strong> : projeter en 2D ou 3D pour voir la structure du dataset (très utile pour l’EDA).</p></li>
+<li><p><strong>Débruitage</strong> : les composantes à faible variance capturent souvent du bruit. Les supprimer nettoie les données.</p></li>
+<li><p><strong>Accélération</strong> : un modèle entraîné sur 16 dimensions est <strong>beaucoup plus rapide</strong> qu’un modèle sur 784.</p></li>
+</ol>
+</section>
+<section id="la-pca-inverse-reconstituer-les-donnees">
+<h3>La PCA inverse — reconstituer les données<a class="headerlink" href="#la-pca-inverse-reconstituer-les-donnees" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Propriété intéressante :</strong> la transformation PCA est <strong>réversible</strong>. Si on garde <strong>tous</strong> les axes, <code class="docutils literal notranslate"><span class="pre">pca.inverse_transform()</span></code> restaure parfaitement les données originales. Si on n’en garde qu’une partie, la reconstitution n’est que <strong>partielle</strong> — mais visuellement, ça reste reconnaissable si on a gardé assez de composantes.</p>
+<p>On va utiliser cette propriété pour <strong>voir</strong> à quoi ressemblent les chiffres MNIST <strong>après</strong> compression à 256, 64 et 16 dimensions, en reconstituant les images à partir de ces représentations compressées. Plus on compresse fort, plus les détails disparaissent — mais la structure globale persiste étonnamment longtemps.</p>
+</section>
+<section id="pieges-a-connaitre">
+<h3>⚠️ Pièges à connaître<a class="headerlink" href="#pieges-a-connaitre" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong>La PCA est sensible à l’échelle</strong> : une feature en [0, 1000] va dominer une feature en [0, 1] dans le calcul de variance. <strong>Toujours normaliser (<code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>) avant une PCA</strong> sur des features d’échelles différentes.</p></li>
+<li><p><strong>La PCA est linéaire</strong> : elle ne capture que des relations linéaires entre variables. Pour des structures non linéaires (des spirales, des courbes), utiliser <strong>Kernel PCA</strong>, <strong>t-SNE</strong> ou <strong>UMAP</strong>.</p></li>
+<li><p><strong>Les composantes principales ne sont pas interprétables</strong> : ce ne sont pas des features métier mais des combinaisons linéaires de features originales. On perd l’interprétabilité.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="k">def</span> <span class="nf">pca_recovered</span><span class="p">(</span><span class="n">n_components</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n_components</span><span class="p">)</span>
+    <span class="n">X_reduced</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X_recovered</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">X_reduced</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X_recovered</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">n_components</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">16</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n_components=</span><span class="si">{</span><span class="n">n_components</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">X_recovered</span> <span class="o">=</span> <span class="n">pca_recovered</span><span class="p">(</span><span class="n">n_components</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+    <span class="n">display_digits</span><span class="p">(</span><span class="n">X_recovered</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n_components=784
+</pre></div>
+</div>
+<img alt="../../_images/f5df63633bc906aa12fdface5d5a0e2328ee6b594111c4e15a08d25c755ff3ec.png" src="../../_images/f5df63633bc906aa12fdface5d5a0e2328ee6b594111c4e15a08d25c755ff3ec.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n_components=256
+</pre></div>
+</div>
+<img alt="../../_images/ba3dd7d22d8bd68e7615ee4877fe02aa0665fe69ee2c3c55892bba7ae52e2f7f.png" src="../../_images/ba3dd7d22d8bd68e7615ee4877fe02aa0665fe69ee2c3c55892bba7ae52e2f7f.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n_components=64
+</pre></div>
+</div>
+<img alt="../../_images/2ff8d8c6c8efd3dce38177779f5449d6a022ba025ad16658ea8299359770d25d.png" src="../../_images/2ff8d8c6c8efd3dce38177779f5449d6a022ba025ad16658ea8299359770d25d.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n_components=16
+</pre></div>
+</div>
+<img alt="../../_images/d3260c845d36842a022c95c7a7d0f04b5f1647f86b765652ad7c7697754cac2d.png" src="../../_images/d3260c845d36842a022c95c7a7d0f04b5f1647f86b765652ad7c7697754cac2d.png" />
+</div>
+</div>
+</section>
+<section id="effet-de-la-pca-sur-l-apprentissage">
+<h3>Effet de la PCA sur l’apprentissage<a class="headerlink" href="#effet-de-la-pca-sur-l-apprentissage" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Passons à la mesure concrète.</strong> On va entraîner un <code class="docutils literal notranslate"><span class="pre">RandomForestClassifier</span></code> sur MNIST <strong>avec</strong> et <strong>sans</strong> PCA, et comparer les scores en cross-validation.</p>
+<blockquote>
+<div><p><strong>Hypothèse à tester :</strong> la PCA <strong>n’est pas gratuite</strong> — elle compresse l’information, on s’attend donc à une <strong>petite perte de performance</strong>. Mais si cette perte est faible (quelques pourcents), et que le gain en <strong>vitesse</strong> est grand (10× plus rapide), c’est souvent un très bon compromis en pratique.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Les premières 60000 images -&gt; train set</span>
+<span class="c1"># Les dernières 10000 images -&gt; test set</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">60_000</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="mi">60_000</span><span class="p">:],</span> <span class="n">y</span><span class="p">[:</span><span class="mi">60_000</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">60_000</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="sans-pca-le-baseline">
+<h4>Sans PCA — le baseline<a class="headerlink" href="#sans-pca-le-baseline" title="Lien permanent vers cette rubrique">#</a></h4>
+<p><strong>On entraîne d’abord sur les 784 pixels bruts.</strong> C’est notre référence : le score à battre (ou à approcher).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cross_val_score</span><span class="p">(</span>
+    <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.96405, 0.963  , 0.96495])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="avec-pca-compression-a-256-64-et-16-dimensions">
+<h4>Avec PCA — compression à 256, 64 et 16 dimensions<a class="headerlink" href="#avec-pca-compression-a-256-64-et-16-dimensions" title="Lien permanent vers cette rubrique">#</a></h4>
+<p><strong>On compare maintenant</strong> trois niveaux de compression. Combien de composantes peut-on supprimer avant que le modèle ne s’effondre ?</p>
+<blockquote>
+<div><p><strong>À quoi s’attendre ?</strong> Une légère dégradation en passant de 784 → 256, un peu plus forte en allant à 64, et significative à 16. L’objectif est de <strong>situer le bon compromis</strong> pour ce cas d’usage.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+<span class="n">X_reduced</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">cross_val_score</span><span class="p">(</span>
+    <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">X_reduced</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.9355 , 0.9317 , 0.93815])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<span class="n">X_reduced</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">cross_val_score</span><span class="p">(</span>
+    <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">X_reduced</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.94665, 0.94205, 0.9486 ])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">X_reduced</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">cross_val_score</span><span class="p">(</span>
+    <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">X_reduced</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.93515, 0.93425, 0.93565])
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Observation :</strong> on constate une <strong>légère diminution de la justesse</strong> à mesure qu’on compresse, mais avec des résultats <strong>étonnamment bons</strong> — <strong>même avec seulement 16 dimensions</strong> (au lieu de 784 !).</p>
+<blockquote>
+<div><p><strong>🎯 Ce que ça signifie concrètement :</strong></p>
+<ul class="simple">
+<li><p>On peut <strong>diviser par ~50 le nombre de features</strong> tout en gardant un modèle fonctionnel.</p></li>
+<li><p>L’entraînement devient <strong>beaucoup plus rapide</strong> (des minutes au lieu d’heures sur de gros datasets).</p></li>
+<li><p>Le stockage et la mémoire nécessaires sont <strong>divisés d’autant</strong>.</p></li>
+</ul>
+<p><strong>Quand ça paye vraiment :</strong> sur des datasets <strong>énormes</strong> (images haute résolution, textes vectorisés…) où chaque dimension coûte cher en temps et en mémoire, une PCA intelligente peut faire la différence entre <em>« ça ne tient pas sur ma machine »</em> et <em>« ça tourne en quelques minutes »</em>.</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+<section id="utiliser-des-algorithmes-pour-selectionner-les-features">
+<h2>Utiliser des algorithmes pour <strong>sélectionner</strong> les features<a class="headerlink" href="#utiliser-des-algorithmes-pour-selectionner-les-features" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>La PCA <strong>crée de nouvelles features</strong> (combinaisons linéaires des originales). Une approche alternative est de <strong>sélectionner</strong> directement les meilleures features parmi celles qu’on a déjà.</p>
+<section id="utiliser-feature-importances">
+<h3>Utiliser <code class="docutils literal notranslate"><span class="pre">feature_importances_</span></code><a class="headerlink" href="#utiliser-feature-importances" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Comme on l’a vu plus haut, certains algorithmes (Random Forest, Gradient Boosting, XGBoost, LightGBM) fournissent naturellement une <strong>mesure d’importance</strong> de chaque feature. On peut :</p>
+<ol class="arabic simple">
+<li><p>Entraîner un premier modèle sur toutes les features.</p></li>
+<li><p>Trier les features par importance décroissante.</p></li>
+<li><p>Ne garder que les <span class="math notranslate nohighlight">\(k\)</span> meilleures (par exemple les 20% qui représentent 80% de l’importance — règle de Pareto).</p></li>
+<li><p>Réentraîner un modèle final sur ce sous-ensemble.</p></li>
+</ol>
+<p><strong>Avantage par rapport à la PCA :</strong> on garde les <strong>features d’origine</strong>, donc on préserve l’interprétabilité. Une analyse <em>« les 5 features les plus prédictives sont X, Y, Z, … »</em> reste possible.</p>
+</section>
+<section id="utiliser-la-regularisation-lasso">
+<h3>Utiliser la régularisation Lasso<a class="headerlink" href="#utiliser-la-regularisation-lasso" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>La <strong>régularisation <span class="math notranslate nohighlight">\(L_1\)</span> (Lasso)</strong> a une propriété remarquable : elle <strong>met exactement à 0</strong> les coefficients des features les moins utiles. À la fin de l’entraînement, les features gardées sont celles dont le coefficient n’est pas à 0 — <strong>Lasso fait de la sélection automatique</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LassoCV</span>
+<span class="n">lasso</span> <span class="o">=</span> <span class="n">LassoCV</span><span class="p">(</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="c1"># Features sélectionnées (coefficient non nul)</span>
+<span class="n">selected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lasso</span><span class="o">.</span><span class="n">coef_</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="autres-outils-scikit-learn">
+<h3>Autres outils scikit-learn<a class="headerlink" href="#autres-outils-scikit-learn" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SelectKBest</span></code></strong> — sélectionne les <span class="math notranslate nohighlight">\(k\)</span> features ayant le meilleur score d’un test statistique (chi², F-test, mutual info).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">RFE</span></code> (<em>Recursive Feature Elimination</em>)</strong> — élimine une feature à la fois et mesure l’impact.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SelectFromModel</span></code></strong> — utilise un modèle (Lasso, RandomForest…) pour choisir les features en fonction de leur importance.</p></li>
+</ul>
+</section>
+</section>
+<section id="manifold-learning-quand-la-pca-ne-suffit-pas">
+<h2>Manifold learning — quand la PCA ne suffit pas<a class="headerlink" href="#manifold-learning-quand-la-pca-ne-suffit-pas" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="l-idee-du-manifold-ou-variete">
+<h3>L’idée du « manifold » (ou <em>variété</em>)<a class="headerlink" href="#l-idee-du-manifold-ou-variete" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Une variété de dimension <span class="math notranslate nohighlight">\(d\)</span> dans un espace de dimension <span class="math notranslate nohighlight">\(n\)</span></strong> (<span class="math notranslate nohighlight">\(d &lt; n\)</span>) est une structure qui, localement, ressemble à un espace <span class="math notranslate nohighlight">\(d\)</span>-dimensionnel, même si elle « vit » dans un espace de dimension plus grande.</p>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> imagine une <strong>feuille de papier roulée en boule</strong> dans une pièce. La pièce est 3D, mais la feuille elle-même est 2D — c’est une variété de dimension 2 plongée dans un espace de dimension 3. Si on la « déroule » mentalement, on retrouve une feuille plate. <strong>Le manifold learning, c’est apprendre à dérouler cette feuille</strong> sans la déchirer.</p>
+</div></blockquote>
+</section>
+<section id="l-hypothese-du-manifold">
+<h3>L’hypothèse du manifold<a class="headerlink" href="#l-hypothese-du-manifold" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’hypothèse centrale :</strong> <em>« les données de grande dimension vivent souvent, en pratique, sur une variété de dimension bien plus faible »</em>.</p>
+<p>Par exemple, les <strong>28×28 = 784 pixels</strong> de MNIST forment théoriquement un espace à 784 dimensions, mais en pratique, les chiffres manuscrits occupent un <strong>sous-espace beaucoup plus petit</strong> (peut-être 10 ou 20 dimensions) — celui des « formes qui ressemblent à des chiffres ». Tout le reste des 784 dimensions est inutilisé.</p>
+<p><strong>Ce n’est pas toujours vrai</strong> — parfois les données sont véritablement éparpillées dans l’espace complet. Mais quand c’est vrai, ça ouvre la porte à des techniques de réduction bien plus puissantes que la PCA linéaire.</p>
+</section>
+<section id="les-principales-techniques">
+<h3>Les principales techniques<a class="headerlink" href="#les-principales-techniques" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Technique</p></th>
+<th class="head"><p>Usage typique</p></th>
+<th class="head"><p>Force</p></th>
+<th class="head"><p>Limitation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Kernel PCA</strong></p></td>
+<td><p>Généraliste, variétés simples</p></td>
+<td><p>Gère les relations non linéaires</p></td>
+<td><p>Nécessite de choisir un kernel</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>t-SNE</strong></p></td>
+<td><p><strong>Visualisation 2D/3D</strong> d’embeddings</p></td>
+<td><p>Excellent pour voir les clusters</p></td>
+<td><p>Lent, stochastique, pas inversible</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>UMAP</strong></p></td>
+<td><p>Visualisation + réduction</p></td>
+<td><p>Plus rapide que t-SNE, préserve mieux la structure globale</p></td>
+<td><p>Hyperparamètres délicats</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Isomap</strong></p></td>
+<td><p>Variétés courbes</p></td>
+<td><p>Préserve les distances géodésiques</p></td>
+<td><p>Sensible au bruit, lent</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>LLE</strong> (<em>Locally Linear Embedding</em>)</p></td>
+<td><p>Variétés lisses</p></td>
+<td><p>Bonne préservation locale</p></td>
+<td><p>Sensible aux paramètres</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="quand-utiliser-chaque-outil">
+<h3>Quand utiliser chaque outil<a class="headerlink" href="#quand-utiliser-chaque-outil" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong>Pour compresser et accélérer un modèle</strong> → <strong>PCA</strong> en premier choix. Simple, rapide, testée.</p></li>
+<li><p><strong>Pour visualiser un dataset en 2D</strong> → <strong>UMAP</strong> (ou <strong>t-SNE</strong> si on cible la bonne séparation visuelle des clusters).</p></li>
+<li><p><strong>Pour explorer les patterns cachés</strong> dans un dataset complexe (texte embeddings, images) → <strong>UMAP</strong> ou <strong>t-SNE</strong>.</p></li>
+<li><p><strong>Pour un dataset avec des relations vraiment non linéaires</strong> → <strong>Kernel PCA</strong> ou <strong>Isomap</strong>.</p></li>
+</ul>
+</section>
+</section>
+<section id="pour-resumer-reduction-de-dimensions-en-pratique">
+<h2>🎯 Pour résumer — réduction de dimensions en pratique<a class="headerlink" href="#pour-resumer-reduction-de-dimensions-en-pratique" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="quand-l-utiliser">
+<h3>Quand l’utiliser<a class="headerlink" href="#quand-l-utiliser" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Dataset à très grandes dimensions</strong> : images, textes vectorisés, séries temporelles longues, logs bruts.</p></li>
+<li><p>✅ <strong>Modèles sensibles à la dimensionnalité</strong> : KNN, K-Means, SVM, régressions régularisées.</p></li>
+<li><p>✅ <strong>Visualisation</strong> d’un dataset en 2D/3D pour l’EDA.</p></li>
+<li><p>✅ <strong>Accélération</strong> d’entraînement quand le temps compte (itérations rapides en exploration).</p></li>
+<li><p>✅ <strong>Suppression de bruit</strong> : les composantes à faible variance capturent souvent du bruit.</p></li>
+</ul>
+</section>
+<section id="quand-ne-pas-s-en-occuper">
+<h3>Quand ne pas s’en occuper<a class="headerlink" href="#quand-ne-pas-s-en-occuper" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>❌ <strong>Dataset à faible dimensionnalité</strong> (&lt; 50 features) → rarement utile. Le coût de la perte d’interprétabilité ne se justifie pas.</p></li>
+<li><p>❌ <strong>Modèles à arbres</strong> (Random Forest, XGBoost) sur dataset modéré → ils gèrent bien la haute dimension et perdent souvent en performance après PCA.</p></li>
+<li><p>❌ <strong>Interprétabilité critique</strong> → la PCA crée des features non interprétables. Préférer la <strong>sélection de features</strong> (Lasso, importance de RF).</p></li>
+</ul>
+</section>
+<section id="les-outils-a-connaitre">
+<h3>Les outils à connaître<a class="headerlink" href="#les-outils-a-connaitre" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Outil</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Usage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">PCA</span></code></strong></p></td>
+<td><p>Linéaire</p></td>
+<td><p>Référence par défaut. Simple, rapide, explicable.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">TruncatedSVD</span></code></strong></p></td>
+<td><p>Linéaire</p></td>
+<td><p>PCA pour matrices creuses (textes TF-IDF par exemple).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">KernelPCA</span></code></strong></p></td>
+<td><p>Non linéaire</p></td>
+<td><p>Quand la PCA linéaire ne capture pas la structure.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">t-SNE</span></code></strong></p></td>
+<td><p>Non linéaire</p></td>
+<td><p>Visualisation 2D/3D. Excellent pour voir les clusters.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">UMAP</span></code></strong></p></td>
+<td><p>Non linéaire</p></td>
+<td><p>Visualisation moderne. Plus rapide que t-SNE.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">Isomap</span></code>, <code class="docutils literal notranslate"><span class="pre">LLE</span></code></strong></p></td>
+<td><p>Non linéaire</p></td>
+<td><p>Variantes pour structures spécifiques (courbes, surfaces).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">SelectKBest</span></code>, <code class="docutils literal notranslate"><span class="pre">RFE</span></code></strong></p></td>
+<td><p>Sélection</p></td>
+<td><p>Garder les features d’origine (pas de transformation).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Lasso / RandomForest importance</strong></p></td>
+<td><p>Sélection</p></td>
+<td><p>Méthodes simples et efficaces sur données tabulaires.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="les-bonnes-pratiques">
+<h3>Les bonnes pratiques<a class="headerlink" href="#les-bonnes-pratiques" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Toujours normaliser avant PCA</strong> (<code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>) quand les features sont d’échelles différentes.</p></li>
+<li><p>✅ <strong>Choisir le nombre de composantes</strong> en regardant la <strong>courbe de variance expliquée</strong> : <code class="docutils literal notranslate"><span class="pre">pca.explained_variance_ratio_.cumsum()</span></code>. Un coude naturel indique souvent le bon choix.</p></li>
+<li><p>✅ <strong>Fitter sur le train uniquement</strong>, appliquer au test — toujours la règle d’or anti-leakage.</p></li>
+<li><p>✅ <strong>Mesurer l’impact</strong> en cross-validation avant/après — s’assurer que la compression vaut le coup.</p></li>
+<li><p>✅ <strong>Pour la visualisation</strong>, utiliser PCA d’abord pour débruiter (par exemple vers 50 dimensions), <strong>puis</strong> t-SNE / UMAP pour la projection 2D finale. C’est le combo standard en pratique.</p></li>
+</ul>
+</section>
+<section id="les-pieges-a-eviter">
+<h3>Les pièges à éviter<a class="headerlink" href="#les-pieges-a-eviter" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>⚠️ <strong>Ne pas normaliser avant PCA</strong> → une feature dominante écrase tout. Erreur classique.</p></li>
+<li><p>⚠️ <strong>Interpréter les composantes principales comme des concepts métier</strong> → ce sont des combinaisons mathématiques, pas des réalités physiques. Décrire <code class="docutils literal notranslate"><span class="pre">PC1</span></code> en mots est risqué.</p></li>
+<li><p>⚠️ <strong>Appliquer t-SNE avec différents paramètres et comparer</strong> → chaque run peut donner des visualisations très différentes (t-SNE est stochastique). Toujours fixer <code class="docutils literal notranslate"><span class="pre">random_state</span></code> et essayer plusieurs <code class="docutils literal notranslate"><span class="pre">perplexity</span></code>.</p></li>
+<li><p>⚠️ <strong>Utiliser la réduction de dimensions comme baguette magique</strong> → ce n’est pas un remède universel. Parfois, elle fait perdre plus qu’elle ne gagne. Toujours <strong>mesurer</strong>.</p></li>
+</ul>
+</section>
+<section id="le-mot-de-la-fin">
+<h3>Le mot de la fin<a class="headerlink" href="#le-mot-de-la-fin" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>La réduction de dimensions est un outil d’optimisation, pas de magie.</strong> Dans 80% des cas tabulaires, tu peux t’en passer — les modèles modernes (XGBoost, LightGBM) gèrent bien la haute dimension. Mais pour les cas où elle est vraiment utile (très grandes dimensions, visualisation, modèles sensibles), la PCA reste <strong>la première à essayer</strong> pour sa simplicité et sa robustesse. Les techniques non linéaires (UMAP, t-SNE) sont là pour les cas où la PCA ne capte pas la structure — et pour l’exploration visuelle, où elles brillent.</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours-exe/08-advanced-feature-engineering"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03-improve-distribution.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Améliorer une « mauvaise » distribution</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../cours/09-deep-learning/01-deep-learning.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Deep learning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-reduire-la-dimensionnalite">Pourquoi réduire la dimensionnalité ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-trois-problemes-d-avoir-trop-de-features">Les trois problèmes d’avoir trop de features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-malediction-de-la-dimensionnalite">La malédiction de la dimensionnalité</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-calcul-qui-fait-peur">Le calcul qui fait peur</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-phenomene-de-hughes">Le phénomène de Hughes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-plan-de-ce-notebook">Le plan de ce notebook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features-inutiles">Features « inutiles »</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantifier-l-importance-avec-feature-importances">Quantifier l’importance avec <code class="docutils literal notranslate"><span class="pre">feature_importances_</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-principal-component-analysis">PCA (Principal Component Analysis)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-idee-intuitive">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-peu-de-mathematiques-pour-les-curieux">Un peu de mathématiques (pour les curieux)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-que-permet-la-pca">Ce que permet la PCA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-pca-inverse-reconstituer-les-donnees">La PCA inverse — reconstituer les données</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pieges-a-connaitre">⚠️ Pièges à connaître</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effet-de-la-pca-sur-l-apprentissage">Effet de la PCA sur l’apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sans-pca-le-baseline">Sans PCA — le baseline</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#avec-pca-compression-a-256-64-et-16-dimensions">Avec PCA — compression à 256, 64 et 16 dimensions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utiliser-des-algorithmes-pour-selectionner-les-features">Utiliser des algorithmes pour <strong>sélectionner</strong> les features</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#utiliser-feature-importances">Utiliser <code class="docutils literal notranslate"><span class="pre">feature_importances_</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#utiliser-la-regularisation-lasso">Utiliser la régularisation Lasso</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-outils-scikit-learn">Autres outils scikit-learn</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manifold-learning-quand-la-pca-ne-suffit-pas">Manifold learning — quand la PCA ne suffit pas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-idee-du-manifold-ou-variete">L’idée du « manifold » (ou <em>variété</em>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-hypothese-du-manifold">L’hypothèse du manifold</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-principales-techniques">Les principales techniques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-utiliser-chaque-outil">Quand utiliser chaque outil</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-reduction-de-dimensions-en-pratique">🎯 Pour résumer — réduction de dimensions en pratique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-l-utiliser">Quand l’utiliser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-ne-pas-s-en-occuper">Quand ne pas s’en occuper</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-outils-a-connaitre">Les outils à connaître</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-bonnes-pratiques">Les bonnes pratiques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-a-eviter">Les pièges à éviter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,780 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>La méthodologie d’un projet ML &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours/06-mise-en-production/02-methodologie-projet-ml';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Travailler en équipe sur du ML" href="03-travail-en-equipe-et-donnees.html" />
+    <link rel="prev" title="Gérer ses environnements Python" href="01-environnements-python.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours/06-mise-en-production/02-methodologie-projet-ml.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>La méthodologie d’un projet ML</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-projet-ml-n-est-pas-un-projet-logiciel-classique">Un projet ML n’est pas un projet logiciel classique</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-phase-de-r-d-l-ingredient-qui-change-tout">La phase de R&amp;D : l’ingrédient qui change tout</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exemple-un-projet-de-maintenance-predictive">Exemple : un projet de maintenance prédictive</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-projet-peut-etre-no-go-et-c-est-ok">Le projet peut être « no go » — et c’est OK</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-cycle-realiste-d-un-projet-ml">Le cycle réaliste d’un projet ML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-phases-qu-on-ne-saute-pas">Les phases qu’on ne saute pas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cadrage-metier-12-semaines">1. Cadrage métier (1–2 semaines)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploration-des-donnees-24-semaines">2. Exploration des données (2–4 semaines)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prototypage-26-semaines">3. Prototypage (2–6 semaines)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-metier-12-semaines">4. Validation métier (1–2 semaines)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#industrialisation-412-semaines">5. Industrialisation (4–12 semaines)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#production-monitoring-permanent">6. Production &amp; monitoring (permanent)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-retenir">🎯 À retenir</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="la-methodologie-d-un-projet-ml">
+<h1>La méthodologie d’un projet ML<a class="headerlink" href="#la-methodologie-d-un-projet-ml" title="Lien permanent vers cette rubrique">#</a></h1>
+<section id="un-projet-ml-n-est-pas-un-projet-logiciel-classique">
+<h2>Un projet ML n’est pas un projet logiciel classique<a class="headerlink" href="#un-projet-ml-n-est-pas-un-projet-logiciel-classique" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Si vous avez déjà participé à un projet de développement — site web, application mobile, logiciel métier — vous connaissez le cycle classique :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Spécifications → Conception → Développement → Tests → Livraison
+</pre></div>
+</div>
+<p>Chaque étape a un livrable clair, un planning, des critères d’acceptation. Le client sait ce qu’il va recevoir. L’équipe sait quand elle aura fini. <strong>Le résultat est essentiellement prévisible</strong> : on sait qu’on est capable de faire une page de connexion, un formulaire, un panier d’achat — c’est « juste » une question de temps et de rigueur.</p>
+<p><strong>Un projet ML, c’est fondamentalement différent.</strong> On part d’une question du type :</p>
+<blockquote>
+<div><p>« Est-ce qu’on peut prédire le risque de panne d’un équipement à partir des capteurs ? »
+« Est-ce qu’on peut détecter automatiquement les fraudes dans nos transactions ? »
+« Est-ce qu’on peut classer les tickets support par thème pour accélérer le routage ? »</p>
+</div></blockquote>
+<p>La réponse honnête, au démarrage du projet, c’est : <strong>« On ne sait pas. Il faut essayer. »</strong></p>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> un projet logiciel classique, c’est comme <strong>construire une maison</strong>. L’architecte dessine, les maçons posent les briques, la maison finit par exister. Un projet ML, c’est comme <strong>monter une expédition scientifique</strong> : vous avez une hypothèse (« il y a peut-être un gisement là-bas »), vous partez avec du matériel, mais <strong>vous ne savez pas à l’avance si vous allez trouver quelque chose</strong>. Parfois oui. Parfois non. Parfois ce qu’on trouve n’a rien à voir avec ce qu’on cherchait.</p>
+</div></blockquote>
+</section>
+<section id="la-phase-de-r-d-l-ingredient-qui-change-tout">
+<h2>La phase de R&amp;D : l’ingrédient qui change tout<a class="headerlink" href="#la-phase-de-r-d-l-ingredient-qui-change-tout" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Un projet ML commence <strong>toujours</strong> par une phase de <strong>recherche &amp; développement</strong> — même sur des sujets qui paraissent simples. Cette phase répond à trois questions :</p>
+<ol class="arabic simple">
+<li><p><strong>Les données existent-elles ?</strong> (et sont-elles utilisables)</p></li>
+<li><p><strong>Le signal est-il assez fort</strong> pour qu’un modèle l’apprenne ?</p></li>
+<li><p><strong>La performance atteignable</strong> est-elle suffisante pour l’usage visé ?</p></li>
+</ol>
+<p>Tant qu’on n’a pas répondu à ces trois questions, <strong>on ne peut pas promettre de résultat</strong>. C’est la différence fondamentale avec un projet logiciel classique : en ML, la faisabilité <strong>doit être démontrée expérimentalement</strong>, elle ne se déduit pas d’une spécification.</p>
+<section id="exemple-un-projet-de-maintenance-predictive">
+<h3>Exemple : un projet de maintenance prédictive<a class="headerlink" href="#exemple-un-projet-de-maintenance-predictive" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Imaginons une usine qui veut prédire les pannes d’une machine à partir de ses capteurs de température, vibration et pression. Les étapes réalistes :</p>
+<ol class="arabic simple">
+<li><p><strong>Semaine 1–2</strong> : comprendre le métier, les pannes, les données existantes. <em>Conclusion possible : les capteurs n’enregistrent des valeurs que toutes les 10 minutes, or les pannes durent 30 secondes. Les données sont inutilisables telles quelles.</em></p></li>
+<li><p><strong>Semaine 3–4</strong> : récupérer les historiques, nettoyer, labéliser les incidents. <em>Conclusion possible : on n’a que 40 incidents en 2 ans. C’est trop peu pour apprendre.</em></p></li>
+<li><p><strong>Semaine 5–6</strong> : construire un premier modèle baseline, mesurer le recall et la précision. <em>Conclusion possible : on détecte 30 % des pannes 1h avant, avec 50 % de faux positifs. Est-ce utile pour l’usine ?</em></p></li>
+</ol>
+<p>À chaque étape, <strong>le projet peut s’arrêter</strong> — c’est parfaitement normal, et même sain.</p>
+</section>
+</section>
+<section id="le-projet-peut-etre-no-go-et-c-est-ok">
+<h2>Le projet peut être « no go » — et c’est OK<a class="headerlink" href="#le-projet-peut-etre-no-go-et-c-est-ok" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Dans un projet logiciel classique, dire au client « finalement on ne fait pas » est presque un aveu d’échec. En ML, <strong>c’est une conclusion parfaitement acceptable</strong> — à condition de l’avoir démontrée proprement.</p>
+<p>Trois raisons typiques de déclarer un « no go » :</p>
+<ul class="simple">
+<li><p><strong>Données insuffisantes ou inutilisables</strong> (pas assez de volume, pas de labels, qualité douteuse, fuite de données…)</p></li>
+<li><p><strong>Signal trop faible</strong> (même le meilleur modèle imaginable ne dépasse pas 55 % sur un problème binaire où il faut 90 %)</p></li>
+<li><p><strong>Performance atteignable insuffisante pour l’usage</strong> (on sait faire mais l’usage métier demande 99 %, on plafonne à 80 %)</p></li>
+</ul>
+<div class="important admonition">
+<p class="admonition-title">Sur le terrain</p>
+<p>Un « no go » bien documenté est un <strong>livrable à part entière</strong> :</p>
+<ul class="simple">
+<li><p>il explique <strong>pourquoi</strong> ça ne marche pas (données, signal, faisabilité, latence, coût),</p></li>
+<li><p>il dit <strong>ce qu’il faudrait</strong> pour que ça marche (plus de données, un meilleur capteur, un autre approche, un budget différent),</p></li>
+<li><p>il <strong>évite de brûler du budget</strong> sur un projet voué à l’échec.</p></li>
+</ul>
+<p>Un data scientist senior est capable, dans 80 % des cas, de pressentir un no go <strong>avant</strong> la phase d’ingénierie. Ne cachez pas les mauvaises nouvelles — annoncez-les tôt et clairement. C’est ça qui crée la confiance avec les métiers.</p>
+</div>
+</section>
+<section id="le-cycle-realiste-d-un-projet-ml">
+<h2>Le cycle réaliste d’un projet ML<a class="headerlink" href="#le-cycle-realiste-d-un-projet-ml" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Voici le cycle tel qu’il se passe vraiment — beaucoup plus itératif qu’un projet logiciel classique :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>┌─── Cadrage métier ───┐
+│                      ▼
+│             Exploration données
+│                      │
+│                      ▼
+│          ┌──── Prototype modèle ──→ No go ? ──→ 🛑 Arrêt propre
+│          │           │                            (livrable de synthèse)
+│          │           ▼
+│          │     Validation métier ←──── Feedback utilisateur
+│          │           │
+│          │           ▼
+│          │     Industrialisation
+│          │     (scripts, CI, déploiement)
+│          │           │
+│          │           ▼
+│          │     Production &amp; monitoring
+│          │           │
+│          └───────────┤
+│                      │
+└── Ré-entraînement ◄──┘  (le projet ne finit jamais vraiment)
+</pre></div>
+</div>
+<p>Quelques différences majeures avec un projet logiciel classique :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Projet logiciel classique</p></th>
+<th class="head"><p>Projet ML</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Spécifications complètes au départ</p></td>
+<td><p>Hypothèses floues, à valider expérimentalement</p></td>
+</tr>
+<tr class="row-odd"><td><p>Planning prévisible</p></td>
+<td><p>Planning par <strong>jalons</strong> et <strong>go/no-go</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Livrable = code + UI</p></td>
+<td><p>Livrable = <strong>modèle + données + code</strong> (triple)</p></td>
+</tr>
+<tr class="row-odd"><td><p>« Fini » = déployé</p></td>
+<td><p>« Fini » = <strong>jamais</strong> (ré-entraînement continu)</p></td>
+</tr>
+<tr class="row-even"><td><p>Tests unitaires / intégration</p></td>
+<td><p>Tests de <strong>performance</strong> sur données de validation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bug = ligne de code à corriger</p></td>
+<td><p>« Bug » = souvent un problème de <strong>données</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="les-phases-qu-on-ne-saute-pas">
+<h2>Les phases qu’on ne saute pas<a class="headerlink" href="#les-phases-qu-on-ne-saute-pas" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="cadrage-metier-12-semaines">
+<h3>1. Cadrage métier (1–2 semaines)<a class="headerlink" href="#cadrage-metier-12-semaines" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Avant d’écrire une ligne de code : <strong>comprendre le problème métier</strong>.</p>
+<ul class="simple">
+<li><p><strong>Quelle est la question à laquelle on répond ?</strong> (prédire quoi, pour qui, quand)</p></li>
+<li><p><strong>Qu’est-ce qu’une « bonne » prédiction pour le métier ?</strong> (seuil de précision ? rappel prioritaire ? latence max ?)</p></li>
+<li><p><strong>Qui va utiliser le modèle et comment ?</strong> (alerte en temps réel ? rapport hebdomadaire ?)</p></li>
+<li><p><strong>Quelles actions</strong> seront prises sur la base des prédictions ? (automatiques ? humain dans la boucle ?)</p></li>
+<li><p><strong>Quel est le coût d’un faux positif et d’un faux négatif ?</strong> (pas du tout la même chose en médecine, en fraude, en marketing)</p></li>
+</ul>
+<p>Cette phase <strong>n’a rien à voir avec le ML</strong> — c’est du dialogue métier. Et pourtant, <strong>c’est elle qui fait la différence entre un projet utile et une démo gadget</strong>.</p>
+</section>
+<section id="exploration-des-donnees-24-semaines">
+<h3>2. Exploration des données (2–4 semaines)<a class="headerlink" href="#exploration-des-donnees-24-semaines" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>D’où viennent les données ? Qui les produit ? Comment sont-elles collectées ?</p></li>
+<li><p>Quelle est la <strong>qualité</strong> ? (manquants, incohérences, changements de format au cours du temps)</p></li>
+<li><p>Y a-t-il des <strong>biais</strong> cachés ? (sous-représentation de certaines populations, survivor bias, data leakage…)</p></li>
+<li><p>Y a-t-il <strong>assez</strong> de données ? De <strong>labels</strong> ?</p></li>
+</ul>
+<p>Cette phase révèle presque toujours des surprises — et parfois décide à elle seule de la faisabilité du projet.</p>
+</section>
+<section id="prototypage-26-semaines">
+<h3>3. Prototypage (2–6 semaines)<a class="headerlink" href="#prototypage-26-semaines" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On construit un premier modèle, aussi simple que possible, pour <strong>répondre à la question de faisabilité</strong>. L’objectif n’est <strong>pas</strong> d’avoir un modèle parfait : c’est de <strong>savoir s’il y a du signal</strong>.</p>
+<p>C’est le moment où un <strong>baseline simple</strong> (régression logistique, arbre de décision) est ami : s’il obtient déjà 75 % sur un problème qui en demande 80 %, la suite est une question d’optimisation. S’il est à 51 % sur un problème binaire, <strong>il n’y a peut-être rien à apprendre</strong> — ou alors vos données ne portent pas le signal que vous cherchez.</p>
+</section>
+<section id="validation-metier-12-semaines">
+<h3>4. Validation métier (1–2 semaines)<a class="headerlink" href="#validation-metier-12-semaines" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On présente le prototype au métier. Ils testent, ils critiquent, ils donnent leur avis. <strong>C’est ici qu’on décide go/no-go</strong> sur l’industrialisation.</p>
+<p>Souvent le métier pointe des cas limites auxquels le data scientist n’avait pas pensé (« Attention, ce cas-là on ne doit JAMAIS le classer comme positif, ça casserait la relation client »). Ces retours sont <strong>cruciaux</strong> et <strong>précieux</strong> — ils obligent à raffiner ou recalibrer.</p>
+</section>
+<section id="industrialisation-412-semaines">
+<h3>5. Industrialisation (4–12 semaines)<a class="headerlink" href="#industrialisation-412-semaines" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On transforme le prototype en code de production — c’est la phase où intervient tout le module 6 : structurer en scripts, sérialiser, déployer, monitorer (voir chapitres suivants). Cette phase est <strong>beaucoup plus proche d’un projet logiciel classique</strong> : on sait ce qu’on veut, il faut le construire proprement.</p>
+</section>
+<section id="production-monitoring-permanent">
+<h3>6. Production &amp; monitoring (permanent)<a class="headerlink" href="#production-monitoring-permanent" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Le modèle est en prod. On surveille ses performances, on collecte les retours utilisateurs, on prépare le ré-entraînement. <strong>Ce n’est pas la fin du projet — c’est son nouveau rythme de croisière.</strong></p>
+</section>
+</section>
+<section id="a-retenir">
+<h2>🎯 À retenir<a class="headerlink" href="#a-retenir" title="Lien permanent vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p><strong>Un projet ML n’est pas un projet logiciel classique</strong> : sa faisabilité se démontre, elle ne se déduit pas d’un cahier des charges.</p></li>
+<li><p><strong>La phase de R&amp;D est obligatoire</strong> — même courte, elle répond aux questions « a-t-on les données ? y a-t-il du signal ? l’usage est-il possible ? ».</p></li>
+<li><p><strong>Un « no go » bien argumenté est un livrable valide</strong> — il évite de brûler du budget sur un projet voué à l’échec.</p></li>
+<li><p><strong>Le cycle est itératif</strong> : cadrage → exploration → prototype → validation métier → industrialisation → production. Et on recommence.</p></li>
+<li><p><strong>Le livrable final n’est pas seulement du code</strong>, c’est le triplet <strong>données + code + modèle</strong>, chacun versionné indépendamment.</p></li>
+</ul>
+<p>Dans le chapitre suivant, on regarde comment une équipe ML s’organise concrètement autour de ces contraintes — compute, accès aux données, travail en équipe, versioning.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours/06-mise-en-production"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01-environnements-python.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Gérer ses environnements Python</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03-travail-en-equipe-et-donnees.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Travailler en équipe sur du ML</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-projet-ml-n-est-pas-un-projet-logiciel-classique">Un projet ML n’est pas un projet logiciel classique</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-phase-de-r-d-l-ingredient-qui-change-tout">La phase de R&amp;D : l’ingrédient qui change tout</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exemple-un-projet-de-maintenance-predictive">Exemple : un projet de maintenance prédictive</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-projet-peut-etre-no-go-et-c-est-ok">Le projet peut être « no go » — et c’est OK</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-cycle-realiste-d-un-projet-ml">Le cycle réaliste d’un projet ML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-phases-qu-on-ne-saute-pas">Les phases qu’on ne saute pas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cadrage-metier-12-semaines">1. Cadrage métier (1–2 semaines)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploration-des-donnees-24-semaines">2. Exploration des données (2–4 semaines)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prototypage-26-semaines">3. Prototypage (2–6 semaines)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validation-metier-12-semaines">4. Validation métier (1–2 semaines)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#industrialisation-412-semaines">5. Industrialisation (4–12 semaines)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#production-monitoring-permanent">6. Production &amp; monitoring (permanent)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-retenir">🎯 À retenir</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

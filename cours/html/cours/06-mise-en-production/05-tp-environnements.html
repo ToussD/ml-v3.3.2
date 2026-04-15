@@ -1,0 +1,985 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>TP — Gérer ses environnements Python au terminal &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours/06-mise-en-production/05-tp-environnements';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Quelques algorithmes de Machine Learning" href="../07-machine-learning-algorithms/01-machine-learning-algorithms.html" />
+    <link rel="prev" title="De la recherche à la production" href="04-de-la-recherche-a-la-prod.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours/06-mise-en-production/05-tp-environnements.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>TP — Gérer ses environnements Python au terminal</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lancer-le-conteneur-sandbox">Lancer le conteneur sandbox</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partie-1-venv-et-pip">Partie 1 — <code class="docutils literal notranslate"><span class="pre">venv</span></code> et <code class="docutils literal notranslate"><span class="pre">pip</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-1-1-creer-un-environnement-venv">Étape 1.1 : Créer un environnement venv</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-1-2-activer-et-installer">Étape 1.2 : Activer et installer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-1-3-figer-les-dependances">Étape 1.3 : Figer les dépendances</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-1-4-reproduire-l-environnement">Étape 1.4 : Reproduire l’environnement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions">❓ Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partie-2-conda">Partie 2 — <code class="docutils literal notranslate"><span class="pre">conda</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-2-1-creer-un-environnement-conda">Étape 2.1 : Créer un environnement conda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-2-2-installer-depuis-conda-forge">Étape 2.2 : Installer depuis <code class="docutils literal notranslate"><span class="pre">conda-forge</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-2-3-figer-avec-environment-yml">Étape 2.3 : Figer avec <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-2-4-reproduire">Étape 2.4 : Reproduire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">❓ Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partie-3-pixi">Partie 3 — <code class="docutils literal notranslate"><span class="pre">pixi</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-1-initialiser-un-projet-pixi">Étape 3.1 : Initialiser un projet pixi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-2-ajouter-des-dependances">Étape 3.2 : Ajouter des dépendances</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-3-entrer-dans-l-environnement-et-verifier">Étape 3.3 : Entrer dans l’environnement et vérifier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-4-lancer-des-commandes-sans-shell">Étape 3.4 : Lancer des commandes sans shell</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-5-definir-des-taches">Étape 3.5 : Définir des tâches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-6-reproduire-l-environnement-a-partir-du-lock-file">Étape 3.6 : Reproduire l’environnement à partir du lock file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">❓ Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partie-4-comparer-les-trois-approches">Partie 4 — Comparer les trois approches</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tableau-a-remplir">Tableau à remplir</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions-de-synthese">Questions de synthèse</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partie-5-challenge-reproduire-un-environnement-existant">Partie 5 — Challenge : reproduire un environnement existant</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-que-vous-avez-appris">🎯 Ce que vous avez appris</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tp-gerer-ses-environnements-python-au-terminal">
+<h1>TP — Gérer ses environnements Python au terminal<a class="headerlink" href="#tp-gerer-ses-environnements-python-au-terminal" title="Lien permanent vers cette rubrique">#</a></h1>
+<div class="tip admonition">
+<p class="admonition-title">Objectifs du TP</p>
+<ul class="simple">
+<li><p>Créer un environnement Python avec <strong>trois outils différents</strong> : <code class="docutils literal notranslate"><span class="pre">venv</span></code>, <code class="docutils literal notranslate"><span class="pre">conda</span></code>, <code class="docutils literal notranslate"><span class="pre">pixi</span></code>.</p></li>
+<li><p>Figer les dépendances dans un fichier versionnable (<code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code>, <code class="docutils literal notranslate"><span class="pre">pixi.toml</span></code>).</p></li>
+<li><p><strong>Comparer par vous-même</strong> la rapidité, l’ergonomie et la reproductibilité.</p></li>
+<li><p>Reproduire l’environnement à partir du fichier figé (le critère numéro 1 en production).</p></li>
+</ul>
+</div>
+<p>Ce TP se fait <strong>entièrement dans un terminal</strong> — pas dans un notebook. L’idée est d’utiliser les outils <strong>comme vous le feriez sur une vraie machine de travail</strong>, sans la couche Jupyter.</p>
+<section id="lancer-le-conteneur-sandbox">
+<h2>Lancer le conteneur sandbox<a class="headerlink" href="#lancer-le-conteneur-sandbox" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Depuis la <strong>racine du dossier stagiaire</strong> (là où se trouvent <code class="docutils literal notranslate"><span class="pre">cours-ml-exe.sh</span></code> et <code class="docutils literal notranslate"><span class="pre">sandbox-exe.sh</span></code>), ouvrez un terminal et lancez :</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>./sandbox-exe.sh
+</pre></div>
+</div>
+<p>Ce script démarre un conteneur <code class="docutils literal notranslate"><span class="pre">continuumio/miniconda3</span></code> interactif avec :</p>
+<ul class="simple">
+<li><p><strong>conda</strong> et <strong>Python 3.11</strong> déjà installés ;</p></li>
+<li><p><strong>pixi</strong> installé automatiquement au démarrage ;</p></li>
+<li><p>le dossier <code class="docutils literal notranslate"><span class="pre">tp-sandbox/</span></code> monté sur <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> (les fichiers que vous créez persistent) ;</p></li>
+<li><p>un prompt <code class="docutils literal notranslate"><span class="pre">bash</span></code> dans lequel vous allez taper toutes les commandes.</p></li>
+</ul>
+<p>Quand vous voyez le prompt <code class="docutils literal notranslate"><span class="pre">(base)</span> <span class="pre">$</span></code>, vous êtes dedans. Vérifiez que les trois outils fonctionnent :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>--version
+conda<span class="w"> </span>--version
+pixi<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>Les trois doivent répondre sans erreur. <strong>Si c’est le cas, vous êtes prêt à commencer.</strong> Pour quitter le conteneur, tapez <code class="docutils literal notranslate"><span class="pre">exit</span></code> — tout ce que vous avez créé dans <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> reste sur votre machine hôte.</p>
+</section>
+<section id="partie-1-venv-et-pip">
+<h2>Partie 1 — <code class="docutils literal notranslate"><span class="pre">venv</span></code> et <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#partie-1-venv-et-pip" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="etape-1-1-creer-un-environnement-venv">
+<h3>Étape 1.1 : Créer un environnement venv<a class="headerlink" href="#etape-1-1-creer-un-environnement-venv" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Placez-vous dans le dossier de travail et créez un premier environnement :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspace
+mkdir<span class="w"> </span>projet-venv<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>projet-venv
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+</pre></div>
+</div>
+<p><strong>Observez</strong> ce qui a été créé :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-la<span class="w"> </span>.venv/
+</pre></div>
+</div>
+<p>Vous voyez un dossier complet avec une copie de Python, ses bibliothèques standard, et un dossier <code class="docutils literal notranslate"><span class="pre">bin/</span></code> contenant <code class="docutils literal notranslate"><span class="pre">python</span></code>, <code class="docutils literal notranslate"><span class="pre">pip</span></code> et les scripts d’activation.</p>
+</section>
+<section id="etape-1-2-activer-et-installer">
+<h3>Étape 1.2 : Activer et installer<a class="headerlink" href="#etape-1-2-activer-et-installer" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</pre></div>
+</div>
+<p>Le prompt doit maintenant afficher <code class="docutils literal notranslate"><span class="pre">(.venv)</span> <span class="pre">(base)</span> <span class="pre">$</span></code>. Installez quelques bibliothèques :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scikit-learn<span class="w"> </span>pandas<span class="w"> </span>numpy
+</pre></div>
+</div>
+<p><strong>Chronométrez</strong> mentalement : combien de temps ça a pris ? (En général, 30–60 secondes selon votre connexion.)</p>
+</section>
+<section id="etape-1-3-figer-les-dependances">
+<h3>Étape 1.3 : Figer les dépendances<a class="headerlink" href="#etape-1-3-figer-les-dependances" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>freeze<span class="w"> </span>&gt;<span class="w"> </span>requirements.txt
+cat<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>Vous obtenez un fichier listant <strong>toutes</strong> les bibliothèques installées, <strong>avec leurs versions exactes</strong>. Par exemple :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">numpy</span><span class="o">==</span><span class="mf">1.26.4</span>
+<span class="n">pandas</span><span class="o">==</span><span class="mf">2.2.2</span>
+<span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">==</span><span class="mf">1.5.0</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p><strong>Remarquez</strong> : ce fichier inclut aussi les <strong>dépendances transitives</strong> (les bibliothèques installées parce qu’une autre en avait besoin). Impossible de distinguer, dans ce fichier, ce que <strong>vous</strong> avez demandé de ce qui a été installé <strong>automatiquement</strong>.</p>
+</section>
+<section id="etape-1-4-reproduire-l-environnement">
+<h3>Étape 1.4 : Reproduire l’environnement<a class="headerlink" href="#etape-1-4-reproduire-l-environnement" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Pour simuler un·e collègue qui clonerait votre projet :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deactivate
+rm<span class="w"> </span>-rf<span class="w"> </span>.venv
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>Ça doit marcher à l’identique. <strong>C’est ça, la reproductibilité</strong> — et c’est exactement ce que l’équipe ops fait quand elle déploie votre projet.</p>
+</section>
+<section id="questions">
+<h3>❓ Questions<a class="headerlink" href="#questions" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p>Que se passe-t-il si vous installez sans activer l’environnement (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">xxx</span></code> dans un autre terminal, sans <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">.venv/bin/activate</span></code>) ?</p></li>
+<li><p>Le fichier <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> est-il <strong>portable</strong> entre Linux, macOS et Windows ? Dans quels cas pourrait-il échouer ?</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>deactivate
+<span class="nb">cd</span><span class="w"> </span>/workspace
+</pre></div>
+</div>
+</section>
+</section>
+<section id="partie-2-conda">
+<h2>Partie 2 — <code class="docutils literal notranslate"><span class="pre">conda</span></code><a class="headerlink" href="#partie-2-conda" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="etape-2-1-creer-un-environnement-conda">
+<h3>Étape 2.1 : Créer un environnement conda<a class="headerlink" href="#etape-2-1-creer-un-environnement-conda" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspace
+mkdir<span class="w"> </span>projet-conda<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>projet-conda
+conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>ml-projet<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11<span class="w"> </span>-y
+conda<span class="w"> </span>activate<span class="w"> </span>ml-projet
+</pre></div>
+</div>
+<p>Le prompt affiche maintenant <code class="docutils literal notranslate"><span class="pre">(ml-projet)</span> <span class="pre">(base)</span> <span class="pre">$</span></code>.</p>
+</section>
+<section id="etape-2-2-installer-depuis-conda-forge">
+<h3>Étape 2.2 : Installer depuis <code class="docutils literal notranslate"><span class="pre">conda-forge</span></code><a class="headerlink" href="#etape-2-2-installer-depuis-conda-forge" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>scikit-learn<span class="w"> </span>pandas<span class="w"> </span>numpy<span class="w"> </span>-y
+</pre></div>
+</div>
+<p><strong>Chronométrez</strong> : combien de temps cette fois ? (Souvent 1–3 min avec conda classique — c’est normal, c’est le défaut connu de conda.)</p>
+</section>
+<section id="etape-2-3-figer-avec-environment-yml">
+<h3>Étape 2.3 : Figer avec <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code><a class="headerlink" href="#etape-2-3-figer-avec-environment-yml" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--no-builds<span class="w"> </span>&gt;<span class="w"> </span>environment.yml
+cat<span class="w"> </span>environment.yml
+</pre></div>
+</div>
+<p>Observez la différence avec <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> :</p>
+<ul class="simple">
+<li><p>le fichier mentionne <code class="docutils literal notranslate"><span class="pre">python=3.11</span></code> <strong>explicitement</strong> (alors que venv ne le sauvegarde pas : vous êtes limité·e à la version installée sur la machine) ;</p></li>
+<li><p>il a deux sections : <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> (conda) et <code class="docutils literal notranslate"><span class="pre">pip</span></code> (si vous aviez utilisé pip dans cet env) ;</p></li>
+<li><p>il mentionne les <strong>channels</strong> (<code class="docutils literal notranslate"><span class="pre">conda-forge</span></code>) — important pour que <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span></code> sache où chercher.</p></li>
+</ul>
+</section>
+<section id="etape-2-4-reproduire">
+<h3>Étape 2.4 : Reproduire<a class="headerlink" href="#etape-2-4-reproduire" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>deactivate
+conda<span class="w"> </span>env<span class="w"> </span>remove<span class="w"> </span>-n<span class="w"> </span>ml-projet<span class="w"> </span>-y
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
+conda<span class="w"> </span>activate<span class="w"> </span>ml-projet
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h3>❓ Questions<a class="headerlink" href="#id1" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p>Pourquoi l’option <code class="docutils literal notranslate"><span class="pre">--no-builds</span></code> dans l’export ? Testez sans : <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">export</span> <span class="pre">&gt;</span> <span class="pre">environment-full.yml</span></code>. Qu’est-ce qui change ? Pourquoi c’est moins portable ?</p></li>
+<li><p>Quelle est la <strong>taille</strong> totale de l’environnement ? (<code class="docutils literal notranslate"><span class="pre">du</span> <span class="pre">-sh</span> <span class="pre">$(conda</span> <span class="pre">info</span> <span class="pre">--base)/envs/ml-projet</span></code>) — comparez avec venv (<code class="docutils literal notranslate"><span class="pre">du</span> <span class="pre">-sh</span> <span class="pre">/workspace/projet-venv/.venv</span></code>).</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>deactivate
+<span class="nb">cd</span><span class="w"> </span>/workspace
+</pre></div>
+</div>
+</section>
+</section>
+<section id="partie-3-pixi">
+<h2>Partie 3 — <code class="docutils literal notranslate"><span class="pre">pixi</span></code><a class="headerlink" href="#partie-3-pixi" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="etape-3-1-initialiser-un-projet-pixi">
+<h3>Étape 3.1 : Initialiser un projet pixi<a class="headerlink" href="#etape-3-1-initialiser-un-projet-pixi" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspace
+pixi<span class="w"> </span>init<span class="w"> </span>projet-pixi
+<span class="nb">cd</span><span class="w"> </span>projet-pixi
+ls<span class="w"> </span>-la
+</pre></div>
+</div>
+<p><strong>Observez</strong> : pixi a créé un <code class="docutils literal notranslate"><span class="pre">pixi.toml</span></code> (description du projet et des dépendances voulues) et vous n’avez <strong>rien</strong> installé encore. C’est une approche déclarative.</p>
+<p>Regardez le fichier :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>pixi.toml
+</pre></div>
+</div>
+</section>
+<section id="etape-3-2-ajouter-des-dependances">
+<h3>Étape 3.2 : Ajouter des dépendances<a class="headerlink" href="#etape-3-2-ajouter-des-dependances" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pixi<span class="w"> </span>add<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11<span class="w"> </span>scikit-learn<span class="w"> </span>pandas<span class="w"> </span>numpy
+</pre></div>
+</div>
+<p><strong>Chronométrez</strong> : beaucoup plus rapide que conda, non ? (Quelques secondes en général, car pixi est écrit en Rust.)</p>
+<p>Regardez les fichiers générés :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>pixi.toml
+ls<span class="w"> </span>pixi.lock
+wc<span class="w"> </span>-l<span class="w"> </span>pixi.lock
+</pre></div>
+</div>
+<p>Le <strong>lock file</strong> <code class="docutils literal notranslate"><span class="pre">pixi.lock</span></code> est le point clé : il fige les versions <strong>exactes</strong> résolues pour <strong>chaque plateforme</strong>, et c’est <strong>lui</strong> qui garantit la reproductibilité. Vous pouvez (et devez) le committer dans Git.</p>
+</section>
+<section id="etape-3-3-entrer-dans-l-environnement-et-verifier">
+<h3>Étape 3.3 : Entrer dans l’environnement et vérifier<a class="headerlink" href="#etape-3-3-entrer-dans-l-environnement-et-verifier" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pixi<span class="w"> </span>shell
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sklearn; print(sklearn.__version__)&quot;</span>
+</pre></div>
+</div>
+<p>Pour quitter le shell pixi (sans quitter le conteneur) : <code class="docutils literal notranslate"><span class="pre">exit</span></code>.</p>
+</section>
+<section id="etape-3-4-lancer-des-commandes-sans-shell">
+<h3>Étape 3.4 : Lancer des commandes sans shell<a class="headerlink" href="#etape-3-4-lancer-des-commandes-sans-shell" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Alternative : sans entrer dans un shell, on peut lancer directement une commande dans l’environnement :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pixi<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import pandas; print(pandas.__version__)&quot;</span>
+</pre></div>
+</div>
+<p>Très pratique dans les scripts CI/CD.</p>
+</section>
+<section id="etape-3-5-definir-des-taches">
+<h3>Étape 3.5 : Définir des tâches<a class="headerlink" href="#etape-3-5-definir-des-taches" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Éditez <code class="docutils literal notranslate"><span class="pre">pixi.toml</span></code> et ajoutez une section à la fin :</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[tasks]</span>
+<span class="n">check</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;python -c &#39;import sklearn, pandas; print(\&quot;OK\&quot;)&#39;&quot;</span>
+<span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;python --version&quot;</span>
+</pre></div>
+</div>
+<p>Lancez-les :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pixi<span class="w"> </span>run<span class="w"> </span>check
+pixi<span class="w"> </span>run<span class="w"> </span>version
+</pre></div>
+</div>
+<p>C’est l’équivalent des <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">run</span></code> / <code class="docutils literal notranslate"><span class="pre">make</span></code> / <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">run</span></code> — un endroit central pour définir les commandes courantes du projet.</p>
+</section>
+<section id="etape-3-6-reproduire-l-environnement-a-partir-du-lock-file">
+<h3>Étape 3.6 : Reproduire l’environnement à partir du lock file<a class="headerlink" href="#etape-3-6-reproduire-l-environnement-a-partir-du-lock-file" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Pour simuler un·e collègue qui clone le projet :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspace
+cp<span class="w"> </span>-r<span class="w"> </span>projet-pixi<span class="w"> </span>projet-pixi-clone
+<span class="nb">cd</span><span class="w"> </span>projet-pixi-clone
+rm<span class="w"> </span>-rf<span class="w"> </span>.pixi<span class="w">   </span><span class="c1"># on supprime l&#39;environnement local</span>
+pixi<span class="w"> </span>install<span class="w">   </span><span class="c1"># réinstalle depuis pixi.lock, identique au bit près</span>
+pixi<span class="w"> </span>run<span class="w"> </span>check
+</pre></div>
+</div>
+<p><strong>C’est cette reproductibilité exacte qui fait la différence</strong> avec <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> et <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> : le lock file garantit que vous obtenez <strong>strictement</strong> le même environnement que votre collègue, quelle que soit la plateforme.</p>
+</section>
+<section id="id2">
+<h3>❓ Questions<a class="headerlink" href="#id2" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p>Que contient <code class="docutils literal notranslate"><span class="pre">pixi.lock</span></code> ? Ouvrez-le avec <code class="docutils literal notranslate"><span class="pre">less</span> <span class="pre">pixi.lock</span></code> — remarquez les sections <code class="docutils literal notranslate"><span class="pre">[environments]</span></code> par plateforme.</p></li>
+<li><p>Que se passe-t-il si vous supprimez <code class="docutils literal notranslate"><span class="pre">pixi.lock</span></code> et relancez <code class="docutils literal notranslate"><span class="pre">pixi</span> <span class="pre">install</span></code> ? Est-ce que vous obtenez forcément les mêmes versions ?</p></li>
+</ol>
+</section>
+</section>
+<section id="partie-4-comparer-les-trois-approches">
+<h2>Partie 4 — Comparer les trois approches<a class="headerlink" href="#partie-4-comparer-les-trois-approches" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Maintenant que vous avez créé les trois environnements pour le même projet, faites le bilan <strong>de votre propre expérience</strong> :</p>
+<section id="tableau-a-remplir">
+<h3>Tableau à remplir<a class="headerlink" href="#tableau-a-remplir" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Critère</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">venv</span> <span class="pre">+</span> <span class="pre">pip</span></code></p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">conda</span></code></p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">pixi</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Temps d’installation</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+<tr class="row-odd"><td><p>Clarté du fichier de deps (direct vs transitif)</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+<tr class="row-even"><td><p>Taille de l’environnement (<code class="docutils literal notranslate"><span class="pre">du</span> <span class="pre">-sh</span></code>)</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rapidité de la résolution de dépendances</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+<tr class="row-even"><td><p>Commandes à retenir</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lock file natif ?</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="questions-de-synthese">
+<h3>Questions de synthèse<a class="headerlink" href="#questions-de-synthese" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Pour un projet Python pur</strong> (API web, script d’analyse de logs), lequel choisiriez-vous ? Pourquoi ?</p></li>
+<li><p><strong>Pour un projet computer vision</strong> qui a besoin de PyTorch + CUDA + OpenCV compilé, lequel choisiriez-vous ? Pourquoi ?</p></li>
+<li><p><strong>Dans une équipe multi-OS</strong> (un·e sur Windows, deux sur macOS, trois sur Linux), lequel est le plus sûr pour garantir que tout le monde a exactement le même environnement ?</p></li>
+<li><p><strong>Votre entreprise travaille déjà avec conda depuis 5 ans</strong>. Un nouveau projet démarre. Est-ce que vous imposez pixi ? Pourquoi (ou pourquoi pas) ?</p></li>
+</ol>
+</section>
+</section>
+<section id="partie-5-challenge-reproduire-un-environnement-existant">
+<h2>Partie 5 — Challenge : reproduire un environnement existant<a class="headerlink" href="#partie-5-challenge-reproduire-un-environnement-existant" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Vous trouverez dans <code class="docutils literal notranslate"><span class="pre">/workspace/challenge/</span></code> trois fichiers qui correspondent <strong>à un même projet</strong> (simulé) :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> — la version <code class="docutils literal notranslate"><span class="pre">pip</span></code> ;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> — la version <code class="docutils literal notranslate"><span class="pre">conda</span></code> ;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pixi.toml</span></code> — la version <code class="docutils literal notranslate"><span class="pre">pixi</span></code>.</p></li>
+</ul>
+<p><strong>Votre mission :</strong> créer <strong>les trois environnements</strong> à partir de ces fichiers, vérifier qu’ils installent les mêmes bibliothèques, et noter les différences que vous observez (versions exactes, latence, taille…).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspace/challenge
+ls
+</pre></div>
+</div>
+<p>Puis, pour chaque approche :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Version pip</span>
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv-challenge
+<span class="nb">source</span><span class="w"> </span>.venv-challenge/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<span class="c1"># ... vérifier, comparer</span>
+deactivate
+
+<span class="c1"># Version conda</span>
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-n<span class="w"> </span>challenge-conda
+conda<span class="w"> </span>activate<span class="w"> </span>challenge-conda
+<span class="c1"># ... vérifier, comparer</span>
+conda<span class="w"> </span>deactivate
+
+<span class="c1"># Version pixi</span>
+pixi<span class="w"> </span>install
+pixi<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sklearn; print(sklearn.__version__)&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="ce-que-vous-avez-appris">
+<h2>🎯 Ce que vous avez appris<a class="headerlink" href="#ce-que-vous-avez-appris" title="Lien permanent vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p>Les <strong>trois outils principaux</strong> sont disponibles en quelques commandes, avec leurs forces et leurs limites.</p></li>
+<li><p><strong>Le lock file</strong> (pixi, ou <code class="docutils literal notranslate"><span class="pre">conda-lock</span></code> côté conda) est le vrai secret de la reproductibilité multi-OS.</p></li>
+<li><p><strong>Aucun outil n’est « le meilleur »</strong> — ils répondent à des contextes différents (binaires scientifiques, équipe, volume, projet neuf ou legacy).</p></li>
+<li><p><strong>L’ergonomie compte</strong> : si votre outil prend 3 minutes à résoudre des dépendances, vous allez l’éviter et perdre en discipline.</p></li>
+<li><p><strong>Ce que vous choisirez dépendra de votre équipe et de votre historique</strong> — et c’est très bien comme ça.</p></li>
+</ul>
+<p>Pour quitter le sandbox :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+</div>
+<p>Les fichiers que vous avez créés dans <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> sont conservés dans le dossier <code class="docutils literal notranslate"><span class="pre">work/cours-exe/06-mise-en-production/tp-sandbox/</span></code> de votre machine — vous pouvez y revenir plus tard.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours/06-mise-en-production"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04-de-la-recherche-a-la-prod.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">De la recherche à la production</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../07-machine-learning-algorithms/01-machine-learning-algorithms.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Quelques algorithmes de Machine Learning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lancer-le-conteneur-sandbox">Lancer le conteneur sandbox</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partie-1-venv-et-pip">Partie 1 — <code class="docutils literal notranslate"><span class="pre">venv</span></code> et <code class="docutils literal notranslate"><span class="pre">pip</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-1-1-creer-un-environnement-venv">Étape 1.1 : Créer un environnement venv</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-1-2-activer-et-installer">Étape 1.2 : Activer et installer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-1-3-figer-les-dependances">Étape 1.3 : Figer les dépendances</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-1-4-reproduire-l-environnement">Étape 1.4 : Reproduire l’environnement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions">❓ Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partie-2-conda">Partie 2 — <code class="docutils literal notranslate"><span class="pre">conda</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-2-1-creer-un-environnement-conda">Étape 2.1 : Créer un environnement conda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-2-2-installer-depuis-conda-forge">Étape 2.2 : Installer depuis <code class="docutils literal notranslate"><span class="pre">conda-forge</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-2-3-figer-avec-environment-yml">Étape 2.3 : Figer avec <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-2-4-reproduire">Étape 2.4 : Reproduire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">❓ Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partie-3-pixi">Partie 3 — <code class="docutils literal notranslate"><span class="pre">pixi</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-1-initialiser-un-projet-pixi">Étape 3.1 : Initialiser un projet pixi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-2-ajouter-des-dependances">Étape 3.2 : Ajouter des dépendances</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-3-entrer-dans-l-environnement-et-verifier">Étape 3.3 : Entrer dans l’environnement et vérifier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-4-lancer-des-commandes-sans-shell">Étape 3.4 : Lancer des commandes sans shell</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-5-definir-des-taches">Étape 3.5 : Définir des tâches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-3-6-reproduire-l-environnement-a-partir-du-lock-file">Étape 3.6 : Reproduire l’environnement à partir du lock file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">❓ Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partie-4-comparer-les-trois-approches">Partie 4 — Comparer les trois approches</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tableau-a-remplir">Tableau à remplir</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#questions-de-synthese">Questions de synthèse</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#partie-5-challenge-reproduire-un-environnement-existant">Partie 5 — Challenge : reproduire un environnement existant</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-que-vous-avez-appris">🎯 Ce que vous avez appris</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

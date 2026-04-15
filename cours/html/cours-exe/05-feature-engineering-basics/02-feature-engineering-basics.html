@@ -1,0 +1,1765 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Feature engineering — les bases &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"RR": "\\mathbb{R}", "NN": "\\mathbb{N}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours-exe/05-feature-engineering-basics/02-feature-engineering-basics';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Exercice: Exercice: Traiter des valeurs manquantes" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html" />
+    <link rel="prev" title="Feature engineering" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours-exe/05-feature-engineering-basics/02-feature-engineering-basics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Feature engineering — les bases</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qu-est-ce-qu-on-va-faire-dans-ce-notebook">Qu’est-ce qu’on va faire dans ce notebook ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-plan">Le plan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-mise-en-forme-des-donnees">Data cleaning — mise en forme des données</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creation-des-jeux-d-apprentissage-et-de-test">Création des jeux d’apprentissage et de test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-traitement-des-valeurs-manquantes">Data cleaning — traitement des valeurs manquantes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imputation-des-colonnes-numeriques">Imputation des colonnes numériques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imputation-des-colonnes-categorielles">Imputation des colonnes catégorielles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combinaison-des-transformations-avec-columntransformer">Combinaison des transformations avec ColumnTransformer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-transformation-traitement-des-donnees-categorielles">Feature transformation — traitement des données catégorielles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-pclass-pas-de-probleme">Pour <code class="docutils literal notranslate"><span class="pre">pclass</span></code> : pas de problème</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-sex-et-embarked-attention-au-piege">Pour <code class="docutils literal notranslate"><span class="pre">sex</span></code> et <code class="docutils literal notranslate"><span class="pre">embarked</span></code> : attention au piège</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-hot-encoding">One-hot encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-de-preprocessing-complet">Pipeline de preprocessing complet</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage">Apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-logistique">Régression logistique</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-s-assurer-qu-on-fait-mieux-qu-un-idiot">Baseline — s’assurer qu’on fait mieux qu’un idiot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-modeles-monter-en-complexite">Autres modèles — monter en complexité</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#passage-en-production">Passage en production</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-feature-engineering-en-pratique">🎯 Pour résumer — feature engineering en pratique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-workflow-standard">Le workflow standard</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-gestes-a-avoir-en-reflexe">Les gestes à avoir en réflexe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-les-plus-frequents">Les pièges les plus fréquents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-aller-plus-loin">Pour aller plus loin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="feature-engineering-les-bases">
+<h1>Feature engineering — les bases<a class="headerlink" href="#feature-engineering-les-bases" title="Lien permanent vers cette rubrique">#</a></h1>
+<section id="qu-est-ce-qu-on-va-faire-dans-ce-notebook">
+<h2>Qu’est-ce qu’on va faire dans ce notebook ?<a class="headerlink" href="#qu-est-ce-qu-on-va-faire-dans-ce-notebook" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>On a vu dans le chapitre précédent que <strong>les données brutes ne suffisent pas</strong> à un modèle de machine learning. Ce notebook montre <strong>en pratique</strong> les gestes essentiels de feature engineering pour préparer un dataset typique (le Titanic) à être utilisé par un algorithme de classification.</p>
+<blockquote>
+<div><p><strong>L’objectif n’est pas d’obtenir le meilleur score possible</strong> — c’est de mettre en place un <strong>pipeline propre et réutilisable</strong> qui fait correctement le travail de base : imputation des valeurs manquantes, encodage des variables catégorielles, combinaison de plusieurs transformations, et déploiement en production.</p>
+</div></blockquote>
+<section id="le-plan">
+<h3>Le plan<a class="headerlink" href="#le-plan" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Nettoyage initial</strong> (<em>data cleaning</em>) : homogénéisation des noms, types, formats.</p></li>
+<li><p><strong>Split train/test</strong> : isoler le test <strong>avant</strong> toute analyse, pour éviter le data leakage.</p></li>
+<li><p><strong>Imputation des valeurs manquantes</strong> : médiane pour les numériques, mode pour les catégorielles.</p></li>
+<li><p><strong>Encodage des variables catégorielles</strong> : transformer <code class="docutils literal notranslate"><span class="pre">sex</span></code>, <code class="docutils literal notranslate"><span class="pre">embarked</span></code> en nombres utilisables.</p></li>
+<li><p><strong>Pipeline unifié</strong> : combiner toutes les étapes avec <code class="docutils literal notranslate"><span class="pre">ColumnTransformer</span></code> + <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code>.</p></li>
+<li><p><strong>Entraînement et comparaison</strong> de plusieurs modèles (régression logistique, Random Forest, XGBoost).</p></li>
+<li><p><strong>Baseline</strong> : s’assurer qu’on fait mieux qu’un prédicteur bête.</p></li>
+<li><p><strong>Déploiement</strong> : sérialiser le pipeline et le modèle pour la production.</p></li>
+</ol>
+</section>
+</section>
+<section id="data-cleaning-mise-en-forme-des-donnees">
+<h2>Data cleaning — mise en forme des données<a class="headerlink" href="#data-cleaning-mise-en-forme-des-donnees" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>C’est la <strong>phase initiale</strong> du feature engineering. On cherche à rendre les données :</p>
+<ul class="simple">
+<li><p><strong>conformes aux règles de nommage de l’entreprise</strong> (noms de colonnes, valeurs de catégories : <code class="docutils literal notranslate"><span class="pre">&quot;Sexe&quot;</span></code> vs <code class="docutils literal notranslate"><span class="pre">&quot;sex&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;M&quot;</span></code> vs <code class="docutils literal notranslate"><span class="pre">&quot;Male&quot;</span></code> vs <code class="docutils literal notranslate"><span class="pre">&quot;male&quot;</span></code>…) ;</p></li>
+<li><p><strong>homogènes</strong> (même format partout : dates au même format, unités cohérentes, encodage texte uniforme) ;</p></li>
+</ul>
+<p><img alt="uniformize-features" src="../../_images/uniformize-features.png" /></p>
+<ul class="simple">
+<li><p><strong>compatibles avec les algorithmes</strong> :</p>
+<ul>
+<li><p>toutes les valeurs <strong>renseignées</strong> (pas de <code class="docutils literal notranslate"><span class="pre">NaN</span></code>) ;</p></li>
+<li><p>toutes les valeurs <strong>numériques</strong> (les catégories en texte seront encodées plus tard).</p></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<div><p><strong>C’est souvent l’étape la plus longue et la moins gratifiante</strong> — mais celle qui évite 80% des bugs. Passer du temps ici, c’est du temps gagné sur le debug plus tard.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../data/titanic.csv&quot;</span><span class="p">)</span>
+<span class="n">titanic1</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;survived&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">survived</span> <span class="o">=</span> <span class="n">titanic</span><span class="p">[</span><span class="s2">&quot;survived&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic1</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>name</th>
+      <th>sex</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>ticket</th>
+      <th>fare</th>
+      <th>cabin</th>
+      <th>embarked</th>
+      <th>boat</th>
+      <th>body</th>
+      <th>home.dest</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Allen, Miss. Elisabeth Walton</td>
+      <td>female</td>
+      <td>29.0000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>24160</td>
+      <td>211.3375</td>
+      <td>B5</td>
+      <td>S</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>St Louis, MO</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Allison, Master. Hudson Trevor</td>
+      <td>male</td>
+      <td>0.9167</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>11</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>Allison, Miss. Helen Loraine</td>
+      <td>female</td>
+      <td>2.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>Allison, Mr. Hudson Joshua Creighton</td>
+      <td>male</td>
+      <td>30.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>NaN</td>
+      <td>135.0</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>Allison, Mrs. Hudson J C (Bessie Waldo Daniels)</td>
+      <td>female</td>
+      <td>25.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">survived</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1309,)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creation-des-jeux-d-apprentissage-et-de-test">
+<h2>Création des jeux d’apprentissage et de test<a class="headerlink" href="#creation-des-jeux-d-apprentissage-et-de-test" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>⚠️ L’ordre des opérations est critique :</strong> on splitte train/test <strong>AVANT</strong> tout feature engineering. Sinon, on risque le <strong>data leakage</strong> — des informations du test « fuitent » vers le train via les transformations (moyennes d’imputation, seuils de scaling, proportions d’encodage…).</p>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> le jeu de test, c’est l”<strong>examen final</strong>. L’EDA et le feature engineering, c’est la <strong>préparation à l’examen</strong>. Si tu regardes les questions de l’examen avant de préparer tes révisions, ton 20/20 ne veut plus rien dire. Le test doit <strong>rester scellé</strong> jusqu’à la toute fin.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">titanic1</span><span class="p">,</span>
+    <span class="n">survived</span><span class="p">,</span> 
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 981 entries, 1195 to 1192
+Data columns (total 13 columns):
+ #   Column     Non-Null Count  Dtype  
+---  ------     --------------  -----  
+ 0   pclass     981 non-null    int64  
+ 1   name       981 non-null    object 
+ 2   sex        981 non-null    object 
+ 3   age        789 non-null    float64
+ 4   sibsp      981 non-null    int64  
+ 5   parch      981 non-null    int64  
+ 6   ticket     981 non-null    object 
+ 7   fare       980 non-null    float64
+ 8   cabin      225 non-null    object 
+ 9   embarked   980 non-null    object 
+ 10  boat       373 non-null    object 
+ 11  body       89 non-null     float64
+ 12  home.dest  568 non-null    object 
+dtypes: float64(3), int64(3), object(7)
+memory usage: 107.3+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_test</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 328 entries, 886 to 916
+Data columns (total 13 columns):
+ #   Column     Non-Null Count  Dtype  
+---  ------     --------------  -----  
+ 0   pclass     328 non-null    int64  
+ 1   name       328 non-null    object 
+ 2   sex        328 non-null    object 
+ 3   age        257 non-null    float64
+ 4   sibsp      328 non-null    int64  
+ 5   parch      328 non-null    int64  
+ 6   ticket     328 non-null    object 
+ 7   fare       328 non-null    float64
+ 8   cabin      70 non-null     object 
+ 9   embarked   327 non-null    object 
+ 10  boat       113 non-null    object 
+ 11  body       32 non-null     float64
+ 12  home.dest  177 non-null    object 
+dtypes: float64(3), int64(3), object(7)
+memory usage: 35.9+ KB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-cleaning-traitement-des-valeurs-manquantes">
+<h2>Data cleaning — traitement des valeurs manquantes<a class="headerlink" href="#data-cleaning-traitement-des-valeurs-manquantes" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>En pratique, <strong>les valeurs manquantes (NaN) sont partout</strong>. Un capteur qui a planté, un formulaire pas rempli, une fusion de fichiers incomplète, une API qui a timeouté… Il faut les traiter sous peine que la plupart des algorithmes scikit-learn plantent.</p>
+<p><strong>Deux grandes stratégies :</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Supprimer</strong> les lignes (ou les colonnes) qui en contiennent.</p></li>
+<li><p><strong>Imputer</strong> : remplacer par une valeur « raisonnable » (moyenne, médiane, mode, valeur prédite, valeur sentinelle…).</p></li>
+</ol>
+<p>On va voir les deux cas dans la suite — et pourquoi <strong>l’imputation est presque toujours préférable</strong>.</p>
+<p><strong>Diagnostic rapide</strong> : <code class="docutils literal notranslate"><span class="pre">info()</span></code> nous montre que <code class="docutils literal notranslate"><span class="pre">age</span></code>, <code class="docutils literal notranslate"><span class="pre">fare</span></code> et <code class="docutils literal notranslate"><span class="pre">embarked</span></code> ont des valeurs manquantes dans le jeu de train.</p>
+<p><strong>Décision par colonne</strong> :</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">fare</span></code></strong> et <strong><code class="docutils literal notranslate"><span class="pre">embarked</span></code></strong> : très peu de NaN (1 ou 2 lignes). On <em>pourrait</em> penser à supprimer ces lignes.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">age</span></code></strong> : il manque <strong>beaucoup</strong> de valeurs (environ 20%). Hors de question de supprimer autant de lignes — on va <strong>imputer</strong>, en affectant par exemple la médiane.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Pourquoi ne pas supprimer « juste les quelques lignes » ?</strong></p>
+<p>C’est tentant — 1 ou 2 lignes manquantes sur 1000, ça paraît anodin. Mais cela signifie qu”<strong>à l’avenir</strong>, si un nouveau passager a une valeur manquante dans <code class="docutils literal notranslate"><span class="pre">fare</span></code> ou <code class="docutils literal notranslate"><span class="pre">embarked</span></code>, <strong>on ne pourra pas faire de prédiction pour lui</strong>. Le modèle ne saura pas quoi faire.</p>
+<p>En production, la <strong>tolérance aux valeurs manquantes</strong> est essentielle. Un modèle qui fonctionne seulement si <strong>toutes</strong> les colonnes sont remplies est un modèle fragile. On préfère donc adopter une <strong>approche plus générale</strong> et toujours imputer, même pour les colonnes où il manque très peu de données.</p>
+<p><strong>Règle pratique :</strong> <em>toujours avoir une stratégie d’imputation pour chaque colonne</em>, même si elle semble complète sur le train. Ça rend le pipeline robuste et prêt pour la production.</p>
+</div></blockquote>
+<section id="imputation-des-colonnes-numeriques">
+<h3>Imputation des colonnes numériques<a class="headerlink" href="#imputation-des-colonnes-numeriques" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On utilise un <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html"><code class="docutils literal notranslate"><span class="pre">SimpleImputer</span></code></a> avec <code class="docutils literal notranslate"><span class="pre">strategy='median'</span></code> : les NaN sont remplacés par la <strong>médiane</strong> de chaque colonne (calculée sur le train uniquement).</p>
+<p><strong>Pourquoi la médiane et pas la moyenne ?</strong> Parce que la médiane est <strong>robuste aux outliers</strong>. Rappelle-toi du <code class="docutils literal notranslate"><span class="pre">fare</span></code> du Titanic : quelques billets très chers tirent la moyenne vers le haut sans être représentatifs. La médiane reflète mieux <em>« la valeur typique »</em>.</p>
+<blockquote>
+<div><p><strong>On inclut les colonnes ordinales</strong> (<code class="docutils literal notranslate"><span class="pre">pclass</span></code>) dans cette imputation : elles sont déjà encodées en numérique (1, 2, 3) et la médiane d’une variable ordinale a du sens (c’est la catégorie du milieu).</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="n">numeric_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pclass&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;sibsp&quot;</span><span class="p">,</span> <span class="s2">&quot;parch&quot;</span><span class="p">,</span> <span class="s2">&quot;fare&quot;</span><span class="p">]</span>
+<span class="n">X_train_num</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">numeric_cols</span><span class="p">]</span>
+<span class="n">median_imputer</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">missing_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)</span>
+<span class="n">median_imputer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_num</span><span class="p">)</span>
+<span class="n">X_train_num</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">median_imputer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train_num</span><span class="p">),</span>
+                           <span class="n">columns</span><span class="o">=</span><span class="n">numeric_cols</span><span class="p">)</span>
+<span class="n">X_train_num</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 981 entries, 0 to 980
+Data columns (total 5 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   pclass  981 non-null    float64
+ 1   age     981 non-null    float64
+ 2   sibsp   981 non-null    float64
+ 3   parch   981 non-null    float64
+ 4   fare    981 non-null    float64
+dtypes: float64(5)
+memory usage: 38.4 KB
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Vérifier l’effet de l’imputation</strong> est un réflexe sain. On compare la distribution de <code class="docutils literal notranslate"><span class="pre">age</span></code> <strong>avant</strong> et <strong>après</strong> imputation avec deux histogrammes côte à côte.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">X_train</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">X_train_num</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/71f03eb266e202c4fb6922621ec3f12fc7a17d6c379454a724cc9a8125bf260a.png" src="../../_images/71f03eb266e202c4fb6922621ec3f12fc7a17d6c379454a724cc9a8125bf260a.png" />
+</div>
+</div>
+<p><strong>Observation attendue :</strong> on voit une <strong>surreprésentation de la médiane</strong> (un pic démesurément grand à la valeur médiane). C’est le principal défaut de l’imputation par constante : tous les NaN convergent vers la même valeur, ce qui crée un artefact visible dans la distribution.</p>
+<blockquote>
+<div><p><strong>🎯 Conséquences en ML :</strong></p>
+<ul class="simple">
+<li><p>Le pic artificiel peut <strong>fausser les analyses de distribution</strong> ultérieures.</p></li>
+<li><p>Il peut <strong>biaiser certains algorithmes</strong> qui raisonnent en termes de densité (KDE, GMM).</p></li>
+<li><p>Un arbre de décision, lui, s’en sort bien — il va juste créer une branche <em>« age == valeur-médiane ? »</em> qui correspondra aux imputés.</p></li>
+</ul>
+<p><strong>Alternatives plus sophistiquées</strong> (vues plus tard dans le chapitre 07) :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code> : prédit la valeur manquante en utilisant les autres colonnes comme features (régression).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KNNImputer</span></code> : prend la moyenne des <span class="math notranslate nohighlight">\(k\)</span> voisins les plus proches.</p></li>
+<li><p><strong>Ajouter une colonne indicatrice</strong> <code class="docutils literal notranslate"><span class="pre">age_was_missing</span></code> (booléen) pour laisser le modèle savoir <em>« cette valeur était manquante »</em> — utile si la présence de NaN elle-même est informative.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="imputation-des-colonnes-categorielles">
+<h3>Imputation des colonnes catégorielles<a class="headerlink" href="#imputation-des-colonnes-categorielles" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Pour les colonnes catégorielles (<code class="docutils literal notranslate"><span class="pre">sex</span></code>, <code class="docutils literal notranslate"><span class="pre">embarked</span></code>), la médiane ne marche pas (qu’est-ce que la « médiane » entre <code class="docutils literal notranslate"><span class="pre">male</span></code> et <code class="docutils literal notranslate"><span class="pre">female</span></code> ?). On utilise à la place <code class="docutils literal notranslate"><span class="pre">strategy='most_frequent'</span></code> : les NaN sont remplacés par la <strong>valeur la plus fréquente</strong> (le <strong>mode</strong>).</p>
+<blockquote>
+<div><p><strong>Pourquoi le mode ?</strong> Parce qu’en l’absence d’information, c’est le choix le plus probable. Si 75% des passagers ont embarqué à Southampton, imputer Southampton pour un passager dont on ne connaît pas le port est la meilleure « estimation naïve » qu’on puisse faire.</p>
+<p><strong>Limites :</strong> comme pour la médiane sur les numériques, on crée une sur-représentation du mode. Si c’est problématique, on peut utiliser <code class="docutils literal notranslate"><span class="pre">strategy='constant'</span></code> avec une valeur sentinelle comme <code class="docutils literal notranslate"><span class="pre">&quot;missing&quot;</span></code> pour créer une catégorie « manquant » à part, que les modèles à base d’arbres peuvent très bien exploiter.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">categorical_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;embarked&quot;</span><span class="p">]</span>
+<span class="n">X_train_cat</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span>
+<span class="n">most_frequent_imputer</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">missing_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+                                      <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;most_frequent&#39;</span><span class="p">)</span>
+<span class="n">most_frequent_imputer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_cat</span><span class="p">)</span>
+<span class="n">X_train_cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">most_frequent_imputer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train_cat</span><span class="p">),</span>
+                           <span class="n">columns</span><span class="o">=</span><span class="n">categorical_cols</span><span class="p">)</span>
+<span class="n">X_train_cat</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 981 entries, 0 to 980
+Data columns (total 2 columns):
+ #   Column    Non-Null Count  Dtype 
+---  ------    --------------  ----- 
+ 0   sex       981 non-null    object
+ 1   embarked  981 non-null    object
+dtypes: object(2)
+memory usage: 15.5+ KB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="combinaison-des-transformations-avec-columntransformer">
+<h3>Combinaison des transformations avec ColumnTransformer<a class="headerlink" href="#combinaison-des-transformations-avec-columntransformer" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Jusqu’ici on a appliqué les imputations <strong>colonne par colonne</strong>, à la main. Peu pratique. Le <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html"><code class="docutils literal notranslate"><span class="pre">ColumnTransformer</span></code></a> permet d”<strong>appliquer des transformations différentes à des colonnes différentes</strong>, le tout dans un seul objet scikit-learn.</p>
+<blockquote>
+<div><p><strong>Mental model :</strong> <code class="docutils literal notranslate"><span class="pre">ColumnTransformer</span></code>, c’est comme une <strong>orchestration de tapis roulants</strong> : chaque colonne passe par le traitement approprié (numérique → imputation médiane, catégoriel → imputation mode), et tout ressort dans le même tableau final, colonnes réassemblées dans le bon ordre.</p>
+</div></blockquote>
+<p><strong>Points clés du code ci-dessous :</strong></p>
+<ul class="simple">
+<li><p>On définit chaque « transformer » avec une <strong>liste <code class="docutils literal notranslate"><span class="pre">(nom,</span> <span class="pre">transformer,</span> <span class="pre">colonnes)</span></code></strong>.</p></li>
+<li><p>Le paramètre <strong><code class="docutils literal notranslate"><span class="pre">remainder='drop'</span></code></strong> exclut les colonnes non mentionnées (sinon on peut utiliser <code class="docutils literal notranslate"><span class="pre">'passthrough'</span></code> pour les laisser inchangées).</p></li>
+<li><p>Après <code class="docutils literal notranslate"><span class="pre">fit</span></code>, le <code class="docutils literal notranslate"><span class="pre">ColumnTransformer</span></code> connaît les statistiques (médianes, modes) <strong>apprises sur le train</strong> et peut les réappliquer au test avec <code class="docutils literal notranslate"><span class="pre">transform</span></code>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">ColumnTransformer</span>
+
+<span class="n">column_trans</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;numerical&#39;</span><span class="p">,</span> <span class="n">median_imputer</span><span class="p">,</span> <span class="n">numeric_cols</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;categorical&#39;</span><span class="p">,</span> <span class="n">most_frequent_imputer</span><span class="p">,</span> <span class="n">categorical_cols</span><span class="p">),</span>
+    <span class="p">],</span> <span class="n">remainder</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span><span class="p">,</span> <span class="n">verbose_feature_names_out</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">column_trans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>ColumnTransformer(transformers=[(&#x27;numerical&#x27;, SimpleImputer(strategy=&#x27;median&#x27;),
+                                 [&#x27;pclass&#x27;, &#x27;age&#x27;, &#x27;sibsp&#x27;, &#x27;parch&#x27;, &#x27;fare&#x27;]),
+                                (&#x27;categorical&#x27;,
+                                 SimpleImputer(strategy=&#x27;most_frequent&#x27;),
+                                 [&#x27;sex&#x27;, &#x27;embarked&#x27;])],
+                  verbose_feature_names_out=False)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" ><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">ColumnTransformer</label><div class="sk-toggleable__content"><pre>ColumnTransformer(transformers=[(&#x27;numerical&#x27;, SimpleImputer(strategy=&#x27;median&#x27;),
+                                 [&#x27;pclass&#x27;, &#x27;age&#x27;, &#x27;sibsp&#x27;, &#x27;parch&#x27;, &#x27;fare&#x27;]),
+                                (&#x27;categorical&#x27;,
+                                 SimpleImputer(strategy=&#x27;most_frequent&#x27;),
+                                 [&#x27;sex&#x27;, &#x27;embarked&#x27;])],
+                  verbose_feature_names_out=False)</pre></div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" ><label for="sk-estimator-id-2" class="sk-toggleable__label sk-toggleable__label-arrow">numerical</label><div class="sk-toggleable__content"><pre>[&#x27;pclass&#x27;, &#x27;age&#x27;, &#x27;sibsp&#x27;, &#x27;parch&#x27;, &#x27;fare&#x27;]</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox" ><label for="sk-estimator-id-3" class="sk-toggleable__label sk-toggleable__label-arrow">SimpleImputer</label><div class="sk-toggleable__content"><pre>SimpleImputer(strategy=&#x27;median&#x27;)</pre></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox" ><label for="sk-estimator-id-4" class="sk-toggleable__label sk-toggleable__label-arrow">categorical</label><div class="sk-toggleable__content"><pre>[&#x27;sex&#x27;, &#x27;embarked&#x27;]</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox" ><label for="sk-estimator-id-5" class="sk-toggleable__label sk-toggleable__label-arrow">SimpleImputer</label><div class="sk-toggleable__content"><pre>SimpleImputer(strategy=&#x27;most_frequent&#x27;)</pre></div></div></div></div></div></div></div></div></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train_trans</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">column_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">column_trans</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
+<span class="n">X_train_trans</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>fare</th>
+      <th>sex</th>
+      <th>embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.0</td>
+      <td>27.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.75</td>
+      <td>male</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3.0</td>
+      <td>37.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>7.925</td>
+      <td>male</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>60.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>26.55</td>
+      <td>male</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.0</td>
+      <td>33.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.8542</td>
+      <td>male</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.0</td>
+      <td>29.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>26.0</td>
+      <td>female</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="feature-transformation-traitement-des-donnees-categorielles">
+<h2>Feature transformation — traitement des données catégorielles<a class="headerlink" href="#feature-transformation-traitement-des-donnees-categorielles" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Le problème :</strong> les algorithmes ML attendent des <strong>nombres</strong>. Les colonnes <code class="docutils literal notranslate"><span class="pre">sex</span></code> (<code class="docutils literal notranslate"><span class="pre">male</span></code>, <code class="docutils literal notranslate"><span class="pre">female</span></code>) et <code class="docutils literal notranslate"><span class="pre">embarked</span></code> (<code class="docutils literal notranslate"><span class="pre">S</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">Q</span></code>) sont du texte — il faut les convertir.</p>
+<section id="pour-pclass-pas-de-probleme">
+<h3>Pour <code class="docutils literal notranslate"><span class="pre">pclass</span></code> : pas de problème<a class="headerlink" href="#pour-pclass-pas-de-probleme" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">pclass</span></code> est une <strong>variable ordinale</strong> (1ère &lt; 2ème &lt; 3ème). L’encodage numérique existant est naturel et les algorithmes pourront en tirer parti directement.</p>
+</section>
+<section id="pour-sex-et-embarked-attention-au-piege">
+<h3>Pour <code class="docutils literal notranslate"><span class="pre">sex</span></code> et <code class="docutils literal notranslate"><span class="pre">embarked</span></code> : attention au piège<a class="headerlink" href="#pour-sex-et-embarked-attention-au-piege" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Si on fait naïvement <code class="docutils literal notranslate"><span class="pre">male</span> <span class="pre">→</span> <span class="pre">0,</span> <span class="pre">female</span> <span class="pre">→</span> <span class="pre">1</span></code> (ou <code class="docutils literal notranslate"><span class="pre">S</span> <span class="pre">→</span> <span class="pre">0,</span> <span class="pre">C</span> <span class="pre">→</span> <span class="pre">1,</span> <span class="pre">Q</span> <span class="pre">→</span> <span class="pre">2</span></code>), on impose un <strong>ordre</strong> qui n’existe pas dans la réalité. Les algorithmes vont alors raisonner en termes de <strong>distance</strong> :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">male</span> <span class="pre">→</span> <span class="pre">0</span></code> et <code class="docutils literal notranslate"><span class="pre">female</span> <span class="pre">→</span> <span class="pre">1</span></code> : distance = 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setosa</span> <span class="pre">→</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">virginica</span> <span class="pre">→</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">versicolor</span> <span class="pre">→</span> <span class="pre">2</span></code> : le modèle « croit » que versicolor est plus proche de virginica que de setosa. C’est <strong>faux</strong> — ce sont juste trois espèces différentes.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>🎯 Pourquoi c’est grave ?</strong> La plupart des algorithmes (KNN, SVM, réseaux de neurones, régression linéaire) fondent leurs décisions sur des <strong>distances entre points</strong>. Un encodage qui introduit un faux ordre perturbe directement ces distances et dégrade la qualité du modèle.</p>
+</div></blockquote>
+<p><strong>La bonne solution pour les variables nominales : le one-hot encoding.</strong></p>
+</section>
+<section id="one-hot-encoding">
+<h3>One-hot encoding<a class="headerlink" href="#one-hot-encoding" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> transformer une colonne à <span class="math notranslate nohighlight">\(N\)</span> catégories en <strong><span class="math notranslate nohighlight">\(N\)</span> colonnes binaires</strong> (une par catégorie). Chaque ligne a un <code class="docutils literal notranslate"><span class="pre">1</span></code> dans la colonne de sa catégorie et <code class="docutils literal notranslate"><span class="pre">0</span></code> partout ailleurs.</p>
+<p><strong>Exemple sur <code class="docutils literal notranslate"><span class="pre">embarked</span></code> :</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>embarked</p></th>
+<th class="head"><p>→</p></th>
+<th class="head text-center"><p>embarked_C</p></th>
+<th class="head text-center"><p>embarked_Q</p></th>
+<th class="head text-center"><p>embarked_S</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>S</p></td>
+<td><p></p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>C</p></td>
+<td><p></p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Q</p></td>
+<td><p></p></td>
+<td class="text-center"><p>0</p></td>
+<td class="text-center"><p>1</p></td>
+<td class="text-center"><p>0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Plus aucun ordre artificiel</strong> entre les catégories : chacune a « sa » colonne indépendante.</p>
+<p><strong>On utilise</strong> <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html"><code class="docutils literal notranslate"><span class="pre">OneHotEncoder</span></code></a> de scikit-learn.</p>
+<blockquote>
+<div><p><strong>⚠️ Limites du one-hot encoding :</strong></p>
+<ul class="simple">
+<li><p><strong>Explosion de dimensionnalité</strong> : si une variable a 1000 catégories distinctes (ex : un code postal), on crée 1000 colonnes. Pour ces cas, on préfère du <strong>target encoding</strong>, des <strong>embeddings</strong>, ou du <em>hashing</em>.</p></li>
+<li><p><strong>Catégories inconnues au test</strong> : si le test contient une catégorie jamais vue en train, par défaut <code class="docutils literal notranslate"><span class="pre">OneHotEncoder</span></code> plante. Utiliser <code class="docutils literal notranslate"><span class="pre">handle_unknown='ignore'</span></code> pour que les catégories inconnues donnent juste des 0 partout.</p></li>
+<li><p><strong>Colinéarité</strong> : les <span class="math notranslate nohighlight">\(N\)</span> colonnes sont linéairement dépendantes (leur somme = 1). Certains modèles (régression linéaire) préfèrent supprimer une colonne — c’est ce que fait <code class="docutils literal notranslate"><span class="pre">drop='first'</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="n">cat_encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse_output</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">cat_encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_cat</span><span class="p">)</span>
+<span class="n">X1_train_cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cat_encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train_cat</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">cat_encoder</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
+<span class="n">X1_train_cat</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 981 entries, 0 to 980
+Data columns (total 5 columns):
+ #   Column      Non-Null Count  Dtype  
+---  ------      --------------  -----  
+ 0   sex_female  981 non-null    float64
+ 1   sex_male    981 non-null    float64
+ 2   embarked_C  981 non-null    float64
+ 3   embarked_Q  981 non-null    float64
+ 4   embarked_S  981 non-null    float64
+dtypes: float64(5)
+memory usage: 38.4 KB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pipeline-de-preprocessing-complet">
+<h3>Pipeline de preprocessing complet<a class="headerlink" href="#pipeline-de-preprocessing-complet" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’étape finale :</strong> combiner <strong>imputation + encodage</strong> dans un <strong>seul objet</strong> via un <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html"><code class="docutils literal notranslate"><span class="pre">Pipeline</span></code></a>.</p>
+<blockquote>
+<div><p><strong>Pourquoi un Pipeline ?</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Zéro data leakage automatiquement</strong> : le pipeline <code class="docutils literal notranslate"><span class="pre">fit</span></code> toutes les étapes <strong>sur le train uniquement</strong>, et <code class="docutils literal notranslate"><span class="pre">transform</span></code> le test sans rien y apprendre. C’est la garantie la plus simple d’éviter les fuites.</p></li>
+<li><p><strong>Cross-validation correcte</strong> : quand on passe un pipeline à <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code>, chaque fold calcule ses propres statistiques d’imputation / encodage (correct). Sans pipeline, on doit le faire à la main — et on se trompe presque toujours.</p></li>
+<li><p><strong>Déploiement simple</strong> : un seul objet à sauvegarder (<code class="docutils literal notranslate"><span class="pre">joblib.dump(pipeline,</span> <span class="pre">'pipe.pkl')</span></code>) pour refaire exactement le même traitement en production.</p></li>
+<li><p><strong>Code lisible</strong> : toute la logique est centralisée. Pas de variables intermédiaires <code class="docutils literal notranslate"><span class="pre">X_train_imputed_then_encoded_scaled_normalized</span></code> qui polluent le notebook.</p></li>
+</ol>
+<p><strong>👉 En production, c’est LA bonne pratique.</strong> Ne jamais chaîner des <code class="docutils literal notranslate"><span class="pre">.fit_transform()</span></code> à la main quand on peut utiliser un Pipeline.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">ColumnTransformer</span>
+
+<span class="n">median_imputer</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">missing_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)</span>
+<span class="n">most_frequent_imputer</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">missing_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;most_frequent&#39;</span><span class="p">)</span>
+<span class="n">categorical_encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse_output</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">categorical_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;categorical_imputer&quot;</span><span class="p">,</span> <span class="n">most_frequent_imputer</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;categorical_encoder&quot;</span><span class="p">,</span> <span class="n">categorical_encoder</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="n">preprocessor</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;numeric_imputer&#39;</span><span class="p">,</span> <span class="n">median_imputer</span><span class="p">,</span> <span class="n">numeric_cols</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;categorical&#39;</span><span class="p">,</span> <span class="n">categorical_pipeline</span><span class="p">,</span> <span class="n">categorical_cols</span><span class="p">),</span>
+    <span class="p">],</span> <span class="n">remainder</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span><span class="p">,</span> <span class="n">verbose_feature_names_out</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">preprocessor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-2 {color: black;}#sk-container-id-2 pre{padding: 0;}#sk-container-id-2 div.sk-toggleable {background-color: white;}#sk-container-id-2 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-2 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-2 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-2 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-2 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-2 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-2 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-2 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-2 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-2 div.sk-item {position: relative;z-index: 1;}#sk-container-id-2 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-2 div.sk-item::before, #sk-container-id-2 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-2 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-2 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-2 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-2 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-2 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-2 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-2 div.sk-label-container {text-align: center;}#sk-container-id-2 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-2 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>ColumnTransformer(transformers=[(&#x27;numeric_imputer&#x27;,
+                                 SimpleImputer(strategy=&#x27;median&#x27;),
+                                 [&#x27;pclass&#x27;, &#x27;age&#x27;, &#x27;sibsp&#x27;, &#x27;parch&#x27;, &#x27;fare&#x27;]),
+                                (&#x27;categorical&#x27;,
+                                 Pipeline(steps=[(&#x27;categorical_imputer&#x27;,
+                                                  SimpleImputer(strategy=&#x27;most_frequent&#x27;)),
+                                                 (&#x27;categorical_encoder&#x27;,
+                                                  OneHotEncoder(sparse_output=False))]),
+                                 [&#x27;sex&#x27;, &#x27;embarked&#x27;])],
+                  verbose_feature_names_out=False)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox" ><label for="sk-estimator-id-6" class="sk-toggleable__label sk-toggleable__label-arrow">ColumnTransformer</label><div class="sk-toggleable__content"><pre>ColumnTransformer(transformers=[(&#x27;numeric_imputer&#x27;,
+                                 SimpleImputer(strategy=&#x27;median&#x27;),
+                                 [&#x27;pclass&#x27;, &#x27;age&#x27;, &#x27;sibsp&#x27;, &#x27;parch&#x27;, &#x27;fare&#x27;]),
+                                (&#x27;categorical&#x27;,
+                                 Pipeline(steps=[(&#x27;categorical_imputer&#x27;,
+                                                  SimpleImputer(strategy=&#x27;most_frequent&#x27;)),
+                                                 (&#x27;categorical_encoder&#x27;,
+                                                  OneHotEncoder(sparse_output=False))]),
+                                 [&#x27;sex&#x27;, &#x27;embarked&#x27;])],
+                  verbose_feature_names_out=False)</pre></div></div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox" ><label for="sk-estimator-id-7" class="sk-toggleable__label sk-toggleable__label-arrow">numeric_imputer</label><div class="sk-toggleable__content"><pre>[&#x27;pclass&#x27;, &#x27;age&#x27;, &#x27;sibsp&#x27;, &#x27;parch&#x27;, &#x27;fare&#x27;]</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox" ><label for="sk-estimator-id-8" class="sk-toggleable__label sk-toggleable__label-arrow">SimpleImputer</label><div class="sk-toggleable__content"><pre>SimpleImputer(strategy=&#x27;median&#x27;)</pre></div></div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox" ><label for="sk-estimator-id-9" class="sk-toggleable__label sk-toggleable__label-arrow">categorical</label><div class="sk-toggleable__content"><pre>[&#x27;sex&#x27;, &#x27;embarked&#x27;]</pre></div></div></div><div class="sk-serial"><div class="sk-item"><div class="sk-serial"><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox" ><label for="sk-estimator-id-10" class="sk-toggleable__label sk-toggleable__label-arrow">SimpleImputer</label><div class="sk-toggleable__content"><pre>SimpleImputer(strategy=&#x27;most_frequent&#x27;)</pre></div></div></div><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox" ><label for="sk-estimator-id-11" class="sk-toggleable__label sk-toggleable__label-arrow">OneHotEncoder</label><div class="sk-toggleable__content"><pre>OneHotEncoder(sparse_output=False)</pre></div></div></div></div></div></div></div></div></div></div></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train_trans</span> <span class="o">=</span> <span class="n">preprocessor</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train_trans</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train_trans</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">preprocessor</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
+<span class="n">X_train_trans</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>fare</th>
+      <th>sex_female</th>
+      <th>sex_male</th>
+      <th>embarked_C</th>
+      <th>embarked_Q</th>
+      <th>embarked_S</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.0</td>
+      <td>27.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.7500</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3.0</td>
+      <td>37.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>7.9250</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>60.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>26.5500</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.0</td>
+      <td>33.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.8542</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.0</td>
+      <td>29.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>26.0000</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="apprentissage">
+<h2>Apprentissage<a class="headerlink" href="#apprentissage" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>On a maintenant un <strong>pipeline de preprocessing fonctionnel</strong>. On peut l’enchaîner avec différents modèles et voir ce que ça donne — <em>toujours par cross-validation</em> pour avoir une estimation fiable.</p>
+<section id="regression-logistique">
+<h3>Régression logistique<a class="headerlink" href="#regression-logistique" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On commence avec la <strong>régression logistique</strong> — le modèle de baseline classique pour la classification binaire. Simple, rapide, interprétable, et souvent étonnamment compétitif comparé à des modèles plus complexes.</p>
+<blockquote>
+<div><p><strong>Pourquoi commencer simple ?</strong> Pour avoir un <strong>point de comparaison</strong>. Si un modèle simple fait déjà 80%, et que ton réseau de neurones sophistiqué fait 81%, tu ajoutes <strong>beaucoup de complexité pour 1 point</strong>. Parfois, c’est acceptable. Parfois non. L’important est de savoir où tu en es par rapport à une baseline simple.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logreg_clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">logreg_clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;preprocessor&#39;</span><span class="p">,</span> <span class="n">preprocessor</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;regressor&#39;</span><span class="p">,</span> <span class="n">logreg_clf</span><span class="p">)</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">logreg_clf_pipeline</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">scores</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.80808081, 0.81632653, 0.7244898 , 0.81632653, 0.70408163,
+        0.74489796, 0.74489796, 0.80612245, 0.84693878, 0.71428571]),
+ 0.7726448155019584,
+ 0.048659649809981775)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="baseline-s-assurer-qu-on-fait-mieux-qu-un-idiot">
+<h3>Baseline — s’assurer qu’on fait mieux qu’un idiot<a class="headerlink" href="#baseline-s-assurer-qu-on-fait-mieux-qu-un-idiot" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On vient d’obtenir un score avec un minimum de feature engineering. Ce sera notre <strong>étalon</strong> pour valider nos expériences ultérieures : chaque amélioration devra faire <strong>mieux que cette baseline</strong>.</p>
+<p>Mais il faut aussi vérifier qu’on se comporte <strong>mieux qu’un classifieur trivial</strong>. C’est le rôle du <strong><code class="docutils literal notranslate"><span class="pre">DummyClassifier</span></code></strong> de scikit-learn : il fait des prédictions <strong>stupides mais reproductibles</strong> (toujours la classe majoritaire, tirage aléatoire pondéré, etc.).</p>
+<blockquote>
+<div><p><strong>🎯 Pourquoi c’est critique ?</strong></p>
+<p>Sur un dataset déséquilibré (99% de classe A, 1% de classe B), un modèle qui prédit <strong>toujours A</strong> aura 99% d’accuracy… <strong>sans rien avoir appris</strong>. Si ton « vrai » modèle fait 99.1%, il est à peine mieux qu’un random. Il faut le savoir.</p>
+<p><strong>Règle d’or :</strong> <em>toujours comparer tes modèles à une DummyClassifier</em>. C’est la vraie baseline — celle qui te dit si ton modèle <em>« fait vraiment quelque chose »</em> ou s’il profite juste du déséquilibre des classes.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.dummy</span> <span class="kn">import</span> <span class="n">DummyClassifier</span>
+
+<span class="n">dummy_clf</span> <span class="o">=</span> <span class="n">DummyClassifier</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;most_frequent&quot;</span><span class="p">)</span>
+<span class="n">dummy_clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;preprocessor&#39;</span><span class="p">,</span> <span class="n">preprocessor</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;regressor&#39;</span><span class="p">,</span> <span class="n">dummy_clf</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="n">dummy_clf_pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">dummy_clf_pipeline</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.6524390243902439
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="autres-modeles-monter-en-complexite">
+<h3>Autres modèles — monter en complexité<a class="headerlink" href="#autres-modeles-monter-en-complexite" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Maintenant qu’on a une baseline et un modèle linéaire de référence, on peut tester des modèles plus puissants pour voir s’ils apportent un gain significatif. On essaie deux champions des données tabulaires :</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">RandomForestClassifier</span></code></strong> : forêt d’arbres de décision, moyenne des prédictions. Robuste, peu de tuning nécessaire, bonne baseline « non-linéaire ».</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">XGBClassifier</span></code></strong> : gradient boosting optimisé (la bibliothèque <strong>XGBoost</strong>). <strong>État de l’art</strong> sur la plupart des problèmes tabulaires — c’est l’algorithme qui a dominé les compétitions Kaggle pendant des années.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Pourquoi ces deux-là ?</strong> Parce qu’ils sont <strong>insensibles à plein de problèmes</strong> qui gênent les modèles linéaires :</p>
+<ul class="simple">
+<li><p>Pas besoin de normaliser les features (ils s’en moquent).</p></li>
+<li><p>Robustes aux outliers.</p></li>
+<li><p>Gèrent naturellement les relations non-linéaires et les interactions.</p></li>
+<li><p>Fournissent une <strong>importance des features</strong> (<em>feature importance</em>) — utile pour l’interprétation.</p></li>
+</ul>
+<p>La règle empirique : sur un problème tabulaire, <strong>commence par XGBoost / LightGBM / CatBoost</strong>. Si tu ne bats pas ces modèles avec un réseau de neurones, c’est souvent qu’ils sont déjà près de l’optimum.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="n">rf_clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">rf_clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;preprocessor&#39;</span><span class="p">,</span> <span class="n">preprocessor</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;regressor&#39;</span><span class="p">,</span> <span class="n">rf_clf</span><span class="p">)</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf_clf_pipeline</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">scores</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.83838384, 0.79591837, 0.7755102 , 0.89795918, 0.76530612,
+        0.81632653, 0.7755102 , 0.79591837, 0.81632653, 0.7755102 ]),
+ 0.8052669552669552,
+ 0.03789625132252176)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">XGBClassifier</span>
+<span class="n">xgb_clf</span> <span class="o">=</span> <span class="n">XGBClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">xgb_clf_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;preprocessor&#39;</span><span class="p">,</span> <span class="n">preprocessor</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;regressor&#39;</span><span class="p">,</span> <span class="n">xgb_clf</span><span class="p">)</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">xgb_clf_pipeline</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">scores</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.76767677, 0.75510204, 0.79591837, 0.84693878, 0.79591837,
+        0.74489796, 0.79591837, 0.81632653, 0.84693878, 0.80612245]),
+ 0.7971758400329828,
+ 0.03282927145869996)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>On constate de meilleurs résultats avec <code class="docutils literal notranslate"><span class="pre">RandomForestClassifier</span></code> et <code class="docutils literal notranslate"><span class="pre">XGBClassifier</span></code></strong> que la régression logistique. C’est cohérent avec l’intuition : le Titanic a des <strong>interactions fortes entre variables</strong> (sexe × classe × âge → probabilité de survie) que les modèles à base d’arbres capturent naturellement, alors qu’une régression logistique ne modéliserait que des effets <strong>additifs</strong> sans ces interactions.</p>
+<blockquote>
+<div><p><strong>Leçon à retenir :</strong> le choix de l’algorithme n’est <strong>pas</strong> neutre. Sur certains problèmes, les modèles linéaires sont suffisants et préférés pour leur interprétabilité. Sur d’autres (comme le Titanic), les ensembles d’arbres dominent. <strong>Tester plusieurs algorithmes</strong> est un réflexe indispensable.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="passage-en-production">
+<h2>Passage en production<a class="headerlink" href="#passage-en-production" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Une fois qu’on a un modèle qui fonctionne, il faut pouvoir le <strong>déployer</strong> : l’utiliser dans une API, un batch de prédiction, une appli web. Le geste technique central est la <strong>sérialisation</strong> — sauvegarder le modèle entraîné dans un fichier, et le recharger plus tard sans avoir à tout réentraîner.</p>
+<p><strong>Deux bibliothèques Python pour ça :</strong></p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">joblib</span></code></strong> : le choix standard pour scikit-learn. Rapide sur les gros tableaux NumPy (via compression et mmap).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">pickle</span></code></strong> : le module Python standard. Fonctionne aussi, légèrement moins optimisé.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>⚠️ Piège de la sérialisation :</strong></p>
+<ul class="simple">
+<li><p><strong>Versions de bibliothèques</strong> : un modèle sauvegardé avec scikit-learn 1.3 peut ne plus charger avec 1.5. <strong>Toujours pinner les versions</strong> en production (<code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> ou lock file) et <strong>toujours versionner</strong> le code qui a généré le modèle.</p></li>
+<li><p><strong>Sécurité</strong> : <code class="docutils literal notranslate"><span class="pre">joblib</span></code> et <code class="docutils literal notranslate"><span class="pre">pickle</span></code> <strong>exécutent du code arbitraire</strong> lors du chargement. <strong>Ne jamais charger un .pkl venant d’une source non vérifiée</strong> — c’est une faille de sécurité critique.</p></li>
+<li><p><strong>Alternatives</strong> : pour des modèles plus portables, voir <strong>ONNX</strong> (standard cross-framework), <strong>PMML</strong> (XML), ou sauver juste les coefficients dans un JSON / Parquet.</p></li>
+</ul>
+<p>Pour l’instant, <code class="docutils literal notranslate"><span class="pre">joblib</span></code> est parfait pour cette démo.</p>
+</div></blockquote>
+<p><strong>Bonne pratique :</strong> sauvegarder le <strong>pipeline complet</strong> (preprocessor + modèle), pas juste le modèle. Sinon, tu dois refaire le preprocessing à la main en production — source d’erreurs classique. Ici, on les sauvegarde séparément pour l’illustration, mais en vrai on aurait tout combiné dans <strong>un seul Pipeline</strong> :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="n">full_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s1">&#39;preprocessor&#39;</span><span class="p">,</span> <span class="n">preprocessor</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">rf_clf</span><span class="p">),</span>
+<span class="p">])</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">full_pipeline</span><span class="p">,</span> <span class="s1">&#39;full_pipeline.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Un seul fichier à déployer, un seul <code class="docutils literal notranslate"><span class="pre">.predict(X)</span></code> à appeler en production. C’est <strong>la bonne façon de faire</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">joblib</span>
+<span class="n">preprocessor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train_trans</span> <span class="o">=</span> <span class="n">preprocessor</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">rf_clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">rf_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_trans</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">preprocessor</span><span class="p">,</span> <span class="s2">&quot;preprocessor.pkl&quot;</span><span class="p">)</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">rf_clf</span><span class="p">,</span> <span class="s2">&quot;model.pkl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;model.pkl&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>En production</strong>, on charge les fichiers déployés via <code class="docutils literal notranslate"><span class="pre">joblib.load()</span></code>. C’est rapide : pas de ré-entraînement, juste une lecture de fichier.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loaded_preprocessor</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;preprocessor.pkl&quot;</span><span class="p">)</span>
+<span class="n">loaded_model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;model.pkl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>On peut ainsi <strong>traiter de nouvelles données</strong> (en production, celles des vrais utilisateurs ; ici, on simule avec le jeu de test qu’on avait mis de côté).</p>
+<blockquote>
+<div><p><strong>⚠️ Très important :</strong> en production, les nouvelles données doivent passer par <strong>exactement le même preprocessor</strong> que celui utilisé à l’entraînement. C’est ce que garantit la sauvegarde du pipeline. <strong>Toute divergence</strong> entre le preprocessing de train et celui de production → <strong>bug silencieux</strong> qui dégrade les prédictions sans erreur visible.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_rw_processed</span> <span class="o">=</span> <span class="n">loaded_preprocessor</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">loaded_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_rw_processed</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+       0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0,
+       0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
+       0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0,
+       0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0,
+       0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+       1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
+       0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0,
+       1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0,
+       1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pour-resumer-feature-engineering-en-pratique">
+<h2>🎯 Pour résumer — feature engineering en pratique<a class="headerlink" href="#pour-resumer-feature-engineering-en-pratique" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="le-workflow-standard">
+<h3>Le workflow standard<a class="headerlink" href="#le-workflow-standard" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Split train/test d’abord</strong> — avant toute analyse ou transformation.</p></li>
+<li><p><strong>Explorer (EDA)</strong> les valeurs manquantes, les types, les distributions sur le train.</p></li>
+<li><p><strong>Imputer</strong> les NaN avec <code class="docutils literal notranslate"><span class="pre">SimpleImputer</span></code> (médiane pour numériques, mode pour catégorielles).</p></li>
+<li><p><strong>Encoder</strong> les variables catégorielles avec <code class="docutils literal notranslate"><span class="pre">OneHotEncoder</span></code> (nominales) ou laisser en numérique (ordinales).</p></li>
+<li><p><strong>Combiner</strong> les transformations avec <code class="docutils literal notranslate"><span class="pre">ColumnTransformer</span></code> + <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code>.</p></li>
+<li><p><strong>Entraîner</strong> plusieurs modèles avec cross-validation sur le train.</p></li>
+<li><p><strong>Comparer à une baseline</strong> (<code class="docutils literal notranslate"><span class="pre">DummyClassifier</span></code>) pour valider que le modèle fait mieux qu’un idiot.</p></li>
+<li><p><strong>Évaluer</strong> le meilleur modèle sur le test set (une seule fois).</p></li>
+<li><p><strong>Sérialiser</strong> le pipeline complet pour le déploiement.</p></li>
+</ol>
+</section>
+<section id="les-gestes-a-avoir-en-reflexe">
+<h3>Les gestes à avoir en réflexe<a class="headerlink" href="#les-gestes-a-avoir-en-reflexe" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.compose</span> <span class="kn">import</span> <span class="n">ColumnTransformer</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span><span class="p">,</span> <span class="n">StandardScaler</span>
+
+<span class="n">numeric_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;fare&#39;</span><span class="p">,</span> <span class="s1">&#39;sibsp&#39;</span><span class="p">,</span> <span class="s1">&#39;parch&#39;</span><span class="p">]</span>
+<span class="n">categorical_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;embarked&#39;</span><span class="p">]</span>
+
+<span class="n">preprocessor</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">([</span>
+    <span class="p">(</span><span class="s1">&#39;num&#39;</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">([</span>
+        <span class="p">(</span><span class="s1">&#39;imputer&#39;</span><span class="p">,</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>          <span class="c1"># optionnel selon le modèle</span>
+    <span class="p">]),</span> <span class="n">numeric_cols</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">([</span>
+        <span class="p">(</span><span class="s1">&#39;imputer&#39;</span><span class="p">,</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;most_frequent&#39;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s1">&#39;onehot&#39;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)),</span>
+    <span class="p">]),</span> <span class="n">categorical_cols</span><span class="p">),</span>
+<span class="p">])</span>
+
+<span class="n">full_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s1">&#39;preprocessor&#39;</span><span class="p">,</span> <span class="n">preprocessor</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">RandomForestClassifier</span><span class="p">()),</span>
+<span class="p">])</span>
+
+<span class="n">full_pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">full_pipeline</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Ce bloc de code est un squelette réutilisable</strong> pour 80% des problèmes tabulaires en data science. Apprends-le par cœur.</p>
+</section>
+<section id="les-pieges-les-plus-frequents">
+<h3>Les pièges les plus fréquents<a class="headerlink" href="#les-pieges-les-plus-frequents" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>⚠️ <strong>Faire du feature engineering avant le split</strong> → data leakage garanti, score optimiste.</p></li>
+<li><p>⚠️ <strong>Oublier <code class="docutils literal notranslate"><span class="pre">handle_unknown='ignore'</span></code></strong> sur <code class="docutils literal notranslate"><span class="pre">OneHotEncoder</span></code> → plantage en prod dès qu’une nouvelle catégorie apparaît.</p></li>
+<li><p>⚠️ <strong>Ne pas comparer à une baseline</strong> → tu peux célébrer un score de 95% qui est en fait juste le déséquilibre des classes.</p></li>
+<li><p>⚠️ <strong>Déployer le modèle sans le pipeline de preprocessing</strong> → preprocessing manuel en prod → divergence → bug silencieux.</p></li>
+<li><p>⚠️ <strong>Utiliser <code class="docutils literal notranslate"><span class="pre">pickle</span></code>/<code class="docutils literal notranslate"><span class="pre">joblib</span></code> sur des fichiers non vérifiés</strong> → faille de sécurité (exécution de code arbitraire).</p></li>
+<li><p>⚠️ <strong>Ne pas pinner les versions</strong> de scikit-learn → le modèle peut ne plus charger après un <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">upgrade</span></code>.</p></li>
+</ul>
+</section>
+<section id="pour-aller-plus-loin">
+<h3>Pour aller plus loin<a class="headerlink" href="#pour-aller-plus-loin" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong>Chapitre 07 — Feature engineering avancé</strong> : <code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code>, <code class="docutils literal notranslate"><span class="pre">KNNImputer</span></code>, transformations de distribution, réduction de dimensionnalité.</p></li>
+<li><p><strong>Target encoding</strong> : alternative au one-hot pour les variables catégorielles à haute cardinalité.</p></li>
+<li><p><strong>Feature selection</strong> : <code class="docutils literal notranslate"><span class="pre">SelectKBest</span></code>, importance des features, <span class="math notranslate nohighlight">\(L_1\)</span> pour identifier ce qui compte.</p></li>
+<li><p><strong>AutoML</strong> : outils comme <code class="docutils literal notranslate"><span class="pre">auto-sklearn</span></code>, <code class="docutils literal notranslate"><span class="pre">TPOT</span></code>, <code class="docutils literal notranslate"><span class="pre">FLAML</span></code> qui automatisent une partie de ce pipeline.</p></li>
+</ul>
+</section>
+<section id="le-mot-de-la-fin">
+<h3>Le mot de la fin<a class="headerlink" href="#le-mot-de-la-fin" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>Un pipeline propre vaut plus qu’un modèle brillant.</strong> Un modèle à 95% qui plante en production dès la première valeur manquante est inférieur à un modèle à 90% qui tourne sans bug pendant 2 ans. La qualité d’ingénierie du pipeline — reproductibilité, robustesse, clarté — est souvent ce qui distingue un <strong>projet qui va en production</strong> d’un <strong>projet qui reste dans un notebook</strong>.</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours-exe/05-feature-engineering-basics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../cours/05-feature-engineering-basics/01-feature-engineering.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Feature engineering</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qu-est-ce-qu-on-va-faire-dans-ce-notebook">Qu’est-ce qu’on va faire dans ce notebook ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-plan">Le plan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-mise-en-forme-des-donnees">Data cleaning — mise en forme des données</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creation-des-jeux-d-apprentissage-et-de-test">Création des jeux d’apprentissage et de test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-traitement-des-valeurs-manquantes">Data cleaning — traitement des valeurs manquantes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imputation-des-colonnes-numeriques">Imputation des colonnes numériques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imputation-des-colonnes-categorielles">Imputation des colonnes catégorielles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combinaison-des-transformations-avec-columntransformer">Combinaison des transformations avec ColumnTransformer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-transformation-traitement-des-donnees-categorielles">Feature transformation — traitement des données catégorielles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-pclass-pas-de-probleme">Pour <code class="docutils literal notranslate"><span class="pre">pclass</span></code> : pas de problème</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-sex-et-embarked-attention-au-piege">Pour <code class="docutils literal notranslate"><span class="pre">sex</span></code> et <code class="docutils literal notranslate"><span class="pre">embarked</span></code> : attention au piège</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-hot-encoding">One-hot encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pipeline-de-preprocessing-complet">Pipeline de preprocessing complet</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage">Apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-logistique">Régression logistique</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-s-assurer-qu-on-fait-mieux-qu-un-idiot">Baseline — s’assurer qu’on fait mieux qu’un idiot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-modeles-monter-en-complexite">Autres modèles — monter en complexité</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#passage-en-production">Passage en production</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-feature-engineering-en-pratique">🎯 Pour résumer — feature engineering en pratique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-workflow-standard">Le workflow standard</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-gestes-a-avoir-en-reflexe">Les gestes à avoir en réflexe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-les-plus-frequents">Les pièges les plus fréquents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-aller-plus-loin">Pour aller plus loin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

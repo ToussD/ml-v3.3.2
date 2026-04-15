@@ -1,0 +1,1203 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Quelques algorithmes de Machine Learning &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"RR": "\\mathbb{R}", "NN": "\\mathbb{N}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Isolation Forest — détecter des anomalies" href="../../cours-exe/07-machine-learning-algorithms/04-isolation-forest.html" />
+    <link rel="prev" title="Évaluation d’un modèle de classification" href="../../cours-exe/07-machine-learning-algorithms/02-evaluate-classification-model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Quelques algorithmes de Machine Learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-ce-chapitre">Pourquoi ce chapitre ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-lineaire">Régression linéaire</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-idee-intuitive">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-formule">La formule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forces-et-faiblesses">Forces et faiblesses</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-algorithme-de-base-ols-ordinary-least-squares">L’algorithme de base — OLS (<em>Ordinary Least Squares</em>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ridge-regression">Ridge regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lasso">Lasso</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elasticnet">ElasticNet</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-polynomiale">Régression polynomiale</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scoring-d-une-regression">Scoring d’une régression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-logistique">Régression logistique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comment-ca-marche">Comment ça marche ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Forces et faiblesses</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#support-vector-machines-svm">Support Vector Machines (SVM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Forces et faiblesses</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-astuce-du-kernel">L’astuce du kernel</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-polynomial">Kernel polynomial</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-gaussien-rbf">Kernel gaussien (RBF)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes">Naive Bayes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Forces et faiblesses</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exemple-classification-de-texte-par-sac-de-mots">Exemple : classification de texte par sac de mots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbors-k-nn">K-Nearest Neighbors (K-NN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Forces et faiblesses</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means">K-Means</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fonctionnement-simplifie">Fonctionnement (simplifié)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Forces et faiblesses</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dbscan">DBScan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#differences-cles-avec-k-means">Différences clés avec K-Means</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-algorithmes-d-ensemble">Les algorithmes d’ensemble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bagging">Bagging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boosting">Boosting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stacking">Stacking</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-choisir-son-algorithme">🎯 Pour résumer — choisir son algorithme</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-tableau-de-synthese">Le tableau de synthèse</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-regle-empirique-par-quoi-commencer">La règle empirique <em>« par quoi commencer ? »</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aides-memoire-visuels">Aides-mémoire visuels</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="quelques-algorithmes-de-machine-learning">
+<h1>Quelques algorithmes de Machine Learning<a class="headerlink" href="#quelques-algorithmes-de-machine-learning" title="Lien permanent vers cette rubrique">#</a></h1>
+<section id="pourquoi-ce-chapitre">
+<h2>Pourquoi ce chapitre ?<a class="headerlink" href="#pourquoi-ce-chapitre" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Il existe des <strong>centaines</strong> d’algorithmes de machine learning, chacun avec ses forces, ses faiblesses et ses cas d’usage. Ce chapitre n’a pas pour but d’être exhaustif (ce serait un cours entier), mais de vous donner <strong>une carte mentale</strong> des algorithmes les plus importants — ceux qu’on rencontre <strong>tous les jours</strong> en data science.</p>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> imaginez la boîte à outils d’un menuisier. Il n’utilise pas un marteau pour tout. Il a une scie pour couper, une ponceuse pour lisser, une perceuse pour percer… Chaque outil est adapté à un usage précis. <strong>En ML, c’est pareil</strong> : il n’y a pas d’algorithme universellement meilleur, il y a des <strong>algorithmes bien adaptés à des situations</strong>. Ce chapitre vous aide à savoir <strong>quel outil sortir de la boîte</strong> selon le problème.</p>
+</div></blockquote>
+<p>Pour chaque algorithme, on va répondre à 3 questions :</p>
+<ol class="arabic simple">
+<li><p><strong>Quelle est l’idée intuitive ?</strong> (le mental model en une phrase)</p></li>
+<li><p><strong>Quand l’utiliser ?</strong> (les cas d’usage typiques)</p></li>
+<li><p><strong>Quels sont ses pièges ?</strong> (ce qu’il faut savoir avant de l’essayer)</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="regression-lineaire">
+<h2><a class="reference external" href="https://scikit-learn.org/stable/modules/linear_model.html#linear-regression">Régression linéaire</a><a class="headerlink" href="#regression-lineaire" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="l-idee-intuitive">
+<h3>L’idée intuitive<a class="headerlink" href="#l-idee-intuitive" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>La régression linéaire</strong> cherche à <strong>tracer une droite</strong> (ou un plan en plus de 2 dimensions) qui passe « au mieux » au milieu des données. Une fois la droite trouvée, on peut prédire la valeur de <span class="math notranslate nohighlight">\(y\)</span> pour un nouveau <span class="math notranslate nohighlight">\(x\)</span> en lisant sur la droite.</p>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> un comptable qui veut estimer le prix d’un appartement à partir de sa superficie. Il regarde les ventes passées, repère la tendance <em>« +1 m² ≈ +5 000 € »</em> et s’en sert pour estimer un nouveau bien. C’est exactement ce que fait la régression linéaire — en plus précis et en plusieurs dimensions.</p>
+</div></blockquote>
+</section>
+<section id="la-formule">
+<h3>La formule<a class="headerlink" href="#la-formule" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>En 2 dimensions :</p>
+<div class="math notranslate nohighlight">
+\[
+\Large{
+y = a \cdot x + b
+}
+\]</div>
+<p><strong>Décodage :</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x\)</span> est la variable d’entrée (la superficie).</p></li>
+<li><p><span class="math notranslate nohighlight">\(y\)</span> est la variable à prédire (le prix).</p></li>
+<li><p><span class="math notranslate nohighlight">\(a\)</span> est la <strong>pente</strong> de la droite (<em>« de combien <span class="math notranslate nohighlight">\(y\)</span> augmente quand <span class="math notranslate nohighlight">\(x\)</span> augmente de 1 »</em>, soit le prix au m²).</p></li>
+<li><p><span class="math notranslate nohighlight">\(b\)</span> est l”<strong>ordonnée à l’origine</strong> (<em>« la valeur de <span class="math notranslate nohighlight">\(y\)</span> quand <span class="math notranslate nohighlight">\(x = 0\)</span> »</em>, soit un offset).</p></li>
+</ul>
+<p>L’algorithme d’apprentissage <strong>cherche les valeurs optimales de <span class="math notranslate nohighlight">\(a\)</span> et <span class="math notranslate nohighlight">\(b\)</span></strong> à partir des données. C’est un <strong>modèle paramétrique</strong> : tout ce que le modèle « sait », c’est ces quelques paramètres.</p>
+<p><img alt="Regression linéaire" src="../../_images/linear-regression.png" /></p>
+</section>
+<section id="forces-et-faiblesses">
+<h3>Forces et faiblesses<a class="headerlink" href="#forces-et-faiblesses" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Simple, rapide, interprétable.</strong> On peut expliquer la prédiction à un client métier en 2 phrases.</p></li>
+<li><p>✅ <strong>Prédiction très rapide</strong> (juste un produit scalaire).</p></li>
+<li><p>⚠️ <strong>Ne capture que des relations linéaires.</strong> Si le vrai lien entre <span class="math notranslate nohighlight">\(x\)</span> et <span class="math notranslate nohighlight">\(y\)</span> est une parabole, une exponentielle ou quelque chose de complexe, la régression linéaire passera à côté.</p></li>
+<li><p>⚠️ <strong>Sensible aux outliers</strong> : quelques points aberrants peuvent tirer la droite dans une mauvaise direction.</p></li>
+</ul>
+</section>
+<section id="l-algorithme-de-base-ols-ordinary-least-squares">
+<h3>L’algorithme de base — OLS (<em>Ordinary Least Squares</em>)<a class="headerlink" href="#l-algorithme-de-base-ols-ordinary-least-squares" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> trouver <span class="math notranslate nohighlight">\(a\)</span> et <span class="math notranslate nohighlight">\(b\)</span> qui <strong>minimisent la somme des carrés</strong> des écarts entre les vraies valeurs et celles prédites par la droite.</p>
+<div class="math notranslate nohighlight">
+\[
+\Large{
+\text{perte} = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 = \sum_{i=1}^{n} (y_i - (a \cdot x_i + b))^2
+}
+\]</div>
+<blockquote>
+<div><p><strong>Pourquoi les carrés et pas les valeurs absolues ?</strong> Parce que les carrés rendent la perte <strong>dérivable partout</strong>, ce qui permet de trouver l’optimum analytiquement (via des équations matricielles). C’est ce qui rend l’algorithme à la fois très rapide et très élégant.</p>
+</div></blockquote>
+<p><strong>Complexité :</strong></p>
+<ul class="simple">
+<li><p>Apprentissage : entre <span class="math notranslate nohighlight">\(\mathcal{O}(m \times n^2)\)</span> (scikit-learn) et <span class="math notranslate nohighlight">\(\mathcal{O}(m \times n^3)\)</span> selon les algorithmes (<span class="math notranslate nohighlight">\(m\)</span> = nombre d’exemples, <span class="math notranslate nohighlight">\(n\)</span> = nombre de features).</p></li>
+<li><p>Prédiction : <strong>linéaire</strong> en <span class="math notranslate nohighlight">\(m\)</span> et en <span class="math notranslate nohighlight">\(n\)</span> — extrêmement rapide.</p></li>
+</ul>
+<p><img alt="Apprentissage régression linéaire" src="../../_images/linear-regression-learn.png" /></p>
+</section>
+<section id="ridge-regression">
+<h3><a class="reference external" href="https://scikit-learn.org/stable/modules/linear_model.html#ridge-regression">Ridge regression</a><a class="headerlink" href="#ridge-regression" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> c’est OLS <strong>+ une pénalité</strong> qui empêche les coefficients de devenir trop grands. Cette pénalité est la <strong>norme <span class="math notranslate nohighlight">\(L_2\)</span></strong> (somme des carrés des coefficients).</p>
+<div class="math notranslate nohighlight">
+\[
+\Large{
+\text{perte}_{\text{Ridge}} = \text{perte OLS} + \alpha \sum_{j=1}^{n} a_j^2
+}
+\]</div>
+<p>L’hyperparamètre <span class="math notranslate nohighlight">\(\alpha\)</span> contrôle la force de la régularisation : plus il est grand, plus les coefficients sont écrasés vers 0.</p>
+<p><strong>À quoi ça sert ?</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Corriger la multicolinéarité</strong> : si deux features sont très corrélées (par exemple <code class="docutils literal notranslate"><span class="pre">x_i</span> <span class="pre">=</span> <span class="pre">2</span> <span class="pre">x_j</span> <span class="pre">+</span> <span class="pre">3</span> <span class="pre">x_k</span></code>), OLS devient instable (il peut donner n’importe quoi). Ridge lisse ça.</p></li>
+<li><p><strong>Limiter la complexité du modèle</strong> pour éviter le surapprentissage (overfitting).</p></li>
+</ol>
+<blockquote>
+<div><p><strong>⚠️ Piège classique :</strong> la régularisation s’applique <strong>uniformément</strong> à tous les coefficients, quelle que soit l”<strong>échelle</strong> des variables. Si une feature est en € (0 à 500 000) et une autre en m² (20 à 200), la pénalité va frapper beaucoup plus fort la variable en m² (dont les coefficients seront numériquement plus grands). <strong>Solution :</strong> toujours <strong>normaliser les données</strong> (<code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>) avant d’utiliser Ridge, Lasso ou ElasticNet.</p>
+</div></blockquote>
+</section>
+<section id="lasso">
+<h3><a class="reference external" href="https://scikit-learn.org/stable/modules/linear_model.html#lasso">Lasso</a><a class="headerlink" href="#lasso" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> comme Ridge, mais avec une pénalité <strong><span class="math notranslate nohighlight">\(L_1\)</span></strong> (somme des valeurs absolues des coefficients) au lieu de <span class="math notranslate nohighlight">\(L_2\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+\Large{
+\text{perte}_{\text{Lasso}} = \text{perte OLS} + \alpha \sum_{j=1}^{n} |a_j|
+}
+\]</div>
+<p><strong>Propriété remarquable :</strong> Lasso a tendance à <strong>mettre exactement à 0</strong> certains coefficients — pas juste les rendre petits, les <strong>annuler complètement</strong>. Résultat : le modèle final n’utilise que les features les plus importantes.</p>
+<p><strong>À quoi ça sert ?</strong></p>
+<ul class="simple">
+<li><p><strong>Sélection automatique de features</strong> : les features inutiles sont éliminées. Parfait quand on a des centaines de variables et qu’on ne sait pas lesquelles comptent.</p></li>
+<li><p><strong>Explicabilité</strong> : un modèle avec 5 features utilisées est bien plus facile à expliquer qu’un modèle avec 500.</p></li>
+</ul>
+</section>
+<section id="elasticnet">
+<h3><a class="reference external" href="https://scikit-learn.org/stable/modules/linear_model.html#elastic-net">ElasticNet</a><a class="headerlink" href="#elasticnet" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> pourquoi choisir entre Ridge et Lasso quand on peut avoir les deux ? ElasticNet combine les deux pénalités :</p>
+<div class="math notranslate nohighlight">
+\[
+\Large{
+\text{perte}_{\text{EN}} = \text{perte OLS} + \alpha_1 \sum_j |a_j| + \alpha_2 \sum_j a_j^2
+}
+\]</div>
+<p><strong>Quand l’utiliser ?</strong> Quand Lasso semble trop agressif (il supprime des variables qu’on aurait voulu garder) mais que Ridge ne sélectionne pas assez. ElasticNet offre le meilleur des deux mondes.</p>
+</section>
+<section id="regression-polynomiale">
+<h3><a class="reference external" href="https://scikit-learn.org/stable/auto_examples/linear_model/plot_polynomial_interpolation.html">Régression polynomiale</a><a class="headerlink" href="#regression-polynomiale" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> <strong>c’est toujours de la régression linéaire</strong>, mais on lui donne en entrée non pas les variables brutes, mais leurs <strong>polynômes</strong>.</p>
+<p><strong>Exemple avec 2 variables et degré 2 :</strong></p>
+<div class="math notranslate nohighlight">
+\[
+(x_1, x_2) \rightarrow (x_1, x_2, x_1^2, x_2^2, x_1 \cdot x_2)
+\]</div>
+<p>La régression est linéaire <strong>dans ce nouvel espace enrichi</strong>, mais elle capture des relations non linéaires dans l’espace d’origine.</p>
+<blockquote>
+<div><p><strong>Mental model :</strong> on « triche » en créant de nouvelles features à partir des anciennes. Le modèle ne change pas, mais il devient capable de tracer des <strong>courbes</strong> au lieu de droites.</p>
+<p><strong>Attention :</strong> avec beaucoup de variables et un degré élevé, le nombre de features explose. Avec 10 variables et degré 3 → environ 286 features. C’est vite ingérable et on doit régulariser fort.</p>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="scoring-d-une-regression">
+<h2>Scoring d’une régression<a class="headerlink" href="#scoring-d-une-regression" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Comment mesure-t-on la qualité d’une régression ? Revoir le notebook <code class="docutils literal notranslate"><span class="pre">03-use-sklearn-algorithms/03-evaluate-regression-model</span></code> qui détaille les métriques <strong>MAE, RMSE, R², MAPE</strong>. En résumé :</p>
+<ul class="simple">
+<li><p><strong>MAE</strong> → erreur moyenne dans les unités de la cible, robuste aux outliers.</p></li>
+<li><p><strong>RMSE</strong> → idem mais pénalise plus les grosses erreurs (carré).</p></li>
+<li><p><strong>R²</strong> → quelle fraction de la variance est expliquée par le modèle (entre 0 et 1).</p></li>
+<li><p><strong>MAPE</strong> → pourcentage d’erreur moyen, parlant pour le métier.</p></li>
+</ul>
+<p><img alt="Scoring" src="../../_images/regression-scoring.png" /></p>
+</section>
+<hr class="docutils" />
+<section id="regression-logistique">
+<h2><a class="reference external" href="https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression">Régression logistique</a><a class="headerlink" href="#regression-logistique" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="id1">
+<h3>L’idée intuitive<a class="headerlink" href="#id1" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Malgré son nom, c’est un algorithme de classification</strong>, pas de régression ! Il prédit la <strong>probabilité d’appartenance à une classe</strong> (entre 0 et 1). Si la proba est au-dessus d’un seuil (souvent 0,5), on décide <em>« c’est la classe positive »</em>.</p>
+<blockquote>
+<div><p><strong>L’analogie :</strong> un médecin qui regarde les résultats d’analyses d’un patient et dit <em>« il y a 80% de chances que vous ayez cette maladie »</em>. C’est une probabilité, pas une réponse binaire. La décision finale (traiter ou pas) dépend d’un seuil qu’on choisit selon les enjeux.</p>
+</div></blockquote>
+</section>
+<section id="comment-ca-marche">
+<h3>Comment ça marche ?<a class="headerlink" href="#comment-ca-marche" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>En interne</strong>, c’est une régression linéaire dont la sortie passe dans une <strong>fonction sigmoïde</strong> qui écrase les valeurs entre 0 et 1 :</p>
+<div class="math notranslate nohighlight">
+\[
+\Large{
+P(y = 1 | x) = \frac{1}{1 + e^{-(ax + b)}}
+}
+\]</div>
+<p>Cette transformation garantit que la sortie est toujours interprétable comme une probabilité.</p>
+</section>
+<section id="id2">
+<h3>Forces et faiblesses<a class="headerlink" href="#id2" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Simple, rapide, interprétable</strong> (comme la régression linéaire).</p></li>
+<li><p>✅ <strong>Sortie probabiliste</strong> : on peut ajuster le seuil de décision pour privilégier précision ou rappel.</p></li>
+<li><p>✅ <strong>Baseline de référence</strong> pour la classification binaire — souvent étonnamment compétitive.</p></li>
+<li><p>⚠️ <strong>Sensible aux relations linéaires</strong> : si la vraie frontière de décision est courbe, ça patine.</p></li>
+<li><p>⚠️ <strong>Nécessite une certaine quantité de données</strong> pour converger proprement.</p></li>
+<li><p>🔧 <strong>Hyperparamètre <code class="docutils literal notranslate"><span class="pre">C</span></code></strong> (inverse de la force de régularisation) : plus petit = plus régularisé.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="support-vector-machines-svm">
+<h2><a class="reference external" href="https://scikit-learn.org/stable/modules/svm.html">Support Vector Machines (SVM)</a><a class="headerlink" href="#support-vector-machines-svm" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="id3">
+<h3>L’idée intuitive<a class="headerlink" href="#id3" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>On cherche la « frontière » qui sépare deux classes en laissant le plus de marge possible</strong> de chaque côté.</p>
+<blockquote>
+<div><p><strong>L’analogie :</strong> imagine deux groupes d’élèves dans une cour de récré. Tu veux tracer une ligne au milieu pour les séparer. Mais il y a plein de lignes possibles. Le SVM choisit celle qui <strong>passe le plus loin possible</strong> des élèves les plus proches, de chaque côté. Plus la « rue » entre les deux groupes est large, plus la séparation est robuste (un nouvel élève tombera probablement du bon côté).</p>
+</div></blockquote>
+<p><img alt="SVM" src="https://scikit-learn.org/stable/_images/sphx_glr_plot_separating_hyperplane_001.png" /></p>
+<p><strong>Les points les plus proches de la frontière</strong> s’appellent les <strong>vecteurs support</strong> — ce sont eux qui définissent la séparation. Les autres points, plus loin, n’ont aucune influence.</p>
+</section>
+<section id="id4">
+<h3>Forces et faiblesses<a class="headerlink" href="#id4" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Efficace dans les espaces très multidimensionnels</strong> (beaucoup de features).</p></li>
+<li><p>✅ <strong>Fonctionne même si le nombre de données est inférieur au nombre de dimensions</strong> — rare parmi les algorithmes.</p></li>
+<li><p>✅ <strong>Utilise peu de mémoire</strong> (il ne retient que les vecteurs support).</p></li>
+<li><p>✅ <strong>Régularisable</strong> via l’hyperparamètre <code class="docutils literal notranslate"><span class="pre">C</span></code>.</p></li>
+<li><p>⚠️ <strong>Très sensible à l’échelle</strong> → toujours normaliser les données.</p></li>
+<li><p>⚠️ <strong>Ne produit pas de probabilités par défaut</strong> (il faut passer par <code class="docutils literal notranslate"><span class="pre">probability=True</span></code> qui fait un calibrage à part).</p></li>
+<li><p>⚠️ <strong>Lent sur de gros datasets</strong> (&gt; quelques dizaines de milliers d’exemples).</p></li>
+</ul>
+</section>
+<section id="l-astuce-du-kernel">
+<h3>L’astuce du kernel<a class="headerlink" href="#l-astuce-du-kernel" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Problème :</strong> en pratique, les données sont <strong>rarement linéairement séparables</strong>. Une droite ne suffit pas, il faut une courbe.</p>
+<p><strong>Solution :</strong> projeter les données dans un <strong>espace de dimension supérieure</strong> où une séparation linéaire redevient possible, puis retraduire cette séparation dans l’espace d’origine.</p>
+<blockquote>
+<div><p><strong>L’analogie :</strong> imagine des points disposés en cercles concentriques sur une feuille de papier. Impossible de les séparer avec une ligne droite. Mais si tu « soulèves » le cercle intérieur en 3D (en ajoutant une dimension <span class="math notranslate nohighlight">\(z = x^2 + y^2\)</span>), tu peux maintenant séparer les deux groupes avec un <strong>plan horizontal</strong>. C’est exactement le principe du kernel.</p>
+</div></blockquote>
+<section id="kernel-polynomial">
+<h4>Kernel polynomial<a class="headerlink" href="#kernel-polynomial" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>Projette les données dans un espace où les séparations sont des polynômes (paraboles, cubiques…). Utile pour des frontières courbes simples.</p>
+<p><img alt="Kernel polynomial" src="../../_images/polynomial-kernel.png" /></p>
+</section>
+<section id="kernel-gaussien-rbf">
+<h4>Kernel gaussien (RBF)<a class="headerlink" href="#kernel-gaussien-rbf" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>Le plus utilisé en pratique. Il place une « cloche gaussienne » autour de chaque point et mesure les proximités — ce qui permet de créer des frontières <strong>très flexibles</strong> capables de suivre n’importe quelle forme.</p>
+<p><img alt="Kernel gaussien" src="../../_images/gaussian-kernel.png" /></p>
+<p><strong>En pratique</strong>, les algorithmes utilisent le <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/svm/plot_svm_kernels.html"><strong>kernel trick</strong></a> : ils calculent directement les similarités dans l’espace projeté, <strong>sans jamais construire l’espace explicitement</strong>. C’est ce qui rend les SVM à kernel calculables même dans des espaces de dimension infinie.</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="naive-bayes">
+<h2><a class="reference external" href="https://scikit-learn.org/stable/modules/naive_bayes.html">Naive Bayes</a><a class="headerlink" href="#naive-bayes" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="id5">
+<h3>L’idée intuitive<a class="headerlink" href="#id5" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Naive Bayes applique le théorème de Bayes à la classification</strong>, en faisant une hypothèse naïve : <strong>toutes les features sont indépendantes</strong> les unes des autres.</p>
+<blockquote>
+<div><p><strong>L’analogie :</strong> tu reçois un email. Naive Bayes se demande <em>« si cet email est un spam, quelle est la probabilité qu’il contienne les mots qu’il contient ? »</em> et <em>« si ce n’est pas un spam, quelle est cette probabilité ? »</em>. Il choisit la classe qui rend l’email le plus « probable ». L’hypothèse naïve, c’est de supposer que <strong>la présence du mot <em>« offre »</em> est indépendante</strong> de la présence du mot <em>« viagra »</em> — ce qui est faux en réalité, mais ça marche étonnamment bien quand même.</p>
+</div></blockquote>
+</section>
+<section id="id6">
+<h3>Forces et faiblesses<a class="headerlink" href="#id6" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Très rapide à entraîner et à prédire</strong> (il ne fait que compter et multiplier).</p></li>
+<li><p>✅ <strong>Efficace avec peu de données d’apprentissage</strong>.</p></li>
+<li><p>✅ <strong>Utilisé historiquement pour la classification de texte</strong> (filtres anti-spam, analyse de sentiment, classification de news) — c’est là qu’il brille.</p></li>
+<li><p>⚠️ <strong>L’hypothèse d’indépendance est rarement vraie</strong> → dégrade les estimations de probabilité, mais souvent pas les décisions finales.</p></li>
+<li><p>⚠️ <strong>Moins performant que les méthodes modernes</strong> (boosting, deep learning) sur la plupart des problèmes hors texte.</p></li>
+</ul>
+</section>
+<section id="exemple-classification-de-texte-par-sac-de-mots">
+<h3>Exemple : classification de texte par sac de mots<a class="headerlink" href="#exemple-classification-de-texte-par-sac-de-mots" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><img alt="Bag of words" src="../../_images/bag-of-words.png" /></p>
+<p>Chaque document est représenté par la <strong>fréquence des mots</strong> qu’il contient, et Naive Bayes calcule pour chaque classe (ex : spam / pas spam) la probabilité d’observer ces fréquences.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="k-nearest-neighbors-k-nn">
+<h2><a class="reference external" href="https://scikit-learn.org/stable/modules/neighbors.html">K-Nearest Neighbors (K-NN)</a><a class="headerlink" href="#k-nearest-neighbors-k-nn" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="id7">
+<h3>L’idée intuitive<a class="headerlink" href="#id7" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Pour classer un nouveau point, on regarde qui sont ses <span class="math notranslate nohighlight">\(k\)</span> plus proches voisins et on prend la classe majoritaire parmi eux.</strong> C’est aussi simple que ça.</p>
+<blockquote>
+<div><p><strong>L’analogie :</strong> dans une nouvelle école, comment deviner si un élève inconnu est en terminale S ou ES ? Regarde avec qui il traîne. Si ses 5 meilleurs copains sont tous en S, il est probablement en S aussi. C’est l’idée du K-NN.</p>
+</div></blockquote>
+<p><img alt="K-NN" src="../../_images/k-nn.png" /></p>
+<p><strong><span class="math notranslate nohighlight">\(k\)</span> est un hyperparamètre crucial</strong> :</p>
+<ul class="simple">
+<li><p><strong>Petit <span class="math notranslate nohighlight">\(k\)</span></strong> (par exemple 1) → très sensible au bruit, risque de surapprentissage.</p></li>
+<li><p><strong>Grand <span class="math notranslate nohighlight">\(k\)</span></strong> → décisions plus lisses mais risque de « moyenner » trop et de rater les subtilités.</p></li>
+<li><p><strong>Typiquement, on choisit <span class="math notranslate nohighlight">\(k\)</span> impair</strong> en classification binaire pour éviter les égalités.</p></li>
+</ul>
+<p><strong>Pour la régression</strong>, on prend la <strong>moyenne</strong> (ou la médiane) des valeurs des <span class="math notranslate nohighlight">\(k\)</span> voisins.</p>
+</section>
+<section id="id8">
+<h3>Forces et faiblesses<a class="headerlink" href="#id8" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Principe simplissime</strong>, facile à expliquer.</p></li>
+<li><p>✅ <strong>Pas de phase d’apprentissage explicite</strong> — c’est un algorithme « basé sur les instances ». On garde toutes les données d’entraînement en mémoire et on les consulte au moment de la prédiction.</p></li>
+<li><p>✅ <strong>Prise en compte immédiate des nouvelles données</strong> (juste les ajouter au dataset).</p></li>
+<li><p>⚠️ <strong>Prédiction lente</strong> : chaque nouvelle prédiction nécessite de calculer les distances à <strong>tous</strong> les points d’entraînement.</p></li>
+<li><p>⚠️ <strong>Très sensible à l’échelle</strong> → normaliser obligatoirement.</p></li>
+<li><p>⚠️ <strong>Souffre de la <a class="reference external" href="https://en.wikipedia.org/wiki/Curse_of_dimensionality#Nearest_neighbor_search">curse of dimensionality</a></strong> : en dimensions élevées (&gt;50), toutes les distances deviennent similaires, et la notion de « voisin proche » perd son sens.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>À retenir :</strong> K-NN est un excellent algorithme <em>de démo</em>, mais en production on lui préfère presque toujours des alternatives plus rapides et plus robustes (arbres, boosting).</p>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="k-means">
+<h2><a class="reference external" href="https://scikit-learn.org/stable/modules/clustering.html#k-means">K-Means</a><a class="headerlink" href="#k-means" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="id9">
+<h3>L’idée intuitive<a class="headerlink" href="#id9" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>K-Means</strong> est un algorithme de <strong>clustering</strong> : non pas classer des points dans des catégories connues, mais <strong>découvrir des regroupements naturels</strong> dans les données (<em>apprentissage non supervisé</em>).</p>
+<blockquote>
+<div><p><strong>L’analogie :</strong> imagine que tu arrives dans un grand parc avec plein de groupes de gens. Tu ne sais pas qui appartient à quel groupe (il n’y a pas d’étiquette), mais visuellement, tu vois qu’il y a <strong>trois grappes</strong> distinctes. K-Means fait la même chose : il cherche <span class="math notranslate nohighlight">\(k\)</span> groupes en minimisant la distance entre chaque point et le centre de son groupe.</p>
+</div></blockquote>
+<p><img alt="K-Means" src="../../_images/k-means.png" /></p>
+</section>
+<section id="fonctionnement-simplifie">
+<h3>Fonctionnement (simplifié)<a class="headerlink" href="#fonctionnement-simplifie" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p>On choisit <span class="math notranslate nohighlight">\(k\)</span> (nombre de clusters souhaités) — <strong>c’est un hyperparamètre critique</strong>.</p></li>
+<li><p>On place <span class="math notranslate nohighlight">\(k\)</span> centres au hasard.</p></li>
+<li><p>Chaque point rejoint le cluster dont le centre est le plus proche.</p></li>
+<li><p>On recalcule la position des centres comme la moyenne des points du cluster.</p></li>
+<li><p>On répète jusqu’à ce que les centres ne bougent plus.</p></li>
+</ol>
+</section>
+<section id="id10">
+<h3>Forces et faiblesses<a class="headerlink" href="#id10" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Simple et interprétable</strong> : chaque cluster a un centre (« point moyen ») qu’on peut regarder.</p></li>
+<li><p>✅ <strong>Rapide</strong> et scalable à de gros datasets.</p></li>
+<li><p>⚠️ <strong>Il faut fixer <span class="math notranslate nohighlight">\(k\)</span> à l’avance</strong> — pas toujours évident (on utilise des heuristiques comme la <em>méthode du coude</em> ou le <em>silhouette score</em>).</p></li>
+<li><p>⚠️ <strong>S’appuie sur la notion de distance</strong> → toujours normaliser les données.</p></li>
+<li><p>⚠️ <strong>Ne trouve que des clusters « sphériques »</strong> autour d’un centre. Pour des formes allongées ou non convexes, ça échoue.</p></li>
+<li><p>⚠️ <strong>Sensible à l’initialisation</strong> : deux runs avec des points de départ différents peuvent donner des clusters différents. Le paramètre <code class="docutils literal notranslate"><span class="pre">n_init=10</span></code> (par défaut) relance plusieurs fois et garde le meilleur.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="dbscan">
+<h2><a class="reference external" href="https://scikit-learn.org/stable/modules/clustering.html#dbscan">DBScan</a><a class="headerlink" href="#dbscan" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="id11">
+<h3>L’idée intuitive<a class="headerlink" href="#id11" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>DBScan cherche des « zones denses » de points</strong> et les regroupe en clusters. Les points isolés (pas dans une zone dense) sont étiquetés comme <strong>outliers</strong>.</p>
+<blockquote>
+<div><p><strong>L’analogie :</strong> tu regardes un ciel étoilé. Certaines zones sont très denses (galaxies, amas stellaires), d’autres très éparses. DBScan fait la même chose : il considère qu’un cluster est une zone où les points sont nombreux et proches les uns des autres.</p>
+</div></blockquote>
+<p><img alt="Dbscan" src="../../_images/dbscan.png" /></p>
+</section>
+<section id="differences-cles-avec-k-means">
+<h3>Différences clés avec K-Means<a class="headerlink" href="#differences-cles-avec-k-means" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Pas besoin de fixer le nombre de clusters à l’avance</strong> — DBScan le découvre lui-même.</p></li>
+<li><p>✅ <strong>Trouve des clusters de forme arbitraire</strong> (pas seulement sphériques).</p></li>
+<li><p>✅ <strong>Détecte les outliers</strong> en tant que points « hors cluster ».</p></li>
+<li><p>⚠️ <strong>Hyperparamètres <code class="docutils literal notranslate"><span class="pre">eps</span></code> et <code class="docutils literal notranslate"><span class="pre">min_samples</span></code></strong> à régler, pas toujours facile.</p></li>
+<li><p>⚠️ <strong>Moins efficace en haute dimension</strong> (même souci que K-NN : les distances deviennent peu informatives).</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="les-algorithmes-d-ensemble">
+<h2><a class="reference external" href="https://scikit-learn.org/stable/modules/ensemble.html">Les algorithmes d’ensemble</a><a class="headerlink" href="#les-algorithmes-d-ensemble" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="id12">
+<h3>L’idée intuitive<a class="headerlink" href="#id12" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Un ensemble combine plusieurs modèles (« apprenants faibles ») pour en faire un seul modèle fort.</strong> C’est le « sagesse des foules » appliqué au ML.</p>
+<blockquote>
+<div><p><strong>L’analogie :</strong> tu demandes conseil à 10 médecins différents pour un diagnostic. Chacun peut se tromper un peu, mais si on fait voter les 10, le diagnostic majoritaire est généralement plus fiable que celui d’un seul. C’est exactement ce que font les algorithmes d’ensemble — avec des « médecins » qui sont en fait des petits arbres de décision.</p>
+</div></blockquote>
+<p><strong>Trois grandes familles :</strong> <strong>bagging</strong>, <strong>boosting</strong>, et <strong>stacking</strong>.</p>
+</section>
+<section id="bagging">
+<h3><a class="reference external" href="https://scikit-learn.org/stable/modules/ensemble.html#bagging-meta-estimator">Bagging</a><a class="headerlink" href="#bagging" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> entraîner plusieurs modèles <strong>en parallèle</strong>, chacun sur un sous-échantillon différent des données (tiré avec remise). On combine ensuite leurs prédictions :</p>
+<ul class="simple">
+<li><p><strong>Moyenne</strong> pour la régression.</p></li>
+<li><p><strong>Vote majoritaire</strong> pour la classification.</p></li>
+</ul>
+<p><img alt="Bagging" src="../../_images/bagging.png" /></p>
+<blockquote>
+<div><p><strong>Pourquoi ça marche ?</strong> Chaque modèle pris isolément fait des erreurs, mais <strong>pas les mêmes erreurs</strong> (parce qu’ils sont entraînés sur des données différentes). En moyennant, les erreurs se compensent et le résultat final est plus stable (variance réduite).</p>
+</div></blockquote>
+<p><strong>Exemple star :</strong> <a class="reference external" href="https://scikit-learn.org/stable/modules/ensemble.html#forests-of-randomized-trees"><strong>Random Forest</strong></a> — une forêt d’arbres de décision où chaque arbre est entraîné sur un sous-échantillon <strong>et</strong> sur un sous-ensemble aléatoire de features. Robuste, peu sensible aux outliers, peu de tuning nécessaire.</p>
+</section>
+<section id="boosting">
+<h3>Boosting<a class="headerlink" href="#boosting" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> entraîner les modèles <strong>séquentiellement</strong>, chacun essayant de <strong>corriger les erreurs</strong> du précédent.</p>
+<p><img alt="Boosting" src="../../_images/boosting.png" /></p>
+<blockquote>
+<div><p><strong>Mental model :</strong> chaque nouveau modèle est un « spécialiste » des cas où les modèles précédents se trompent. On les empile comme des couches et on obtient un modèle final redoutable.</p>
+</div></blockquote>
+<p><strong>Exemple star :</strong> <a class="reference external" href="https://xgboost.readthedocs.io/en/latest/tutorials/model.html"><strong>XGBoost</strong></a> (aussi <strong>LightGBM</strong>, <strong>CatBoost</strong>) — des implémentations optimisées du <em>gradient boosting</em> qui <strong>dominent</strong> la plupart des compétitions Kaggle sur données tabulaires.</p>
+<blockquote>
+<div><p><strong>🎯 À retenir :</strong> si tu as un problème de prédiction sur des données tabulaires et que tu ne sais pas quoi essayer, commence par <strong>XGBoost / LightGBM</strong>. C’est presque toujours dans le top 3 des approches, et souvent l’état de l’art.</p>
+</div></blockquote>
+</section>
+<section id="stacking">
+<h3><a class="reference external" href="https://scikit-learn.org/stable/modules/ensemble.html#stacked-generalization">Stacking</a><a class="headerlink" href="#stacking" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> entraîner plusieurs modèles <strong>différents</strong> (par exemple une régression logistique, un SVM, un Random Forest, un XGBoost) puis entraîner un <strong>méta-modèle</strong> qui apprend à <strong>combiner</strong> leurs prédictions intelligemment.</p>
+<p><img alt="Stacking" src="../../_images/stacking.png" /></p>
+<blockquote>
+<div><p><strong>Mental model :</strong> le méta-modèle apprend <em>« sur quels cas dois-je faire confiance à la régression logistique plutôt qu’au Random Forest ? »</em>. C’est une combinaison plus sophistiquée que le simple vote ou la moyenne — et souvent plus performante, au prix d’un coût de calcul bien plus élevé.</p>
+</div></blockquote>
+<p><strong>Quand l’utiliser ?</strong> Quand on a besoin d’arracher les derniers pourcents de performance et que le coût calcul n’est pas un problème (typiquement, compétitions ML).</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="pour-resumer-choisir-son-algorithme">
+<h2>🎯 Pour résumer — choisir son algorithme<a class="headerlink" href="#pour-resumer-choisir-son-algorithme" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="le-tableau-de-synthese">
+<h3>Le tableau de synthèse<a class="headerlink" href="#le-tableau-de-synthese" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Algorithme</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Forces</p></th>
+<th class="head"><p>Faiblesses</p></th>
+<th class="head"><p>Cas d’usage typique</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Régression linéaire</strong></p></td>
+<td><p>Régression</p></td>
+<td><p>Simple, interprétable, rapide</p></td>
+<td><p>Relations linéaires uniquement</p></td>
+<td><p>Baseline, explicabilité forte</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Régression logistique</strong></p></td>
+<td><p>Classification</p></td>
+<td><p>Simple, probabiliste</p></td>
+<td><p>Linéaire</p></td>
+<td><p>Baseline classification</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Ridge / Lasso / ElasticNet</strong></p></td>
+<td><p>Régression</p></td>
+<td><p>Régularisation, sélection de features</p></td>
+<td><p>Linéaire</p></td>
+<td><p>Jeux de données avec multicolinéarité</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>SVM</strong></p></td>
+<td><p>Classif/Régr</p></td>
+<td><p>Efficace en haute dim, kernel trick</p></td>
+<td><p>Lent sur gros datasets, pas de probas</p></td>
+<td><p>Texte, image de taille modérée</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Naive Bayes</strong></p></td>
+<td><p>Classification</p></td>
+<td><p>Très rapide, peu de données</p></td>
+<td><p>Hypothèse d’indépendance</p></td>
+<td><p>Filtres anti-spam, classification texte</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>K-NN</strong></p></td>
+<td><p>Les deux</p></td>
+<td><p>Simple, prise en compte immédiate</p></td>
+<td><p>Prédiction lente, curse of dim</p></td>
+<td><p>Démo pédagogique, petits datasets</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>K-Means</strong></p></td>
+<td><p>Clustering</p></td>
+<td><p>Simple, rapide</p></td>
+<td><p><span class="math notranslate nohighlight">\(k\)</span> à fixer, clusters sphériques</p></td>
+<td><p>Segmentation client</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>DBScan</strong></p></td>
+<td><p>Clustering</p></td>
+<td><p>Pas de <span class="math notranslate nohighlight">\(k\)</span>, formes quelconques</p></td>
+<td><p>Haute dim, hyperparamètres</p></td>
+<td><p>Détection d’anomalies spatiales</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Random Forest</strong></p></td>
+<td><p>Les deux</p></td>
+<td><p>Robuste, peu de tuning</p></td>
+<td><p>Modèle lourd, moins interprétable</p></td>
+<td><p>Baseline moderne sur tabulaire</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>XGBoost / LightGBM</strong></p></td>
+<td><p>Les deux</p></td>
+<td><p><strong>État de l’art</strong> tabulaire</p></td>
+<td><p>Tuning délicat, complexe</p></td>
+<td><p>Production sur données tabulaires</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Stacking</strong></p></td>
+<td><p>Les deux</p></td>
+<td><p>Gain ultime de performance</p></td>
+<td><p>Très coûteux, complexe</p></td>
+<td><p>Compétitions</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="la-regle-empirique-par-quoi-commencer">
+<h3>La règle empirique <em>« par quoi commencer ? »</em><a class="headerlink" href="#la-regle-empirique-par-quoi-commencer" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Problème tabulaire classique ?</strong> → Commence par <strong>Random Forest</strong> (baseline rapide) puis passe à <strong>XGBoost / LightGBM</strong>. C’est presque toujours dans le top 3.</p></li>
+<li><p><strong>Tu veux de l’interprétabilité ?</strong> → <strong>Régression logistique / linéaire</strong> ou un <strong>arbre de décision</strong> simple.</p></li>
+<li><p><strong>Texte ?</strong> → <strong>Naive Bayes</strong> pour une baseline rapide, puis <strong>embeddings + modèles classiques</strong>, puis <strong>transformers</strong> (deep learning).</p></li>
+<li><p><strong>Images ?</strong> → Sors de ce chapitre, tu es dans le territoire du <strong>deep learning</strong> (CNN, vision transformers).</p></li>
+<li><p><strong>Clustering / segmentation ?</strong> → <strong>K-Means</strong> d’abord, <strong>DBScan</strong> si les clusters ne sont pas sphériques ou si tu veux détecter les outliers.</p></li>
+<li><p><strong>Dataset très petit (&lt; 1000 lignes) ?</strong> → Préfère les modèles simples (<strong>régression, Naive Bayes, SVM</strong>) — les modèles complexes vont overfitter.</p></li>
+<li><p><strong>Dataset très gros (&gt; millions de lignes) ?</strong> → <strong>LightGBM</strong> (optimisé pour) ou modèles linéaires (rapides).</p></li>
+</ol>
+</section>
+<section id="le-mot-de-la-fin">
+<h3>Le mot de la fin<a class="headerlink" href="#le-mot-de-la-fin" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>Il n’y a pas d’algorithme universellement meilleur</strong> — c’est le <em>No Free Lunch Theorem</em> en ML. Ce qui compte, c’est de <strong>savoir quelles questions poser à tes données</strong> et quel outil correspond à ces questions. Un data scientist expérimenté ne connaît pas forcément les détails internes de 50 algorithmes — il sait <strong>lesquels essayer en premier</strong> selon la nature du problème, et il sait <strong>lire ses résultats</strong> pour décider quoi essayer ensuite.</p>
+<p>Les deux algorithmes qui couvrent <strong>80% des besoins en data science tabulaire</strong> aujourd’hui sont <strong>la régression logistique</strong> (pour la baseline interprétable) et <strong>XGBoost / LightGBM</strong> (pour la performance). Les autres sont là pour les cas particuliers.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="aides-memoire-visuels">
+<h2>Aides-mémoire visuels<a class="headerlink" href="#aides-memoire-visuels" title="Lien permanent vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/_static/ml_map.png"><strong>Cheatsheet scikit-learn</strong> (choix d’algorithme)</a> — un arbre de décision officiel pour choisir son algo.</p></li>
+<li><p><a class="reference external" href="https://www.datacamp.com/cheat-sheet/category/machine-learning"><strong>Cheatsheets Datacamp</strong></a> — collection de fiches synthétiques.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours/07-machine-learning-algorithms"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../cours-exe/07-machine-learning-algorithms/02-evaluate-classification-model.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Évaluation d’un modèle de classification</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../cours-exe/07-machine-learning-algorithms/04-isolation-forest.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Isolation Forest — détecter des anomalies</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-ce-chapitre">Pourquoi ce chapitre ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-lineaire">Régression linéaire</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-idee-intuitive">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-formule">La formule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forces-et-faiblesses">Forces et faiblesses</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-algorithme-de-base-ols-ordinary-least-squares">L’algorithme de base — OLS (<em>Ordinary Least Squares</em>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ridge-regression">Ridge regression</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lasso">Lasso</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elasticnet">ElasticNet</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-polynomiale">Régression polynomiale</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scoring-d-une-regression">Scoring d’une régression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-logistique">Régression logistique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comment-ca-marche">Comment ça marche ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Forces et faiblesses</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#support-vector-machines-svm">Support Vector Machines (SVM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Forces et faiblesses</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-astuce-du-kernel">L’astuce du kernel</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-polynomial">Kernel polynomial</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel-gaussien-rbf">Kernel gaussien (RBF)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#naive-bayes">Naive Bayes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Forces et faiblesses</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exemple-classification-de-texte-par-sac-de-mots">Exemple : classification de texte par sac de mots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbors-k-nn">K-Nearest Neighbors (K-NN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Forces et faiblesses</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-means">K-Means</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fonctionnement-simplifie">Fonctionnement (simplifié)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Forces et faiblesses</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dbscan">DBScan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#differences-cles-avec-k-means">Différences clés avec K-Means</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-algorithmes-d-ensemble">Les algorithmes d’ensemble</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">L’idée intuitive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bagging">Bagging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boosting">Boosting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stacking">Stacking</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-choisir-son-algorithme">🎯 Pour résumer — choisir son algorithme</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-tableau-de-synthese">Le tableau de synthèse</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-regle-empirique-par-quoi-commencer">La règle empirique <em>« par quoi commencer ? »</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aides-memoire-visuels">Aides-mémoire visuels</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

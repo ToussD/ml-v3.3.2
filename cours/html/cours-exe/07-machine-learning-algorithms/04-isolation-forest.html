@@ -1,0 +1,993 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Isolation Forest — détecter des anomalies &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours-exe/07-machine-learning-algorithms/04-isolation-forest';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Feature Engineering: compléments" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html" />
+    <link rel="prev" title="Quelques algorithmes de Machine Learning" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours-exe/07-machine-learning-algorithms/04-isolation-forest.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Isolation Forest — détecter des anomalies</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-on-a-besoin-d-un-algorithme-dedie-aux-anomalies">Pourquoi on a besoin d’un algorithme dédié aux anomalies ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comment-fonctionne-isolation-forest">Comment fonctionne Isolation Forest ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-idee-cle">L’idée clé</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-ca-marche-pour-les-anomalies">Pourquoi ça marche pour les anomalies ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-score-d-anomalie">Le score d’anomalie</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forces-d-isolation-forest">Forces d’Isolation Forest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limites-a-connaitre">Limites à connaître</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exemple">Exemple</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generation-des-donnees">Génération des données</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisation">Visualisation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage">Apprentissage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frontieres-de-decision">Frontières de décision</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#longueur-des-chemins-de-decision-le-score-continu">Longueur des chemins de décision — le score continu</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-algorithmes-de-detection-d-anomalies">Autres algorithmes de détection d’anomalies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methodes-basees-sur-la-densite">Méthodes basées sur la densité</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methodes-basees-sur-la-reconstruction">Méthodes basées sur la reconstruction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methodes-a-classe-unique">Méthodes à « classe unique »</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-tableau-de-choix">Le tableau de choix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-isolation-forest-en-pratique">🎯 Pour résumer — Isolation Forest en pratique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-l-utiliser">Quand l’utiliser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-ne-pas-l-utiliser">Quand ne pas l’utiliser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-a-eviter">Les pièges à éviter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-geste-en-code">Le geste en code</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="isolation-forest-detecter-des-anomalies">
+<h1>Isolation Forest — détecter des anomalies<a class="headerlink" href="#isolation-forest-detecter-des-anomalies" title="Lien permanent vers cette rubrique">#</a></h1>
+<section id="pourquoi-on-a-besoin-d-un-algorithme-dedie-aux-anomalies">
+<h2>Pourquoi on a besoin d’un algorithme dédié aux anomalies ?<a class="headerlink" href="#pourquoi-on-a-besoin-d-un-algorithme-dedie-aux-anomalies" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>La détection d’anomalies</strong> (<em>outlier detection</em>, <em>anomaly detection</em>) est un problème très courant en data science :</p>
+<ul class="simple">
+<li><p><strong>Fraude bancaire</strong> : repérer les transactions suspectes parmi des millions de transactions normales.</p></li>
+<li><p><strong>Maintenance prédictive</strong> : détecter un capteur ou une machine en train de défaillir avant la panne.</p></li>
+<li><p><strong>Cybersécurité</strong> : signaler une connexion inhabituelle qui pourrait être une attaque.</p></li>
+<li><p><strong>Contrôle qualité</strong> : identifier les produits défectueux sur une chaîne de production.</p></li>
+<li><p><strong>Santé</strong> : repérer une analyse biologique anormale parmi des milliers de patients.</p></li>
+</ul>
+<p><strong>Le point commun de tous ces problèmes :</strong></p>
+<ol class="arabic simple">
+<li><p>Les anomalies sont <strong>rares</strong> (typiquement &lt; 1% des données).</p></li>
+<li><p>On ne sait pas toujours à l’avance à quoi ressemble une anomalie.</p></li>
+<li><p>Les classes sont <strong>extrêmement déséquilibrées</strong> — la classification classique est inadaptée.</p></li>
+</ol>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> imagine une usine qui produit des boîtes de conserve. 99,9% sont conformes, 0,1% sont défectueuses (trop lourdes, trop légères, étiquette mal placée…). Si tu entraînes un classifieur classique sur ces données, il apprendra surtout à dire <em>« c’est conforme »</em> (puisque c’est presque toujours vrai). Tu as besoin d’un <strong>outil spécifique</strong> qui cherche activement ce qui <strong>« ne ressemble pas au reste »</strong>, sans avoir besoin d’exemples d’anomalies pour s’entraîner.</p>
+</div></blockquote>
+<p>C’est exactement ce que fait <strong>Isolation Forest</strong>.</p>
+</section>
+<section id="comment-fonctionne-isolation-forest">
+<h2>Comment fonctionne Isolation Forest ?<a class="headerlink" href="#comment-fonctionne-isolation-forest" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html"><code class="docutils literal notranslate"><span class="pre">IsolationForest</span></code></a> est un <strong>ensemble d’arbres de décision</strong> conçus pour <strong>« isoler » les anomalies très tôt</strong> dans la hiérarchie de chaque arbre.</p>
+<section id="l-idee-cle">
+<h3>L’idée clé<a class="headerlink" href="#l-idee-cle" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Pour séparer un point du reste, on fait des coupes aléatoires dans l’espace.</strong> Chaque arbre choisit au hasard :</p>
+<ol class="arabic simple">
+<li><p>une <strong>variable</strong> ;</p></li>
+<li><p>un <strong>seuil</strong> entre le min et le max de cette variable ;</p></li>
+</ol>
+<p>…et découpe les données en deux groupes. Puis il recommence récursivement jusqu’à ce que chaque point soit isolé dans une cellule à lui tout seul.</p>
+</section>
+<section id="pourquoi-ca-marche-pour-les-anomalies">
+<h3>Pourquoi ça marche pour les anomalies ?<a class="headerlink" href="#pourquoi-ca-marche-pour-les-anomalies" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>L’intuition centrale :</strong> un point « normal » est entouré de nombreux autres points similaires. Il faut <strong>beaucoup de coupes aléatoires</strong> pour le séparer de ses voisins. À l’inverse, un point <strong>atypique</strong> (valeur extrême, position isolée) sera <strong>isolé rapidement</strong> — parfois en 2 ou 3 coupes seulement, parce qu’il est déjà loin de tout le monde.</p>
+<p><strong>Autrement dit :</strong> la <strong>« profondeur »</strong> à laquelle un point est isolé dans l’arbre est une <strong>mesure de sa normalité</strong>. Peu profond = anormal. Très profond = normal.</p>
+</div></blockquote>
+</section>
+<section id="le-score-d-anomalie">
+<h3>Le score d’anomalie<a class="headerlink" href="#le-score-d-anomalie" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On entraîne <strong>plusieurs arbres</strong> (une « forêt ») et on moyenne la profondeur d’isolation pour chaque point. Les points isolés <strong>systématiquement tôt</strong> dans une majorité d’arbres obtiennent le <strong>score d’anomalie le plus élevé</strong>.</p>
+<p><img alt="Principe" src="../../_images/Principes-Algo.gif" /></p>
+<p><img alt="isolation forest" src="../../_images/isolation_forrest.png" /></p>
+</section>
+<section id="forces-d-isolation-forest">
+<h3>Forces d’Isolation Forest<a class="headerlink" href="#forces-d-isolation-forest" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Non-supervisé</strong> : pas besoin d’exemples d’anomalies pour s’entraîner. Il apprend juste à partir de données « normales ».</p></li>
+<li><p>✅ <strong>Efficace en haute dimension</strong> (contrairement aux méthodes basées sur la densité comme DBScan).</p></li>
+<li><p>✅ <strong>Scalable</strong> : complexité <strong>linéaire</strong> en nombre d’échantillons.</p></li>
+<li><p>✅ <strong>Simple à utiliser</strong> : très peu d’hyperparamètres à régler (essentiellement <code class="docutils literal notranslate"><span class="pre">contamination</span></code>, la proportion estimée d’anomalies).</p></li>
+<li><p>✅ <strong>Robuste</strong> : pas besoin de normaliser les données (on coupe par seuils, comme les arbres de décision classiques).</p></li>
+</ul>
+</section>
+<section id="limites-a-connaitre">
+<h3>Limites à connaître<a class="headerlink" href="#limites-a-connaitre" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>⚠️ <strong>Ne marche pas sur des anomalies « complexes »</strong> qui ne sont pas isolables par coupes axiales (par exemple une anomalie entourée d’un cluster normal).</p></li>
+<li><p>⚠️ <strong>L’hyperparamètre <code class="docutils literal notranslate"><span class="pre">contamination</span></code></strong> doit être estimé à l’avance — s’il est faux, le modèle surestimera ou sous-estimera le nombre d’anomalies.</p></li>
+<li><p>⚠️ <strong>Moins performant que des modèles supervisés</strong> quand on <em>a</em> des exemples d’anomalies labellisés (dans ce cas, on préfère un classifieur avec <code class="docutils literal notranslate"><span class="pre">class_weight='balanced'</span></code> ou du sur-échantillonnage).</p></li>
+</ul>
+</section>
+</section>
+<section id="exemple">
+<h2>Exemple<a class="headerlink" href="#exemple" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="generation-des-donnees">
+<h3>Génération des données<a class="headerlink" href="#generation-des-donnees" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Pour illustrer Isolation Forest</strong>, on construit un <strong>dataset synthétique</strong> en 2D qui contient :</p>
+<ul class="simple">
+<li><p><strong>Un cluster sphérique</strong> de points « normaux » (tirés selon une loi normale centrée) → label <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><strong>Un cluster ovale</strong> de points « normaux » (autre loi normale avec une forme allongée) → label <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><strong>Des anomalies</strong> tirées uniformément dans tout l’espace → label <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Note sur les labels</strong> : Isolation Forest (comme les autres détecteurs de scikit-learn) utilise la convention <code class="docutils literal notranslate"><span class="pre">+1</span></code> pour les points normaux et <code class="docutils literal notranslate"><span class="pre">-1</span></code> pour les anomalies. C’est différent des classifieurs classiques (qui utilisent 0 et 1). Un piège classique quand on compare des métriques entre les deux !</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">n_samples</span><span class="p">,</span> <span class="n">n_outliers</span> <span class="o">=</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">40</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">covariance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]])</span>
+<span class="n">cluster_1</span> <span class="o">=</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">@</span> <span class="n">covariance</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># oval</span>
+<span class="n">cluster_2</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">])</span>  <span class="c1"># spherical</span>
+<span class="n">outliers</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">4</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n_outliers</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">cluster_1</span><span class="p">,</span> <span class="n">cluster_2</span><span class="p">,</span> <span class="n">outliers</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n_samples</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n_outliers</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)]</span>
+<span class="p">)</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualisation">
+<h3>Visualisation<a class="headerlink" href="#visualisation" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Toujours regarder ses données avant d’entraîner un modèle.</strong> On utilise un scatter plot 2D, coloré par label, pour voir où sont les deux clusters normaux et où se dispersent les anomalies.</p>
+<blockquote>
+<div><p><strong>À observer :</strong> les anomalies (label <code class="docutils literal notranslate"><span class="pre">-1</span></code>) sont visuellement « loin » des clusters normaux. Un Isolation Forest devrait les repérer facilement.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">scatter</span><span class="o">.</span><span class="n">legend_elements</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;square&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;outliers&quot;</span><span class="p">,</span> <span class="s2">&quot;inliers&quot;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;true class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Gaussian inliers with </span><span class="se">\n</span><span class="s2">uniformly distributed outliers&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/9c3c807778ce028b4b140c75e408329f12a186cc98fcd72331b6c0c71d6b45b6.png" src="../../_images/9c3c807778ce028b4b140c75e408329f12a186cc98fcd72331b6c0c71d6b45b6.png" />
+</div>
+</div>
+</section>
+<section id="apprentissage">
+<h3>Apprentissage<a class="headerlink" href="#apprentissage" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’entraînement d’un Isolation Forest se fait avec <code class="docutils literal notranslate"><span class="pre">.fit(X)</span></code> — sans passer de labels.</strong> C’est un algorithme <strong>non-supervisé</strong> : il apprend juste à identifier ce qui « ne ressemble pas au reste » à partir des données brutes.</p>
+<p>Les hyperparamètres principaux :</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">max_samples</span></code></strong> : nombre d’échantillons utilisés pour construire chaque arbre. 100 est une valeur classique pour de gros datasets.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">contamination</span></code></strong> : proportion estimée d’anomalies dans les données. Par défaut <code class="docutils literal notranslate"><span class="pre">'auto'</span></code>, mais c’est souvent utile de la fixer à la main (par exemple <code class="docutils literal notranslate"><span class="pre">0.1</span></code> si on estime 10% d’anomalies).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">n_estimators</span></code></strong> : nombre d’arbres dans la forêt (100 par défaut).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">IsolationForest</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span><span class="n">max_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>IsolationForest(max_samples=100, random_state=0)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">IsolationForest</label><div class="sk-toggleable__content"><pre>IsolationForest(max_samples=100, random_state=0)</pre></div></div></div></div></div></div></div>
+</div>
+</section>
+<section id="frontieres-de-decision">
+<h3>Frontières de décision<a class="headerlink" href="#frontieres-de-decision" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Pour visualiser ce que le modèle a appris</strong>, on dessine ses <strong>frontières de décision</strong> : pour chaque point de l’espace 2D, on demande au modèle <em>« est-ce une anomalie ? »</em> et on colorie le résultat. On utilise <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.inspection.DecisionBoundaryDisplay.html"><code class="docutils literal notranslate"><span class="pre">DecisionBoundaryDisplay</span></code></a>.</p>
+<blockquote>
+<div><p><strong>Lecture attendue :</strong> la zone colorée « anomalie » devrait englober tout ce qui est loin des deux clusters normaux. On voit visuellement si l’algorithme a bien compris la structure des données.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">DecisionBoundaryDisplay</span>
+
+<span class="n">disp</span> <span class="o">=</span> <span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">clf</span><span class="p">,</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">response_method</span><span class="o">=</span><span class="s2">&quot;predict&quot;</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">ax_</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">ax_</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Binary decision boundary </span><span class="se">\n</span><span class="s2">of IsolationForest&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;square&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;outliers&quot;</span><span class="p">,</span> <span class="s2">&quot;inliers&quot;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;true class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/75e8b05a27d32f394e0e294bda986753f3bd688a7b090627e03689600e521016.png" src="../../_images/75e8b05a27d32f394e0e294bda986753f3bd688a7b090627e03689600e521016.png" />
+</div>
+</div>
+</section>
+<section id="longueur-des-chemins-de-decision-le-score-continu">
+<h3>Longueur des chemins de décision — le score continu<a class="headerlink" href="#longueur-des-chemins-de-decision-le-score-continu" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Au lieu d’un verdict binaire</strong> (« anomalie » / « pas anomalie »), Isolation Forest peut donner un <strong>score continu</strong> de « normalité ». En utilisant <code class="docutils literal notranslate"><span class="pre">response_method=&quot;decision_function&quot;</span></code>, on obtient une mesure qui reflète <strong>à quel point un point est « normal »</strong> :</p>
+<ul class="simple">
+<li><p><strong>Score élevé</strong> (proche de 0 ou positif) → le point est au cœur d’un cluster normal.</p></li>
+<li><p><strong>Score faible</strong> (négatif) → le point est une anomalie probable.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>🎯 Pourquoi le score continu est utile en pratique ?</strong></p>
+<p>En production, on ne veut pas juste un verdict binaire — on veut <strong>prioriser</strong> les cas à investiguer. Sur un système anti-fraude, on peut avoir 10 000 transactions « suspectes » par jour. On ne peut pas tout vérifier manuellement. <strong>Trier par score</strong> permet à l’équipe de fraude de <strong>commencer par les plus louches</strong> et de remonter vers les moins louches jusqu’à épuisement du temps disponible.</p>
+<p>C’est aussi ce qui permet de <strong>tracer une courbe ROC</strong> ou <strong>précision-rappel</strong> pour évaluer le modèle : il faut un score continu pour pouvoir faire varier le seuil.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">disp</span> <span class="o">=</span> <span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">clf</span><span class="p">,</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">response_method</span><span class="o">=</span><span class="s2">&quot;decision_function&quot;</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">ax_</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">ax_</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Path length decision boundary </span><span class="se">\n</span><span class="s2">of IsolationForest&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;square&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;outliers&quot;</span><span class="p">,</span> <span class="s2">&quot;inliers&quot;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;true class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">disp</span><span class="o">.</span><span class="n">ax_</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/63b6643756de8b8c4435c8ce56a751693bcab7ac133083db3bab55174c0e8963.png" src="../../_images/63b6643756de8b8c4435c8ce56a751693bcab7ac133083db3bab55174c0e8963.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="autres-algorithmes-de-detection-d-anomalies">
+<h2>Autres algorithmes de détection d’anomalies<a class="headerlink" href="#autres-algorithmes-de-detection-d-anomalies" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Scikit-learn propose <a class="reference external" href="https://scikit-learn.org/stable/modules/outlier_detection.html"><strong>plusieurs autres méthodes</strong></a> de détection d’anomalies. Voici les principales familles :</p>
+<section id="methodes-basees-sur-la-densite">
+<h3>Méthodes basées sur la densité<a class="headerlink" href="#methodes-basees-sur-la-densite" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> un point est anormal s’il se trouve dans une zone <strong>peu dense</strong> — c’est-à-dire s’il a peu de voisins proches.</p>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://scikit-learn.org/stable/modules/clustering.html#dbscan">DBScan</a></strong> : algorithme de clustering qui <strong>étiquette en outliers</strong> les points qui ne sont dans aucun cluster dense. Il trouve <strong>lui-même</strong> le nombre de clusters (contrairement à K-Means), ce qui en fait un bon choix si on ne sait pas à quoi s’attendre.</p></li>
+<li><p><strong>LOF (<em>Local Outlier Factor</em>)</strong> : calcule pour chaque point le ratio entre sa densité locale et celle de ses voisins. Un point dans une zone beaucoup moins dense que ses voisins est suspect.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Limite de ces méthodes :</strong> elles <strong>ne marchent pas bien en haute dimension</strong> (la fameuse <em>curse of dimensionality</em>). En dimension &gt; 20-30, toutes les distances se ressemblent et la notion de « densité locale » perd son sens.</p>
+</div></blockquote>
+</section>
+<section id="methodes-basees-sur-la-reconstruction">
+<h3>Méthodes basées sur la reconstruction<a class="headerlink" href="#methodes-basees-sur-la-reconstruction" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> on apprend un modèle qui <strong>compresse</strong> puis <strong>reconstruit</strong> les données. Les points qui ne peuvent pas être bien reconstruits sont anormaux.</p>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://www.atmosera.com/blog/pca-based-anomaly-detection/">PCA + reconstruction</a></strong> : on projette les données dans un espace réduit (ex : 10 composantes principales), puis on les « déprojette ». Un point reconstruit avec une grosse erreur est suspect.</p></li>
+<li><p><strong>Autoencodeurs</strong> (deep learning) : même principe mais avec un réseau de neurones. Plus puissant mais demande plus de données et de calcul.</p></li>
+</ul>
+</section>
+<section id="methodes-a-classe-unique">
+<h3>Méthodes à « classe unique »<a class="headerlink" href="#methodes-a-classe-unique" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> au lieu de détecter des anomalies comme <em>« ce qui ne ressemble pas au reste »</em>, on apprend la <strong>frontière</strong> autour de ce qui est normal, et tout ce qui est dehors est anomalie.</p>
+<ul class="simple">
+<li><p><strong>One-Class SVM</strong> : un SVM qui apprend une « bulle » autour des données normales. Tout ce qui sort de la bulle est une anomalie.</p></li>
+<li><p><strong>Elliptic Envelope</strong> : variante qui suppose que les données normales suivent une distribution gaussienne multivariée et trace une ellipse autour.</p></li>
+</ul>
+</section>
+<section id="le-tableau-de-choix">
+<h3>Le tableau de choix<a class="headerlink" href="#le-tableau-de-choix" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Méthode</p></th>
+<th class="head text-center"><p>Bon en haute dim ?</p></th>
+<th class="head text-center"><p>Interprétable ?</p></th>
+<th class="head"><p>Cas d’usage typique</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Isolation Forest</strong></p></td>
+<td class="text-center"><p>✅</p></td>
+<td class="text-center"><p>Moyen</p></td>
+<td><p><strong>Le choix par défaut</strong>, très généraliste</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>DBScan</strong></p></td>
+<td class="text-center"><p>❌</p></td>
+<td class="text-center"><p>✅ (clusters visibles)</p></td>
+<td><p>Clustering + anomalies géographiques</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>LOF</strong></p></td>
+<td class="text-center"><p>❌</p></td>
+<td class="text-center"><p>✅</p></td>
+<td><p>Petits datasets avec structure locale</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>PCA reconstruction</strong></p></td>
+<td class="text-center"><p>✅</p></td>
+<td class="text-center"><p>Moyen</p></td>
+<td><p>Données linéairement compressibles</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Autoencodeurs</strong></p></td>
+<td class="text-center"><p>✅</p></td>
+<td class="text-center"><p>❌</p></td>
+<td><p>Gros datasets, structures complexes</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>One-Class SVM</strong></p></td>
+<td class="text-center"><p>Moyen</p></td>
+<td class="text-center"><p>❌</p></td>
+<td><p>Petits datasets, frontière nette</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Elliptic Envelope</strong></p></td>
+<td class="text-center"><p>❌</p></td>
+<td class="text-center"><p>✅</p></td>
+<td><p>Données gaussiennes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="pour-resumer-isolation-forest-en-pratique">
+<h2>🎯 Pour résumer — Isolation Forest en pratique<a class="headerlink" href="#pour-resumer-isolation-forest-en-pratique" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="quand-l-utiliser">
+<h3>Quand l’utiliser<a class="headerlink" href="#quand-l-utiliser" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Détection de fraude</strong> (bancaire, assurance) : énorme volume de données, très peu d’anomalies connues.</p></li>
+<li><p>✅ <strong>Maintenance prédictive</strong> : détecter un équipement qui « sort de son comportement normal ».</p></li>
+<li><p>✅ <strong>Cybersécurité</strong> : repérer des connexions, requêtes ou volumes de trafic inhabituels.</p></li>
+<li><p>✅ <strong>Contrôle qualité industriel</strong> : identifier les pièces défectueuses dès la production.</p></li>
+<li><p>✅ <strong>Détection de bugs en prod</strong> : un log de comportement applicatif qui diffère du profil normal.</p></li>
+</ul>
+</section>
+<section id="quand-ne-pas-l-utiliser">
+<h3>Quand ne pas l’utiliser<a class="headerlink" href="#quand-ne-pas-l-utiliser" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>⚠️ <strong>Quand tu as des labels d’anomalies</strong> → utilise plutôt un classifieur supervisé (<code class="docutils literal notranslate"><span class="pre">RandomForest</span></code>, <code class="docutils literal notranslate"><span class="pre">XGBoost</span></code>) avec <code class="docutils literal notranslate"><span class="pre">class_weight='balanced'</span></code>. Un modèle supervisé bat presque toujours un détecteur non supervisé quand tu as les labels.</p></li>
+<li><p>⚠️ <strong>Quand les anomalies sont « contextuelles »</strong> (une valeur peut être normale dans un contexte et anormale dans un autre) → Isolation Forest n’a pas de notion de contexte, il faut ajouter explicitement les features contextuelles.</p></li>
+<li><p>⚠️ <strong>Pour des séries temporelles</strong> → utilise plutôt des méthodes dédiées (détection de ruptures, Prophet, modèles de séries temporelles avec résidus).</p></li>
+</ul>
+</section>
+<section id="les-pieges-a-eviter">
+<h3>Les pièges à éviter<a class="headerlink" href="#les-pieges-a-eviter" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>⚠️ <strong>Fixer <code class="docutils literal notranslate"><span class="pre">contamination</span></code> au hasard</strong> → un mauvais choix fausse tout. Estime-le à partir de ton contexte métier ou par essais successifs.</p></li>
+<li><p>⚠️ <strong>Oublier que les labels sont <code class="docutils literal notranslate"><span class="pre">+1</span></code> / <code class="docutils literal notranslate"><span class="pre">-1</span></code></strong> (et non 0 / 1 comme en classification classique). Un bug classique quand on calcule des métriques.</p></li>
+<li><p>⚠️ <strong>Évaluer avec de l’accuracy</strong> → sur 99% de normaux, dire toujours « normal » donne 99% d’accuracy. <strong>Toujours</strong> utiliser précision, rappel, F1 ou PR-AUC sur la classe « anomalie ».</p></li>
+<li><p>⚠️ <strong>Ne pas visualiser le score avant de décider</strong> → souvent, un simple histogramme des scores révèle un seuil naturel (une vallée dans la distribution) bien meilleur que le seuil par défaut.</p></li>
+</ul>
+</section>
+<section id="le-geste-en-code">
+<h3>Le geste en code<a class="headerlink" href="#le-geste-en-code" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">IsolationForest</span>
+
+<span class="c1"># On estime 1% d&#39;anomalies dans les données</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span><span class="n">contamination</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="c1"># Prédiction binaire : +1 = normal, -1 = anomalie</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Score continu : plus c&#39;est bas, plus c&#39;est anormal</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Trier du plus suspect au moins suspect</span>
+<span class="n">suspicious_idx</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="mi">50</span><span class="p">]</span>  <span class="c1"># les 50 plus suspects</span>
+</pre></div>
+</div>
+</section>
+<section id="le-mot-de-la-fin">
+<h3>Le mot de la fin<a class="headerlink" href="#le-mot-de-la-fin" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>Isolation Forest est le détecteur d’anomalies « couteau suisse » de scikit-learn.</strong> Il est simple, rapide, efficace en haute dimension, et demande très peu de tuning. Pour 80% des cas de détection d’anomalies non supervisées, c’est le <strong>premier algo à essayer</strong>. Et si tu as des labels d’anomalies, n’oublie pas de comparer avec un classifieur supervisé — tu pourrais être surpris par l’écart.</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours-exe/07-machine-learning-algorithms"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Quelques algorithmes de Machine Learning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Feature Engineering: compléments</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-on-a-besoin-d-un-algorithme-dedie-aux-anomalies">Pourquoi on a besoin d’un algorithme dédié aux anomalies ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comment-fonctionne-isolation-forest">Comment fonctionne Isolation Forest ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-idee-cle">L’idée clé</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-ca-marche-pour-les-anomalies">Pourquoi ça marche pour les anomalies ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-score-d-anomalie">Le score d’anomalie</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forces-d-isolation-forest">Forces d’Isolation Forest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limites-a-connaitre">Limites à connaître</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exemple">Exemple</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generation-des-donnees">Génération des données</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisation">Visualisation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage">Apprentissage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frontieres-de-decision">Frontières de décision</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#longueur-des-chemins-de-decision-le-score-continu">Longueur des chemins de décision — le score continu</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-algorithmes-de-detection-d-anomalies">Autres algorithmes de détection d’anomalies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methodes-basees-sur-la-densite">Méthodes basées sur la densité</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methodes-basees-sur-la-reconstruction">Méthodes basées sur la reconstruction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#methodes-a-classe-unique">Méthodes à « classe unique »</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-tableau-de-choix">Le tableau de choix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-isolation-forest-en-pratique">🎯 Pour résumer — Isolation Forest en pratique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-l-utiliser">Quand l’utiliser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-ne-pas-l-utiliser">Quand ne pas l’utiliser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-a-eviter">Les pièges à éviter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-geste-en-code">Le geste en code</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

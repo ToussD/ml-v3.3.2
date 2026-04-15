@@ -1,0 +1,1520 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Traitement des valeurs manquantes — compléments &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"RR": "\\mathbb{R}", "NN": "\\mathbb{N}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours-exe/08-advanced-feature-engineering/02-null-values-advanced';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Améliorer une « mauvaise » distribution" href="03-improve-distribution.html" />
+    <link rel="prev" title="Feature Engineering: compléments" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours-exe/08-advanced-feature-engineering/02-null-values-advanced.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Traitement des valeurs manquantes — compléments</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-un-chapitre-complements">Pourquoi un chapitre « compléments » ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-trois-types-de-valeurs-manquantes-cadre-mcar-mar-mnar">Les trois types de valeurs manquantes (cadre MCAR / MAR / MNAR)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcar-missing-completely-at-random">MCAR — <em>Missing Completely At Random</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mar-missing-at-random">MAR — <em>Missing At Random</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mnar-missing-not-at-random">MNAR — <em>Missing Not At Random</em></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-plan-de-ce-notebook">Le plan de ce notebook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creation-des-jeux-d-apprentissage-et-de-test">Création des jeux d’apprentissage et de test</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-solution-le-split-stratifie">La solution : le split stratifié</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-selection-suppression-des-colonnes-inutiles">Feature selection — suppression des colonnes inutiles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-valorisation-imputation-des-donnees-manquantes">Data cleaning — valorisation (imputation) des données manquantes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etat-des-lieux">État des lieux</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-embarked">La colonne <code class="docutils literal notranslate"><span class="pre">embarked</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-fare">La colonne <code class="docutils literal notranslate"><span class="pre">fare</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-age-le-cas-difficile">La colonne <code class="docutils literal notranslate"><span class="pre">age</span></code> — le cas difficile</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-1-lien-entre-age-manquant-et-survived">Analyse 1 : lien entre <code class="docutils literal notranslate"><span class="pre">age</span></code> manquant et <code class="docutils literal notranslate"><span class="pre">survived</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-2-lien-entre-age-manquant-et-pclass">Analyse 2 : lien entre <code class="docutils literal notranslate"><span class="pre">age</span></code> manquant et <code class="docutils literal notranslate"><span class="pre">pclass</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#valorisation-la-fonction-complete">Valorisation — la fonction complète</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerisation-des-variables-categorielles">Numérisation des variables catégorielles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fonction-de-pretraitement-complete">Fonction de prétraitement complète</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage">Apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-modeles">Autres modèles</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-imputation-avancee-en-pratique">🎯 Pour résumer — imputation avancée en pratique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-principe-general">Le principe général</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-5-niveaux-d-imputation-du-plus-simple-au-plus-sophistique">Les 5 niveaux d’imputation (du plus simple au plus sophistiqué)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-techniques-sklearn-a-connaitre">Les techniques sklearn à connaître</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-bonnes-pratiques">Les bonnes pratiques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-a-eviter">Les pièges à éviter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="traitement-des-valeurs-manquantes-complements">
+<h1>Traitement des valeurs manquantes — compléments<a class="headerlink" href="#traitement-des-valeurs-manquantes-complements" title="Lien permanent vers cette rubrique">#</a></h1>
+<section id="pourquoi-un-chapitre-complements">
+<h2>Pourquoi un chapitre « compléments » ?<a class="headerlink" href="#pourquoi-un-chapitre-complements" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Dans le notebook <strong>basique</strong> (<code class="docutils literal notranslate"><span class="pre">05-feature-engineering-basics/02-feature-engineering-basics</span></code>), on avait vu la méthode « universelle » :</p>
+<ul class="simple">
+<li><p><strong>Numérique manquant</strong> → imputer par la <strong>médiane</strong>.</p></li>
+<li><p><strong>Catégoriel manquant</strong> → imputer par le <strong>mode</strong> (valeur la plus fréquente).</p></li>
+</ul>
+<p>C’est <strong>simple, rapide et robuste</strong>. Pour beaucoup de problèmes réels, c’est <strong>suffisant</strong>. Mais ce n’est pas toujours la meilleure approche — et ce notebook explique <strong>quand</strong> et <strong>comment</strong> faire mieux.</p>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> quand un médecin remplit un formulaire et qu’il ne connaît pas le poids exact du patient, il peut soit :</p>
+<ol class="arabic simple">
+<li><p><strong>Mettre le poids moyen</strong> de la population (solution paresseuse mais simple).</p></li>
+<li><p><strong>Estimer à partir du contexte</strong> : un homme de 1m85 et 35 ans sportif pèse probablement plus qu’une femme de 1m55 et 70 ans. (solution intelligente mais demande plus d’information).</p></li>
+</ol>
+<p>La deuxième approche est <strong>toujours meilleure quand elle est possible</strong>. Ce notebook montre comment l’appliquer au Titanic.</p>
+</div></blockquote>
+<p><img alt="feature engineering" src="../../_images/feature-engineering-process.png" /></p>
+</section>
+<section id="les-trois-types-de-valeurs-manquantes-cadre-mcar-mar-mnar">
+<h2>Les trois types de valeurs manquantes (cadre MCAR / MAR / MNAR)<a class="headerlink" href="#les-trois-types-de-valeurs-manquantes-cadre-mcar-mar-mnar" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Avant de traiter les NaN, il faut comprendre <strong>pourquoi ils manquent</strong>. Les statisticiens distinguent trois cas, aux conséquences très différentes :</p>
+<section id="mcar-missing-completely-at-random">
+<h3>MCAR — <em>Missing Completely At Random</em><a class="headerlink" href="#mcar-missing-completely-at-random" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>La valeur manque de façon purement aléatoire, sans lien avec quoi que ce soit.</strong> Exemple : un capteur de température qui plante au hasard une fois par mois.</p>
+<ul class="simple">
+<li><p><strong>Conséquence :</strong> imputer par la médiane/mode est OK, c’est la situation la plus simple.</p></li>
+<li><p><strong>C’est rarement le cas en vrai.</strong></p></li>
+</ul>
+</section>
+<section id="mar-missing-at-random">
+<h3>MAR — <em>Missing At Random</em><a class="headerlink" href="#mar-missing-at-random" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>La valeur manque, mais la probabilité qu’elle manque dépend d’autres variables observées</strong> (pas de la valeur manquante elle-même).</p>
+<p>Exemple : <em>« les passagers en 3ème classe ont plus souvent un âge manquant parce qu’ils ont été enregistrés plus rapidement »</em>. L’absence d’âge est liée à la classe — <strong>pas à l’âge réel</strong>.</p>
+<ul class="simple">
+<li><p><strong>Conséquence :</strong> on peut <strong>imputer intelligemment</strong> en utilisant les autres variables pour estimer la valeur manquante.</p></li>
+<li><p><strong>C’est le cas le plus fréquent en pratique.</strong> C’est sur ce cas qu’on va travailler dans ce notebook.</p></li>
+</ul>
+</section>
+<section id="mnar-missing-not-at-random">
+<h3>MNAR — <em>Missing Not At Random</em><a class="headerlink" href="#mnar-missing-not-at-random" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’absence de valeur dépend de la valeur elle-même.</strong> Exemple : les gens à très hauts revenus refusent plus souvent de déclarer leurs revenus. L’absence est liée à la valeur manquante.</p>
+<ul class="simple">
+<li><p><strong>Conséquence :</strong> c’est le cas <strong>le plus difficile</strong>. Aucune imputation n’est parfaite, et toute analyse est potentiellement biaisée. <strong>Dans ce cas, la présence du NaN est elle-même une information</strong> — il faut souvent ajouter une variable indicatrice <code class="docutils literal notranslate"><span class="pre">was_missing</span></code> pour permettre au modèle de l’exploiter.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>🎯 À retenir :</strong> <em>avant</em> d’imputer, toujours se poser la question <em>« pourquoi cette valeur manque-t-elle ? »</em>. La réponse guide le choix de la méthode — et détermine si les conclusions du modèle seront fiables.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="le-plan-de-ce-notebook">
+<h2>Le plan de ce notebook<a class="headerlink" href="#le-plan-de-ce-notebook" title="Lien permanent vers cette rubrique">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Split stratifié</strong> pour préserver l’équilibre des classes.</p></li>
+<li><p><strong>Imputation intelligente</strong> de <code class="docutils literal notranslate"><span class="pre">age</span></code>, <code class="docutils literal notranslate"><span class="pre">fare</span></code>, <code class="docutils literal notranslate"><span class="pre">embarked</span></code> en utilisant les <strong>corrélations</strong> entre variables (approche MAR).</p></li>
+<li><p><strong>Comparaison</strong> avec l’approche naïve du chapitre précédent.</p></li>
+</ol>
+<p>Le principe général : <strong>exploiter les relations entre variables</strong> pour donner aux imputations un sens qui se rapproche de la réalité.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;titanic&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">titanic1</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">data</span>
+<span class="n">survived</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creation-des-jeux-d-apprentissage-et-de-test">
+<h2>Création des jeux d’apprentissage et de test<a class="headerlink" href="#creation-des-jeux-d-apprentissage-et-de-test" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>⚠️ Rappel critique :</strong> on splitte <strong>avant</strong> toute analyse ou transformation. Sinon, on risque le <strong>data leakage</strong> — les moyennes/médianes/corrélations calculées sur le test vont « fuiter » dans le train et fausser les scores.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X1_train</span><span class="p">,</span> <span class="n">X1_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">titanic1</span><span class="p">,</span>
+    <span class="n">survived</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Vérification basique de la distribution des labels</strong> sur train et test. L’idée : s’assurer que les deux jeux ont à peu près la même proportion de <code class="docutils literal notranslate"><span class="pre">survived=True</span></code> — sinon, notre train n’est pas représentatif de notre test.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">survived</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">y_train</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">y_test</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.3819709702062643, 0.3934760448521916, 0.3475609756097561)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Observation :</strong> il y a <strong>trop peu de <code class="docutils literal notranslate"><span class="pre">survived=True</span></code></strong> dans <code class="docutils literal notranslate"><span class="pre">y_test</span></code> par rapport à <code class="docutils literal notranslate"><span class="pre">y_train</span></code>. Le tirage aléatoire a donné un split déséquilibré par hasard — c’est fréquent sur des petits datasets avec des classes déséquilibrées.</p>
+<section id="la-solution-le-split-stratifie">
+<h3>La solution : le split stratifié<a class="headerlink" href="#la-solution-le-split-stratifie" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Au lieu de tirer les lignes purement au hasard, on utilise <strong><code class="docutils literal notranslate"><span class="pre">stratify=y</span></code></strong> dans <code class="docutils literal notranslate"><span class="pre">train_test_split</span></code>. Scikit-learn s’assure alors que la <strong>proportion de chaque classe est préservée</strong> dans le train et dans le test.</p>
+<blockquote>
+<div><p><strong>Mental model :</strong> imagine un sac avec 80 boules blanches et 20 rouges. Un tirage aléatoire peut te donner 20 rouges dans le premier paquet et 0 dans le second. Un tirage <strong>stratifié</strong> garantit que chaque paquet aura la même proportion (80/20).</p>
+<p><strong>À utiliser systématiquement</strong> en classification, surtout sur des <strong>classes déséquilibrées</strong>. C’est une correction gratuite qui n’a aucun inconvénient.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X1_train</span><span class="p">,</span> <span class="n">X1_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">titanic1</span><span class="p">,</span>
+    <span class="n">survived</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+    <span class="n">stratify</span><span class="o">=</span><span class="n">survived</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>On vérifie à nouveau</strong> la distribution. Cette fois, les proportions de <code class="docutils literal notranslate"><span class="pre">survived=True</span></code> doivent être quasi identiques entre <code class="docutils literal notranslate"><span class="pre">y_train</span></code> et <code class="docutils literal notranslate"><span class="pre">y_test</span></code> — c’est ce qu’on voulait.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">survived</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">y_train</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">y_test</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.3819709702062643, 0.382262996941896, 0.38109756097560976)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="feature-selection-suppression-des-colonnes-inutiles">
+<h2>Feature selection — suppression des colonnes inutiles<a class="headerlink" href="#feature-selection-suppression-des-colonnes-inutiles" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Conformément aux choix faits dans les notebooks d’EDA précédents</strong>, on commence par supprimer plusieurs colonnes :</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cabin</span></code>, <code class="docutils literal notranslate"><span class="pre">home.dest</span></code></strong> : trop de NaN, inexploitables en l’état.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">boat</span></code>, <code class="docutils literal notranslate"><span class="pre">body</span></code></strong> : <strong>⚠️ fuites de données</strong> (encodent directement la target).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">ticket</span></code></strong> : trop haute cardinalité, non exploitables sans feature engineering poussé.</p></li>
+</ul>
+<p>On se ramène ainsi aux seules colonnes vraiment exploitables : <code class="docutils literal notranslate"><span class="pre">pclass</span></code>, <code class="docutils literal notranslate"><span class="pre">sex</span></code>, <code class="docutils literal notranslate"><span class="pre">age</span></code>, <code class="docutils literal notranslate"><span class="pre">sibsp</span></code>, <code class="docutils literal notranslate"><span class="pre">parch</span></code>, <code class="docutils literal notranslate"><span class="pre">fare</span></code>, <code class="docutils literal notranslate"><span class="pre">embarked</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">drop_columns</span><span class="p">(</span><span class="n">X_df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">X_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;cabin&quot;</span><span class="p">,</span> <span class="s2">&quot;home.dest&quot;</span><span class="p">,</span> <span class="s2">&quot;boat&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;ticket&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X2_train</span> <span class="o">=</span> <span class="n">drop_columns</span><span class="p">(</span><span class="n">X1_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-cleaning-valorisation-imputation-des-donnees-manquantes">
+<h2>Data cleaning — valorisation (imputation) des données manquantes<a class="headerlink" href="#data-cleaning-valorisation-imputation-des-donnees-manquantes" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="etat-des-lieux">
+<h3>État des lieux<a class="headerlink" href="#etat-des-lieux" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Avant d’imputer, on regarde ce qu’on a avec <code class="docutils literal notranslate"><span class="pre">info()</span></code> et <code class="docutils literal notranslate"><span class="pre">describe()</span></code>. Objectif : <strong>identifier les colonnes qui ont des NaN</strong> et estimer l’ampleur du problème.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X2_train</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 981 entries, 3 to 1117
+Data columns (total 7 columns):
+ #   Column    Non-Null Count  Dtype   
+---  ------    --------------  -----   
+ 0   pclass    981 non-null    float64 
+ 1   sex       981 non-null    category
+ 2   age       771 non-null    float64 
+ 3   sibsp     981 non-null    float64 
+ 4   parch     981 non-null    float64 
+ 5   fare      980 non-null    float64 
+ 6   embarked  980 non-null    category
+dtypes: category(2), float64(5)
+memory usage: 48.2 KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X2_train</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>981.000000</td>
+      <td>771.000000</td>
+      <td>981.000000</td>
+      <td>981.000000</td>
+      <td>980.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.288481</td>
+      <td>29.981626</td>
+      <td>0.506626</td>
+      <td>0.357798</td>
+      <td>31.928652</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.828916</td>
+      <td>14.331428</td>
+      <td>1.082894</td>
+      <td>0.812789</td>
+      <td>47.714293</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>0.666700</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2.000000</td>
+      <td>21.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>7.895800</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>3.000000</td>
+      <td>28.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>14.454200</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>3.000000</td>
+      <td>39.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>30.695800</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>3.000000</td>
+      <td>80.000000</td>
+      <td>8.000000</td>
+      <td>9.000000</td>
+      <td>512.329200</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="la-colonne-embarked">
+<h3>La colonne <code class="docutils literal notranslate"><span class="pre">embarked</span></code><a class="headerlink" href="#la-colonne-embarked" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Très peu de NaN</strong> (1 ou 2 lignes seulement). Dans ce cas, la stratégie simple marche très bien : <strong>imputer par la valeur la plus fréquente</strong> (le mode).</p>
+<p>Sur le Titanic, c’est <strong><code class="docutils literal notranslate"><span class="pre">S</span></code></strong> (Southampton) — plus de 70% des passagers ont embarqué à ce port.</p>
+<blockquote>
+<div><p><strong>Pourquoi une approche naïve est OK ici ?</strong> Parce que le coût d’une erreur est très faible : si on met <code class="docutils literal notranslate"><span class="pre">S</span></code> pour quelqu’un qui a vraiment embarqué à Cherbourg, l’impact sur le modèle est négligeable (seulement 1 ou 2 lignes concernées sur ~1300). Pas besoin de se compliquer la vie.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">impute_embarked</span><span class="p">(</span><span class="n">X_df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;embarked&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">impute_embarked</span><span class="p">(</span><span class="n">X2_train</span><span class="p">)</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="la-colonne-fare">
+<h3>La colonne <code class="docutils literal notranslate"><span class="pre">fare</span></code><a class="headerlink" href="#la-colonne-fare" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Ici, on fait déjà mieux.</strong> Plutôt que d’imputer par la moyenne ou la médiane globale (ce qui donnerait la même valeur pour tout le monde), on exploite une <strong>corrélation connue</strong> : <code class="docutils literal notranslate"><span class="pre">fare</span></code> est fortement lié à <code class="docutils literal notranslate"><span class="pre">pclass</span></code> (les 1ères classes sont chères, les 3èmes sont bon marché).</p>
+<blockquote>
+<div><p><strong>L’idée :</strong> au lieu de dire <em>« le prix moyen du billet est 33 £ »</em> pour tout le monde, on dit <em>« le prix moyen d’un billet de 1ère classe est 87 £, d’un billet de 3ème classe est 13 £ »</em> et on impute selon la classe du passager.</p>
+<p><strong>C’est une imputation conditionnelle</strong> (aussi appelée <em>group-by imputation</em>). C’est une des techniques les plus simples et les plus efficaces quand on a une variable fortement corrélée au NaN à imputer.</p>
+</div></blockquote>
+<p>On calcule donc la <strong>moyenne de <code class="docutils literal notranslate"><span class="pre">fare</span></code> par classe</strong> (sur le train uniquement), puis on impute en fonction de la classe du passager.</p>
+<p><strong>Référence :</strong> cette corrélation a été identifiée dans le notebook <a class="reference internal" href="../04-understand-data/06-multivariate-stats.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">04-understand-data/06-multivariate-stats</span></code></span></a> via la matrice de corrélation de Spearman. C’est un exemple concret de la valeur de l’EDA multivariée faite en amont.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_fare_per_class</span> <span class="o">=</span> <span class="n">X2_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span> <span class="s2">&quot;pclass&quot;</span><span class="p">)[</span><span class="s2">&quot;fare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">mean_fare_per_class</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pclass
+1.0    82.752701
+2.0    21.298985
+3.0    13.410947
+Name: fare, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">impute_fare</span><span class="p">(</span><span class="n">X_df</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">X2_train</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">mean_fare_per_class</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;pclass&quot;</span><span class="p">]]</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">])</span> <span class="k">else</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">],</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">impute_fare</span><span class="p">(</span><span class="n">X2_train</span><span class="p">)</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="la-colonne-age-le-cas-difficile">
+<h3>La colonne <code class="docutils literal notranslate"><span class="pre">age</span></code> — le cas difficile<a class="headerlink" href="#la-colonne-age-le-cas-difficile" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">age</span></code> est la colonne la plus délicate : <strong>~20% de NaN</strong> (beaucoup de valeurs manquantes) <strong>et</strong> elle est très prédictive (les enfants ont eu plus de chances de survivre).</p>
+<p>On ne peut pas se contenter d’imputer par la médiane globale. On va d’abord <strong>comprendre pourquoi</strong> <code class="docutils literal notranslate"><span class="pre">age</span></code> est manquant, pour choisir une bonne stratégie.</p>
+<section id="analyse-1-lien-entre-age-manquant-et-survived">
+<h4>Analyse 1 : lien entre <code class="docutils literal notranslate"><span class="pre">age</span></code> manquant et <code class="docutils literal notranslate"><span class="pre">survived</span></code><a class="headerlink" href="#analyse-1-lien-entre-age-manquant-et-survived" title="Lien permanent vers cette rubrique">#</a></h4>
+<p><strong>Question :</strong> les passagers dont l’âge est inconnu ont-ils le même taux de survie que les autres ?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_train</span><span class="p">[</span><span class="n">X2_train</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">()]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.4085603112840467
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_train</span><span class="p">[</span><span class="n">X2_train</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.2857142857142857
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Observation critique :</strong> les voyageurs dont l’âge est inconnu ont <strong>nettement moins survécu</strong> que les autres.</p>
+<blockquote>
+<div><p><strong>Interprétation :</strong> l’absence d”<code class="docutils literal notranslate"><span class="pre">age</span></code> <strong>n’est pas aléatoire</strong> — elle est corrélée avec la cible à prédire. C’est le scénario <strong>MNAR</strong> ou au moins <strong>MAR</strong> dont on parlait en intro.</p>
+<p><strong>Conséquence :</strong> une simple imputation par médiane globale ferait <em>« comme si »</em> ces passagers étaient comme les autres — ce qui est faux. On aurait perdu un signal prédictif potentiellement important.</p>
+<p><strong>Pattern à retenir :</strong> quand l’absence d’une variable est <strong>elle-même</strong> prédictive, il est souvent utile de créer une <strong>variable indicatrice</strong> <code class="docutils literal notranslate"><span class="pre">age_was_missing</span></code> qui capture cette information — en plus de faire l’imputation.</p>
+</div></blockquote>
+</section>
+<section id="analyse-2-lien-entre-age-manquant-et-pclass">
+<h4>Analyse 2 : lien entre <code class="docutils literal notranslate"><span class="pre">age</span></code> manquant et <code class="docutils literal notranslate"><span class="pre">pclass</span></code><a class="headerlink" href="#analyse-2-lien-entre-age-manquant-et-pclass" title="Lien permanent vers cette rubrique">#</a></h4>
+<p><strong>Question complémentaire :</strong> est-ce que les passagers avec <code class="docutils literal notranslate"><span class="pre">age</span></code> manquant voyageaient dans une classe particulière ? Si oui, on pourra exploiter cette info pour imputer plus intelligemment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X2_train</span><span class="p">[</span><span class="n">X2_train</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">()][</span><span class="s2">&quot;pclass&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pclass
+3.0    356
+2.0    212
+1.0    203
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X2_train</span><span class="p">[</span><span class="n">X2_train</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()][</span><span class="s2">&quot;pclass&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pclass
+3.0    163
+1.0     33
+2.0     14
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Observation :</strong> les voyageurs dont l’âge est inconnu <strong>voyageaient majoritairement en 3ème classe</strong>. Et on sait qu’il existe une corrélation entre <code class="docutils literal notranslate"><span class="pre">age</span></code> et <code class="docutils literal notranslate"><span class="pre">pclass</span></code> (les riches étaient plus âgés en moyenne).</p>
+<p><strong>Confirmons cette corrélation</strong> en calculant l’âge moyen <strong>et</strong> l’écart-type par classe — on utilisera ces statistiques pour imputer.</p>
+<blockquote>
+<div><p><strong>Pourquoi aussi l’écart-type ?</strong> Parce que si on met exactement la moyenne à toutes les valeurs manquantes, on crée un artefact (un pic dans l’histogramme). Pour rendre l’imputation plus réaliste, on va tirer une valeur aléatoire <strong>autour</strong> de la moyenne (moyenne ± écart-type), ce qui préserve mieux la distribution naturelle.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_ages_class</span> <span class="o">=</span> <span class="n">X2_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;pclass&quot;</span><span class="p">)[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">std_ages_class</span> <span class="o">=</span> <span class="n">X2_train</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;pclass&quot;</span><span class="p">)[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(pclass
+ 1.0    39.778325
+ 2.0    29.574292
+ 3.0    24.637874
+ Name: age, dtype: float64,
+ pclass
+ 1.0    14.287973
+ 2.0    13.380506
+ 3.0    11.802561
+ Name: age, dtype: float64)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Notre stratégie d’imputation de <code class="docutils literal notranslate"><span class="pre">age</span></code> :</strong></p>
+<ol class="arabic simple">
+<li><p>Pour chaque passager avec <code class="docutils literal notranslate"><span class="pre">age</span></code> manquant, on regarde sa classe (<code class="docutils literal notranslate"><span class="pre">pclass</span></code>).</p></li>
+<li><p>On génère un âge <strong>aléatoire</strong> autour de la moyenne des âges de cette classe, en respectant son écart-type.</p></li>
+</ol>
+<p><strong>En pseudo-code :</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">si</span> <span class="n">age</span> <span class="n">est</span> <span class="n">NaN</span> <span class="n">pour</span> <span class="n">le</span> <span class="n">passager</span> <span class="n">X</span> <span class="n">de</span> <span class="n">classe</span> <span class="n">c</span> <span class="p">:</span>
+    <span class="n">age_imputé</span> <span class="o">=</span> <span class="n">tirer</span> <span class="n">un</span> <span class="n">nombre</span> <span class="n">au</span> <span class="n">hasard</span> <span class="n">entre</span> <span class="p">(</span><span class="n">moyenne_c</span> <span class="o">-</span> <span class="n">std_c</span><span class="p">)</span> <span class="n">et</span> <span class="p">(</span><span class="n">moyenne_c</span> <span class="o">+</span> <span class="n">std_c</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>C’est une <strong>imputation conditionnelle avec bruit</strong> — à la fois contextuelle (dépend de la classe) et réaliste (préserve la distribution).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_age</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">mean_ages</span><span class="p">,</span> <span class="n">std_ages</span><span class="p">):</span>
+    <span class="n">pclass</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;pclass&#39;</span><span class="p">]</span>
+    <span class="n">mean_age</span> <span class="o">=</span> <span class="n">mean_ages</span><span class="p">[</span><span class="n">pclass</span><span class="p">]</span>
+    <span class="n">std_age</span> <span class="o">=</span> <span class="n">std_ages</span><span class="p">[</span><span class="n">pclass</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mean_age</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">std_age</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">impute_age</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">mean_ages</span><span class="p">,</span> <span class="n">std_ages</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">X_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">get_age</span><span class="p">(</span>
+            <span class="n">row</span><span class="p">,</span> <span class="n">mean_ages</span><span class="p">,</span> <span class="n">std_ages</span>
+        <span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">])</span> <span class="k">else</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+<span class="k">assert</span> <span class="n">impute_age</span><span class="p">(</span><span class="n">X2_train</span><span class="p">,</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">)</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">impute_age</span><span class="p">(</span><span class="n">X2_train</span><span class="p">,</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">X2_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Vérifions l’effet sur la distribution.</strong> On trace l’histogramme de <code class="docutils literal notranslate"><span class="pre">age</span></code> <strong>avant</strong> et <strong>après</strong> imputation pour voir si la nouvelle distribution reste crédible.</p>
+<blockquote>
+<div><p><strong>Ce qu’on veut voir :</strong> une distribution proche de l’originale, <strong>sans pic artificiel</strong> à une valeur unique (ce qu’on aurait eu avec une simple imputation par la médiane).</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">X2_train</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution d&#39;origine&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">)</span>
+<span class="n">impute_age</span><span class="p">(</span><span class="n">X2_train</span><span class="p">,</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution après valorisation&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;age&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/24cef42159ee42931b01882d686193fb821879268c3945c9fb294217d0e7ab66.png" src="../../_images/24cef42159ee42931b01882d686193fb821879268c3945c9fb294217d0e7ab66.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="valorisation-la-fonction-complete">
+<h3>Valorisation — la fonction complète<a class="headerlink" href="#valorisation-la-fonction-complete" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>On rassemble maintenant toutes nos stratégies d’imputation</strong> dans une seule fonction qui prend un DataFrame et en retourne une version sans NaN.</p>
+<blockquote>
+<div><p><strong>Pourquoi une fonction réutilisable ?</strong> Parce qu’on aura besoin d’appliquer <strong>exactement les mêmes transformations</strong> au train <strong>et</strong> au test. Une fonction qui prend le DataFrame en paramètre garantit qu’on ne se trompe pas.</p>
+<p><strong>⚠️ Piège à éviter :</strong> les statistiques d’imputation (moyennes par classe, valeur la plus fréquente pour <code class="docutils literal notranslate"><span class="pre">embarked</span></code>) doivent être calculées <strong>sur le train uniquement</strong> et <strong>passées en paramètres</strong> à la fonction pour s’appliquer au test. Sinon, on calcule des stats sur le test et on fuite de l’information.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">impute_null_values</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">mean_ages</span><span class="p">,</span> <span class="n">std_ages</span><span class="p">):</span>
+    <span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;embarked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">impute_embarked</span><span class="p">(</span><span class="n">X_df</span><span class="p">)</span>
+    <span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">impute_fare</span><span class="p">(</span><span class="n">X_df</span><span class="p">)</span>
+    <span class="n">X_df</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">impute_age</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">mean_ages</span><span class="p">,</span> <span class="n">std_ages</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X_df</span>
+
+<span class="n">impute_null_values</span><span class="p">(</span><span class="n">X2_train</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>sex</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>fare</th>
+      <th>embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>male</td>
+      <td>30.000000</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>151.5500</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>798</th>
+      <td>3.0</td>
+      <td>male</td>
+      <td>26.691669</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.0500</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>1.0</td>
+      <td>male</td>
+      <td>41.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>30.5000</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>367</th>
+      <td>2.0</td>
+      <td>male</td>
+      <td>52.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>13.5000</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>803</th>
+      <td>3.0</td>
+      <td>male</td>
+      <td>26.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7.8792</td>
+      <td>Q</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="numerisation-des-variables-categorielles">
+<h2>Numérisation des variables catégorielles<a class="headerlink" href="#numerisation-des-variables-categorielles" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Dernière étape avant l’entraînement :</strong> transformer <code class="docutils literal notranslate"><span class="pre">sex</span></code> et <code class="docutils literal notranslate"><span class="pre">embarked</span></code> (qui sont du texte) en nombres.</p>
+<p>On utilise <code class="docutils literal notranslate"><span class="pre">pd.get_dummies()</span></code> (équivalent de <code class="docutils literal notranslate"><span class="pre">OneHotEncoder</span></code> pour pandas) avec <code class="docutils literal notranslate"><span class="pre">drop_first=True</span></code> pour <strong>éviter la colinéarité</strong> :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sex</span> <span class="pre">∈</span> <span class="pre">{male,</span> <span class="pre">female}</span></code> → une seule colonne <code class="docutils literal notranslate"><span class="pre">sex_male</span></code> (0 ou 1) suffit. Pas besoin d’une colonne <code class="docutils literal notranslate"><span class="pre">sex_female</span></code> redondante.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">embarked</span> <span class="pre">∈</span> <span class="pre">{S,</span> <span class="pre">C,</span> <span class="pre">Q}</span></code> → deux colonnes <code class="docutils literal notranslate"><span class="pre">embarked_C</span></code> et <code class="docutils literal notranslate"><span class="pre">embarked_Q</span></code> suffisent. La 3ème est implicite (si les deux autres sont à 0, c’est <code class="docutils literal notranslate"><span class="pre">S</span></code>).</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Pourquoi <code class="docutils literal notranslate"><span class="pre">drop_first=True</span></code> ?</strong> Parce que dans une régression linéaire ou logistique, avoir <span class="math notranslate nohighlight">\(n\)</span> colonnes one-hot linéairement dépendantes (leur somme = 1) crée une <strong>colinéarité parfaite</strong> qui déstabilise le modèle. En supprimant une colonne par variable, on casse cette dépendance sans perdre d’information.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">convert_categorical</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+    <span class="n">one_hot_encoded</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X_df</span><span class="p">[</span><span class="n">cols</span><span class="p">],</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">one_hot_encoded</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">convert_categorical</span><span class="p">(</span><span class="n">X2_train</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;embarked&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 981 entries, 3 to 1117
+Data columns (total 8 columns):
+ #   Column      Non-Null Count  Dtype  
+---  ------      --------------  -----  
+ 0   pclass      981 non-null    float64
+ 1   age         771 non-null    float64
+ 2   sibsp       981 non-null    float64
+ 3   parch       981 non-null    float64
+ 4   fare        980 non-null    float64
+ 5   sex_male    981 non-null    bool   
+ 6   embarked_Q  981 non-null    bool   
+ 7   embarked_S  981 non-null    bool   
+dtypes: bool(3), float64(5)
+memory usage: 81.1 KB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fonction-de-pretraitement-complete">
+<h2>Fonction de prétraitement complète<a class="headerlink" href="#fonction-de-pretraitement-complete" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>On peut maintenant enchaîner toutes les transformations</strong> en une seule fonction <code class="docutils literal notranslate"><span class="pre">process_data()</span></code> qui prend un DataFrame brut en entrée et en retourne une version prête pour l’entraînement :</p>
+<ol class="arabic simple">
+<li><p>Suppression des colonnes inutiles.</p></li>
+<li><p>Imputation de <code class="docutils literal notranslate"><span class="pre">embarked</span></code>, <code class="docutils literal notranslate"><span class="pre">fare</span></code>, <code class="docutils literal notranslate"><span class="pre">age</span></code>.</p></li>
+<li><p>One-hot encoding des variables catégorielles restantes.</p></li>
+</ol>
+<blockquote>
+<div><p><strong>Note importante :</strong> cette approche « fonction maison » est pédagogiquement utile pour voir <strong>étape par étape</strong> ce qui se passe. <strong>En production</strong>, on préfère un <strong><code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> scikit-learn</strong> qui encapsule toutes ces étapes dans un objet réutilisable, compatible avec <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code> et <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>, et qui évite les fuites automatiquement.</p>
+<p>On reviendra sur les pipelines dans la suite du cours.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">mean_age</span><span class="p">,</span> <span class="n">std_age</span><span class="p">,</span> <span class="n">cat_cols</span><span class="p">):</span>
+    <span class="n">X_df</span> <span class="o">=</span> <span class="n">drop_columns</span><span class="p">(</span><span class="n">X_df</span><span class="p">)</span>
+    <span class="n">X_df</span> <span class="o">=</span> <span class="n">impute_null_values</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">mean_age</span><span class="p">,</span> <span class="n">std_age</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">convert_categorical</span><span class="p">(</span><span class="n">X_df</span><span class="p">,</span> <span class="n">cat_cols</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">process_data</span><span class="p">(</span><span class="n">X1_train</span><span class="p">,</span> <span class="n">mean_ages_class</span><span class="p">,</span> <span class="n">std_ages_class</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;embarked&quot;</span><span class="p">])</span>
+<span class="n">X_train</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 981 entries, 3 to 1117
+Data columns (total 8 columns):
+ #   Column      Non-Null Count  Dtype  
+---  ------      --------------  -----  
+ 0   pclass      981 non-null    float64
+ 1   age         981 non-null    float64
+ 2   sibsp       981 non-null    float64
+ 3   parch       981 non-null    float64
+ 4   fare        981 non-null    float64
+ 5   sex_male    981 non-null    bool   
+ 6   embarked_Q  981 non-null    bool   
+ 7   embarked_S  981 non-null    bool   
+dtypes: bool(3), float64(5)
+memory usage: 81.1 KB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="apprentissage">
+<h2>Apprentissage<a class="headerlink" href="#apprentissage" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>On peut maintenant entraîner nos modèles</strong> sur les données enrichies et comparer à la baseline du notebook précédent (qui utilisait une imputation simple par médiane).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">logreg_clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">logreg_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">scores</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.82828283, 0.76530612, 0.85714286, 0.76530612, 0.73469388,
+        0.82653061, 0.78571429, 0.84693878, 0.80612245, 0.83673469]),
+ 0.8052772624201197,
+ 0.038674378082799214)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="autres-modeles">
+<h3>Autres modèles<a class="headerlink" href="#autres-modeles" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>On teste aussi un Random Forest</strong> — un modèle plus puissant et souvent plus tolérant au bruit d’imputation.</p>
+<blockquote>
+<div><p><strong>⚠️ Observation intéressante :</strong> les modèles à base d’arbres (Random Forest, XGBoost) sont <strong>moins sensibles</strong> à la qualité de l’imputation que les modèles linéaires (régression logistique). Pourquoi ? Parce qu’un arbre va juste créer une branche <em>« age == valeur-imputée ? »</em> qui regroupe tous les imputés — sans se laisser perturber par l’artefact. Les modèles linéaires, eux, prennent les valeurs « au sérieux » et peuvent être déstabilisés par un pic artificiel.</p>
+<p><strong>Conséquence pratique :</strong> l’imputation intelligente apporte typiquement <strong>plus de gain sur les modèles linéaires</strong> que sur les modèles à base d’arbres. Si tu vises XGBoost comme modèle final, n’investis pas trop de temps sur l’imputation — une médiane suffit souvent.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="n">rf_clf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">rf_clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">scores</span><span class="p">,</span> <span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.83838384, 0.81632653, 0.89795918, 0.7755102 , 0.74489796,
+        0.85714286, 0.80612245, 0.79591837, 0.80612245, 0.81632653]),
+ 0.8154710368996081,
+ 0.04025148656639921)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>Bilan de ce notebook :</strong></p>
+<ul class="simple">
+<li><p>Pour les deux modèles (régression logistique et Random Forest), on observe une <strong>amélioration</strong> de la justesse moyenne <strong>et</strong> une <strong>réduction de la variabilité</strong> des scores en cross-validation.</p></li>
+<li><p>L’écart est <strong>plus marqué pour la régression logistique</strong>, comme prévu (les modèles linéaires sont plus sensibles à la qualité de l’imputation).</p></li>
+<li><p>Cela confirme que <strong>comprendre ses données paye</strong> : l’EDA multivariée du chapitre 4 nous a permis de faire des choix d’imputation éclairés, et ces choix se traduisent directement en gain de performance.</p></li>
+</ul>
+</section>
+<section id="pour-resumer-imputation-avancee-en-pratique">
+<h2>🎯 Pour résumer — imputation avancée en pratique<a class="headerlink" href="#pour-resumer-imputation-avancee-en-pratique" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="le-principe-general">
+<h3>Le principe général<a class="headerlink" href="#le-principe-general" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Une bonne imputation exploite les relations entre variables</strong> pour donner aux valeurs manquantes un sens qui se rapproche de la réalité. Plus on exploite de contexte (autres variables, cible, métier), plus on s’approche de la vraie valeur manquante — au lieu d’une approximation « moyenne-pour-tout-le-monde ».</p>
+</section>
+<section id="les-5-niveaux-d-imputation-du-plus-simple-au-plus-sophistique">
+<h3>Les 5 niveaux d’imputation (du plus simple au plus sophistiqué)<a class="headerlink" href="#les-5-niveaux-d-imputation-du-plus-simple-au-plus-sophistique" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Niveau</p></th>
+<th class="head"><p>Technique</p></th>
+<th class="head"><p>Quand l’utiliser</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><strong>1</strong></p></td>
+<td><p>Supprimer les lignes / colonnes</p></td>
+<td><p>Quand c’est 1-2% et que tu peux te le permettre</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><strong>2</strong></p></td>
+<td><p>Imputer par médiane / mode</p></td>
+<td><p>Baseline simple, rapide, « suffisante souvent »</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><strong>3</strong></p></td>
+<td><p><strong>Imputer conditionnellement</strong> (group-by)</p></td>
+<td><p>Quand tu connais une corrélation entre NaN et autres variables</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><strong>4</strong></p></td>
+<td><p>Imputation itérative (<code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code>)</p></td>
+<td><p>Quand plusieurs variables ont des NaN qui se recoupent</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><strong>5</strong></p></td>
+<td><p>KNN imputation, ML dédié (<code class="docutils literal notranslate"><span class="pre">KNNImputer</span></code>)</p></td>
+<td><p>Petits datasets complexes où la qualité d’imputation compte</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="les-techniques-sklearn-a-connaitre">
+<h3>Les techniques sklearn à connaître<a class="headerlink" href="#les-techniques-sklearn-a-connaitre" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SimpleImputer</span></code></strong> — niveau 2. Rapide, robuste, baseline.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">KNNImputer</span></code></strong> — niveau 5. Prend la moyenne des <span class="math notranslate nohighlight">\(k\)</span> voisins les plus proches (sur les autres features).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">IterativeImputer</span></code></strong> (expérimental) — niveau 4. Modélise chaque colonne avec NaN comme une régression sur les autres, itérativement.</p></li>
+</ul>
+</section>
+<section id="les-bonnes-pratiques">
+<h3>Les bonnes pratiques<a class="headerlink" href="#les-bonnes-pratiques" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Toujours imputer, jamais supprimer</strong> sauf cas extrêmes (&gt;50% de NaN).</p></li>
+<li><p>✅ <strong>Comprendre pourquoi la valeur manque</strong> (MCAR / MAR / MNAR) avant de choisir une méthode.</p></li>
+<li><p>✅ <strong>Calculer les statistiques d’imputation sur le train uniquement</strong> et les propager au test.</p></li>
+<li><p>✅ <strong>Utiliser <code class="docutils literal notranslate"><span class="pre">stratify=y</span></code></strong> dans <code class="docutils literal notranslate"><span class="pre">train_test_split</span></code> quand les classes sont déséquilibrées.</p></li>
+<li><p>✅ <strong>Vérifier visuellement</strong> l’effet de l’imputation sur la distribution (histogrammes avant/après).</p></li>
+<li><p>✅ <strong>Ajouter une variable indicatrice <code class="docutils literal notranslate"><span class="pre">was_missing</span></code></strong> si l’absence elle-même semble prédictive (cas MNAR).</p></li>
+<li><p>✅ <strong>En production, utiliser un <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> scikit-learn</strong> qui encapsule imputation + encodage + modèle.</p></li>
+</ul>
+</section>
+<section id="les-pieges-a-eviter">
+<h3>Les pièges à éviter<a class="headerlink" href="#les-pieges-a-eviter" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>⚠️ <strong>Calculer la médiane sur tout le dataset</strong> → data leakage entre train et test.</p></li>
+<li><p>⚠️ <strong>Imputer avec la médiane sur une variable fortement biaisée par la classe</strong> (comme <code class="docutils literal notranslate"><span class="pre">age</span></code> avec <code class="docutils literal notranslate"><span class="pre">pclass</span></code> ici) → perte d’information.</p></li>
+<li><p>⚠️ <strong>Imputer sans analyser le <em>pattern</em> de NaN</strong> → parfois, l’absence elle-même est le signal.</p></li>
+<li><p>⚠️ <strong>Appliquer une fonction d’imputation « maison » au lieu d’un <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code></strong> → risque de désynchronisation entre train et test, bugs silencieux.</p></li>
+</ul>
+</section>
+<section id="le-mot-de-la-fin">
+<h3>Le mot de la fin<a class="headerlink" href="#le-mot-de-la-fin" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>L’imputation, c’est un dialogue avec les données.</strong> Une médiane rapide convient pour 80% des cas. Pour les 20% restants — là où il y a beaucoup de NaN ou où ils encodent une information métier — investir du temps à comprendre <em>pourquoi</em> les valeurs manquent et <em>comment</em> les corréler aux autres variables peut faire passer un modèle de « correct » à « bon ». Mais attention au rendement décroissant : au-delà d’un certain point, raffiner l’imputation rapporte moins qu’améliorer les features ou changer d’algorithme.</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours-exe/08-advanced-feature-engineering"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Feature Engineering: compléments</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03-improve-distribution.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Améliorer une « mauvaise » distribution</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-un-chapitre-complements">Pourquoi un chapitre « compléments » ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-trois-types-de-valeurs-manquantes-cadre-mcar-mar-mnar">Les trois types de valeurs manquantes (cadre MCAR / MAR / MNAR)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcar-missing-completely-at-random">MCAR — <em>Missing Completely At Random</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mar-missing-at-random">MAR — <em>Missing At Random</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mnar-missing-not-at-random">MNAR — <em>Missing Not At Random</em></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-plan-de-ce-notebook">Le plan de ce notebook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creation-des-jeux-d-apprentissage-et-de-test">Création des jeux d’apprentissage et de test</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-solution-le-split-stratifie">La solution : le split stratifié</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-selection-suppression-des-colonnes-inutiles">Feature selection — suppression des colonnes inutiles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-cleaning-valorisation-imputation-des-donnees-manquantes">Data cleaning — valorisation (imputation) des données manquantes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#etat-des-lieux">État des lieux</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-embarked">La colonne <code class="docutils literal notranslate"><span class="pre">embarked</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-fare">La colonne <code class="docutils literal notranslate"><span class="pre">fare</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-colonne-age-le-cas-difficile">La colonne <code class="docutils literal notranslate"><span class="pre">age</span></code> — le cas difficile</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-1-lien-entre-age-manquant-et-survived">Analyse 1 : lien entre <code class="docutils literal notranslate"><span class="pre">age</span></code> manquant et <code class="docutils literal notranslate"><span class="pre">survived</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-2-lien-entre-age-manquant-et-pclass">Analyse 2 : lien entre <code class="docutils literal notranslate"><span class="pre">age</span></code> manquant et <code class="docutils literal notranslate"><span class="pre">pclass</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#valorisation-la-fonction-complete">Valorisation — la fonction complète</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerisation-des-variables-categorielles">Numérisation des variables catégorielles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fonction-de-pretraitement-complete">Fonction de prétraitement complète</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage">Apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autres-modeles">Autres modèles</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-imputation-avancee-en-pratique">🎯 Pour résumer — imputation avancée en pratique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-principe-general">Le principe général</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-5-niveaux-d-imputation-du-plus-simple-au-plus-sophistique">Les 5 niveaux d’imputation (du plus simple au plus sophistiqué)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-techniques-sklearn-a-connaitre">Les techniques sklearn à connaître</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-bonnes-pratiques">Les bonnes pratiques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-a-eviter">Les pièges à éviter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1679 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Estimation du prix de voitures d’occasion &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/sidebar-collapse.js"></script>
+    <script src="../_static/sidebar-collapse.js"></script>
+    <script src="../_static/sidebar-collapse.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'demos/car-prices';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Recherche" href="../search.html" />
+    <link rel="prev" title="Iris: Véracité des données" href="iris_veracity.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cours-exe/08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/demos/car-prices.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Estimation du prix de voitures d’occasion</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comprehension-du-metier">Compréhension du métier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comprehension-des-donnees">Compréhension des données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-donnees-sont-elles-en-quantite-suffisante">Les données sont-elles en quantité suffisante ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-donnees-sont-elles-de-qualitite-suffisante">Les données sont-elles de qualitité suffisante ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#types-de-donnees-et-valeurs-nulles">Types de données et valeurs nulles</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statistiques">Statistiques</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-des-valeurs-de-la-variable-a-predire">Distribution des valeurs de la variable à prédire</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation-des-donnees">Préparation des données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-des-variables">Sélection des variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#traitement-des-donnees-nulles">Traitement des données nulles</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-engine-hp">La variable Engine HP</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-engine-cylinders">La variable Engine Cylinders</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-number-of-doors">La variable Number of Doors</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#en-pratique">En pratique</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation-des-jeux-d-apprentissage-et-de-test">Préparation des jeux d’apprentissage et de test</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelisation">Modélisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etude-des-erreurs">Etude des erreurs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="estimation-du-prix-de-voitures-d-occasion">
+<h1>Estimation du prix de voitures d’occasion<a class="headerlink" href="#estimation-du-prix-de-voitures-d-occasion" title="Lien permanent vers cette rubrique">#</a></h1>
+<p>Nous disposons d’un ensemble de données décrivant des voitures d’occasion, telles que marque, modèle, age, ainsi que leur prix de vente. A partir de données concernant un véhicule, nous souhaiterions pouvoir en prédire le prix de vente. Il s’agit d’un exemple de régression (apprentissage supervisé).</p>
+<section id="comprehension-du-metier">
+<h2>Compréhension du métier<a class="headerlink" href="#comprehension-du-metier" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>On essaye de déterminer si une approche basée sur le Machine Learning est appropriée</p>
+<ul class="simple">
+<li><p>Quel est ce problème ?</p></li>
+<li><p>Comment ce problème est-il traité aujourd’hui ?</p></li>
+<li><p>En quoi la solution actuelle doit-elle être améliorée ?</p></li>
+<li><p>Est-ce qu’une approche « classique » permettrait de le résoudre ?</p></li>
+<li><p>Quel est l’objectif à atteindre par la soultion ?</p></li>
+<li><p>Comment mesurer la valeur métier de la solution ?</p></li>
+</ul>
+</section>
+<section id="comprehension-des-donnees">
+<h2>Compréhension des données<a class="headerlink" href="#comprehension-des-donnees" title="Lien permanent vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p>De quelles données peut-on disposer?</p></li>
+<li><p>Les données sont-elles en quantité suffisante ?</p></li>
+<li><p>Les données sont-elles de qualité suffisante ?</p></li>
+<li><p>Peut-on trouver d’autres données ?</p></li>
+<li><p>Peut-on améliorer la qualité des données existantes ?</p></li>
+<li><p>Doit-on réviser les objectifs par rapport aux données dont on dispose ?</p></li>
+</ul>
+<p>Le Dataset utilisé provient de <a class="reference external" href="https://www.kaggle.com">Kaggle</a> et est accessible depuis <a class="reference external" href="https://www.kaggle.com/CooperUnion/cardataset">https://www.kaggle.com/CooperUnion/cardataset</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">car_prices</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;datasets/car-prices.csv&quot;</span><span class="p">)</span>
+<span class="n">car_prices</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Make</th>
+      <th>Model</th>
+      <th>Year</th>
+      <th>Engine Fuel Type</th>
+      <th>Engine HP</th>
+      <th>Engine Cylinders</th>
+      <th>Transmission Type</th>
+      <th>Driven_Wheels</th>
+      <th>Number of Doors</th>
+      <th>Market Category</th>
+      <th>Vehicle Size</th>
+      <th>Vehicle Style</th>
+      <th>highway MPG</th>
+      <th>city mpg</th>
+      <th>Popularity</th>
+      <th>MSRP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>BMW</td>
+      <td>1 Series M</td>
+      <td>2011</td>
+      <td>premium unleaded (required)</td>
+      <td>335.0</td>
+      <td>6.0</td>
+      <td>MANUAL</td>
+      <td>rear wheel drive</td>
+      <td>2.0</td>
+      <td>Factory Tuner,Luxury,High-Performance</td>
+      <td>Compact</td>
+      <td>Coupe</td>
+      <td>26</td>
+      <td>19</td>
+      <td>3916</td>
+      <td>46135</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>BMW</td>
+      <td>1 Series</td>
+      <td>2011</td>
+      <td>premium unleaded (required)</td>
+      <td>300.0</td>
+      <td>6.0</td>
+      <td>MANUAL</td>
+      <td>rear wheel drive</td>
+      <td>2.0</td>
+      <td>Luxury,Performance</td>
+      <td>Compact</td>
+      <td>Convertible</td>
+      <td>28</td>
+      <td>19</td>
+      <td>3916</td>
+      <td>40650</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>BMW</td>
+      <td>1 Series</td>
+      <td>2011</td>
+      <td>premium unleaded (required)</td>
+      <td>300.0</td>
+      <td>6.0</td>
+      <td>MANUAL</td>
+      <td>rear wheel drive</td>
+      <td>2.0</td>
+      <td>Luxury,High-Performance</td>
+      <td>Compact</td>
+      <td>Coupe</td>
+      <td>28</td>
+      <td>20</td>
+      <td>3916</td>
+      <td>36350</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>BMW</td>
+      <td>1 Series</td>
+      <td>2011</td>
+      <td>premium unleaded (required)</td>
+      <td>230.0</td>
+      <td>6.0</td>
+      <td>MANUAL</td>
+      <td>rear wheel drive</td>
+      <td>2.0</td>
+      <td>Luxury,Performance</td>
+      <td>Compact</td>
+      <td>Coupe</td>
+      <td>28</td>
+      <td>18</td>
+      <td>3916</td>
+      <td>29450</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>BMW</td>
+      <td>1 Series</td>
+      <td>2011</td>
+      <td>premium unleaded (required)</td>
+      <td>230.0</td>
+      <td>6.0</td>
+      <td>MANUAL</td>
+      <td>rear wheel drive</td>
+      <td>2.0</td>
+      <td>Luxury</td>
+      <td>Compact</td>
+      <td>Convertible</td>
+      <td>28</td>
+      <td>18</td>
+      <td>3916</td>
+      <td>34500</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="les-donnees-sont-elles-en-quantite-suffisante">
+<h3>Les données sont-elles en quantité suffisante ?<a class="headerlink" href="#les-donnees-sont-elles-en-quantite-suffisante" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">car_prices</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(11914, 16)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="les-donnees-sont-elles-de-qualitite-suffisante">
+<h3>Les données sont-elles de qualitité suffisante ?<a class="headerlink" href="#les-donnees-sont-elles-de-qualitite-suffisante" title="Lien permanent vers cette rubrique">#</a></h3>
+<section id="types-de-donnees-et-valeurs-nulles">
+<h4>Types de données et valeurs nulles<a class="headerlink" href="#types-de-donnees-et-valeurs-nulles" title="Lien permanent vers cette rubrique">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">car_prices</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 11914 entries, 0 to 11913
+Data columns (total 16 columns):
+ #   Column             Non-Null Count  Dtype  
+---  ------             --------------  -----  
+ 0   Make               11914 non-null  object 
+ 1   Model              11914 non-null  object 
+ 2   Year               11914 non-null  int64  
+ 3   Engine Fuel Type   11911 non-null  object 
+ 4   Engine HP          11845 non-null  float64
+ 5   Engine Cylinders   11884 non-null  float64
+ 6   Transmission Type  11914 non-null  object 
+ 7   Driven_Wheels      11914 non-null  object 
+ 8   Number of Doors    11908 non-null  float64
+ 9   Market Category    8172 non-null   object 
+ 10  Vehicle Size       11914 non-null  object 
+ 11  Vehicle Style      11914 non-null  object 
+ 12  highway MPG        11914 non-null  int64  
+ 13  city mpg           11914 non-null  int64  
+ 14  Popularity         11914 non-null  int64  
+ 15  MSRP               11914 non-null  int64  
+dtypes: float64(3), int64(5), object(8)
+memory usage: 1.5+ MB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="statistiques">
+<h4>Statistiques<a class="headerlink" href="#statistiques" title="Lien permanent vers cette rubrique">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">car_prices</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Engine HP</th>
+      <th>Engine Cylinders</th>
+      <th>Number of Doors</th>
+      <th>highway MPG</th>
+      <th>city mpg</th>
+      <th>Popularity</th>
+      <th>MSRP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>11914.00</td>
+      <td>11845.00</td>
+      <td>11884.00</td>
+      <td>11908.00</td>
+      <td>11914.00</td>
+      <td>11914.00</td>
+      <td>11914.00</td>
+      <td>11914.00</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2010.38</td>
+      <td>249.39</td>
+      <td>5.63</td>
+      <td>3.44</td>
+      <td>26.64</td>
+      <td>19.73</td>
+      <td>1554.91</td>
+      <td>40594.74</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>7.58</td>
+      <td>109.19</td>
+      <td>1.78</td>
+      <td>0.88</td>
+      <td>8.86</td>
+      <td>8.99</td>
+      <td>1441.86</td>
+      <td>60109.10</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1990.00</td>
+      <td>55.00</td>
+      <td>0.00</td>
+      <td>2.00</td>
+      <td>12.00</td>
+      <td>7.00</td>
+      <td>2.00</td>
+      <td>2000.00</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2007.00</td>
+      <td>170.00</td>
+      <td>4.00</td>
+      <td>2.00</td>
+      <td>22.00</td>
+      <td>16.00</td>
+      <td>549.00</td>
+      <td>21000.00</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2015.00</td>
+      <td>227.00</td>
+      <td>6.00</td>
+      <td>4.00</td>
+      <td>26.00</td>
+      <td>18.00</td>
+      <td>1385.00</td>
+      <td>29995.00</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2016.00</td>
+      <td>300.00</td>
+      <td>6.00</td>
+      <td>4.00</td>
+      <td>30.00</td>
+      <td>22.00</td>
+      <td>2009.00</td>
+      <td>42231.25</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2017.00</td>
+      <td>1001.00</td>
+      <td>16.00</td>
+      <td>4.00</td>
+      <td>354.00</td>
+      <td>137.00</td>
+      <td>5657.00</td>
+      <td>2065902.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="distribution-des-valeurs-de-la-variable-a-predire">
+<h3>Distribution des valeurs de la variable à prédire<a class="headerlink" href="#distribution-des-valeurs-de-la-variable-a-predire" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">car_prices</span><span class="p">[</span><span class="s2">&quot;MSRP&quot;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3c8f3c6a8911d3686414e56f64d1f499d05b3bf42aa08599ce644dd049358520.png" src="../_images/3c8f3c6a8911d3686414e56f64d1f499d05b3bf42aa08599ce644dd049358520.png" />
+</div>
+</div>
+<p>Les valeurs semblent très concentrées dans les prix les plus bas.</p>
+<p>Observons d’abord en détail la partie haute (prix élevés).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">car_prices</span><span class="o">.</span><span class="n">MSRP</span><span class="p">[</span><span class="n">car_prices</span><span class="o">.</span><span class="n">MSRP</span> <span class="o">&gt;=</span> <span class="mi">300_000</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;MSRP&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/9c549d4829c222430ab697a5e81f26366f625f8b307d25d2e7c1cc475d8ae6eb.png" src="../_images/9c549d4829c222430ab697a5e81f26366f625f8b307d25d2e7c1cc475d8ae6eb.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># De quelles marques s&#39;agit-il ?</span>
+<span class="n">car_prices</span><span class="p">[</span><span class="n">car_prices</span><span class="p">[</span><span class="s2">&quot;MSRP&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">300_000</span><span class="p">][</span><span class="s2">&quot;Make&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;Maybach&#39;, &#39;Ferrari&#39;, &#39;Lamborghini&#39;, &#39;Bentley&#39;, &#39;Porsche&#39;,
+       &#39;Rolls-Royce&#39;, &#39;Lexus&#39;, &#39;Mercedes-Benz&#39;, &#39;Aston Martin&#39;, &#39;Bugatti&#39;],
+      dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Puis les voitures plus économiques</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">car_prices</span><span class="o">.</span><span class="n">MSRP</span><span class="p">[</span><span class="n">car_prices</span><span class="o">.</span><span class="n">MSRP</span> <span class="o">&lt;</span> <span class="mi">100_000</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;MSRP&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/0aa9e194d8de885d698f4ff4d7e85e8c75075d06a0cbd92315c9a29b8addddcc.png" src="../_images/0aa9e194d8de885d698f4ff4d7e85e8c75075d06a0cbd92315c9a29b8addddcc.png" />
+</div>
+</div>
+<p>Etant donné la forme de la courbe (allongée à droite), on peut envisager une conversion en log de la target</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">car_prices</span><span class="o">.</span><span class="n">MSRP</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;MSRP&#39;, ylabel=&#39;Count&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/987b4ab822057f6afc246b6c82c7f499ec6b368bd9af9d9f5c88bc37596abb2a.png" src="../_images/987b4ab822057f6afc246b6c82c7f499ec6b368bd9af9d9f5c88bc37596abb2a.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="preparation-des-donnees">
+<h2>Préparation des données<a class="headerlink" href="#preparation-des-donnees" title="Lien permanent vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p>Nettoyage des données</p></li>
+<li><p>Transformation des données</p></li>
+<li><p>Selection des données</p></li>
+</ul>
+<section id="selection-des-variables">
+<h3>Sélection des variables<a class="headerlink" href="#selection-des-variables" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>La plupart des algorithmes de Machine Learning ne savent traiter que les données numériques. Dans un premier temps, pour simplifier, nous ne conserverons donc que celles-ci.</p>
+</section>
+<section id="traitement-des-donnees-nulles">
+<h3>Traitement des données nulles<a class="headerlink" href="#traitement-des-donnees-nulles" title="Lien permanent vers cette rubrique">#</a></h3>
+<section id="la-variable-engine-hp">
+<h4>La variable Engine HP<a class="headerlink" href="#la-variable-engine-hp" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>On remplacera les valeurs manquantes par la médiane</p>
+</section>
+<section id="la-variable-engine-cylinders">
+<h4>La variable Engine Cylinders<a class="headerlink" href="#la-variable-engine-cylinders" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>On remplacera les valeurs manquantes et nulles par la médiane</p>
+</section>
+<section id="la-variable-number-of-doors">
+<h4>La variable Number of Doors<a class="headerlink" href="#la-variable-number-of-doors" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>Elle apparaît comme numérique, mais elle est en réalité catégorielle.</p>
+</section>
+<section id="en-pratique">
+<h4>En pratique<a class="headerlink" href="#en-pratique" title="Lien permanent vers cette rubrique">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_cols</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;Engine HP&#39;</span><span class="p">,</span> <span class="s1">&#39;Engine Cylinders&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;highway MPG&#39;</span><span class="p">,</span> <span class="s1">&#39;city mpg&#39;</span><span class="p">,</span> <span class="s1">&#39;Popularity&#39;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Paramétrage du processus de modélisation</span>
+
+<span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">XGBRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span><span class="p">,</span> <span class="n">Ridge</span><span class="p">,</span> <span class="n">Lasso</span>
+
+<span class="n">process_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;logarithm_target&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="k">def</span> <span class="nf">process_num_values</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">num_cols</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;median&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>  
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">car_prices</span><span class="p">[</span><span class="s2">&quot;MSRP&quot;</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">process_num_values</span><span class="p">(</span><span class="n">car_prices</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((11914, 6), (11914,))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Convsersion log si nécéssaire</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">process_params</span><span class="p">[</span><span class="s2">&quot;logarithm_target&quot;</span><span class="p">]:</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="preparation-des-jeux-d-apprentissage-et-de-test">
+<h3>Préparation des jeux d’apprentissage et de test<a class="headerlink" href="#preparation-des-jeux-d-apprentissage-et-de-test" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="modelisation">
+<h2>Modélisation<a class="headerlink" href="#modelisation" title="Lien permanent vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p>Choisir l’algorithme de Machine Learning à utiliser</p></li>
+<li><p>Choisir une métrique</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">process_params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LinearRegression()
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred_train</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Conversion inverse (exponentielle)</span>
+
+<span class="k">if</span> <span class="n">process_params</span><span class="p">[</span><span class="s2">&quot;logarithm_target&quot;</span><span class="p">]:</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">car_prices</span><span class="p">[</span><span class="s2">&quot;MSRP&quot;</span><span class="p">][</span><span class="n">y_train</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">car_prices</span><span class="p">[</span><span class="s2">&quot;MSRP&quot;</span><span class="p">][</span><span class="n">y_test</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+    
+    <span class="c1"># On limite le prix max pour éviter les overflows</span>
+    <span class="n">max_log_y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">y_pred</span><span class="p">[</span><span class="n">y_pred</span> <span class="o">&gt;</span> <span class="n">max_log_y</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_log_y</span>
+    <span class="n">y_pred_train</span><span class="p">[</span><span class="n">y_pred_train</span> <span class="o">&gt;</span> <span class="n">max_log_y</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_log_y</span>
+
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">y_pred_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">y_pred_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="k">def</span> <span class="nf">root_mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="etude-des-erreurs">
+<h2>Etude des erreurs<a class="headerlink" href="#etude-des-erreurs" title="Lien permanent vers cette rubrique">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rmse_train</span> <span class="o">=</span> <span class="n">root_mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred_train</span><span class="p">)</span>
+<span class="n">rmse_test</span> <span class="o">=</span> <span class="n">root_mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="n">rmse_train</span><span class="p">,</span> <span class="n">rmse_test</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(42801.3395077533, 49878.99690099804)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># erreur en pourcentage du prix</span>
+
+<span class="n">err_pct</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_test</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">/</span> <span class="n">y_test</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">err_pct</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Error %&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.0, 250.0)
+</pre></div>
+</div>
+<img alt="../_images/e14fac5011864928bf6f4da4880442fd985a684968032e8126bba455c93a1a30.png" src="../_images/e14fac5011864928bf6f4da4880442fd985a684968032e8126bba455c93a1a30.png" />
+</div>
+</div>
+<p>On essaye de comprendre quel est le profil des voitures qui ont une erreur élevée</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">high_error_cars</span> <span class="o">=</span> <span class="n">car_prices</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">err_pct</span><span class="p">[</span><span class="n">err_pct</span> <span class="o">&gt;</span> <span class="mf">0.2</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">high_error_cars</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1884, 16)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">high_error_cars</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Make</th>
+      <th>Model</th>
+      <th>Year</th>
+      <th>Engine Fuel Type</th>
+      <th>Engine HP</th>
+      <th>Engine Cylinders</th>
+      <th>Transmission Type</th>
+      <th>Driven_Wheels</th>
+      <th>Number of Doors</th>
+      <th>Market Category</th>
+      <th>Vehicle Size</th>
+      <th>Vehicle Style</th>
+      <th>highway MPG</th>
+      <th>city mpg</th>
+      <th>Popularity</th>
+      <th>MSRP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5248</th>
+      <td>Hyundai</td>
+      <td>Genesis Coupe</td>
+      <td>2014</td>
+      <td>premium unleaded (recommended)</td>
+      <td>274.0</td>
+      <td>4.0</td>
+      <td>MANUAL</td>
+      <td>rear wheel drive</td>
+      <td>2.0</td>
+      <td>Performance</td>
+      <td>Midsize</td>
+      <td>Coupe</td>
+      <td>27</td>
+      <td>19</td>
+      <td>1439</td>
+      <td>27200</td>
+    </tr>
+    <tr>
+      <th>610</th>
+      <td>Ferrari</td>
+      <td>575M</td>
+      <td>2004</td>
+      <td>premium unleaded (required)</td>
+      <td>515.0</td>
+      <td>12.0</td>
+      <td>MANUAL</td>
+      <td>rear wheel drive</td>
+      <td>2.0</td>
+      <td>Exotic,High-Performance</td>
+      <td>Compact</td>
+      <td>Coupe</td>
+      <td>15</td>
+      <td>9</td>
+      <td>2774</td>
+      <td>217890</td>
+    </tr>
+    <tr>
+      <th>4673</th>
+      <td>Ford</td>
+      <td>Fiesta</td>
+      <td>2015</td>
+      <td>regular unleaded</td>
+      <td>120.0</td>
+      <td>4.0</td>
+      <td>MANUAL</td>
+      <td>front wheel drive</td>
+      <td>4.0</td>
+      <td>NaN</td>
+      <td>Compact</td>
+      <td>Sedan</td>
+      <td>36</td>
+      <td>28</td>
+      <td>5657</td>
+      <td>14455</td>
+    </tr>
+    <tr>
+      <th>8480</th>
+      <td>Suzuki</td>
+      <td>Reno</td>
+      <td>2007</td>
+      <td>regular unleaded</td>
+      <td>127.0</td>
+      <td>4.0</td>
+      <td>MANUAL</td>
+      <td>front wheel drive</td>
+      <td>4.0</td>
+      <td>Hatchback</td>
+      <td>Compact</td>
+      <td>4dr Hatchback</td>
+      <td>28</td>
+      <td>20</td>
+      <td>481</td>
+      <td>13599</td>
+    </tr>
+    <tr>
+      <th>4792</th>
+      <td>Ford</td>
+      <td>Focus</td>
+      <td>2017</td>
+      <td>flex-fuel (unleaded/E85)</td>
+      <td>160.0</td>
+      <td>4.0</td>
+      <td>AUTOMATED_MANUAL</td>
+      <td>front wheel drive</td>
+      <td>4.0</td>
+      <td>Hatchback,Flex Fuel</td>
+      <td>Compact</td>
+      <td>4dr Hatchback</td>
+      <td>40</td>
+      <td>27</td>
+      <td>5657</td>
+      <td>21675</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">high_error_cars</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Engine HP</th>
+      <th>Engine Cylinders</th>
+      <th>Number of Doors</th>
+      <th>highway MPG</th>
+      <th>city mpg</th>
+      <th>Popularity</th>
+      <th>MSRP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1884.00</td>
+      <td>1876.00</td>
+      <td>1880.00</td>
+      <td>1882.00</td>
+      <td>1884.00</td>
+      <td>1884.00</td>
+      <td>1884.00</td>
+      <td>1884.00</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2009.53</td>
+      <td>241.97</td>
+      <td>5.63</td>
+      <td>3.41</td>
+      <td>26.72</td>
+      <td>19.93</td>
+      <td>1539.61</td>
+      <td>38383.80</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>8.22</td>
+      <td>114.81</td>
+      <td>1.85</td>
+      <td>0.89</td>
+      <td>8.94</td>
+      <td>9.83</td>
+      <td>1388.51</td>
+      <td>72699.04</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1990.00</td>
+      <td>63.00</td>
+      <td>0.00</td>
+      <td>2.00</td>
+      <td>12.00</td>
+      <td>8.00</td>
+      <td>2.00</td>
+      <td>2000.00</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2004.00</td>
+      <td>160.00</td>
+      <td>4.00</td>
+      <td>2.00</td>
+      <td>22.00</td>
+      <td>15.00</td>
+      <td>549.00</td>
+      <td>18158.75</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2014.00</td>
+      <td>208.00</td>
+      <td>6.00</td>
+      <td>4.00</td>
+      <td>26.00</td>
+      <td>18.00</td>
+      <td>1385.00</td>
+      <td>27522.00</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2016.00</td>
+      <td>295.00</td>
+      <td>6.00</td>
+      <td>4.00</td>
+      <td>31.00</td>
+      <td>22.00</td>
+      <td>2009.00</td>
+      <td>39035.00</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2017.00</td>
+      <td>1001.00</td>
+      <td>16.00</td>
+      <td>4.00</td>
+      <td>111.00</td>
+      <td>137.00</td>
+      <td>5657.00</td>
+      <td>1705769.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">car_prices</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Engine HP</th>
+      <th>Engine Cylinders</th>
+      <th>Number of Doors</th>
+      <th>highway MPG</th>
+      <th>city mpg</th>
+      <th>Popularity</th>
+      <th>MSRP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>11914.00</td>
+      <td>11845.00</td>
+      <td>11884.00</td>
+      <td>11908.00</td>
+      <td>11914.00</td>
+      <td>11914.00</td>
+      <td>11914.00</td>
+      <td>11914.00</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2010.38</td>
+      <td>249.39</td>
+      <td>5.63</td>
+      <td>3.44</td>
+      <td>26.64</td>
+      <td>19.73</td>
+      <td>1554.91</td>
+      <td>40594.74</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>7.58</td>
+      <td>109.19</td>
+      <td>1.78</td>
+      <td>0.88</td>
+      <td>8.86</td>
+      <td>8.99</td>
+      <td>1441.86</td>
+      <td>60109.10</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1990.00</td>
+      <td>55.00</td>
+      <td>0.00</td>
+      <td>2.00</td>
+      <td>12.00</td>
+      <td>7.00</td>
+      <td>2.00</td>
+      <td>2000.00</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2007.00</td>
+      <td>170.00</td>
+      <td>4.00</td>
+      <td>2.00</td>
+      <td>22.00</td>
+      <td>16.00</td>
+      <td>549.00</td>
+      <td>21000.00</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2015.00</td>
+      <td>227.00</td>
+      <td>6.00</td>
+      <td>4.00</td>
+      <td>26.00</td>
+      <td>18.00</td>
+      <td>1385.00</td>
+      <td>29995.00</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2016.00</td>
+      <td>300.00</td>
+      <td>6.00</td>
+      <td>4.00</td>
+      <td>30.00</td>
+      <td>22.00</td>
+      <td>2009.00</td>
+      <td>42231.25</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2017.00</td>
+      <td>1001.00</td>
+      <td>16.00</td>
+      <td>4.00</td>
+      <td>354.00</td>
+      <td>137.00</td>
+      <td>5657.00</td>
+      <td>2065902.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="evaluation">
+<h2>Evaluation<a class="headerlink" href="#evaluation" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>On vérifie que le modèle répond bien au besoin</p>
+<ul class="simple">
+<li><p>Vérifier que la métrique métier atteint les objectifs fixés lors de la phase de compréhension du métier.</p></li>
+<li><p>Sinon, on itère en partant des pistes identifiées lors de l’itération courante</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./demos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iris_veracity.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Iris: Véracité des données</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comprehension-du-metier">Compréhension du métier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comprehension-des-donnees">Compréhension des données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-donnees-sont-elles-en-quantite-suffisante">Les données sont-elles en quantité suffisante ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-donnees-sont-elles-de-qualitite-suffisante">Les données sont-elles de qualitité suffisante ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#types-de-donnees-et-valeurs-nulles">Types de données et valeurs nulles</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#statistiques">Statistiques</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-des-valeurs-de-la-variable-a-predire">Distribution des valeurs de la variable à prédire</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation-des-donnees">Préparation des données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selection-des-variables">Sélection des variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#traitement-des-donnees-nulles">Traitement des données nulles</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-engine-hp">La variable Engine HP</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-engine-cylinders">La variable Engine Cylinders</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-number-of-doors">La variable Number of Doors</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#en-pratique">En pratique</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation-des-jeux-d-apprentissage-et-de-test">Préparation des jeux d’apprentissage et de test</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modelisation">Modélisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#etude-des-erreurs">Etude des erreurs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

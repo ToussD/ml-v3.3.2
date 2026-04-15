@@ -1,0 +1,1802 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Obtenir une vue synthétique des données &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"RR": "\\mathbb{R}", "NN": "\\mathbb{N}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours-exe/04-understand-data/04-summarize-data';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Exercice: Pandas Stats - les bases" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html" />
+    <link rel="prev" title="Exercice: Pandas" href="../../cours/04-understand-data/03-lab-pandas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours-exe/04-understand-data/04-summarize-data.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Obtenir une vue synthétique des données</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-passer-du-temps-ici">Pourquoi passer du temps ici ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-dataset-titanic">Le dataset Titanic</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-des-donnees">Structure des données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#type-de-donnees-rappel">Type de données (Rappel)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-de-donnees-rappel">Types de données — rappel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#identification-des-variables-categorielles">Identification des variables catégorielles</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suppression-des-variables-inutiles-pour-la-phase-d-exploration">Suppression des variables inutiles pour la phase d’exploration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-cible">La variable cible</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-quantitatives">Variables quantitatives</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-statistique-univariee">Analyse statistique univariée</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#histogramme">Histogramme</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vue-synthetique-de-toutes-les-variables-numeriques">Vue synthétique de toutes les variables numériques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boxplots">Boxplots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-categorielles">Variables catégorielles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vue-synthetique-des-variables-categorielles">Vue synthétique des variables catégorielles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-des-variables-categorielles">Distribution des variables catégorielles</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-sex">La variable <code class="docutils literal notranslate"><span class="pre">sex</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-embarked">La variable <code class="docutils literal notranslate"><span class="pre">embarked</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-survived-la-target">La variable <code class="docutils literal notranslate"><span class="pre">survived</span></code> (la target)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synthese-la-demarche-d-analyse-exploratoire">🎯 Synthèse — la démarche d’analyse exploratoire</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-routine-d-eda-en-7-etapes">La routine d’EDA en 7 étapes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-questions-a-se-poser-systematiquement">Les questions à se poser systématiquement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-classiques">Les pièges classiques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outils-a-connaitre-pour-aller-plus-loin">Outils à connaître pour aller plus loin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="obtenir-une-vue-synthetique-des-donnees">
+<h1>Obtenir une vue synthétique des données<a class="headerlink" href="#obtenir-une-vue-synthetique-des-donnees" title="Lien permanent vers cette rubrique">#</a></h1>
+<section id="pourquoi-passer-du-temps-ici">
+<h2>Pourquoi passer du temps ici ?<a class="headerlink" href="#pourquoi-passer-du-temps-ici" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Avant d’entraîner le moindre modèle, il faut <strong>connaître ses données</strong>. C’est l’étape la plus souvent négligée par les débutants, et celle qui fait la différence entre un modèle qui marche et un modèle qui marche <em>vraiment</em>.</p>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> imagine un médecin qui voit un patient pour la première fois. Avant de prescrire quoi que ce soit, il prend le pouls, la tension, écoute les poumons, regarde le carnet de santé. Ce n’est qu”<strong>après</strong> ce bilan qu’il peut faire un diagnostic fiable. La data science, c’est pareil : l”<strong>analyse exploratoire des données</strong> (EDA pour <em>Exploratory Data Analysis</em>) est le bilan médical du dataset.</p>
+</div></blockquote>
+<p>Concrètement, une EDA sert à répondre à des questions comme :</p>
+<ul class="simple">
+<li><p><strong>Combien de données j’ai ?</strong> (assez pour entraîner un modèle ou pas ?)</p></li>
+<li><p><strong>Quels types de variables ?</strong> (numériques, catégorielles, texte, dates…)</p></li>
+<li><p><strong>Y a-t-il des valeurs manquantes ?</strong> (combien, où, que faire ?)</p></li>
+<li><p><strong>Les variables sont-elles bien équilibrées ?</strong> (skew, outliers, classes déséquilibrées)</p></li>
+<li><p><strong>Y a-t-il des incohérences ou des données aberrantes ?</strong></p></li>
+<li><p><strong>Les classes à prédire sont-elles équilibrées ?</strong></p></li>
+</ul>
+<p>Ce notebook fait le tour de ces questions sur un dataset fil rouge : le <strong>naufrage du Titanic</strong>.</p>
+</section>
+<section id="le-dataset-titanic">
+<h2>Le dataset Titanic<a class="headerlink" href="#le-dataset-titanic" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Nous allons nous appuyer sur un cas de data science classique : le <a class="reference external" href="https://fr.wikipedia.org/wiki/Naufrage_du_Titanic">naufrage du Titanic</a>. Chaque ligne est un passager, et on veut prédire s’il a survécu.</p>
+<p><strong>Les colonnes :</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Colonne</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pclass</span></code></p></td>
+<td><p>Classe de voyage (1 = 1ère ; 2 = 2nde ; 3 = 3ème)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>Nom</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sex</span></code></p></td>
+<td><p>Sexe</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">age</span></code></p></td>
+<td><p>Âge</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sibsp</span></code></p></td>
+<td><p>Nombre de frères/sœurs/épouse à bord</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parch</span></code></p></td>
+<td><p>Nombre de parents/enfants à bord</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ticket</span></code></p></td>
+<td><p>Numéro de ticket</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fare</span></code></p></td>
+<td><p>Montant du billet</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cabin</span></code></p></td>
+<td><p>Numéro de cabine</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">embarked</span></code></p></td>
+<td><p>Port d’embarquement (C = Cherbourg ; Q = Queenstown ; S = Southampton)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">boat</span></code></p></td>
+<td><p>Numéro de barque (si le passager a survécu)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">body</span></code></p></td>
+<td><p>Numéro de corps (si le passager n’a pas survécu et si le corps a été retrouvé)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">home.dest</span></code></p></td>
+<td><p>Destination</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>La cible à prédire :</strong> <code class="docutils literal notranslate"><span class="pre">survived</span></code> → 0 = Non, 1 = Oui.</p>
+<p>C’est donc un problème de <strong>classification binaire</strong> (deux classes possibles).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;whitegrid&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;titanic&quot;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+<span class="n">titanic1</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">data</span>
+<span class="n">survived</span> <span class="o">=</span> <span class="n">titanic</span><span class="o">.</span><span class="n">target</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>On peut obtenir une description des données chargées avec <code class="docutils literal notranslate"><span class="pre">fetch_openml</span></code>. <strong>Toujours lire cette description quand elle existe</strong> — elle explique le contexte, les conventions et parfois des subtilités qui sauvent des heures de debug plus tard.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">titanic</span><span class="o">.</span><span class="n">DESCR</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>**Author**: Frank E. Harrell Jr., Thomas Cason  
+**Source**: [Vanderbilt Biostatistics](http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic.html)  
+**Please cite**:   
+
+The original Titanic dataset, describing the survival status of individual passengers on the Titanic. The titanic data does not contain information from the crew, but it does contain actual ages of half of the passengers. The principal source for data about Titanic passengers is the Encyclopedia Titanica. The datasets used here were begun by a variety of researchers. One of the original sources is Eaton &amp; Haas (1994) Titanic: Triumph and Tragedy, Patrick Stephens Ltd, which includes a passenger list created by many researchers and edited by Michael A. Findlay.
+
+Thomas Cason of UVa has greatly updated and improved the titanic data frame using the Encyclopedia Titanica and created the dataset here. Some duplicate passengers have been dropped, many errors corrected, many missing ages filled in, and new variables created. 
+
+For more information about how this dataset was constructed:
+http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/titanic3info.txt
+
+
+### Attribute information  
+
+The variables on our extracted dataset are pclass, survived, name, age, embarked, home.dest, room, ticket, boat, and sex. pclass refers to passenger class (1st, 2nd, 3rd), and is a proxy for socio-economic class. Age is in years, and some infants had fractional values. The titanic2 data frame has no missing data and includes records for the crew, but age is dichotomized at adult vs. child. These data were obtained from Robert Dawson, Saint Mary&#39;s University, E-mail. The variables are pclass, age, sex, survived. These data frames are useful for demonstrating many of the functions in Hmisc as well as demonstrating binary logistic regression analysis using the Design library. For more details and references see Simonoff, Jeffrey S (1997): The &quot;unusual episode&quot; and a second statistics course. J Statistics Education, Vol. 5 No. 1.
+
+Downloaded from openml.org.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="structure-des-donnees">
+<h2>Structure des données<a class="headerlink" href="#structure-des-donnees" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Avant de regarder les valeurs, on regarde <strong>la forme</strong> du dataset : combien de lignes ? combien de colonnes ? quels types ? où sont les trous ?</p>
+<p>Le volume de données, comme on l’a déjà évoqué, est un élément important pour évaluer la pertinence des données.</p>
+<blockquote>
+<div><p><strong>Ordres de grandeur à connaître :</strong></p>
+<ul class="simple">
+<li><p><strong>&lt; 100 lignes</strong> → trop peu, presque n’importe quel modèle va overfitter. À réserver aux toy datasets ou démos.</p></li>
+<li><p><strong>100 – 1 000 lignes</strong> → on peut commencer à entraîner des modèles simples (régression, arbre bridé). Attention à la validation croisée (peu de folds possibles).</p></li>
+<li><p><strong>1 000 – 100 000 lignes</strong> → zone idéale pour scikit-learn et les modèles classiques.</p></li>
+<li><p><strong>&gt; 100 000 lignes</strong> → idéal pour les modèles plus puissants (Random Forest, Gradient Boosting).</p></li>
+<li><p><strong>&gt; 1 M lignes</strong> → déjà dans le territoire des outils spécialisés (Dask, Spark, LightGBM optimisé…).</p></li>
+</ul>
+<p>Le dataset Titanic avec ses ~1300 lignes est <strong>petit</strong> — cela va influencer nos choix (modèles simples préférés, attention à l’overfit).</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic1</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1309, 13)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Jeter un coup d’œil sur les données permet de se faire une première idée. C’est le réflexe <strong>numéro 1</strong> : <code class="docutils literal notranslate"><span class="pre">.head()</span></code> après le chargement, <strong>toujours</strong>. Ça permet de détecter immédiatement les problèmes flagrants (colonnes vides, types mal devinés, valeurs qui ne ressemblent à rien).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic1</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>name</th>
+      <th>sex</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>ticket</th>
+      <th>fare</th>
+      <th>cabin</th>
+      <th>embarked</th>
+      <th>boat</th>
+      <th>body</th>
+      <th>home.dest</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Allen, Miss. Elisabeth Walton</td>
+      <td>female</td>
+      <td>29.0000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>24160</td>
+      <td>211.3375</td>
+      <td>B5</td>
+      <td>S</td>
+      <td>2</td>
+      <td>NaN</td>
+      <td>St Louis, MO</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>Allison, Master. Hudson Trevor</td>
+      <td>male</td>
+      <td>0.9167</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>11</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>Allison, Miss. Helen Loraine</td>
+      <td>female</td>
+      <td>2.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>Allison, Mr. Hudson Joshua Creighton</td>
+      <td>male</td>
+      <td>30.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>NaN</td>
+      <td>135.0</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>Allison, Mrs. Hudson J C (Bessie Waldo Daniels)</td>
+      <td>female</td>
+      <td>25.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>113781</td>
+      <td>151.5500</td>
+      <td>C22 C26</td>
+      <td>S</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Montreal, PQ / Chesterville, ON</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="type-de-donnees-rappel">
+<h3>Type de données (Rappel)<a class="headerlink" href="#type-de-donnees-rappel" title="Lien permanent vers cette rubrique">#</a></h3>
+</section>
+<section id="types-de-donnees-rappel">
+<h3>Types de données — rappel<a class="headerlink" href="#types-de-donnees-rappel" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Avant d’analyser, il faut classer chaque variable dans une catégorie. Tous les algorithmes et toutes les statistiques ne s’appliquent pas de la même manière selon le type.</p>
+<p><img alt="Data Types" src="../../_images/data-types.png" /></p>
+<p><strong>Les 4 grandes familles en pratique :</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Exemple Titanic</p></th>
+<th class="head"><p>Ce qu’on peut calculer</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Numérique continu</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">age</span></code>, <code class="docutils literal notranslate"><span class="pre">fare</span></code></p></td>
+<td><p>moyenne, écart-type, histogramme, corrélations</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Numérique discret</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sibsp</span></code>, <code class="docutils literal notranslate"><span class="pre">parch</span></code></p></td>
+<td><p>comptages, mode, médiane</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Catégoriel nominal</strong> (sans ordre)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sex</span></code>, <code class="docutils literal notranslate"><span class="pre">embarked</span></code></p></td>
+<td><p>fréquences, mode, barplot</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Catégoriel ordinal</strong> (avec ordre)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pclass</span></code></p></td>
+<td><p>mode, médiane (l’ordre a un sens : 1 &lt; 2 &lt; 3)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Pourquoi ça compte ?</strong> Beaucoup d’erreurs d’analyse viennent d’un mauvais type. Exemple : si on fait la moyenne de <code class="docutils literal notranslate"><span class="pre">pclass</span></code>, on obtient 2,3 — techniquement calculable, mais <strong>ça n’a pas de sens métier</strong>. Inversement, traiter <code class="docutils literal notranslate"><span class="pre">age</span></code> (continu) comme une catégorie fait perdre toute l’information de proximité entre valeurs.</p>
+<p>La fonction <code class="docutils literal notranslate"><span class="pre">info()</span></code> permet une analyse rapide et très dense d’un dataset — c’est l’outil le plus rentable de pandas pour une première exploration.</p>
+<p><strong>Ce qu’elle donne en une ligne :</strong></p>
+<ul class="simple">
+<li><p>Le <strong>nombre d’observations</strong> (lignes).</p></li>
+<li><p>Le <strong>nom des colonnes</strong> (dans le cas du Titanic, ils viennent de la première ligne du CSV).</p></li>
+<li><p>Le <strong>nombre de valeurs non-nulles</strong> par colonne — en comparant à la taille totale on déduit immédiatement <strong>combien de valeurs manquantes</strong> par variable.</p></li>
+<li><p>Le <strong>type</strong> de chaque colonne. Pandas le devine en analysant les valeurs, mais ce n’est pas toujours bien deviné (ex : une colonne entière avec des <code class="docutils literal notranslate"><span class="pre">NaN</span></code> sera typée <code class="docutils literal notranslate"><span class="pre">float64</span></code> au lieu de <code class="docutils literal notranslate"><span class="pre">int64</span></code>). On peut le corriger avec <code class="docutils literal notranslate"><span class="pre">astype()</span></code> si besoin.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Réflexe :</strong> <code class="docutils literal notranslate"><span class="pre">df.info()</span></code> est <strong>la 2e chose</strong> à faire après <code class="docutils literal notranslate"><span class="pre">.head()</span></code>. Ça te dit en 1 seconde si tu as des valeurs manquantes, si les types ont été bien devinés, et si le nombre de lignes est cohérent avec ce que tu attendais.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic1</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 1309 entries, 0 to 1308
+Data columns (total 13 columns):
+ #   Column     Non-Null Count  Dtype   
+---  ------     --------------  -----   
+ 0   pclass     1309 non-null   int64   
+ 1   name       1309 non-null   object  
+ 2   sex        1309 non-null   category
+ 3   age        1046 non-null   float64 
+ 4   sibsp      1309 non-null   int64   
+ 5   parch      1309 non-null   int64   
+ 6   ticket     1309 non-null   object  
+ 7   fare       1308 non-null   float64 
+ 8   cabin      295 non-null    object  
+ 9   embarked   1307 non-null   category
+ 10  boat       486 non-null    object  
+ 11  body       121 non-null    float64 
+ 12  home.dest  745 non-null    object  
+dtypes: category(2), float64(3), int64(3), object(5)
+memory usage: 115.4+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>On constate que certaines variables ont des valeurs nulles — c’est visible en comparant les <em>Non-Null Count</em> à la taille totale du dataset.</p>
+<p><strong>Bilan à ce stade :</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code> : ~20% de valeurs manquantes → significatif mais gérable (imputation nécessaire).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cabin</span></code>, <code class="docutils literal notranslate"><span class="pre">home.dest</span></code>, <code class="docutils literal notranslate"><span class="pre">boat</span></code>, <code class="docutils literal notranslate"><span class="pre">body</span></code> : <strong>énormément de NaN</strong> → on va les traiter à part.</p></li>
+<li><p>Le reste : complet.</p></li>
+</ul>
+<p>Les valeurs manquantes sont une question centrale en data science ; on y revient en détail dans un chapitre dédié au <em>feature engineering</em>.</p>
+</section>
+<section id="identification-des-variables-categorielles">
+<h3>Identification des variables catégorielles<a class="headerlink" href="#identification-des-variables-categorielles" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Le type pandas ne suffit pas à tout dire. Une colonne <code class="docutils literal notranslate"><span class="pre">int64</span></code> peut être une variable continue (âge) ou en fait une catégorie déguisée (code postal, pclass). Une façon simple de les distinguer : <strong>compter le nombre de valeurs uniques</strong> avec <code class="docutils literal notranslate"><span class="pre">nunique()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic1</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pclass          3
+name         1307
+sex             2
+age            98
+sibsp           7
+parch           8
+ticket        929
+fare          281
+cabin         186
+embarked        3
+boat           27
+body          121
+home.dest     369
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Les variables <strong>catégorielles</strong> sont caractérisées par un <strong>nombre limité de catégories</strong> (typiquement quelques-unes à quelques dizaines).</p>
+<p><strong>Dans le Titanic :</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sex</span></code> (2 valeurs : male/female) → <strong>nominale</strong> (pas d’ordre).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">embarked</span></code> (3 ports : C/Q/S) → <strong>nominale</strong>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pclass</span></code> (3 classes : 1/2/3) → <strong>ordinale</strong> : l’ordre a du sens (la 1ère classe est « au-dessus » de la 2e). L’encodage numérique existant est donc adapté.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Distinction importante — nominale vs ordinale :</strong></p>
+<ul class="simple">
+<li><p><strong>Nominale</strong> : les catégories n’ont <strong>pas d’ordre</strong> naturel (<code class="docutils literal notranslate"><span class="pre">sex</span></code>, <code class="docutils literal notranslate"><span class="pre">embarked</span></code>, couleurs, marques…). On les encode typiquement en <strong>one-hot encoding</strong> (<code class="docutils literal notranslate"><span class="pre">pd.get_dummies()</span></code>).</p></li>
+<li><p><strong>Ordinale</strong> : les catégories ont un <strong>ordre naturel</strong> (<code class="docutils literal notranslate"><span class="pre">pclass</span></code>, petit/moyen/grand, notes…). On peut les laisser en numérique (<em>ordinal encoding</em>) — l’algorithme en tirera parti.</p></li>
+</ul>
+<p>Se tromper sur cette distinction est une erreur très fréquente : encoder <code class="docutils literal notranslate"><span class="pre">pclass</span></code> en one-hot fait <em>perdre</em> l’information d’ordre, et encoder <code class="docutils literal notranslate"><span class="pre">sex</span></code> en numérique (0/1) impose un ordre qui n’existe pas.</p>
+</div></blockquote>
+<p>Les variables <code class="docutils literal notranslate"><span class="pre">name</span></code> et <code class="docutils literal notranslate"><span class="pre">ticket</span></code> <strong>ne peuvent pas</strong> être traitées comme des variables catégorielles : il y a <strong>trop de valeurs différentes</strong> (quasi autant que de passagers). Elles ne sont pas non plus numériques.</p>
+<p><strong>Ce genre de variables à haute cardinalité</strong> (texte libre, identifiants, adresses…) demande un traitement spécifique appelé <strong>feature engineering</strong> : extraire des informations utiles sans exploser la dimensionnalité.</p>
+<blockquote>
+<div><p><strong>Exemple concret :</strong> à partir de <code class="docutils literal notranslate"><span class="pre">name</span></code>, on pourrait extraire :</p>
+<ul class="simple">
+<li><p>Le <strong>titre</strong> (Mr, Mrs, Miss, Master…) → proxy du statut social et de l’âge.</p></li>
+<li><p>La <strong>longueur du nom</strong> → parfois corrélée au statut.</p></li>
+</ul>
+<p>De <code class="docutils literal notranslate"><span class="pre">ticket</span></code>, on pourrait extraire le <strong>préfixe</strong> (certains préfixes sont associés à des ports ou à des groupes de voyageurs).</p>
+<p>Mais ce feature engineering demande de <strong>connaître le sens métier</strong> des données. Or nous sommes en phase <strong>exploratoire</strong> : pour gagner du temps, on met ces variables de côté et on se concentre sur les colonnes directement exploitables. On pourra toujours y revenir si le modèle obtenu n’est pas satisfaisant.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="suppression-des-variables-inutiles-pour-la-phase-d-exploration">
+<h2>Suppression des variables inutiles pour la phase d’exploration<a class="headerlink" href="#suppression-des-variables-inutiles-pour-la-phase-d-exploration" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Toutes les colonnes ne sont pas bonnes à garder pour cette phase. On en retire plusieurs :</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cabin</span></code> et <code class="docutils literal notranslate"><span class="pre">home.dest</span></code></strong> → <strong>trop de valeurs manquantes</strong>. On pourrait imputer, mais le ratio est tel qu’on risque d’introduire plus de bruit que d’information. On les ignore pendant l’exploration initiale.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">boat</span></code> et <code class="docutils literal notranslate"><span class="pre">body</span></code></strong> → ce sont des <strong>variables « fuite »</strong> (<em>data leakage</em>) : le numéro de barque n’existe que si le passager a survécu ; le numéro de corps n’existe que si le passager est mort et qu’on a retrouvé le corps. Ces deux variables <strong>contiennent directement l’information à prédire</strong>. Si on les garde, le modèle va « tricher » avec un score parfait… mais ne fonctionnera plus jamais en production. <strong>À supprimer absolument.</strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">name</span></code> et <code class="docutils literal notranslate"><span class="pre">ticket</span></code></strong> → non exploitables en l’état (cf. cellule précédente). On les laisse tomber.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>⚠️ Le piège du data leakage est l’un des plus classiques en ML.</strong> Un modèle « trop beau pour être vrai » cache presque toujours une fuite : une feature qui encode directement la target, une feature calculée après le moment de la prédiction, une colonne absente en production… <strong>Toujours se demander : <em>« ces infos seraient-elles disponibles au moment où je voudrais faire une vraie prédiction ? »</em></strong>. Si la réponse est non, la variable est une fuite.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span> <span class="o">=</span> <span class="n">titanic1</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;cabin&quot;</span><span class="p">,</span> <span class="s2">&quot;home.dest&quot;</span><span class="p">,</span> <span class="s2">&quot;boat&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;ticket&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">titanic2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>sex</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>fare</th>
+      <th>embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>female</td>
+      <td>29.0000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>211.3375</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>male</td>
+      <td>0.9167</td>
+      <td>1</td>
+      <td>2</td>
+      <td>151.5500</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>female</td>
+      <td>2.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>151.5500</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>male</td>
+      <td>30.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>151.5500</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>female</td>
+      <td>25.0000</td>
+      <td>1</td>
+      <td>2</td>
+      <td>151.5500</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 1309 entries, 0 to 1308
+Data columns (total 7 columns):
+ #   Column    Non-Null Count  Dtype   
+---  ------    --------------  -----   
+ 0   pclass    1309 non-null   int64   
+ 1   sex       1309 non-null   category
+ 2   age       1046 non-null   float64 
+ 3   sibsp     1309 non-null   int64   
+ 4   parch     1309 non-null   int64   
+ 5   fare      1308 non-null   float64 
+ 6   embarked  1307 non-null   category
+dtypes: category(2), float64(2), int64(3)
+memory usage: 54.1 KB
+</pre></div>
+</div>
+</div>
+</div>
+<section id="la-variable-cible">
+<h3>La variable cible<a class="headerlink" href="#la-variable-cible" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>La variable à prédire, <code class="docutils literal notranslate"><span class="pre">survived</span></code>, est <strong>catégorielle</strong> (binaire : 0 ou 1). On est donc sur un problème de <strong>classification binaire</strong> — ce qui conditionne le choix des algorithmes (classification, pas régression) et des métriques (accuracy, F1, AUC… pas MAE/RMSE).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">survived</span><span class="o">.</span><span class="n">dtype</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CategoricalDtype(categories=[&#39;0&#39;, &#39;1&#39;], ordered=False, categories_dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="variables-quantitatives">
+<h2>Variables quantitatives<a class="headerlink" href="#variables-quantitatives" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>On commence l’analyse par les <strong>variables numériques</strong> (<code class="docutils literal notranslate"><span class="pre">age</span></code>, <code class="docutils literal notranslate"><span class="pre">fare</span></code>, <code class="docutils literal notranslate"><span class="pre">sibsp</span></code>, <code class="docutils literal notranslate"><span class="pre">parch</span></code>). Pour chaque variable, on va regarder :</p>
+<ol class="arabic simple">
+<li><p><strong>Sa tendance centrale</strong> (moyenne, médiane) — où elle se situe.</p></li>
+<li><p><strong>Sa dispersion</strong> (écart-type, min/max, quartiles) — à quel point elle est étalée.</p></li>
+<li><p><strong>Sa forme</strong> (histogramme, boxplot) — y a-t-il des outliers ? une asymétrie ? des clusters ?</p></li>
+</ol>
+<p>C’est ce qu’on appelle l”<strong>analyse univariée</strong> : une variable à la fois, sans chercher encore les relations entre elles.</p>
+<section id="analyse-statistique-univariee">
+<h3>Analyse statistique univariée<a class="headerlink" href="#analyse-statistique-univariee" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Pour chaque variable numérique, on commence par calculer les <strong>statistiques descriptives de base</strong> (cf. notebook <code class="docutils literal notranslate"><span class="pre">01-intro-datascience/06-statistics-basics</span></code>) : moyenne, médiane, écart-type. Elles sont complémentaires et racontent toutes trois une partie de l’histoire.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(29.8811345124283, 14.413499699923594, 28.0)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>L’écart-type</strong> pour l’ensemble des variables numériques :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pclass     0.837836
+age       14.413500
+sibsp      1.041658
+parch      0.865560
+fare      51.758668
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Statistiques descriptives</strong> pour l’ensemble des variables numériques. <code class="docutils literal notranslate"><span class="pre">describe()</span></code> est probablement la méthode la plus utilisée en EDA — elle donne d’un coup : <code class="docutils literal notranslate"><span class="pre">count</span></code>, <code class="docutils literal notranslate"><span class="pre">mean</span></code>, <code class="docutils literal notranslate"><span class="pre">std</span></code>, <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">25%</span></code>, <code class="docutils literal notranslate"><span class="pre">50%</span></code> (médiane), <code class="docutils literal notranslate"><span class="pre">75%</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code> pour chaque colonne numérique.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pclass</th>
+      <th>age</th>
+      <th>sibsp</th>
+      <th>parch</th>
+      <th>fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1309.000000</td>
+      <td>1046.000000</td>
+      <td>1309.000000</td>
+      <td>1309.000000</td>
+      <td>1308.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.294882</td>
+      <td>29.881135</td>
+      <td>0.498854</td>
+      <td>0.385027</td>
+      <td>33.295479</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.837836</td>
+      <td>14.413500</td>
+      <td>1.041658</td>
+      <td>0.865560</td>
+      <td>51.758668</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>0.166700</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2.000000</td>
+      <td>21.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>7.895800</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>3.000000</td>
+      <td>28.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>14.454200</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>3.000000</td>
+      <td>39.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>31.275000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>3.000000</td>
+      <td>80.000000</td>
+      <td>8.000000</td>
+      <td>9.000000</td>
+      <td>512.329200</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Remarques (lecture guidée) :</strong></p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">fare</span></code></strong> : moyenne à ~33 et médiane à ~14. <strong>Moyenne beaucoup plus grande que la médiane</strong> → c’est le signe caractéristique d’une <strong>distribution à traîne à droite</strong> (skew positif) : il y a quelques billets très chers qui tirent la moyenne vers le haut. L’histogramme va confirmer.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">pclass</span></code></strong> : médiane = 3 → <strong>une majorité de voyageurs était en 3ème classe</strong> (la classe populaire, la moins chère).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">sibsp</span></code> et <code class="docutils literal notranslate"><span class="pre">parch</span></code></strong> : valeurs concentrées près de 0 → <strong>la plupart des gens voyageaient seuls</strong> ou avec très peu de famille.</p></li>
+<li><p><strong>Échelles très différentes</strong> : <code class="docutils literal notranslate"><span class="pre">fare</span></code> va jusqu’à ~500, <code class="docutils literal notranslate"><span class="pre">sibsp</span></code> jusqu’à 8, <code class="docutils literal notranslate"><span class="pre">age</span></code> jusqu’à 80. Cette hétérogénéité des échelles posera problème à certains algorithmes (KNN, SVM, régression régularisée, réseaux de neurones…) qui exigent une <strong>normalisation</strong> préalable. Les arbres de décision, eux, s’en moquent.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Le réflexe à avoir :</strong> quand <strong>moyenne ≠ médiane</strong>, c’est un signal fort de <strong>distribution asymétrique</strong>. Dans ce cas, la <strong>médiane</strong> représente mieux « le voyageur typique » que la moyenne.</p>
+</div></blockquote>
+</section>
+<section id="histogramme">
+<h3>Histogramme<a class="headerlink" href="#histogramme" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’histogramme complète <code class="docutils literal notranslate"><span class="pre">describe()</span></code> visuellement.</strong> Il compte combien de valeurs tombent dans chaque « paquet » (<em>bin</em>) d’intervalle et dessine un graphique.</p>
+<blockquote>
+<div><p><strong>Pourquoi regarder un histogramme ?</strong> Parce qu’il révèle des choses que les statistiques descriptives cachent :</p>
+<ul class="simple">
+<li><p>la <strong>forme</strong> (uni-modale, bi-modale, asymétrique) ;</p></li>
+<li><p>les <strong>outliers</strong> visibles comme des points isolés ;</p></li>
+<li><p>les <strong>clusters</strong> (regroupements de valeurs à certains niveaux) ;</p></li>
+<li><p>les <strong>valeurs impossibles</strong> (ex : âge négatif, prix à 0 €).</p></li>
+</ul>
+<p>Deux variables peuvent avoir la <strong>même moyenne et le même écart-type</strong> avec des histogrammes très différents. C’est la célèbre illustration du <strong>quartet d’Anscombe</strong>.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c2524ebc2d622e0850aa494be63a7df9c03c628a7bc4dd45abd4febbd7f0ce4c.png" src="../../_images/c2524ebc2d622e0850aa494be63a7df9c03c628a7bc4dd45abd4febbd7f0ce4c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/d34d1e756fdd98d167ab4b8e0896d5e01b08c045cba7f241d7b2697a863c9b07.png" src="../../_images/d34d1e756fdd98d167ab4b8e0896d5e01b08c045cba7f241d7b2697a863c9b07.png" />
+</div>
+</div>
+<p><strong>Zoom sur la traîne.</strong> On voit sur l’histogramme qu’il y a quelques billets très chers (le « bruit » à droite). Quelle <strong>proportion</strong> des voyageurs est concernée ? On filtre et on compte :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="p">[</span><span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">120</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">titanic2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.05118411000763942
+</pre></div>
+</div>
+</div>
+</div>
+<p>La proportion de voyageurs ayant payé plus de 120 est de l’ordre de <strong>5%</strong>.</p>
+<blockquote>
+<div><p><strong>5% d’outliers, c’est significatif.</strong> Sur 1300 passagers, ça fait ~65 personnes. Ils ne sont pas des erreurs — ce sont de vrais riches qui ont acheté des suites luxueuses. Le <strong>choix</strong> qu’on fera à leur sujet (les garder ? les winsoriser ? les ignorer ?) dépend du modèle qu’on veut construire :</p>
+<ul class="simple">
+<li><p>Pour prédire « le prix moyen du billet d’un voyageur quelconque », on peut les traiter comme une anomalie.</p></li>
+<li><p>Pour prédire « le prix d’un billet de 1ère classe », au contraire, ce sont <strong>eux</strong> le signal.</p></li>
+</ul>
+<p><strong>Il n’y a pas de règle universelle</strong> — c’est toujours une décision métier.</p>
+</div></blockquote>
+<p>On peut regarder de plus près <strong>l’allure de l’histogramme pour les faibles valeurs</strong> de <code class="docutils literal notranslate"><span class="pre">fare</span></code>, en zoomant via un filtre. C’est souvent instructif : la distribution « normale » peut cacher des structures fines qu’on ne voit pas à pleine échelle.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2_low_fare</span> <span class="o">=</span> <span class="n">titanic2</span><span class="p">[</span><span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">]</span>
+<span class="n">titanic2_low_fare</span><span class="p">[</span><span class="s2">&quot;fare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/850a418cdc1aab6a0c5cb8581c5abcdaf096f9cf643d4145deec26c9b54adac9.png" src="../../_images/850a418cdc1aab6a0c5cb8581c5abcdaf096f9cf643d4145deec26c9b54adac9.png" />
+</div>
+</div>
+<p><strong>Observation intéressante :</strong> on voit clairement la présence de <strong>regroupements par « paquets »</strong> dans le prix des billets. C’est probablement lié à des <strong>tarifs standardisés</strong> : quelques prix communs partagés par de nombreux passagers d’une même classe ou d’un même port.</p>
+<blockquote>
+<div><p><strong>Pourquoi cela compte pour le ML ?</strong> Un <strong>arbre de décision</strong> (ou n’importe quel modèle qui découpe par seuils) peut tirer parti de ces paliers : il va couper pile là où les paquets se séparent. Une régression linéaire, au contraire, verra ça comme du bruit sur une tendance continue — et sera moins efficace.</p>
+<p><strong>Morale :</strong> observer la forme des histogrammes <strong>influence directement le choix de l’algorithme</strong>. Les EDA ne servent pas qu’à « décrire » les données : elles guident les décisions de modélisation.</p>
+</div></blockquote>
+<p><strong>Seaborn</strong> permet de représenter une <strong>estimation de la densité de probabilité</strong> en option avec <code class="docutils literal notranslate"><span class="pre">kde=True</span></code> (<em>Kernel Density Estimation</em>).</p>
+<blockquote>
+<div><p><strong>L’idée de la KDE :</strong> au lieu de compter brutalement les valeurs dans des paquets (comme un histogramme), on « lisse » la distribution en posant une petite courbe en cloche sur chaque point et en additionnant. Résultat : une courbe continue qui donne une vision plus « naturelle » de la distribution, sans l’effet d’escalier des bins.</p>
+<p>Utile pour comparer visuellement deux distributions qui se superposent, ou pour estimer à quoi ressemble la « vraie » densité sous-jacente.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">titanic2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;fare&quot;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/54c0139f4124caee5e4b12ff1c6751de1a25d61b539d91c355e3a86d74b49bbd.png" src="../../_images/54c0139f4124caee5e4b12ff1c6751de1a25d61b539d91c355e3a86d74b49bbd.png" />
+</div>
+</div>
+</section>
+<section id="vue-synthetique-de-toutes-les-variables-numeriques">
+<h3>Vue synthétique de toutes les variables numériques<a class="headerlink" href="#vue-synthetique-de-toutes-les-variables-numeriques" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Au lieu de tracer l’histogramme de chaque variable une par une, on peut utiliser directement la fonction <strong><code class="docutils literal notranslate"><span class="pre">hist()</span></code></strong> de pandas, qui le fait pour toutes les colonnes numériques d’un coup. Très pratique pour <strong>repérer en 2 secondes</strong> les variables problématiques (outliers, asymétrie, valeurs rares).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/75e9ffd04da78d1895fa775f3f8b6896a2e13b22c34c6d3564f915ee6e8e2dcf.png" src="../../_images/75e9ffd04da78d1895fa775f3f8b6896a2e13b22c34c6d3564f915ee6e8e2dcf.png" />
+</div>
+</div>
+<p><strong>Lecture guidée des histogrammes :</strong></p>
+<ul class="simple">
+<li><p>Ils <strong>confirment</strong> les impressions issues de l’étude de <code class="docutils literal notranslate"><span class="pre">describe()</span></code> — en particulier pour <code class="docutils literal notranslate"><span class="pre">fare</span></code> (longue traîne à droite évidente).</p></li>
+<li><p>Ils révèlent aussi que <strong>d’autres attributs</strong> ont une longue traîne à droite : <code class="docutils literal notranslate"><span class="pre">sibsp</span></code>, <code class="docutils literal notranslate"><span class="pre">parch</span></code>. Ces variables sont dominées par de petites valeurs et ont quelques passagers avec de grandes familles.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">age</span></code></strong> est à peu près symétrique, avec un mode vers 25-30 ans.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">pclass</span></code></strong> est trimodale (3 pics discrets aux valeurs 1, 2, 3).</p></li>
+</ul>
+<blockquote>
+<div><p><strong>🎯 Impact sur le ML :</strong> les longues traînes compliquent la vie de certains algorithmes :</p>
+<ul class="simple">
+<li><p><strong>Régression linéaire</strong> : très sensible aux outliers, biaisée par la traîne. On applique souvent une <strong>transformation log</strong> (<code class="docutils literal notranslate"><span class="pre">np.log1p(df['fare'])</span></code>) pour « symétriser » la variable avant l’entraînement.</p></li>
+<li><p><strong>KNN / SVM / réseaux de neurones</strong> : sensibles à l’échelle — il faut normaliser (<code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>) ou robustifier (<code class="docutils literal notranslate"><span class="pre">RobustScaler</span></code>).</p></li>
+<li><p><strong>Arbres et ensembles (Random Forest, Gradient Boosting)</strong> : robustes à ces problèmes par construction. C’est une des raisons pour lesquelles ils dominent les compétitions sur données tabulaires.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="boxplots">
+<h3>Boxplots<a class="headerlink" href="#boxplots" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Les <strong>boxplots</strong> (boîtes à moustaches, ou <em>box-and-whisker plots</em>) sont une représentation <strong>alternative et complémentaire</strong> à l’histogramme. Ils sont plus compacts et montrent explicitement les quartiles et les outliers.</p>
+<p><strong>Anatomie d’un boxplot :</strong></p>
+<ul class="simple">
+<li><p>La <strong>boîte</strong> représente l”<strong>intervalle interquartile (IQR)</strong> : de <span class="math notranslate nohighlight">\(Q_1\)</span> (25e percentile) à <span class="math notranslate nohighlight">\(Q_3\)</span> (75e percentile). <strong>50% des données</strong> sont dans cette boîte.</p></li>
+<li><p>La <strong>ligne à l’intérieur</strong> de la boîte est la <strong>médiane</strong> (<span class="math notranslate nohighlight">\(Q_2\)</span>, 50e percentile).</p></li>
+<li><p>Les <strong>moustaches</strong> s’étendent jusqu’à la dernière valeur qui n’est pas un outlier, dans la limite de <span class="math notranslate nohighlight">\(1{,}5 \times \text{IQR}\)</span> de part et d’autre de la boîte.</p></li>
+<li><p>Les <strong>points isolés</strong> au-delà des moustaches sont, par convention, les <strong>outliers</strong> (<em>« valeurs aberrantes »</em>) : toute valeur au-delà de <span class="math notranslate nohighlight">\(Q_3 + 1{,}5 \times \text{IQR}\)</span> ou en dessous de <span class="math notranslate nohighlight">\(Q_1 - 1{,}5 \times \text{IQR}\)</span>.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Pourquoi c’est utile ?</strong> Un boxplot raconte en un coup d’œil :</p>
+<ul class="simple">
+<li><p>la <strong>valeur typique</strong> (médiane) ;</p></li>
+<li><p>la <strong>dispersion centrale</strong> (taille de la boîte) ;</p></li>
+<li><p>la <strong>symétrie</strong> (médiane centrée ou pas dans la boîte) ;</p></li>
+<li><p>la <strong>présence d’outliers</strong>.</p></li>
+</ul>
+<p>Idéal pour <strong>comparer plusieurs groupes</strong> d’un coup : <code class="docutils literal notranslate"><span class="pre">sns.boxplot(data=df,</span> <span class="pre">x='pclass',</span> <span class="pre">y='fare')</span></code> montre instantanément comment <code class="docutils literal notranslate"><span class="pre">fare</span></code> varie entre les classes.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">titanic2</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;age&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution de l&#39;âge&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &quot;Distribution de l&#39;âge&quot;)
+</pre></div>
+</div>
+<img alt="../../_images/1531f19325d34596fab863c78e3d4411895c2134ca55ac24e1415e054fb7f9bb.png" src="../../_images/1531f19325d34596fab863c78e3d4411895c2134ca55ac24e1415e054fb7f9bb.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="variables-categorielles">
+<h2>Variables catégorielles<a class="headerlink" href="#variables-categorielles" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Les techniques qu’on a utilisées ne marchent pas pour les variables catégorielles (pas de moyenne possible pour <code class="docutils literal notranslate"><span class="pre">sex</span></code> ou <code class="docutils literal notranslate"><span class="pre">embarked</span></code> !). On utilise à la place des <strong>fréquences</strong> et des <strong>histogrammes par catégorie</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 1309 entries, 0 to 1308
+Data columns (total 7 columns):
+ #   Column    Non-Null Count  Dtype   
+---  ------    --------------  -----   
+ 0   pclass    1309 non-null   int64   
+ 1   sex       1309 non-null   category
+ 2   age       1046 non-null   float64 
+ 3   sibsp     1309 non-null   int64   
+ 4   parch     1309 non-null   int64   
+ 5   fare      1308 non-null   float64 
+ 6   embarked  1307 non-null   category
+dtypes: category(2), float64(2), int64(3)
+memory usage: 54.1 KB
+</pre></div>
+</div>
+</div>
+</div>
+<section id="vue-synthetique-des-variables-categorielles">
+<h3>Vue synthétique des variables catégorielles<a class="headerlink" href="#vue-synthetique-des-variables-categorielles" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">describe()</span></code> accepte un paramètre <code class="docutils literal notranslate"><span class="pre">include</span></code> qui permet de cibler un type spécifique de colonnes. Avec <code class="docutils literal notranslate"><span class="pre">include=['category']</span></code>, il nous donne pour chaque variable catégorielle :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">count</span></code> : nombre de valeurs non-nulles ;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unique</span></code> : nombre de catégories distinctes ;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">top</span></code> : la catégorie <strong>la plus fréquente</strong> (le <strong>mode</strong>) ;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">freq</span></code> : le nombre d’occurrences de cette catégorie dominante.</p></li>
+</ul>
+<p>C’est l’équivalent « catégoriel » des statistiques descriptives numériques.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sex</th>
+      <th>embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1309</td>
+      <td>1307</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>male</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>843</td>
+      <td>914</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="distribution-des-variables-categorielles">
+<h3>Distribution des variables catégorielles<a class="headerlink" href="#distribution-des-variables-categorielles" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Pour chaque variable catégorielle, le réflexe est le même qu’en numérique : on regarde sa <strong>distribution</strong>, c’est-à-dire combien de voyageurs tombent dans chaque catégorie. On utilise <code class="docutils literal notranslate"><span class="pre">value_counts()</span></code> ou un <strong>bar plot</strong> (barre par catégorie) — l’équivalent de l’histogramme en catégoriel.</p>
+<section id="la-variable-sex">
+<h4>La variable <code class="docutils literal notranslate"><span class="pre">sex</span></code><a class="headerlink" href="#la-variable-sex" title="Lien permanent vers cette rubrique">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sex
+male      843
+female    466
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e6e02d746e422045af47b4a9c3f39b7f9418ed0bee2ba8cc7b641ec8a95b167f.png" src="../../_images/e6e02d746e422045af47b4a9c3f39b7f9418ed0bee2ba8cc7b641ec8a95b167f.png" />
+</div>
+</div>
+<p><strong>Alternative</strong> : on peut aussi utiliser la fonction <code class="docutils literal notranslate"><span class="pre">hist()</span></code> de DataFrame pour obtenir un rendu rapide. Le résultat est moins propre qu’un vrai bar plot mais ça marche.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/01bc5a303fdcedb78120656457d6e496bdd4e1319c929e94dad2a0c3e820c0f3.png" src="../../_images/01bc5a303fdcedb78120656457d6e496bdd4e1319c929e94dad2a0c3e820c0f3.png" />
+</div>
+</div>
+<p><strong>Observation :</strong> on constate qu’il y a <strong>plus d’hommes que de femmes</strong> parmi les voyageurs (ratio d’environ 2:1).</p>
+<blockquote>
+<div><p><strong>🎯 Pourquoi cette observation est critique sur ce dataset ?</strong>
+Parce que l’évacuation du Titanic a suivi la règle <strong>« les femmes et les enfants d’abord »</strong>. Le sexe est donc un <strong>prédicteur extrêmement fort</strong> de la survie. Si on ne connaissait rien de ce dataset et qu’on ignorait <code class="docutils literal notranslate"><span class="pre">sex</span></code>, on passerait à côté de la variable la plus explicative.</p>
+<p>C’est un excellent rappel : <strong>l’EDA ne se lit pas en isolation</strong>. Chaque observation doit être mise en relation avec la <strong>target</strong> (<code class="docutils literal notranslate"><span class="pre">survived</span></code> ici) et avec le <strong>contexte métier</strong> (l’histoire du Titanic).</p>
+</div></blockquote>
+</section>
+<section id="la-variable-embarked">
+<h4>La variable <code class="docutils literal notranslate"><span class="pre">embarked</span></code><a class="headerlink" href="#la-variable-embarked" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>Les trois ports de l’Atlantique : <strong>C</strong>herbourg, <strong>Q</strong>ueenstown, <strong>S</strong>outhampton.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">titanic2</span><span class="p">[</span><span class="s2">&quot;embarked&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Nombre de voyageurs selon le port d&#39;embarquement&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/b1d51f40eaceeb648019de3315c38c3b94339d9f98d46ade5c79623cdd3ca800.png" src="../../_images/b1d51f40eaceeb648019de3315c38c3b94339d9f98d46ade5c79623cdd3ca800.png" />
+</div>
+</div>
+<p><strong>Avec seaborn</strong> : la fonction <code class="docutils literal notranslate"><span class="pre">countplot()</span></code> fait exactement la même chose, avec un rendu plus soigné et plus facilement personnalisable (couleurs, tri, labels, <em>hue</em> pour croiser avec une autre variable…). C’est généralement le choix à privilégier pour une visualisation « publiable ».</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">titanic2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;embarked&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Nombre de voyageurs selon le port d&#39;embarquement&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/988f142eeddb352bc7778d3696b67f2962d56116919ea0378b56bebd64621342.png" src="../../_images/988f142eeddb352bc7778d3696b67f2962d56116919ea0378b56bebd64621342.png" />
+</div>
+</div>
+</section>
+<section id="la-variable-survived-la-target">
+<h4>La variable <code class="docutils literal notranslate"><span class="pre">survived</span></code> (la target)<a class="headerlink" href="#la-variable-survived-la-target" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>On finit par la variable la plus importante : <strong>la cible</strong>. Avant de commencer à entraîner un modèle, il faut <strong>toujours</strong> regarder comment sont réparties les classes à prédire.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">srv</span> <span class="o">=</span> <span class="n">survived</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="n">srv</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.3819709702062643
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>38% des voyageurs ont survécu, 62% ont péri.</strong></p>
+<blockquote>
+<div><p><strong>🎯 Pourquoi regarder l’équilibre des classes ?</strong></p>
+<p>C’est une <strong>des premières questions</strong> à se poser avant d’entraîner un classifieur. Selon le ratio :</p>
+<ul class="simple">
+<li><p><strong>Proche de 50/50</strong> (comme ici, 38/62) → pas d’action particulière nécessaire. L’accuracy est une métrique fiable, les algorithmes classiques marchent sans tuning spécial.</p></li>
+<li><p><strong>70/30</strong> à <strong>90/10</strong> → commencer à s’inquiéter. L’accuracy devient trompeuse — un modèle qui prédit toujours la classe majoritaire sera déjà à 90% d’accuracy sans rien apprendre. Utiliser plutôt <strong>F1-score</strong>, <strong>AUC-ROC</strong>, <strong>précision/rappel</strong>.</p></li>
+<li><p><strong>99/1</strong> ou pire (détection de fraude, maladies rares, anomalies) → <strong>déséquilibre sévère</strong>. Techniques à connaître :</p>
+<ul>
+<li><p><strong>Oversampling</strong> de la classe minoritaire (SMOTE, ADASYN).</p></li>
+<li><p><strong>Undersampling</strong> de la classe majoritaire.</p></li>
+<li><p><strong>Class weights</strong> dans scikit-learn (<code class="docutils literal notranslate"><span class="pre">class_weight='balanced'</span></code>).</p></li>
+<li><p>Modèles dédiés (Isolation Forest, One-Class SVM pour la détection d’anomalie).</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Sur le Titanic</strong> : avec 38/62, on est dans la zone confortable. On peut utiliser l’accuracy, pas besoin de techniques spéciales. C’est une bonne nouvelle, mais ce ne sera pas toujours le cas en production !</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+<section id="synthese-la-demarche-d-analyse-exploratoire">
+<h2>🎯 Synthèse — la démarche d’analyse exploratoire<a class="headerlink" href="#synthese-la-demarche-d-analyse-exploratoire" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="la-routine-d-eda-en-7-etapes">
+<h3>La routine d’EDA en 7 étapes<a class="headerlink" href="#la-routine-d-eda-en-7-etapes" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Toujours la même séquence sur un nouveau dataset :</p>
+<ol class="arabic simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">.shape</span></code></strong> → combien de lignes et de colonnes ?</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">.head()</span></code></strong> / <strong><code class="docutils literal notranslate"><span class="pre">.sample(5)</span></code></strong> → à quoi ressemblent les données « en vrai » ?</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">.info()</span></code></strong> → types des colonnes, valeurs manquantes, poids mémoire.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">.isnull().sum()</span></code></strong> → carto des trous par colonne.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">.describe()</span></code></strong> → statistiques descriptives numériques.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">.describe(include='object')</span></code></strong> ou <code class="docutils literal notranslate"><span class="pre">.value_counts()</span></code> pour chaque catégorielle.</p></li>
+<li><p><strong>Visualiser :</strong> histogrammes pour le numérique, barplots pour le catégoriel, matrice de corrélation, pair-plots.</p></li>
+</ol>
+</section>
+<section id="les-questions-a-se-poser-systematiquement">
+<h3>Les questions à se poser systématiquement<a class="headerlink" href="#les-questions-a-se-poser-systematiquement" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong>La target est-elle équilibrée ?</strong> → conditionne métrique et stratégie.</p></li>
+<li><p><strong>Y a-t-il des fuites de données ?</strong> → variables qui encodent la target (comme <code class="docutils literal notranslate"><span class="pre">boat</span></code>/<code class="docutils literal notranslate"><span class="pre">body</span></code>).</p></li>
+<li><p><strong>Moyennes et médianes divergent-elles ?</strong> → détecte les distributions asymétriques.</p></li>
+<li><p><strong>Les échelles des variables sont-elles homogènes ?</strong> → si non, penser à la normalisation.</p></li>
+<li><p><strong>Quelles variables sont catégorielles vs numériques ?</strong> → conditionne l’encodage.</p></li>
+<li><p><strong>Les variables à haute cardinalité méritent-elles du feature engineering ?</strong> (texte, IDs…)</p></li>
+</ul>
+</section>
+<section id="les-pieges-classiques">
+<h3>Les pièges classiques<a class="headerlink" href="#les-pieges-classiques" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>⚠️ <strong>Se jeter sur un modèle sans EDA</strong> : le piège numéro 1. On se retrouve avec un modèle qui marche pour de mauvaises raisons (fuite) ou qui ne marche pas du tout (données sales non détectées).</p></li>
+<li><p>⚠️ <strong>Faire l’EDA sur tout le dataset (train + test)</strong> : ça introduit du <strong>data leakage</strong>. Les décisions d’exploration (seuils, imputations, valeurs de référence) doivent être prises uniquement sur le <strong>train</strong>, puis appliquées au test.</p></li>
+<li><p>⚠️ <strong>Confondre corrélation et causalité</strong> : deux variables peuvent être corrélées sans qu’une cause l’autre. L’EDA identifie des patterns ; seuls le contexte métier et parfois des expériences contrôlées permettent de conclure.</p></li>
+<li><p>⚠️ <strong>Supprimer les outliers « par réflexe »</strong> : avant de jeter une valeur extrême, se demander si elle représente une <strong>vraie anomalie</strong> (erreur de saisie, capteur cassé) ou un <strong>signal important</strong> (fraude, panne, cas intéressant).</p></li>
+</ul>
+</section>
+<section id="outils-a-connaitre-pour-aller-plus-loin">
+<h3>Outils à connaître pour aller plus loin<a class="headerlink" href="#outils-a-connaitre-pour-aller-plus-loin" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Outil</p></th>
+<th class="head"><p>Pour quoi faire ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">pandas-profiling</span></code> / <code class="docutils literal notranslate"><span class="pre">ydata-profiling</span></code></strong></p></td>
+<td><p>Rapport EDA complet automatique (1 ligne → 1 HTML riche). Idéal pour une première passe.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">seaborn</span></code></strong></p></td>
+<td><p>Visualisations statistiques « prêtes à publier » : <code class="docutils literal notranslate"><span class="pre">pairplot</span></code>, <code class="docutils literal notranslate"><span class="pre">heatmap</span></code>, <code class="docutils literal notranslate"><span class="pre">boxplot</span></code>, <code class="docutils literal notranslate"><span class="pre">violinplot</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">sweetviz</span></code></strong></p></td>
+<td><p>Rapport EDA comparatif (train vs test, ou deux datasets).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">missingno</span></code></strong></p></td>
+<td><p>Visualisation des patterns de valeurs manquantes (<code class="docutils literal notranslate"><span class="pre">msno.matrix(df)</span></code>).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="le-mot-de-la-fin">
+<h3>Le mot de la fin<a class="headerlink" href="#le-mot-de-la-fin" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>L’EDA n’est pas une case à cocher, c’est une conversation avec vos données.</strong> Chaque question en amène une autre, chaque graphique soulève une hypothèse. Plus vous passez de temps à comprendre vos données, moins vous en passerez à déboguer vos modèles. Un data scientist passe <strong>au moins 50% de son temps</strong> à cette étape — et ce n’est pas du temps perdu, c’est ce qui distingue un modèle « qui tourne » d’un modèle « qui sert ».</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours-exe/04-understand-data"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../cours/04-understand-data/03-lab-pandas.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Exercice: <span class="xref myst">Pandas</span></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Exercice: <span class="xref myst">Pandas Stats - les bases</span></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-passer-du-temps-ici">Pourquoi passer du temps ici ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-dataset-titanic">Le dataset Titanic</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structure-des-donnees">Structure des données</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#type-de-donnees-rappel">Type de données (Rappel)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-de-donnees-rappel">Types de données — rappel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#identification-des-variables-categorielles">Identification des variables catégorielles</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suppression-des-variables-inutiles-pour-la-phase-d-exploration">Suppression des variables inutiles pour la phase d’exploration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-cible">La variable cible</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-quantitatives">Variables quantitatives</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyse-statistique-univariee">Analyse statistique univariée</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#histogramme">Histogramme</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vue-synthetique-de-toutes-les-variables-numeriques">Vue synthétique de toutes les variables numériques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boxplots">Boxplots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-categorielles">Variables catégorielles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vue-synthetique-des-variables-categorielles">Vue synthétique des variables catégorielles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-des-variables-categorielles">Distribution des variables catégorielles</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-sex">La variable <code class="docutils literal notranslate"><span class="pre">sex</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-embarked">La variable <code class="docutils literal notranslate"><span class="pre">embarked</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-variable-survived-la-target">La variable <code class="docutils literal notranslate"><span class="pre">survived</span></code> (la target)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synthese-la-demarche-d-analyse-exploratoire">🎯 Synthèse — la démarche d’analyse exploratoire</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-routine-d-eda-en-7-etapes">La routine d’EDA en 7 étapes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-questions-a-se-poser-systematiquement">Les questions à se poser systématiquement</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-classiques">Les pièges classiques</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outils-a-connaitre-pour-aller-plus-loin">Outils à connaître pour aller plus loin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

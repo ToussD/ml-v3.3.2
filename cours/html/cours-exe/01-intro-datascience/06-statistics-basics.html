@@ -1,0 +1,1647 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Un peu de statistiques &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"RR": "\\mathbb{R}", "NN": "\\mathbb{N}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours-exe/01-intro-datascience/06-statistics-basics';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Les outils Python pour la data science" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html" />
+    <link rel="prev" title="Le Data Scientist et son processus de travail" href="../../cours/01-intro-datascience/05-datascientist.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours-exe/01-intro-datascience/06-statistics-basics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Un peu de statistiques</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quoi-servent-les-statistiques">À quoi servent les statistiques ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#differents-types-de-donnees">Différents types de données</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mesures-de-la-tendance-centrale">Mesures de la tendance centrale</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-moyenne">La moyenne</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-formule">La formule</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-mediane">La médiane</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#moyenne-ou-mediane">Moyenne ou médiane ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#que-choisir-moyenne-ou-mediane">Que choisir, moyenne ou médiane ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exemple-l-effet-d-un-milliardaire-sur-la-moyenne">Exemple : l’effet d’un milliardaire sur la moyenne</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mode">Mode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illustration">Illustration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mesures-de-la-variabilite">Mesures de la variabilité</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-interquartile-inter-quartile-range">Écart interquartile (Inter Quartile Range)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#etendue-range">Étendue (range)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#quantile-ou-percentile">Quantile (ou percentile)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-interquartile-iqr">Écart interquartile (IQR)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-absolu-moyen-average-absolute-deviation">Écart absolu moyen (Average Absolute Deviation)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-absolu-d-une-seule-valeur">Écart absolu (d’une seule valeur)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-absolu-moyen">Écart absolu moyen</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-absolu-median-median-absolute-deviation">Écart absolu médian (Median Absolute Deviation)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance">Variance</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-d-une-population">Variance d’une population</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#estimateur-de-la-variance-d-une-population-a-partir-d-un-echantillon">Estimateur de la variance d’une population à partir d’un échantillon</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-type-standard-deviation">Écart-type (Standard Deviation)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-type-versus-aad-average-absolute-deviation">Ecart type versus - AAD (Average Absolute Deviation)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-peu-de-probabilites">Un peu de probabilités</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loi-binomiale">Loi binomiale</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#notre-exemple">Notre exemple</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-normale-ou-gaussienne">Distribution normale (ou gaussienne)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probabilites-et-statistiques">Probabilités et statistiques</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skew-et-kurtosis">Skew et kurtosis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skew-asymetrie">Skew (asymétrie)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kurtosis-pointu-ou-plat">Kurtosis (« pointu ou plat ? »)</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="un-peu-de-statistiques">
+<h1>Un peu de statistiques<a class="headerlink" href="#un-peu-de-statistiques" title="Lien permanent vers cette rubrique">#</a></h1>
+<p><a class="reference external" href="https://ethanweed.github.io/pythonbook/landingpage.html">voir Learning Statistics with Python</a>
+et pour une traduction française, <a class="reference external" href="https://jmeunierp8.github.io/ManuelJamovi/">Apprentissage des statistiques avec Jamovi</a> (mais pas avec Python).</p>
+<section id="a-quoi-servent-les-statistiques">
+<h2>À quoi servent les statistiques ?<a class="headerlink" href="#a-quoi-servent-les-statistiques" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Imaginez qu’on vous remette un tableau de <strong>176 lignes</strong> contenant les résultats de matchs de foot australien. Que pouvez-vous en dire ? Difficile d’y voir clair en lisant les nombres un par un.</p>
+<p>Les <strong>statistiques descriptives</strong> servent exactement à ça : <strong>résumer</strong> un gros paquet de chiffres par quelques valeurs simples qui en donnent une idée fidèle.</p>
+<p>C’est un peu comme la météo : au lieu de vous donner la température seconde par seconde, on vous dit <em>« il fera 18° en moyenne avec des pointes à 25° »</em>. Vous avez perdu du détail, mais gagné en clarté.</p>
+<p>Dans ce notebook, on va voir :</p>
+<ul class="simple">
+<li><p>comment résumer <strong>où se situent</strong> les données (moyenne, médiane, mode) ;</p></li>
+<li><p>comment mesurer <strong>à quel point elles sont étalées</strong> (variance, écart-type, IQR) ;</p></li>
+<li><p>quelques <strong>lois de probabilité</strong> classiques (binomiale, normale) qui servent à modéliser le hasard.</p></li>
+</ul>
+<p><strong>Le jeu de données :</strong> on va s’intéresser à des données de la Ligue australienne de football (AFL).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">afl_finalists</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl_finalists.csv&#39;</span><span class="p">)</span>
+<span class="n">afl_margins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/ethanweed/pythonbook/main/Data/afl_margins.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># afl_finalists = pd.read_csv(&#39;../../data/afl_finalists.csv&#39;)</span>
+<span class="c1"># afl_margins = pd.read_csv(&#39;../../data/afl_margins.csv&#39;)</span>
+
+<span class="n">margins</span> <span class="o">=</span> <span class="n">afl_margins</span><span class="p">[</span><span class="s2">&quot;afl.margins&quot;</span><span class="p">]</span>
+<span class="n">finalists</span> <span class="o">=</span> <span class="n">afl_finalists</span><span class="p">[</span><span class="s2">&quot;afl.finalists&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    56
+1    31
+2    56
+3     8
+4    32
+Name: afl.margins, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>La variable <code class="docutils literal notranslate"><span class="pre">margins</span></code> contient la marge gagnante (nombre de points) pour les 176 matchs joués à domicile et à l’extérieur durant la saison 2010</p>
+<p>Regarder les données ne suffit pas. On peut les représenter graphiquement. Par exemple ici à l’aide d’un histogramme</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span><span class="s2">&quot;Marge gagnante&quot;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;Occurrences&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0.5, 0, &#39;Marge gagnante&#39;), Text(0, 0.5, &#39;Occurrences&#39;)]
+</pre></div>
+</div>
+<img alt="../../_images/0baa385167a8a720a12b2533a162f9ec29fcea2f0ba05c49028d4d6a0dc988a8.png" src="../../_images/0baa385167a8a720a12b2533a162f9ec29fcea2f0ba05c49028d4d6a0dc988a8.png" />
+</div>
+</div>
+</section>
+<section id="differents-types-de-donnees">
+<h2>Différents types de données<a class="headerlink" href="#differents-types-de-donnees" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><img alt="Data Types" src="../../_images/data-types.png" /></p>
+</section>
+<section id="mesures-de-la-tendance-centrale">
+<h2>Mesures de la tendance centrale<a class="headerlink" href="#mesures-de-la-tendance-centrale" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="la-moyenne">
+<h3>La moyenne<a class="headerlink" href="#la-moyenne" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée en une phrase :</strong> on additionne toutes les valeurs et on divise par leur nombre. C’est la valeur que chacun aurait si on <em>répartissait équitablement</em> le total.</p>
+<blockquote>
+<div><p><em>Exemple concret :</em> si 4 personnes ont 10, 20, 30 et 40 euros, la moyenne est <span class="math notranslate nohighlight">\((10+20+30+40)/4 = 25\)</span>. C’est ce que chaque personne aurait si on mettait tout en commun et qu’on partageait en parts égales.</p>
+</div></blockquote>
+<section id="la-formule">
+<h4>La formule<a class="headerlink" href="#la-formule" title="Lien permanent vers cette rubrique">#</a></h4>
+<p><span class="math notranslate nohighlight">\(
+\Large {
+\bar{X} = \frac{1}{N} \sum_{i=1}^N X_i
+}
+\)</span></p>
+<p><strong>Décodons chaque symbole</strong> (c’est plus simple qu’il n’y paraît) :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Symbole</p></th>
+<th class="head"><p>Se lit</p></th>
+<th class="head"><p>Ce que ça veut dire</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\bar{X}\)</span></p></td>
+<td><p>« X barre »</p></td>
+<td><p>La moyenne qu’on cherche à calculer</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(N\)</span></p></td>
+<td><p>—</p></td>
+<td><p>Le nombre total de valeurs (par ex. 176 matchs)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(X_i\)</span></p></td>
+<td><p>« X indice i »</p></td>
+<td><p>La <span class="math notranslate nohighlight">\(i\)</span>-ème valeur (le 1er match, le 2ème, …)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\sum_{i=1}^N\)</span></p></td>
+<td><p>« somme de <span class="math notranslate nohighlight">\(i=1\)</span> jusqu’à <span class="math notranslate nohighlight">\(N\)</span> »</p></td>
+<td><p>On additionne : <span class="math notranslate nohighlight">\(X_1 + X_2 + \dots + X_N\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\frac{1}{N}\)</span></p></td>
+<td><p>—</p></td>
+<td><p>On divise par <span class="math notranslate nohighlight">\(N\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Autrement dit, la formule dit exactement : <strong>« fais la somme de tout, puis divise par le nombre »</strong>. Le symbole <span class="math notranslate nohighlight">\(\sum\)</span> (sigma grec majuscule) fait peur mais c’est juste une manière compacte d’écrire « addition ».</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;X_mean = </span><span class="si">{</span><span class="n">margins</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X_mean = 35.30
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="la-mediane">
+<h3>La médiane<a class="headerlink" href="#la-mediane" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée en une phrase :</strong> on trie les valeurs, et la médiane est <strong>celle du milieu</strong>. Autant de valeurs en dessous, autant au-dessus.</p>
+<blockquote>
+<div><p><em>Pourquoi c’est utile ?</em> Parce que la médiane se moque des valeurs extrêmes. Si vous avez 9 salaires normaux et celui de Bill Gates, la moyenne explose, mais la médiane reste à peu près celle d’un salaire normal (on verra l’exemple juste après).</p>
+</div></blockquote>
+<p>Regardons 5 valeurs de nos marges :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3     8
+1    31
+4    32
+0    56
+2    56
+Name: afl.margins, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>La médiane de ces cinq nombres est 32: il y a autant de valeurs inférieures que de valeurs supérieures</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_median</span> <span class="o">=</span> <span class="n">margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="n">X_median</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>32.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="moyenne-ou-mediane">
+<h3>Moyenne ou médiane ?<a class="headerlink" href="#moyenne-ou-mediane" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><img alt="texte" src="https://ethanweed.github.io/pythonbook/_images/meanmedian.png" /></p>
+</section>
+<section id="que-choisir-moyenne-ou-mediane">
+<h3>Que choisir, moyenne ou médiane ?<a class="headerlink" href="#que-choisir-moyenne-ou-mediane" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong>La moyenne</strong> utilise <em>toute l’information</em> (la valeur exacte de chaque donnée). C’est pratique quand on a peu de données. Son défaut : elle est <strong>tirée</strong> par les valeurs extrêmes. Une seule valeur très grande (ou très petite) peut complètement la déformer.</p></li>
+<li><p><strong>La médiane</strong> n’utilise que <em>l’ordre</em> des données. Résultat : elle est beaucoup plus <strong>robuste</strong> aux valeurs aberrantes (outliers).</p></li>
+</ul>
+<p><strong>Règle pratique :</strong> plus l’histogramme est <em>asymétrique</em> (une traîne à gauche ou à droite), plus moyenne et médiane s’éloignent l’une de l’autre. Dans ce cas, la médiane donne souvent une image plus fidèle de « la valeur typique ».</p>
+<p><strong>Pour les variables ordinales</strong> (catégories rangées dans un ordre, comme « petit / moyen / grand »), <strong>on préfère la médiane à la moyenne</strong> : faire la moyenne de « petit » et « grand » n’a pas vraiment de sens, mais trouver la catégorie du milieu, oui.</p>
+<section id="exemple-l-effet-d-un-milliardaire-sur-la-moyenne">
+<h4>Exemple : l’effet d’un milliardaire sur la moyenne<a class="headerlink" href="#exemple-l-effet-d-un-milliardaire-sur-la-moyenne" title="Lien permanent vers cette rubrique">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">revenus</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="mi">50000</span><span class="p">,</span> <span class="mi">60000</span><span class="p">,</span> <span class="mi">65000</span><span class="p">,</span> <span class="mi">100_000_000</span><span class="p">],</span>
+                   <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Robert&quot;</span><span class="p">,</span> <span class="s2">&quot;Kate&quot;</span><span class="p">,</span> <span class="s2">&quot;Jeanne&quot;</span><span class="p">,</span> <span class="s2">&quot;Bill&quot;</span><span class="p">])</span>
+<span class="n">revenus</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Robert        50000
+Kate          60000
+Jeanne        65000
+Bill      100000000
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Moyenne = </span><span class="si">{</span><span class="n">revenus</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">}</span><span class="s2">, Médiane = </span><span class="si">{</span><span class="n">revenus</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Moyenne = 25043750.0, Médiane = 62500.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="mode">
+<h3>Mode<a class="headerlink" href="#mode" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> c’est la valeur qui <strong>apparaît le plus souvent</strong>. Si on compte le nombre d’occurrences de chaque valeur, le mode est celle qui gagne.</p>
+<blockquote>
+<div><p><em>Intuition :</em> dans une classe, si 15 élèves aiment le chocolat, 10 la vanille et 5 la fraise, le mode est « chocolat ». C’est la préférence dominante.</p>
+</div></blockquote>
+<p>Contrairement à la moyenne et la médiane, le mode <strong>fonctionne aussi sur des données non numériques</strong> (couleurs, noms d’équipes, catégories). C’est souvent le seul résumé qui a du sens pour ces données-là.</p>
+<p>Nous allons nous intéresser aux 200 matches des phases finales entre 2 équipes, entre 1987 et 2010.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">finalists</span><span class="o">.</span><span class="n">size</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>400
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">finalists</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     Hawthorn
+1    Melbourne
+2      Carlton
+3    Melbourne
+4     Hawthorn
+5      Carlton
+Name: afl.finalists, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nous allons regarder la fréquence de participation de chaque équipe</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frequency</span> <span class="o">=</span> <span class="n">finalists</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">frequency</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>afl.finalists
+Geelong             39
+West Coast          38
+Essendon            32
+Melbourne           28
+Collingwood         28
+North Melbourne     28
+Hawthorn            27
+Carlton             26
+Adelaide            26
+Sydney              26
+Brisbane            25
+St Kilda            24
+Western Bulldogs    24
+Port Adelaide       17
+Richmond             6
+Fremantle            6
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>On dira que <code class="docutils literal notranslate"><span class="pre">&quot;Geelong&quot;</span></code> est le mode de la variable <code class="docutils literal notranslate"><span class="pre">finalists</span></code></p>
+<p><strong>On utilise le mode plutôt pour les données qualitatives</strong></p>
+</section>
+<section id="illustration">
+<h3>Illustration<a class="headerlink" href="#illustration" title="Lien permanent vers cette rubrique">#</a></h3>
+<div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Comparison_mean_median_mode.svg/langfr-1920px-Comparison_mean_median_mode.svg.png" width="500"/>
+</div></section>
+</section>
+<section id="mesures-de-la-variabilite">
+<h2>Mesures de la variabilité<a class="headerlink" href="#mesures-de-la-variabilite" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Les statistiques dont nous avons discuté jusqu’à présent portent toutes sur la <strong>tendance centrale</strong> : elles répondent à la question <em>« où se situent les données en moyenne ? »</em>.</p>
+<p>Mais ça ne suffit pas. Imaginez deux classes qui ont toutes deux <strong>10 de moyenne</strong> à un contrôle :</p>
+<ul class="simple">
+<li><p>Classe A : tout le monde a entre 9 et 11. Les élèves sont homogènes.</p></li>
+<li><p>Classe B : la moitié a 0, l’autre moitié a 20. Des élèves très dispersés.</p></li>
+</ul>
+<p>Même moyenne, mais pas du tout la même histoire ! Pour distinguer ces deux cas, il faut mesurer <strong>l’étalement</strong> des données : à quelle distance de la moyenne (ou de la médiane) les valeurs observées ont-elles tendance à être ?</p>
+<p>C’est ce que font les <strong>mesures de variabilité</strong> (ou de dispersion) qu’on présente dans cette section.</p>
+<section id="ecart-interquartile-inter-quartile-range">
+<h3>Écart interquartile (Inter Quartile Range)<a class="headerlink" href="#ecart-interquartile-inter-quartile-range" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Avant de parler de l’IQR, commençons par la mesure d’étalement la plus simple : l’étendue.</p>
+<section id="etendue-range">
+<h4>Étendue (range)<a class="headerlink" href="#etendue-range" title="Lien permanent vers cette rubrique">#</a></h4>
+<p><strong>L’idée :</strong> la différence entre la plus grande et la plus petite valeur. C’est la <em>largeur totale</em> couverte par les données.</p>
+<p><span class="math notranslate nohighlight">\(\text{étendue} = \max(X) - \min(X)\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Range = </span><span class="si">{</span><span class="n">margins</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">margins</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Range = 116
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Problème :</strong> l’étendue ne regarde que deux valeurs (le min et le max). Elle est donc très sensible aux valeurs extrêmes. Une seule donnée aberrante peut tout fausser.</p>
+<p>Exemple avec une suite de températures :</p>
+<p><span class="math notranslate nohighlight">\(
+-100,\ 2,\ 3,\ 4,\ 5,\ 6,\ 7,\ 8,\ 9,\ 10
+\)</span></p>
+<p>À première vue, l’étendue est de <span class="math notranslate nohighlight">\(110\)</span> (de <span class="math notranslate nohighlight">\(-100\)</span> à <span class="math notranslate nohighlight">\(10\)</span>). Mais la valeur <span class="math notranslate nohighlight">\(-100\)</span> est probablement une erreur de mesure (un <em>outlier</em>). Si on l’ignore, l’étendue réelle est de seulement <span class="math notranslate nohighlight">\(8\)</span>. L’étendue nous donne donc ici une idée <strong>complètement fausse</strong> de la dispersion.</p>
+<p>On voit que cette statistique est <strong>peu robuste</strong>. D’où l’intérêt des quantiles, qu’on voit juste après.</p>
+</section>
+<section id="quantile-ou-percentile">
+<h4>Quantile (ou percentile)<a class="headerlink" href="#quantile-ou-percentile" title="Lien permanent vers cette rubrique">#</a></h4>
+<p><strong>L’idée :</strong> au lieu de regarder juste le min et le max, on coupe les données triées en tranches.</p>
+<blockquote>
+<div><p><em>Exemple :</em> le <strong>10e percentile</strong> est la valeur en-dessous de laquelle se trouvent <strong>10%</strong> des données. Si le 10e percentile d’une classe est 7/20, ça veut dire que 10% des élèves ont eu 7 ou moins.</p>
+</div></blockquote>
+<p>Formellement : le 10e percentile est le plus petit nombre <span class="math notranslate nohighlight">\(x\)</span> tel que 10% des données ont une valeur inférieure ou égale à <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>Les percentiles les plus utiles :</p>
+<ul class="simple">
+<li><p><strong>25e percentile</strong> (<span class="math notranslate nohighlight">\(Q_1\)</span>) : un quart des données sont en dessous.</p></li>
+<li><p><strong>50e percentile</strong> (<span class="math notranslate nohighlight">\(Q_2\)</span>) : la <strong>médiane</strong> ! La moitié des données sont en dessous.</p></li>
+<li><p><strong>75e percentile</strong> (<span class="math notranslate nohighlight">\(Q_3\)</span>) : trois quarts des données sont en dessous.</p></li>
+</ul>
+<p>Ces trois valeurs découpent les données en quatre « quartiers » de tailles égales, d’où le nom de <strong>quartiles</strong>.</p>
+<p><img alt="Quartiles" src="../../_images/quartiles.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;La médiane (</span><span class="si">{</span><span class="n">margins</span><span class="o">.</span><span class="n">median</span><span class="p">()</span><span class="si">}</span><span class="s2">) est le 50e percentile (</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La médiane (30.5) est le 50e percentile (30.5)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ecart-interquartile-iqr">
+<h4>Écart interquartile (IQR)<a class="headerlink" href="#ecart-interquartile-iqr" title="Lien permanent vers cette rubrique">#</a></h4>
+<p><strong>L’idée :</strong> on prend la largeur occupée par la <strong>moitié centrale</strong> des données, en ignorant les 25% les plus petits et les 25% les plus grands.</p>
+<p><span class="math notranslate nohighlight">\(\text{IQR} = Q_3 - Q_1\)</span></p>
+<p>C’est une mesure d’étalement <strong>robuste</strong> : les valeurs extrêmes (en bas ou en haut) n’ont aucune influence, puisqu’on les écarte.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>37.75
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>À retenir :</strong> comme la médiane, les percentiles ne dépendent que du <em>rang</em> des valeurs, pas de leur valeur exacte. Ils sont donc peu sensibles aux valeurs extrêmes.</p>
+<p><strong>L’IQR est la plage couverte par la moitié des valeurs centrées sur la médiane.</strong> On dit souvent : <em>« la moitié des matchs ont une marge comprise entre <span class="math notranslate nohighlight">\(Q_1\)</span> et <span class="math notranslate nohighlight">\(Q_3\)</span> »</em>.</p>
+</section>
+</section>
+<section id="ecart-absolu-moyen-average-absolute-deviation">
+<h3>Écart absolu moyen (Average Absolute Deviation)<a class="headerlink" href="#ecart-absolu-moyen-average-absolute-deviation" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> on veut mesurer <em>« en moyenne, à quelle distance de la moyenne se trouvent les données »</em>.</p>
+<p>Pourquoi ne pas simplement calculer la moyenne de <span class="math notranslate nohighlight">\((X_i - \bar{X})\)</span> ? Parce que par construction, cette moyenne est <strong>toujours nulle</strong> : les écarts positifs annulent exactement les écarts négatifs (c’est une propriété de la moyenne).</p>
+<p><strong>La solution :</strong> prendre la <strong>valeur absolue</strong> de chaque écart, ce qui revient à toujours compter l’écart comme une distance positive, peu importe si la donnée est au-dessus ou en dessous de la moyenne.</p>
+<section id="ecart-absolu-d-une-seule-valeur">
+<h4>Écart absolu (d’une seule valeur)<a class="headerlink" href="#ecart-absolu-d-une-seule-valeur" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>Regardons d’abord l’écart d’une seule valeur par rapport à la moyenne :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    56
+1    31
+2    56
+3     8
+4    32
+Name: afl.margins, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean</span> <span class="o">=</span> <span class="n">margins</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Moyenne = </span><span class="si">{</span><span class="n">mean</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">fourth_index</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">value</span> <span class="o">=</span> <span class="n">margins</span><span class="p">[</span><span class="n">fourth_index</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;4ème valeur = </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">deviation</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="n">mean</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ecart = </span><span class="si">{</span><span class="n">deviation</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">absolute_deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">deviation</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ecart absolu = </span><span class="si">{</span><span class="n">absolute_deviation</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Moyenne = 35.30
+4ème valeur = 8
+Ecart = -27.30
+Ecart absolu = 27.30
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ecart-absolu-moyen">
+<h4>Écart absolu moyen<a class="headerlink" href="#ecart-absolu-moyen" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>On fait maintenant la moyenne de ces écarts absolus sur <strong>toutes</strong> les données.</p>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+\text{AAD}\left( X \right) = \frac{1}{N}\sum_{i = 1}^{N}\left| X_{i} - \bar{X} \right|
+}
+\)</span></p>
+<p><strong>Décodage de la formule :</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(|X_i - \bar{X}|\)</span> : l’écart absolu de la <span class="math notranslate nohighlight">\(i\)</span>-ème valeur (une distance, toujours positive)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sum\)</span> : on additionne tous ces écarts</p></li>
+<li><p><span class="math notranslate nohighlight">\(\frac{1}{N}\)</span> : on divise par le nombre de valeurs → moyenne</p></li>
+</ul>
+<p>Résultat : un seul nombre qui répond à la question <em>« en moyenne, à quelle distance de <span class="math notranslate nohighlight">\(\bar{X}\)</span> sont les données ? »</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="n">margins</span><span class="o">.</span><span class="n">size</span>
+<span class="n">aad</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span><span class="n">N</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">margins</span> <span class="o">-</span> <span class="n">margins</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AAD = </span><span class="si">{</span><span class="n">aad</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AAD = 21.10
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="ecart-absolu-median-median-absolute-deviation">
+<h3>Écart absolu médian (Median Absolute Deviation)<a class="headerlink" href="#ecart-absolu-median-median-absolute-deviation" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> même principe que l’AAD, mais on remplace la moyenne par la <strong>médiane</strong>. Plus robuste aux valeurs extrêmes.</p>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+\text{MAD}\left( X \right) = \mathrm{median}(\left| X_{i} - \tilde{X} \right|)
+}
+\)</span></p>
+<p>où <span class="math notranslate nohighlight">\(\tilde{X}\)</span> (« X tilde ») désigne la médiane de <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<p>Autrement dit : on calcule l’écart de chaque valeur à la médiane, on prend la valeur absolue, puis on prend la médiane de tous ces écarts. C’est la mesure de dispersion préférée quand on craint des outliers.</p>
+</section>
+<section id="variance">
+<h3>Variance<a class="headerlink" href="#variance" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Pourquoi encore une mesure d’étalement ?</strong> L’AAD utilise <span class="math notranslate nohighlight">\(|X_i - \bar{X}|\)</span> (valeur absolue), ce qui est simple à comprendre mais <em>désagréable à manipuler mathématiquement</em> (la fonction valeur absolue n’est pas dérivable en zéro).</p>
+<p><strong>Astuce :</strong> pour rendre les écarts positifs, on peut aussi les <strong>élever au carré</strong>. Ça donne la variance. Ça a deux avantages :</p>
+<ol class="arabic simple">
+<li><p>La fonction <em>carré</em> est lisse (dérivable partout), ce qui est précieux pour l’optimisation et les démonstrations.</p></li>
+<li><p>En élevant au carré, on <strong>pénalise davantage les gros écarts</strong> que les petits — un écart de 10 compte 100 fois plus qu’un écart de 1. C’est souvent le comportement qu’on veut.</p></li>
+</ol>
+<p><strong>Inconvénient :</strong> les unités deviennent bizarres. Si <span class="math notranslate nohighlight">\(X\)</span> est en mètres, la variance est en mètres². On corrigera ça avec l’écart-type (racine carrée de la variance).</p>
+<section id="variance-d-une-population">
+<h4>Variance d’une population<a class="headerlink" href="#variance-d-une-population" title="Lien permanent vers cette rubrique">#</a></h4>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+\sigma^2 = \frac{1}{N} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2
+}
+\)</span></p>
+<p><strong>Décodage :</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\sigma\)</span> est la lettre grecque <em>sigma minuscule</em>, notation traditionnelle pour l’écart-type d’une <strong>population</strong>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma^2\)</span> se lit « sigma au carré » et désigne la variance.</p></li>
+<li><p><span class="math notranslate nohighlight">\((X_i - \bar{X})^2\)</span> : l’écart au carré d’une valeur (toujours positif grâce au carré).</p></li>
+<li><p>On somme tous ces écarts au carré, puis on divise par <span class="math notranslate nohighlight">\(N\)</span> → c’est la moyenne des écarts au carré.</p></li>
+</ul>
+<p>En résumé : <strong>la variance, c’est la moyenne des carrés des écarts à la moyenne.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variance = </span><span class="si">{</span><span class="n">margins</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Variance = 675.97
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="estimateur-de-la-variance-d-une-population-a-partir-d-un-echantillon">
+<h4>Estimateur de la variance d’une population à partir d’un échantillon<a class="headerlink" href="#estimateur-de-la-variance-d-une-population-a-partir-d-un-echantillon" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>En pratique, on ne travaille pas sur une population, mais sur un échantillon.
+Par exemple, on fera un sondage sur 1000 personnes.
+Dans ce cas, pour <strong>estimer</strong> la variance de la population on utilise sur l’échantillon la formule</p>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+\hat{\sigma}^2 = \frac{1}{N-1} \sum_{i=1}^N \left( X_i - \bar{X} \right)^2
+}
+\)</span></p>
+<p>Pourquoi ? Voici une petite intuition:</p>
+<p>Si on prend un échantillon de 1 élément, par exemple 38, la meilleure « estimation » de la moyenne que l’on puisse faire est <span class="math notranslate nohighlight">\(\bar{X}=38\)</span>.</p>
+<p>Mais comment estimer la « variance » avec un seul échantillon ?
+Si on utilise <span class="math notranslate nohighlight">\(\sigma^2\)</span> pour estimer la variance, on obtient</p>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+\sigma^2 = \frac{1}{1} (38 -38)^2 = 0
+}
+\)</span></p>
+<p>Ceci n’est évidemment pas le cas sur nos données.
+En fait on ne peut rien dire sur la variance avec cet unique échantillon!
+La formule</p>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+\hat{\sigma}^2 = \frac{1}{1-1} (38-38)^2 = \frac{0}{0}
+}
+\)</span></p>
+<p>qui est indéfinie, rend mieux compte de la réalité</p>
+<p>Plus généralement, la variance de l’échantillon est statistiquement inférieure à la variance réelle de la population, et s’en approche lorsque <span class="math notranslate nohighlight">\(N\)</span> augmente.
+On dit que <span class="math notranslate nohighlight">\(\sigma^2\)</span> est un estimateur biaisé.</p>
+<p><img alt="biaised-SD" src="../../_images/biaised-SD.png" /></p>
+<p><span class="math notranslate nohighlight">\(\hat{\sigma}^2\)</span> est un estimateur non biaisé.
+Une démonstration plus formelle peut être effectuée.</p>
+<p>Si on considère <code class="docutils literal notranslate"><span class="pre">margins</span></code> comme un échantillon, on calculera</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estimation de la variance = </span><span class="si">{</span><span class="n">margins</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estimation de la variance = 679.83
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="ecart-type-standard-deviation">
+<h3>Écart-type (Standard Deviation)<a class="headerlink" href="#ecart-type-standard-deviation" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Le problème de la variance :</strong> ses unités sont bizarres (m² au lieu de m, €² au lieu de €…). Difficile à interpréter intuitivement.</p>
+<p><strong>La solution :</strong> prendre la <strong>racine carrée</strong> de la variance. On retrouve des unités <em>lisibles</em>, dans la même unité que les données.</p>
+<p><span class="math notranslate nohighlight">\(
+\Large {
+\hat{\sigma} = \sqrt{\hat{\sigma}^2}
+}
+\)</span></p>
+<p><strong>Intuition :</strong> l’écart-type donne une idée de <em>« l’écart typique »</em> d’une donnée à la moyenne. Si la moyenne est 35 et l’écart-type est 26, on peut se dire : <em>« les données se baladent typiquement entre 9 et 61 »</em>. C’est une règle de pouce utile (elle devient précise si les données suivent une loi normale, comme on le verra plus loin).</p>
+<p>L’écart-type est <strong>la</strong> mesure de dispersion la plus utilisée en pratique — retenez-la bien.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">std</span> <span class="o">=</span> <span class="n">margins</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;STD = </span><span class="si">{</span><span class="n">std</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>STD = 26.07, 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ecart-type-versus-aad-average-absolute-deviation">
+<h3>Ecart type versus - AAD (Average Absolute Deviation)<a class="headerlink" href="#ecart-type-versus-aad-average-absolute-deviation" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AAD = </span><span class="si">{</span><span class="n">aad</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AAD = 21.10
+</pre></div>
+</div>
+</div>
+</div>
+<p>Voir la <a class="reference external" href="https://web.archive.org/web/20221024193801/https://www4.hcmut.edu.vn/%7Endlong/TK/mat/04_standard_deviation_vs_absolute_deviation.pdf">discussion</a></p>
+</section>
+</section>
+<section id="un-peu-de-probabilites">
+<h2>Un peu de probabilités<a class="headerlink" href="#un-peu-de-probabilites" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Jusqu’ici, on a résumé des données <em>observées</em>. Maintenant, passons de l’autre côté : comment <strong>modéliser le hasard</strong> lui-même ? Les lois de probabilité nous donnent des formules pour décrire le comportement de phénomènes aléatoires courants.</p>
+<blockquote>
+<div><p><strong>🎯 À quoi ça sert en data science ?</strong></p>
+<p>La data science consiste à <strong>prendre des décisions à partir de données incertaines</strong>. Les probabilités sont le langage pour raisonner sur cette incertitude. Quelques usages directs :</p>
+<ul class="simple">
+<li><p><strong>Classification</strong> : un modèle ne dit pas <em>« c’est un chat »</em>, il dit <em>« <span class="math notranslate nohighlight">\(\mathrm{proba}(\text{chat}) = 0{,}92\)</span> »</em>. Derrière, il y a une loi de probabilité.</p></li>
+<li><p><strong>A/B testing</strong> : <em>« la variante B est-elle vraiment meilleure, ou c’est juste du bruit ? »</em> → test statistique fondé sur une loi de probabilité.</p></li>
+<li><p><strong>Détection d’anomalie (fraude, panne…)</strong> : on modélise la distribution des événements normaux et on alerte sur ceux qui sont improbables.</p></li>
+<li><p><strong>Machine learning</strong> : régression logistique, Naive Bayes, modèles bayésiens, MLE… toutes les méthodes classiques reposent sur des lois de probabilité.</p></li>
+</ul>
+</div></blockquote>
+<section id="loi-binomiale">
+<h3>Loi binomiale<a class="headerlink" href="#loi-binomiale" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Le cadre :</strong> on répète <span class="math notranslate nohighlight">\(N\)</span> fois une expérience qui peut donner soit un <em>succès</em>, soit un <em>échec</em>, avec toujours la même probabilité <span class="math notranslate nohighlight">\(p\)</span> de succès. On compte le nombre total de succès.</p>
+<blockquote>
+<div><p><em>Exemples classiques :</em></p>
+<ul class="simple">
+<li><p>On lance une pièce 10 fois : combien de piles ?</p></li>
+<li><p>On envoie un mail à 100 personnes, chacune a 20% de chance de répondre : combien de réponses ?</p></li>
+<li><p>On teste 50 vaccins efficaces à 95% : combien vont marcher ?</p></li>
+</ul>
+</div></blockquote>
+<p>Toutes ces situations suivent la même structure, et la <strong>loi binomiale</strong> donne la probabilité d’obtenir exactement <span class="math notranslate nohighlight">\(k\)</span> succès.</p>
+<section id="notre-exemple">
+<h4>Notre exemple<a class="headerlink" href="#notre-exemple" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>On dispose de <span class="math notranslate nohighlight">\(N = 20\)</span> dés identiques à six faces.
+Sur une face de chaque dé, il y a l’image d’une figure, les cinq autres faces sont toutes vides.</p>
+<p>Si je lance les <span class="math notranslate nohighlight">\(N\)</span> dés, quelle est la probabilité que j’obtienne exactement <span class="math notranslate nohighlight">\(k = 4\)</span> figures ?</p>
+<p>Pour un dé, la probabilité d’une figure est <span class="math notranslate nohighlight">\(p = \frac{1}{6}\)</span> (probabilité de succès).</p>
+<p>On appelle <span class="math notranslate nohighlight">\(X\)</span> le nombre de figures obtenues. La valeur de <span class="math notranslate nohighlight">\(X\)</span> étant le fruit du hasard, on dit que <span class="math notranslate nohighlight">\(X\)</span> est une <strong>variable aléatoire</strong> (souvent abrégé « v.a. »).</p>
+<p><span class="math notranslate nohighlight">\(X\)</span> obéit à la loi binomiale. On note :</p>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+X \sim \mbox{Binomial}(p, N)
+}
+\)</span></p>
+<p>Le symbole <span class="math notranslate nohighlight">\(\sim\)</span> se lit <em>« suit la loi »</em>. Cette écriture dit simplement : <em>« X est une variable aléatoire qui suit une loi binomiale de paramètres <span class="math notranslate nohighlight">\(p\)</span> et <span class="math notranslate nohighlight">\(N\)</span> »</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">binom</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">rk</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">6</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">binom</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">rk</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span><span class="s1">&#39;probability&#39;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span>
+     <span class="s1">&#39;figures&#39;</span><span class="p">:</span> <span class="n">rk</span><span class="p">,</span>
+    <span class="p">})</span> 
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;figures&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;probability&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0c044693ad2e1ad174c59a4bacf363706d0a4930e344a0cea659dd42016f5643.png" src="../../_images/0c044693ad2e1ad174c59a4bacf363706d0a4930e344a0cea659dd42016f5643.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">binom</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">6</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">p4</span> <span class="o">=</span> <span class="n">binom</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;La probabilité d&#39;obtenir </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> figures en </span><span class="si">{</span><span class="n">N</span><span class="si">}</span><span class="s2"> jets est </span><span class="si">{</span><span class="n">p4</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La probabilité d&#39;obtenir 4 figures en 20 jets est 0.2022
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="distribution-normale-ou-gaussienne">
+<h3>Distribution normale (ou gaussienne)<a class="headerlink" href="#distribution-normale-ou-gaussienne" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Pourquoi on en parle autant ?</strong> Parce que la loi normale apparaît <strong>partout</strong> en pratique : taille des adultes, erreurs de mesure, bruit sur un capteur, QI, notes à un examen… Un théorème très puissant (le <em>théorème central limite</em>) explique pourquoi : dès qu’une valeur est le résultat de <strong>beaucoup de petits effets aléatoires</strong> qui s’ajoutent, elle tend à suivre une loi normale. Sa courbe en <strong>cloche</strong> est la forme la plus emblématique de toutes les statistiques.</p>
+<p><strong>Deux paramètres suffisent à la décrire :</strong></p>
+<ul class="simple">
+<li><p>la <strong>moyenne</strong> <span class="math notranslate nohighlight">\(\mu\)</span> (lettre grecque « mu ») : où se trouve le sommet de la cloche — <em>le centre</em>.</p></li>
+<li><p>l”<strong>écart-type</strong> <span class="math notranslate nohighlight">\(\sigma\)</span> (« sigma ») : la largeur de la cloche — <em>à quel point c’est étalé</em>.</p></li>
+</ul>
+<p>Plus <span class="math notranslate nohighlight">\(\sigma\)</span> est grand, plus la cloche est large et écrasée ; plus il est petit, plus elle est fine et piquée.</p>
+<p>Lorsqu’une variable aléatoire <span class="math notranslate nohighlight">\(X\)</span> suit une loi normale de moyenne <span class="math notranslate nohighlight">\(\mu\)</span> et d’écart-type <span class="math notranslate nohighlight">\(\sigma\)</span>, on note :</p>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+X \sim \mbox{Normal}(\mu,\sigma)}
+\)</span></p>
+<p><strong>Propriété à connaître (règle des 68/95/99) :</strong></p>
+<ul class="simple">
+<li><p>≈ <strong>68%</strong> des valeurs sont à moins d”<strong>1 écart-type</strong> de la moyenne.</p></li>
+<li><p>≈ <strong>95%</strong> des valeurs sont à moins de <strong>2 écarts-types</strong>.</p></li>
+<li><p>≈ <strong>99,7%</strong> des valeurs sont à moins de <strong>3 écarts-types</strong>.</p></li>
+</ul>
+<p>C’est ce qui rend l’écart-type si parlant quand les données sont à peu près gaussiennes.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">variance1</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sigma1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance1</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma1</span><span class="p">)</span>
+
+<span class="n">variance2</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">sigma2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance2</span><span class="p">)</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma2</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Density of probability&quot;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labeltop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelright</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../../_images/57911842f81180435613886a3853cd9c1c70273d150ab25068c3ffab10ac7bc4.png" src="../../_images/57911842f81180435613886a3853cd9c1c70273d150ab25068c3ffab10ac7bc4.png" />
+</div>
+</div>
+<p>On a affaire à une distribution de probabilités, <span class="math notranslate nohighlight">\(X\)</span> étant une v.a. (variable aléatoire) continue</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">variance</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">sigma</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">x_fill1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+<span class="n">x_fill2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+
+<span class="n">y_fill1</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_fill1</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+<span class="n">y_fill2</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_fill2</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_fill1</span><span class="p">,</span> <span class="n">y_fill1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_fill2</span><span class="p">,</span> <span class="n">y_fill2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Shaded Area = 68.3%&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Shaded Area = 95.4%&quot;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Observed value&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Probability density&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Observed value&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Probability density&#39;</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/2c4f8e1fff6da29df77f7cd8cde7b369cd169d6ddc7d1349788c5a4a612b4d5b.png" src="../../_images/2c4f8e1fff6da29df77f7cd8cde7b369cd169d6ddc7d1349788c5a4a612b4d5b.png" />
+</div>
+</div>
+<blockquote>
+<div><p><strong>🎯 À quoi sert la loi normale en data science ?</strong></p>
+<p>Elle est partout pour <strong>trois raisons pratiques</strong> :</p>
+<p><strong>1. Modéliser le bruit et les erreurs de mesure.</strong> Un capteur de température, un prix qui fluctue, une mesure physique : on suppose souvent que le bruit suit une gaussienne. Beaucoup d’algorithmes (régression linéaire, moindres carrés, filtre de Kalman) <strong>reposent explicitement</strong> sur cette hypothèse.</p>
+<p><strong>2. Standardiser (normaliser) les features.</strong> Avant d’entraîner un modèle, on transforme souvent chaque colonne par <span class="math notranslate nohighlight">\(z = \frac{x - \mu}{\sigma}\)</span>. Ça centre les données autour de 0 avec un écart-type de 1 — essentiel pour des algorithmes comme <strong>KNN, SVM, régression régularisée, réseaux de neurones, PCA</strong>, qui sont sensibles à l’échelle.</p>
+<p><strong>3. Tests statistiques et intervalles de confiance.</strong> Les affirmations comme <em>« le CA moyen est de 15 k€ ± 2 k€ avec 95% de confiance »</em> reposent sur la loi normale via le <strong>théorème central limite</strong> (dès qu’on fait une moyenne sur beaucoup d’observations, elle tend vers une gaussienne — même si les données de départ ne sont pas gaussiennes !).</p>
+<p><strong>La règle des 68/95/99</strong> (vue juste au-dessus) est la raison pour laquelle l’écart-type est si parlant quand on peut raisonnablement supposer des données gaussiennes : elle donne une interprétation immédiate de la dispersion.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="probabilites-et-statistiques">
+<h2>Probabilités et statistiques<a class="headerlink" href="#probabilites-et-statistiques" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Un fabricant de thermomètres prélève aléatoirement 1000 thermomètres pour évaluer leur qualité.
+Placés dans la même pièce à une température de 20°, ils mesurent une température variant autour de 20°</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rand_gen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">nb_thermometres</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="c1"># Ce que les mesures ont donné.</span>
+<span class="c1"># Evidemment, dans la vraie vie, nous ne générons pas nous mêmes les données,</span>
+<span class="c1"># et on ne connait pas la loi statistique sous-jacente des données. </span>
+<span class="n">temperatures</span> <span class="o">=</span> <span class="n">rand_gen</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">nb_thermometres</span><span class="p">)</span>
+
+<span class="n">nb_bins</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">temperatures</span> <span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">nb_bins</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;density&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/d6f2d7b0e9302cdff52424340baa6db711fdb93b50459467666e91242078db93.png" src="../../_images/d6f2d7b0e9302cdff52424340baa6db711fdb93b50459467666e91242078db93.png" />
+</div>
+</div>
+<p>La ditribution des données semble suivre une loi gaussienne.
+On estime la moyenne et l’écart-type à partir des données de l’échantillon</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mu_echantillon</span> <span class="o">=</span> <span class="n">temperatures</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">sigma_echantillon</span> <span class="o">=</span> <span class="n">temperatures</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Moyenne = </span><span class="si">{</span><span class="n">mu_echantillon</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, écart-type = </span><span class="si">{</span><span class="n">sigma_echantillon</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Moyenne = 19.99, écart-type = 0.51
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pour vérifier visuellement la qualité de notre hypothèse, on superpose aux données mesurées la densité de probabilité d’une loi normale</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">mu_echantillon</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">sigma_echantillon</span><span class="p">,</span> <span class="n">mu_echantillon</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">sigma_echantillon</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu_echantillon</span><span class="p">,</span> <span class="n">sigma_echantillon</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">temperatures</span> <span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">nb_bins</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">);</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Normal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/71b3996fc17418a37ff81d9015e049f135c3b7532b9e2f8b11f8a4c3d4d8b4f1.png" src="../../_images/71b3996fc17418a37ff81d9015e049f135c3b7532b9e2f8b11f8a4c3d4d8b4f1.png" />
+</div>
+</div>
+</section>
+<section id="skew-et-kurtosis">
+<h2>Skew et kurtosis<a class="headerlink" href="#skew-et-kurtosis" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Moyenne, médiane, écart-type : on a de quoi décrire <em>le centre</em> et <em>l’étalement</em> d’une distribution. Mais deux distributions peuvent avoir les mêmes deux et ne pas se ressembler du tout. Pour aller plus loin, on regarde <strong>la forme</strong> de la distribution avec deux indicateurs : le <strong>skew</strong> (asymétrie) et le <strong>kurtosis</strong> (aplatissement).</p>
+<section id="skew-asymetrie">
+<h3>Skew (asymétrie)<a class="headerlink" href="#skew-asymetrie" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> le skew mesure si la distribution <strong>penche d’un côté</strong>.</p>
+<ul class="simple">
+<li><p>Skew ≈ 0 → symétrique (comme la cloche gaussienne)</p></li>
+<li><p>Skew &gt; 0 → la <strong>traîne est à droite</strong> (on dit « asymétrie positive » : quelques grosses valeurs tirent la queue à droite, cas typique des revenus ou des prix)</p></li>
+<li><p>Skew &lt; 0 → la traîne est à gauche</p></li>
+</ul>
+<p><img alt="Skew" src="https://ethanweed.github.io/pythonbook/_images/e360b1388b6431fa2ca40a9c055a5d29504891086bc7dd4b01dffb032b43a0c1.png" /></p>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+    \mbox{skewness}(X) = \frac{1}{N \hat{\sigma}^3} \sum_{i=1}^N (X_i - \bar{X})^3
+}
+\)</span></p>
+<p><strong>Pourquoi élever au cube ?</strong> Parce que le cube <strong>conserve le signe</strong> des écarts :</p>
+<ul class="simple">
+<li><p>un écart positif reste positif : <span class="math notranslate nohighlight">\((+5)^3 = +125\)</span></p></li>
+<li><p>un écart négatif reste négatif : <span class="math notranslate nohighlight">\((-5)^3 = -125\)</span></p></li>
+</ul>
+<p>Du coup, si les écarts positifs (données à droite de la moyenne) dominent, la somme sera positive → skew positif. S’ils se compensent bien, le résultat est proche de 0 → distribution symétrique. La division par <span class="math notranslate nohighlight">\(\hat{\sigma}^3\)</span> est là pour que le résultat soit <strong>sans unité</strong>, donc comparable entre jeux de données.</p>
+<blockquote>
+<div><p><strong>🎯 À quoi sert le skew en data science ?</strong></p>
+<p>C’est un <strong>diagnostic</strong> qu’on regarde <em>avant</em> d’entraîner un modèle.</p>
+<p><strong>Beaucoup de variables réelles sont fortement asymétriques</strong> : revenus, prix immobiliers, durées de session web, nombre de vues d’une vidéo, taille des fichiers… Elles ont presque toujours une longue traîne à droite (skew &gt; 0).</p>
+<p><strong>Pourquoi ça compte ?</strong> Beaucoup de modèles — à commencer par la régression linéaire — fonctionnent mieux sur des données à peu près symétriques. Si le skew est élevé, le modèle sera <strong>tiré par les quelques valeurs extrêmes</strong> et médiocre sur les valeurs « normales ».</p>
+<p><strong>Solution classique :</strong> appliquer une <strong>transformation log</strong> (ou Box-Cox, Yeo-Johnson) pour « symétriser » la variable avant l’entraînement :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;prix_log&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;prix&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Cas concret :</strong> prédire le prix d’une maison. Sans <code class="docutils literal notranslate"><span class="pre">log</span></code>, le modèle est obsédé par les quelques villas à 5 M€ et prédit très mal les maisons normales. Avec <code class="docutils literal notranslate"><span class="pre">log</span></code>, les erreurs relatives sont équilibrées et le modèle devient fiable. C’est un réflexe à avoir dès qu’une variable est « à traîne ».</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="o">.</span><span class="n">skew</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">skipna</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7804075289401982
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="kurtosis-pointu-ou-plat">
+<h3>Kurtosis (« pointu ou plat ? »)<a class="headerlink" href="#kurtosis-pointu-ou-plat" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>L’idée :</strong> le kurtosis mesure à quel point les <em>queues</em> de la distribution sont épaisses comparées à une gaussienne.</p>
+<ul class="simple">
+<li><p>Kurtosis ≈ 0 → à peu près comme une gaussienne (convention utilisée par pandas : <strong>kurtosis d’excès</strong>, déjà « re-centrée » en retirant 3)</p></li>
+<li><p>Kurtosis &gt; 0 → distribution <strong>plus pointue</strong> au centre avec des queues plus épaisses → <strong>plus de valeurs extrêmes</strong> que sous une gaussienne (données <em>à queue lourde</em>, attention aux outliers !)</p></li>
+<li><p>Kurtosis &lt; 0 → distribution plus <strong>aplatie</strong> que la gaussienne, peu de valeurs extrêmes</p></li>
+</ul>
+<p><img alt="Kurtosis" src="https://ethanweed.github.io/pythonbook/_images/41b50af7ceb5a29356e05d18ac289fd90104487f22c8e3ece879d69d5de34be3.png" /></p>
+<p><span class="math notranslate nohighlight">\(
+\Large{
+    \mbox{kurtosis}(X) = \frac{1}{N \hat\sigma^4} \sum_{i=1}^N \left( X_i - \bar{X} \right)^4  - 3
+}
+\)</span></p>
+<p><strong>Décodage :</strong></p>
+<ul class="simple">
+<li><p>On élève les écarts à la <strong>puissance 4</strong> (toujours positif, comme le carré, mais qui <strong>amplifie énormément les gros écarts</strong>) — c’est pour ça que le kurtosis est sensible aux queues.</p></li>
+<li><p>La division par <span class="math notranslate nohighlight">\(\hat{\sigma}^4\)</span> rend la mesure sans unité.</p></li>
+<li><p>Le <strong><span class="math notranslate nohighlight">\(-3\)</span></strong> à la fin est une convention : il fait en sorte qu’une distribution gaussienne ait un kurtosis de <span class="math notranslate nohighlight">\(0\)</span>. C’est ce qu’on appelle le <strong>kurtosis d’excès</strong> (utilisé par <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, etc.).</p></li>
+</ul>
+<blockquote>
+<div><p><strong>🎯 À quoi sert le kurtosis en data science ?</strong></p>
+<p>Le kurtosis répond à une question cruciale : <em>« mes données ont-elles beaucoup de valeurs extrêmes (outliers) ? »</em>. C’est une mesure de <strong>l’épaisseur des queues</strong> de la distribution.</p>
+<p><strong>Exemples typiques de données à queue lourde (kurtosis élevé) :</strong></p>
+<ul class="simple">
+<li><p><strong>Rendements financiers</strong> : les krachs boursiers arrivent bien plus souvent qu’une gaussienne ne le prédirait. Sous-estimer ce risque est littéralement à l’origine de la crise de 2008.</p></li>
+<li><p><strong>Temps de réponse d’une API</strong> : la plupart sont rapides, mais de temps en temps une requête explose à plusieurs secondes.</p></li>
+<li><p><strong>Montants de transactions</strong> : quelques très grosses opérations écrasent le reste.</p></li>
+</ul>
+<p><strong>Pourquoi ça compte ?</strong></p>
+<ul class="simple">
+<li><p>Les modèles basés sur l’hypothèse gaussienne <strong>sous-estiment le risque</strong> si le kurtosis est élevé. Utiliser moyenne + écart-type pour détecter des anomalies sur des données à queue lourde donnera <strong>trop de faux positifs</strong> (tout est extrême) ou <strong>trop de faux négatifs</strong> (plus rien ne choque), selon l’angle.</p></li>
+<li><p><strong>Solutions :</strong></p>
+<ul>
+<li><p>Préférer <strong>médiane + IQR</strong> aux mesures basées sur la moyenne (plus robustes).</p></li>
+<li><p>Utiliser des <strong>distributions à queue lourde</strong> (loi de Student, loi log-normale, Pareto) pour mieux modéliser.</p></li>
+<li><p><strong>Winsoriser</strong> les données : couper les 1% les plus extrêmes avant modélisation.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>À retenir :</strong> toujours calculer <code class="docutils literal notranslate"><span class="pre">df.kurtosis()</span></code> sur ses variables numériques. Un kurtosis &gt; 3 (ou &gt; 0 en version « d’excès ») est un signal d’alerte : <em>« attention, les méthodes gaussiennes classiques vont sous-estimer le risque »</em>.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">margins</span><span class="o">.</span><span class="n">kurtosis</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">skipna</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.10109718805638757
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours-exe/01-intro-datascience"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../cours/01-intro-datascience/05-datascientist.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Le Data Scientist et son processus de travail</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Les outils Python pour la data science</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quoi-servent-les-statistiques">À quoi servent les statistiques ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#differents-types-de-donnees">Différents types de données</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mesures-de-la-tendance-centrale">Mesures de la tendance centrale</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-moyenne">La moyenne</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#la-formule">La formule</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-mediane">La médiane</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#moyenne-ou-mediane">Moyenne ou médiane ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#que-choisir-moyenne-ou-mediane">Que choisir, moyenne ou médiane ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exemple-l-effet-d-un-milliardaire-sur-la-moyenne">Exemple : l’effet d’un milliardaire sur la moyenne</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mode">Mode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illustration">Illustration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mesures-de-la-variabilite">Mesures de la variabilité</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-interquartile-inter-quartile-range">Écart interquartile (Inter Quartile Range)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#etendue-range">Étendue (range)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#quantile-ou-percentile">Quantile (ou percentile)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-interquartile-iqr">Écart interquartile (IQR)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-absolu-moyen-average-absolute-deviation">Écart absolu moyen (Average Absolute Deviation)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-absolu-d-une-seule-valeur">Écart absolu (d’une seule valeur)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-absolu-moyen">Écart absolu moyen</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-absolu-median-median-absolute-deviation">Écart absolu médian (Median Absolute Deviation)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variance">Variance</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variance-d-une-population">Variance d’une population</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#estimateur-de-la-variance-d-une-population-a-partir-d-un-echantillon">Estimateur de la variance d’une population à partir d’un échantillon</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-type-standard-deviation">Écart-type (Standard Deviation)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecart-type-versus-aad-average-absolute-deviation">Ecart type versus - AAD (Average Absolute Deviation)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-peu-de-probabilites">Un peu de probabilités</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loi-binomiale">Loi binomiale</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#notre-exemple">Notre exemple</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribution-normale-ou-gaussienne">Distribution normale (ou gaussienne)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#probabilites-et-statistiques">Probabilités et statistiques</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skew-et-kurtosis">Skew et kurtosis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skew-asymetrie">Skew (asymétrie)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kurtosis-pointu-ou-plat">Kurtosis (« pointu ou plat ? »)</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

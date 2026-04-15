@@ -1,0 +1,894 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Travailler en équipe sur du ML &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours/06-mise-en-production/03-travail-en-equipe-et-donnees';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="De la recherche à la production" href="04-de-la-recherche-a-la-prod.html" />
+    <link rel="prev" title="La méthodologie d’un projet ML" href="02-methodologie-projet-ml.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/02-python.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/04-lab-equation.html">Exercice: <span class="xref myst">Equation</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/05-python-itertools.html">Itertools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/02-python-data-science-tools/06-numpy-matplotlib.html">Numpy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/07-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/02-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/03-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/04-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/05-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/06-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/07-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/03-use-sklearn-algorithms/08-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-use-sklearn-algorithms/09-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation.html">Exercice: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/equation-solution.html">Solution: Résolution d’une équation du second degré</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours/06-mise-en-production/03-travail-en-equipe-et-donnees.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Travailler en équipe sur du ML</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-qu-on-a-appris-seul-et-ce-qui-change-en-equipe">Ce qu’on a appris seul et ce qui change en équipe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machines-de-calcul-ou-fait-on-tourner-les-modeles">Machines de calcul : où fait-on tourner les modèles ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-probleme">Le problème</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-grandes-options">Les grandes options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-piege-du-ca-tourne-sur-mon-laptop">Le piège du « ça tourne sur mon laptop »</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-donnees-le-nerf-de-la-guerre">Les données : le nerf de la guerre</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recuperer-les-donnees-reelles-l-obstacle-1">Récupérer les données réelles : l’obstacle #1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volumetrie-les-trois-regimes">Volumétrie : les trois régimes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#versioner-l-integralite-du-projet-code-donnees-modeles">Versioner l’intégralité du projet : code, données, modèles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-code-git-comme-d-habitude">1. Le code : Git, comme d’habitude</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-donnees-dvc-ou-git-lfs">2. Les données : DVC ou Git LFS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-modeles-et-les-experiences-mlflow-w-b-neptune">3. Les modèles et les expériences : MLflow, W&amp;B, Neptune</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labeliser-les-donnees-la-tache-invisible-qui-coute-cher">Labéliser les données : la tâche invisible qui coûte cher</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Le problème</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-outils">Les outils</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#une-equipe-type-sur-un-projet-ml">Une équipe type sur un projet ML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-retenir">🎯 À retenir</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="travailler-en-equipe-sur-du-ml">
+<h1>Travailler en équipe sur du ML<a class="headerlink" href="#travailler-en-equipe-sur-du-ml" title="Lien permanent vers cette rubrique">#</a></h1>
+<section id="ce-qu-on-a-appris-seul-et-ce-qui-change-en-equipe">
+<h2>Ce qu’on a appris seul et ce qui change en équipe<a class="headerlink" href="#ce-qu-on-a-appris-seul-et-ce-qui-change-en-equipe" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Jusqu’ici, vos notebooks tournaient <strong>sur votre machine</strong>, avec <strong>vos données</strong> dans un dossier local, <strong>votre modèle</strong> sérialisé à côté. C’est parfait pour apprendre — pas pour travailler à plusieurs. Dès qu’une équipe de deux à cinq personnes touche au même projet, trois grandes questions se posent :</p>
+<ol class="arabic simple">
+<li><p><strong>Où fait-on tourner les calculs ?</strong> (compute)</p></li>
+<li><p><strong>Comment partage-t-on les données ?</strong> (accès, confidentialité, volumétrie)</p></li>
+<li><p><strong>Comment garde-t-on tout le monde synchronisé ?</strong> (versioning code / données / modèles)</p></li>
+</ol>
+<p>Ce chapitre fait le tour de ces trois blocs. Pas de code — <strong>c’est de l’organisation et de la culture</strong>, les briques qu’on installe avant de commencer à coder.</p>
+</section>
+<section id="machines-de-calcul-ou-fait-on-tourner-les-modeles">
+<h2>Machines de calcul : où fait-on tourner les modèles ?<a class="headerlink" href="#machines-de-calcul-ou-fait-on-tourner-les-modeles" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="le-probleme">
+<h3>Le problème<a class="headerlink" href="#le-probleme" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Un laptop, c’est <strong>très bien pour explorer</strong> 10 000 lignes sur CPU. Dès qu’on parle de :</p>
+<ul class="simple">
+<li><p><strong>100 Go</strong> de données à charger en mémoire,</p></li>
+<li><p>un modèle deep learning qui demande un GPU à 16 Go de VRAM,</p></li>
+<li><p>un entraînement qui prend <strong>12 heures</strong> à chaque itération,</p></li>
+</ul>
+<p>…votre laptop devient un goulot d’étranglement. Il faut des <strong>machines dédiées</strong>.</p>
+</section>
+<section id="les-grandes-options">
+<h3>Les grandes options<a class="headerlink" href="#les-grandes-options" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Pour qui</p></th>
+<th class="head"><p>Avantages</p></th>
+<th class="head"><p>Limites</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Workstation équipe</strong> (GPU sur site)</p></td>
+<td><p>Petites équipes, données très sensibles</p></td>
+<td><p>Pas de coût cloud, accès immédiat</p></td>
+<td><p>Contention quand plusieurs data scientists travaillent, maintenance matérielle</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Cloud à la demande</strong> (AWS / GCP / Azure)</p></td>
+<td><p>La plupart des équipes</p></td>
+<td><p>Scalable, payer à la durée d’usage, choix du GPU</p></td>
+<td><p>Coûts qui dérapent si on oublie d’éteindre, gouvernance RGPD</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Cluster HPC on-prem</strong></p></td>
+<td><p>Grosses organisations, recherche</p></td>
+<td><p>Haute performance, confidentialité</p></td>
+<td><p>Lourd à provisionner, compétences DevOps requises</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Services managés</strong> (SageMaker, Vertex AI, Databricks)</p></td>
+<td><p>Équipes qui veulent aller vite</p></td>
+<td><p>Notebook + compute + stockage intégrés, moins de plomberie</p></td>
+<td><p>Vendor lock-in, coût par heure élevé</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="le-piege-du-ca-tourne-sur-mon-laptop">
+<h3>Le piège du « ça tourne sur mon laptop »<a class="headerlink" href="#le-piege-du-ca-tourne-sur-mon-laptop" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Un travers très fréquent : « mon script tourne chez moi, donc il est prêt ». Sauf que <strong>votre laptop n’est pas représentatif</strong> de l’environnement cible :</p>
+<ul class="simple">
+<li><p>vous avez 32 Go de RAM, le serveur en a 16 ;</p></li>
+<li><p>vous avez une SSD NVMe, le serveur lit depuis un NFS lent ;</p></li>
+<li><p>vous avez sklearn 1.4, le serveur est en 1.2 ;</p></li>
+<li><p>vous avez 4 cœurs, le serveur en a 32 (et votre code n’est pas parallélisé).</p></li>
+</ul>
+<p>D’où l’importance des <strong>environnements reproductibles</strong> (chapitre précédent) et des <strong>conteneurs Docker</strong> : ce qui tourne dans votre conteneur tournera à l’identique sur le serveur.</p>
+<div class="tip admonition">
+<p class="admonition-title">Sur le terrain</p>
+<p>Règle pratique : <strong>dès que vous dépassez 1 Go de données ou 10 min d’entraînement</strong>, arrêtez de tout faire sur votre laptop. Demandez un accès à une machine partagée, un cluster, ou une VM cloud. C’est moins gênant et plus rapide que de faire tourner votre laptop pendant 12h en espérant qu’il ne crashe pas.</p>
+</div>
+</section>
+</section>
+<section id="les-donnees-le-nerf-de-la-guerre">
+<h2>Les données : le nerf de la guerre<a class="headerlink" href="#les-donnees-le-nerf-de-la-guerre" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="recuperer-les-donnees-reelles-l-obstacle-1">
+<h3>Récupérer les données réelles : l’obstacle #1<a class="headerlink" href="#recuperer-les-donnees-reelles-l-obstacle-1" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On pense souvent que le plus dur en ML, c’est <strong>le modèle</strong>. En vrai, sur la plupart des projets, <strong>c’est l’accès aux données</strong> :</p>
+<ul class="simple">
+<li><p><strong>Confidentialité / RGPD.</strong> Les données clients ne peuvent pas circuler librement. Il faut souvent <strong>anonymiser</strong>, <strong>agréger</strong>, <strong>signer des NDA</strong>, passer par des avocats.</p></li>
+<li><p><strong>Connaissance métier cachée.</strong> « Ah au fait, la colonne <code class="docutils literal notranslate"><span class="pre">status</span></code> a quatre valeurs historiques qu’il faut mapper sur deux. Personne ne te l’a dit ? ». Ce genre de savoir vit dans la tête des gens, pas dans la doc.</p></li>
+<li><p><strong>Accès à l’infra.</strong> Les données sont dans un data warehouse ? Il faut les droits. Dans une base applicative de prod ? Il faut un export supervisé. Dans des logs ? Il faut les parser. Dans du S3 ? Il faut le bon rôle IAM. <strong>Comptez en semaines, pas en heures.</strong></p></li>
+<li><p><strong>Volumétrie.</strong> 500 Go de logs à télécharger sur votre laptop, ça ne marche pas. Il faut soit <strong>échantillonner</strong>, soit <strong>traiter sur place</strong> (sur la machine qui héberge déjà les données).</p></li>
+<li><p><strong>Formats obscurs.</strong> Dates en 12 formats différents, encodages cassés, colonnes fantômes, doublons. La moitié du projet est consacrée à <strong>démêler l’existant</strong>.</p></li>
+<li><p><strong>Données manquantes ou biaisées.</strong> Les données qu’on peut récupérer sont <strong>les données qu’on a bien voulu stocker</strong> — pas forcément celles dont on a besoin.</p></li>
+</ul>
+<div class="important admonition">
+<p class="admonition-title">Sur le terrain</p>
+<p><strong>L’accès aux données est la première chose à vérifier</strong>, avant même de parler d’algorithmes.</p>
+<p>Posez ces questions dès le cadrage :</p>
+<ol class="arabic simple">
+<li><p>Les données existent-elles ? <em>(Souvent la réponse est « oui on stocke tout dans des logs pas exploitables ».)</em></p></li>
+<li><p>Ai-je le droit d’y accéder ? <em>(RGPD, NDA, gouvernance interne.)</em></p></li>
+<li><p>Combien de temps pour obtenir l’accès ? <em>(Si c’est &gt; 6 semaines, prévenez le client tout de suite.)</em></p></li>
+<li><p>Ai-je besoin d’aide d’un·e expert·e métier pour les comprendre ? <em>(Presque toujours oui.)</em></p></li>
+<li><p>Le volume est-il gérable ? <em>(Sinon, prévoir un compute adapté.)</em></p></li>
+</ol>
+<p>Un projet qui démarre l’entraînement du modèle <strong>avant</strong> d’avoir répondu à ces cinq questions est un projet qui va perdre des semaines.</p>
+</div>
+</section>
+<section id="volumetrie-les-trois-regimes">
+<h3>Volumétrie : les trois régimes<a class="headerlink" href="#volumetrie-les-trois-regimes" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>La stratégie change selon la taille des données :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Volume</p></th>
+<th class="head"><p>Régime</p></th>
+<th class="head"><p>Outils typiques</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>&lt; 1 Go</strong></p></td>
+<td><p>Tient en mémoire sur un laptop</p></td>
+<td><p>pandas, scikit-learn</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>1 Go – 100 Go</strong></p></td>
+<td><p>Ne tient plus en mémoire mais sur disque</p></td>
+<td><p>polars, DuckDB, Dask, Spark</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>&gt; 100 Go</strong></p></td>
+<td><p>Traitement distribué obligatoire</p></td>
+<td><p>Spark, BigQuery, Snowflake, Databricks</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Ne partez pas sur Spark si vos données tiennent en mémoire — c’est surdimensionné et ça ralentit tout. Mais ne vous entêtez pas sur pandas pour 80 Go non plus.</p>
+</section>
+</section>
+<section id="versioner-l-integralite-du-projet-code-donnees-modeles">
+<h2>Versioner l’intégralité du projet : code, données, modèles<a class="headerlink" href="#versioner-l-integralite-du-projet-code-donnees-modeles" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Un projet ML a <strong>trois choses</strong> à versionner — et chaque brique a son outil préféré.</p>
+<section id="le-code-git-comme-d-habitude">
+<h3>1. Le code : Git, comme d’habitude<a class="headerlink" href="#le-code-git-comme-d-habitude" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Rien de nouveau si vous connaissez déjà Git : <strong>chaque</strong> projet ML doit être dans un dépôt Git dès le premier jour. Commit fréquents, messages clairs, branches par fonctionnalité, revue de code entre pairs. C’est la <strong>brique de base</strong>.</p>
+<p>Ce qu’on <strong>n’y met pas</strong> :</p>
+<ul class="simple">
+<li><p>les fichiers de données (trop gros),</p></li>
+<li><p>les modèles sérialisés (binaires, trop gros),</p></li>
+<li><p>les secrets (clés API, tokens, mots de passe → utiliser <code class="docutils literal notranslate"><span class="pre">.env</span></code> et <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>).</p></li>
+</ul>
+</section>
+<section id="les-donnees-dvc-ou-git-lfs">
+<h3>2. Les données : DVC ou Git LFS<a class="headerlink" href="#les-donnees-dvc-ou-git-lfs" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Git LFS</strong> (Large File Storage) — extension de Git qui stocke les gros fichiers à part. Simple mais limité : pas pensé pour les workflows data science (pas de pipelines, pas de métadonnées d’expérience).</p>
+<p><strong>DVC</strong> (Data Version Control) — outil spécialisé pensé pour le ML. Fonctionne en tandem avec Git :</p>
+<ul class="simple">
+<li><p>Git stocke un petit fichier <code class="docutils literal notranslate"><span class="pre">.dvc</span></code> (quelques octets) qui pointe vers la donnée réelle ;</p></li>
+<li><p>la donnée réelle est stockée ailleurs (S3, GCS, NFS, un serveur local…) ;</p></li>
+<li><p>DVC gère aussi des <strong>pipelines</strong> (« quand <code class="docutils literal notranslate"><span class="pre">data/raw.csv</span></code> change, relancer <code class="docutils literal notranslate"><span class="pre">preprocess.py</span></code> et <code class="docutils literal notranslate"><span class="pre">train.py</span></code> »).</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Versionner un dataset</span>
+dvc<span class="w"> </span>add<span class="w"> </span>data/raw/users.csv
+git<span class="w"> </span>add<span class="w"> </span>data/raw/.gitignore<span class="w"> </span>data/raw/users.csv.dvc
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add users dataset v1&quot;</span>
+
+<span class="c1"># Partager via un remote (S3, GCS, etc.)</span>
+dvc<span class="w"> </span>push
+</pre></div>
+</div>
+<p>N’importe qui qui clone le repo peut ensuite <code class="docutils literal notranslate"><span class="pre">dvc</span> <span class="pre">pull</span></code> pour récupérer les données correspondant au commit actuel. C’est <strong>la</strong> façon propre de versionner de la donnée en équipe en 2026.</p>
+</section>
+<section id="les-modeles-et-les-experiences-mlflow-w-b-neptune">
+<h3>3. Les modèles et les expériences : MLflow, W&amp;B, Neptune<a class="headerlink" href="#les-modeles-et-les-experiences-mlflow-w-b-neptune" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>À chaque entraînement, vous devez pouvoir <strong>retrouver</strong> :</p>
+<ul class="simple">
+<li><p>quelles données ont été utilisées,</p></li>
+<li><p>quels hyperparamètres,</p></li>
+<li><p>quel code (commit Git),</p></li>
+<li><p>quels scores obtenus (CV, test, production).</p></li>
+</ul>
+<p>Au début d’un projet, un <strong>simple fichier <code class="docutils literal notranslate"><span class="pre">experiments.jsonl</span></code></strong> avec une ligne par entraînement suffit. Quand le projet grossit, passez à un outil dédié :</p>
+<ul class="simple">
+<li><p><strong>MLflow</strong> — standard open-source, s’installe facilement, UI web pour comparer les runs. <strong>Choix par défaut.</strong></p></li>
+<li><p><strong>Weights &amp; Biases (W&amp;B)</strong> — SaaS très poli, dashboards superbes, collaboration en temps réel, freemium.</p></li>
+<li><p><strong>Neptune</strong> — équivalent de W&amp;B, moins connu mais excellent.</p></li>
+<li><p><strong>Comet</strong> — autre alternative SaaS avec des graphs live.</p></li>
+</ul>
+<p>Tous ces outils font la même chose à 90 % : <strong>logger</strong> chaque entraînement avec les paramètres, les métriques, les artefacts, et offrir une UI pour comparer.</p>
+</section>
+</section>
+<section id="labeliser-les-donnees-la-tache-invisible-qui-coute-cher">
+<h2>Labéliser les données : la tâche invisible qui coûte cher<a class="headerlink" href="#labeliser-les-donnees-la-tache-invisible-qui-coute-cher" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="id1">
+<h3>Le problème<a class="headerlink" href="#id1" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>En apprentissage supervisé, le modèle apprend à partir <strong>d’exemples labélisés</strong> : des données où quelqu’un a déjà écrit la bonne réponse. Ce « quelqu’un », souvent, <strong>c’est un humain</strong>. Labéliser :</p>
+<ul class="simple">
+<li><p><strong>prend du temps</strong> (1 à 10 secondes par exemple simple, plusieurs minutes pour des cas ambigus),</p></li>
+<li><p><strong>demande de l’expertise métier</strong> (un médecin pour annoter des radios, un juriste pour classer des contrats…),</p></li>
+<li><p><strong>est fastidieux</strong> : la qualité chute après quelques heures, il faut des pauses, des rotations, du contrôle qualité.</p></li>
+</ul>
+<p>Pour un projet ML moyen, on parle de <strong>semaines</strong> voire <strong>mois</strong> de travail d’annotation. Et ce travail <strong>ne peut pas toujours être sous-traité</strong> — pour des données sensibles ou très spécialisées, il faut des annotateurs internes.</p>
+</section>
+<section id="les-outils">
+<h3>Les outils<a class="headerlink" href="#les-outils" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong>LabelStudio</strong> (open-source) — couvre tous les types de données (texte, image, audio, vidéo, séries temporelles). Déployable on-premise, adapté aux données sensibles. <strong>Souvent le premier choix.</strong></p></li>
+<li><p><strong>Roboflow</strong> (SaaS, focus vision) — excellent pour les projets computer vision, workflow complet de l’annotation à l’entraînement, intégrations YOLO et autres.</p></li>
+<li><p><strong>Prodigy</strong> (commercial, édité par Explosion) — très efficace pour du NLP, intègre de l”<strong>active learning</strong> pour annoter en priorité les exemples les plus informatifs.</p></li>
+<li><p><strong>Amazon SageMaker Ground Truth</strong> / <strong>Google Vertex Data Labeling</strong> — services managés cloud.</p></li>
+<li><p><strong>Sous-traitance</strong> (Amazon Mechanical Turk, Appen, Toloka…) — quand vous avez besoin de milliers de labels simples.</p></li>
+</ul>
+<div class="tip admonition">
+<p class="admonition-title">Sur le terrain</p>
+<p><strong>Règles d’or de l’annotation</strong> :</p>
+<ol class="arabic simple">
+<li><p><strong>Annoter à plusieurs</strong> les mêmes exemples (au moins 2 annotateurs) et <strong>mesurer l’accord inter-annotateurs</strong> (Cohen’s kappa, IoU…). Si l’accord est faible, le problème est mal défini — revenez sur les consignes.</p></li>
+<li><p><strong>Commencer par un petit batch</strong> (100–200 exemples) et le revoir en équipe avant de lancer l’annotation massive.</p></li>
+<li><p><strong>Active learning</strong> : demander au modèle quels exemples sont les plus ambigus, et annoter en priorité ceux-là. On gagne énormément d’efficacité.</p></li>
+<li><p><strong>Documenter les consignes d’annotation</strong> comme une vraie spec (cas limites, exemples positifs et négatifs, arbre de décision). C’est de la documentation métier à part entière.</p></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="une-equipe-type-sur-un-projet-ml">
+<h2>Une équipe type sur un projet ML<a class="headerlink" href="#une-equipe-type-sur-un-projet-ml" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Voici la composition qu’on rencontre le plus souvent sur des projets de taille moyenne (3–8 personnes) :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Rôle</p></th>
+<th class="head"><p>Ce qu’il fait</p></th>
+<th class="head"><p>Part du temps projet</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Product owner / métier</strong></p></td>
+<td><p>Définit le besoin, valide les résultats</p></td>
+<td><p>~10 %</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Data engineer</strong></p></td>
+<td><p>Récupère, nettoie, orchestre les flux de données</p></td>
+<td><p>~30 %</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Data scientist</strong></p></td>
+<td><p>Explore, prototype, entraîne les modèles</p></td>
+<td><p>~30 %</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>ML engineer</strong></p></td>
+<td><p>Industrialise, déploie, monitore</p></td>
+<td><p>~20 %</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>DevOps / MLOps</strong></p></td>
+<td><p>Infrastructure, compute, sécurité</p></td>
+<td><p>~10 %</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Annotateur·rice·s</strong></p></td>
+<td><p>Labélisent les données</p></td>
+<td><p>temporaire mais lourd</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Sur un petit projet, une même personne porte plusieurs rôles. <strong>Ce qui ne change pas</strong>, c’est que toutes ces activités <strong>doivent exister</strong> — si personne ne fait la partie « data engineering », elle reste à faire quand même, et ça retombe en général sur le data scientist qui perd son temps au lieu de modéliser.</p>
+</section>
+<section id="a-retenir">
+<h2>🎯 À retenir<a class="headerlink" href="#a-retenir" title="Lien permanent vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p><strong>Le compute</strong> peut être local, cloud ou cluster — le choix dépend de la taille des données, des contraintes de confidentialité, et du budget.</p></li>
+<li><p><strong>L’accès aux données est le premier obstacle</strong> à lever dans un projet ML — souvent bien avant les questions d’algorithme.</p></li>
+<li><p><strong>Trois briques à versionner</strong> : le code (Git), les données (DVC / Git LFS), les expériences et modèles (MLflow, W&amp;B, Neptune).</p></li>
+<li><p><strong>L’annotation est un vrai métier</strong> qui coûte du temps, des compétences, et une gouvernance sérieuse. LabelStudio, Roboflow, Prodigy sont les outils standards.</p></li>
+<li><p><strong>Un projet ML n’est jamais l’affaire d’une seule personne</strong> : il faut au moins du métier, de la data engineering, du modélisation et du déploiement — même si c’est la même personne qui enchaîne les casquettes.</p></li>
+</ul>
+<p>Dans le chapitre suivant, on se concentre sur la phase finale : <strong>la mise en production</strong> et tout ce qui vient avec (monitoring, drift, feedback, ré-entraînement).</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours/06-mise-en-production"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02-methodologie-projet-ml.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">La méthodologie d’un projet ML</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04-de-la-recherche-a-la-prod.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">De la recherche à la production</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-qu-on-a-appris-seul-et-ce-qui-change-en-equipe">Ce qu’on a appris seul et ce qui change en équipe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machines-de-calcul-ou-fait-on-tourner-les-modeles">Machines de calcul : où fait-on tourner les modèles ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-probleme">Le problème</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-grandes-options">Les grandes options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-piege-du-ca-tourne-sur-mon-laptop">Le piège du « ça tourne sur mon laptop »</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-donnees-le-nerf-de-la-guerre">Les données : le nerf de la guerre</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recuperer-les-donnees-reelles-l-obstacle-1">Récupérer les données réelles : l’obstacle #1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volumetrie-les-trois-regimes">Volumétrie : les trois régimes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#versioner-l-integralite-du-projet-code-donnees-modeles">Versioner l’intégralité du projet : code, données, modèles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-code-git-comme-d-habitude">1. Le code : Git, comme d’habitude</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-donnees-dvc-ou-git-lfs">2. Les données : DVC ou Git LFS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-modeles-et-les-experiences-mlflow-w-b-neptune">3. Les modèles et les expériences : MLflow, W&amp;B, Neptune</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labeliser-les-donnees-la-tache-invisible-qui-coute-cher">Labéliser les données : la tâche invisible qui coûte cher</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Le problème</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-outils">Les outils</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#une-equipe-type-sur-un-projet-ml">Une équipe type sur un projet ML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-retenir">🎯 À retenir</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 15 avr. 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

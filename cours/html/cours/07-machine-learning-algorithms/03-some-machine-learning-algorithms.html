@@ -450,6 +450,13 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-algorithme-de-base-ols-ordinary-least-squares">L’algorithme de base — OLS (<em>Ordinary Least Squares</em>)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ridge-regression">Ridge regression</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lasso">Lasso</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aparte-pourquoi-parle-t-on-de-l-1-et-l-2">Aparté — pourquoi parle-t-on de <span class="math notranslate nohighlight">\(L_1\)</span> et <span class="math notranslate nohighlight">\(L_2\)</span> ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#les-normes-l-p-en-une-phrase">Les normes <span class="math notranslate nohighlight">\(L_p\)</span> en une phrase</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-on-les-utilise-pour-regulariser">Pourquoi on les utilise pour régulariser</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-les-comportements-sont-si-differents">Pourquoi les comportements sont si différents</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tableau-de-decision-rapide">Tableau de décision rapide</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elasticnet">ElasticNet</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-polynomiale">Régression polynomiale</a></li>
 </ul>
@@ -624,6 +631,95 @@ y = a \cdot x + b
 <li><p><strong>Sélection automatique de features</strong> : les features inutiles sont éliminées. Parfait quand on a des centaines de variables et qu’on ne sait pas lesquelles comptent.</p></li>
 <li><p><strong>Explicabilité</strong> : un modèle avec 5 features utilisées est bien plus facile à expliquer qu’un modèle avec 500.</p></li>
 </ul>
+</section>
+<section id="aparte-pourquoi-parle-t-on-de-l-1-et-l-2">
+<h3>Aparté — pourquoi parle-t-on de <span class="math notranslate nohighlight">\(L_1\)</span> et <span class="math notranslate nohighlight">\(L_2\)</span> ?<a class="headerlink" href="#aparte-pourquoi-parle-t-on-de-l-1-et-l-2" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Ces noms reviennent <strong>partout</strong> en machine learning (Ridge, Lasso, SVM, régression logistique régularisée, dropout en deep learning…). Ils ne sont pas arbitraires — ils renvoient à deux façons mathématiques de mesurer <strong>la taille d’un vecteur de coefficients</strong>.</p>
+<section id="les-normes-l-p-en-une-phrase">
+<h4>Les normes <span class="math notranslate nohighlight">\(L_p\)</span> en une phrase<a class="headerlink" href="#les-normes-l-p-en-une-phrase" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>En maths, il existe plusieurs manières de mesurer la « taille » d’un vecteur <span class="math notranslate nohighlight">\((a_1, a_2, \dots, a_n)\)</span>. On les appelle des <strong>normes</strong>, et elles portent le nom <span class="math notranslate nohighlight">\(L_p\)</span> :</p>
+<ul class="simple">
+<li><p><strong>Norme <span class="math notranslate nohighlight">\(L_1\)</span></strong> (dite <em>Manhattan</em> ou <em>taxicab</em>) :</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\Large{
+\|a\|_1 = |a_1| + |a_2| + \dots + |a_n|
+}
+\]</div>
+<p>→ c’est la <strong>somme des valeurs absolues</strong> des coefficients.</p>
+<ul class="simple">
+<li><p><strong>Norme <span class="math notranslate nohighlight">\(L_2\)</span></strong> (dite <em>euclidienne</em>) :</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\Large{
+\|a\|_2 = \sqrt{a_1^2 + a_2^2 + \dots + a_n^2}
+}
+\]</div>
+<p>→ c’est la <strong>racine de la somme des carrés</strong>. C’est la distance classique « à vol d’oiseau ».</p>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête — Manhattan vs vol d’oiseau :</strong> imagine deux points sur une carte de Manhattan. La distance <span class="math notranslate nohighlight">\(L_2\)</span> (vol d’oiseau) est la ligne droite entre eux. La distance <span class="math notranslate nohighlight">\(L_1\)</span> est celle que parcourt un taxi qui ne peut se déplacer qu’horizontalement ou verticalement le long des rues. Les deux mesurent « une taille », mais <strong>pas de la même façon</strong> — et cette différence change tout.</p>
+</div></blockquote>
+</section>
+<section id="pourquoi-on-les-utilise-pour-regulariser">
+<h4>Pourquoi on les utilise pour régulariser<a class="headerlink" href="#pourquoi-on-les-utilise-pour-regulariser" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>Régulariser, c’est <strong>pénaliser les gros coefficients</strong> dans la fonction de coût pour empêcher le surapprentissage :</p>
+<div class="math notranslate nohighlight">
+\[
+\Large{
+\text{perte totale} = \text{perte normale} + \alpha \cdot \text{taille des coefficients}
+}
+\]</div>
+<p>Il reste à choisir comment mesurer cette <strong>taille</strong> :</p>
+<ul class="simple">
+<li><p>Avec la norme <span class="math notranslate nohighlight">\(L_2\)</span> → on obtient <strong>Ridge</strong> (pénalité = <span class="math notranslate nohighlight">\(\sum a_j^2\)</span>).</p></li>
+<li><p>Avec la norme <span class="math notranslate nohighlight">\(L_1\)</span> → on obtient <strong>Lasso</strong> (pénalité = <span class="math notranslate nohighlight">\(\sum |a_j|\)</span>).</p></li>
+<li><p>Avec un mélange des deux → <strong>ElasticNet</strong>.</p></li>
+</ul>
+</section>
+<section id="pourquoi-les-comportements-sont-si-differents">
+<h4>Pourquoi les comportements sont si différents<a class="headerlink" href="#pourquoi-les-comportements-sont-si-differents" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>C’est ici que ça devient <strong>vraiment intéressant</strong>. Les deux normes se ressemblent, mais elles poussent les coefficients vers 0 de manière <strong>radicalement différente</strong> :</p>
+<p><strong><span class="math notranslate nohighlight">\(L_2\)</span> (Ridge) — « écrase tout proportionnellement »</strong></p>
+<p>La pénalité <span class="math notranslate nohighlight">\(a^2\)</span> est <strong>douce près de 0</strong> : passer un coefficient de 0,1 à exactement 0 fait gagner seulement <span class="math notranslate nohighlight">\(0{,}01\)</span> — quasi rien. Du coup, Ridge <strong>réduit</strong> tous les coefficients mais ne les met <strong>jamais exactement à 0</strong>. Tous les coefficients restent petits mais non nuls.</p>
+<p><strong><span class="math notranslate nohighlight">\(L_1\)</span> (Lasso) — « tue certains et garde les autres »</strong></p>
+<p>La pénalité <span class="math notranslate nohighlight">\(|a|\)</span> est <strong>linéaire</strong> : passer un coefficient de 0,1 à 0 fait gagner pile 0,1 — autant que passer de 1 à 0,9. L’optimisation a donc <strong>une vraie incitation</strong> à mettre exactement à 0 les coefficients peu utiles. Résultat : Lasso fait de la <strong>sélection automatique de features</strong> — certaines variables disparaissent complètement du modèle.</p>
+<blockquote>
+<div><p><strong>Image mentale :</strong> Ridge <strong>aplatit une colline</strong> — tout devient plus petit, mais rien ne disparaît. Lasso <strong>creuse des vallées</strong> — certains coefficients tombent à zéro et n’en remontent plus.</p>
+</div></blockquote>
+</section>
+<section id="tableau-de-decision-rapide">
+<h4>Tableau de décision rapide<a class="headerlink" href="#tableau-de-decision-rapide" title="Lien permanent vers cette rubrique">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Situation</p></th>
+<th class="head"><p>À choisir</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Beaucoup de features, <strong>toutes potentiellement utiles</strong></p></td>
+<td><p><strong>Ridge</strong> (<span class="math notranslate nohighlight">\(L_2\)</span>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Beaucoup de features, <strong>on veut en éliminer automatiquement</strong></p></td>
+<td><p><strong>Lasso</strong> (<span class="math notranslate nohighlight">\(L_1\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p>Multicolinéarité forte entre variables</p></td>
+<td><p><strong>Ridge</strong> (plus stable)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Explicabilité prioritaire (« quelles variables comptent ? »)</p></td>
+<td><p><strong>Lasso</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>Compromis entre les deux</p></td>
+<td><p><strong>ElasticNet</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>🎯 Ce qu’il faut retenir :</strong> les noms <span class="math notranslate nohighlight">\(L_1\)</span> et <span class="math notranslate nohighlight">\(L_2\)</span> ne sont pas un jargon arbitraire. Ils renvoient à <strong>deux manières mathématiques distinctes de mesurer la taille des coefficients</strong>, et ce choix change la <strong>géométrie</strong> du problème d’optimisation — ce qui change <strong>fondamentalement</strong> le comportement du modèle. La même distinction reviendra plus loin avec les SVM, la régression logistique régularisée, et même le <em>weight decay</em> des réseaux de neurones.</p>
+</div></blockquote>
+</section>
 </section>
 <section id="elasticnet">
 <h3><a class="reference external" href="https://scikit-learn.org/stable/modules/linear_model.html#elastic-net">ElasticNet</a><a class="headerlink" href="#elasticnet" title="Lien permanent vers cette rubrique">#</a></h3>
@@ -1086,6 +1182,13 @@ P(y = 1 | x) = \frac{1}{1 + e^{-(ax + b)}}
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-algorithme-de-base-ols-ordinary-least-squares">L’algorithme de base — OLS (<em>Ordinary Least Squares</em>)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ridge-regression">Ridge regression</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lasso">Lasso</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aparte-pourquoi-parle-t-on-de-l-1-et-l-2">Aparté — pourquoi parle-t-on de <span class="math notranslate nohighlight">\(L_1\)</span> et <span class="math notranslate nohighlight">\(L_2\)</span> ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#les-normes-l-p-en-une-phrase">Les normes <span class="math notranslate nohighlight">\(L_p\)</span> en une phrase</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-on-les-utilise-pour-regulariser">Pourquoi on les utilise pour régulariser</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-les-comportements-sont-si-differents">Pourquoi les comportements sont si différents</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tableau-de-decision-rapide">Tableau de décision rapide</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#elasticnet">ElasticNet</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-polynomiale">Régression polynomiale</a></li>
 </ul>

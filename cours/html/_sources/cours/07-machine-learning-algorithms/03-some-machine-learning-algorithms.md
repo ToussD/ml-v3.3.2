@@ -100,6 +100,77 @@ $$
 - **Sélection automatique de features** : les features inutiles sont éliminées. Parfait quand on a des centaines de variables et qu'on ne sait pas lesquelles comptent.
 - **Explicabilité** : un modèle avec 5 features utilisées est bien plus facile à expliquer qu'un modèle avec 500.
 
+### Aparté — pourquoi parle-t-on de $L_1$ et $L_2$ ?
+
+Ces noms reviennent **partout** en machine learning (Ridge, Lasso, SVM, régression logistique régularisée, dropout en deep learning...). Ils ne sont pas arbitraires — ils renvoient à deux façons mathématiques de mesurer **la taille d'un vecteur de coefficients**.
+
+#### Les normes $L_p$ en une phrase
+
+En maths, il existe plusieurs manières de mesurer la « taille » d'un vecteur $(a_1, a_2, \dots, a_n)$. On les appelle des **normes**, et elles portent le nom $L_p$ :
+
+- **Norme $L_1$** (dite *Manhattan* ou *taxicab*) :
+
+$$
+\Large{
+\|a\|_1 = |a_1| + |a_2| + \dots + |a_n|
+}
+$$
+
+→ c'est la **somme des valeurs absolues** des coefficients.
+
+- **Norme $L_2$** (dite *euclidienne*) :
+
+$$
+\Large{
+\|a\|_2 = \sqrt{a_1^2 + a_2^2 + \dots + a_n^2}
+}
+$$
+
+→ c'est la **racine de la somme des carrés**. C'est la distance classique « à vol d'oiseau ».
+
+> **L'analogie à garder en tête — Manhattan vs vol d'oiseau :** imagine deux points sur une carte de Manhattan. La distance $L_2$ (vol d'oiseau) est la ligne droite entre eux. La distance $L_1$ est celle que parcourt un taxi qui ne peut se déplacer qu'horizontalement ou verticalement le long des rues. Les deux mesurent « une taille », mais **pas de la même façon** — et cette différence change tout.
+
+#### Pourquoi on les utilise pour régulariser
+
+Régulariser, c'est **pénaliser les gros coefficients** dans la fonction de coût pour empêcher le surapprentissage :
+
+$$
+\Large{
+\text{perte totale} = \text{perte normale} + \alpha \cdot \text{taille des coefficients}
+}
+$$
+
+Il reste à choisir comment mesurer cette **taille** :
+- Avec la norme $L_2$ → on obtient **Ridge** (pénalité = $\sum a_j^2$).
+- Avec la norme $L_1$ → on obtient **Lasso** (pénalité = $\sum |a_j|$).
+- Avec un mélange des deux → **ElasticNet**.
+
+#### Pourquoi les comportements sont si différents
+
+C'est ici que ça devient **vraiment intéressant**. Les deux normes se ressemblent, mais elles poussent les coefficients vers 0 de manière **radicalement différente** :
+
+**$L_2$ (Ridge) — « écrase tout proportionnellement »**
+
+La pénalité $a^2$ est **douce près de 0** : passer un coefficient de 0,1 à exactement 0 fait gagner seulement $0{,}01$ — quasi rien. Du coup, Ridge **réduit** tous les coefficients mais ne les met **jamais exactement à 0**. Tous les coefficients restent petits mais non nuls.
+
+**$L_1$ (Lasso) — « tue certains et garde les autres »**
+
+La pénalité $|a|$ est **linéaire** : passer un coefficient de 0,1 à 0 fait gagner pile 0,1 — autant que passer de 1 à 0,9. L'optimisation a donc **une vraie incitation** à mettre exactement à 0 les coefficients peu utiles. Résultat : Lasso fait de la **sélection automatique de features** — certaines variables disparaissent complètement du modèle.
+
+> **Image mentale :** Ridge **aplatit une colline** — tout devient plus petit, mais rien ne disparaît. Lasso **creuse des vallées** — certains coefficients tombent à zéro et n'en remontent plus.
+
+#### Tableau de décision rapide
+
+| Situation | À choisir |
+|---|---|
+| Beaucoup de features, **toutes potentiellement utiles** | **Ridge** ($L_2$) |
+| Beaucoup de features, **on veut en éliminer automatiquement** | **Lasso** ($L_1$) |
+| Multicolinéarité forte entre variables | **Ridge** (plus stable) |
+| Explicabilité prioritaire (« quelles variables comptent ? ») | **Lasso** |
+| Compromis entre les deux | **ElasticNet** |
+
+> **🎯 Ce qu'il faut retenir :** les noms $L_1$ et $L_2$ ne sont pas un jargon arbitraire. Ils renvoient à **deux manières mathématiques distinctes de mesurer la taille des coefficients**, et ce choix change la **géométrie** du problème d'optimisation — ce qui change **fondamentalement** le comportement du modèle. La même distinction reviendra plus loin avec les SVM, la régression logistique régularisée, et même le *weight decay* des réseaux de neurones.
+
 ### [ElasticNet](https://scikit-learn.org/stable/modules/linear_model.html#elastic-net)
 
 **L'idée :** pourquoi choisir entre Ridge et Lasso quand on peut avoir les deux ? ElasticNet combine les deux pénalités :

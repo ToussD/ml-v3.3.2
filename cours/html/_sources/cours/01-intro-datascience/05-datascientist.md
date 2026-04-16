@@ -36,25 +36,27 @@ CRISP-DM (Cross Industry Standard Process for Data Mining) est la méthodologie 
 
 ![CRISP-DM](https://upload.wikimedia.org/wikipedia/commons/e/e5/Diagramme_du_Processus_CRISP-DM.png)
 
-### Les 6 étapes, appliquées à notre fil rouge
+### Les 6 étapes, illustrées sur un exemple concret
+
+Prenons un cas classique : une banque veut prédire quels clients risquent de ne pas rembourser leur crédit.
 
 **1. Compréhension métier** — *Qu'est-ce qu'on essaie de résoudre ?*
-> Le ministère de l'Eau veut savoir quelles pompes envoyer en maintenance. L'objectif n'est pas d'avoir le modèle le plus précis possible, c'est d'**optimiser l'allocation des équipes de terrain**.
+> Réduire le taux de défaut de paiement en identifiant les dossiers à risque avant l'octroi du crédit. L'objectif n'est pas d'avoir le modèle le plus précis possible, c'est de **prendre de meilleures décisions d'octroi**.
 
 **2. Compréhension des données** — *Qu'est-ce qu'on a ?*
-> 59 400 pompes, 40 variables, des données GPS, des catégories textuelles, des dates. Beaucoup de bruit.
+> 50 000 dossiers de crédit historiques, 30 variables (revenus, ancienneté, nombre de crédits en cours, historique d'incidents...), et on sait lesquels ont fait défaut. Beaucoup de valeurs manquantes sur les revenus déclarés.
 
 **3. Préparation des données** — *Comment les rendre exploitables ?*
-> Nettoyer les coordonnées GPS aberrantes, regrouper les installateurs qui ont 50 orthographes différentes, encoder les variables catégorielles, gérer les valeurs manquantes.
+> Gérer les revenus manquants, encoder les variables catégorielles (type de contrat, secteur d'activité), créer de nouvelles features (ratio dette/revenu, ancienneté chez l'employeur actuel).
 
 **4. Modélisation** — *Quel algorithme choisir ?*
-> On teste plusieurs approches : arbre de décision pour comprendre, Random Forest pour la performance, Gradient Boosting pour grappiller quelques points.
+> On teste plusieurs approches : régression logistique pour l'interprétabilité, Random Forest pour la performance, Gradient Boosting pour grappiller quelques points.
 
 **5. Évaluation** — *Est-ce que ça marche ?*
-> On regarde les métriques sur le jeu de test. Mais surtout : est-ce que le modèle est **utile** pour le métier ? Si on prédit bien les pompes fonctionnelles mais mal celles en panne, ça ne sert à rien.
+> On regarde les métriques sur le jeu de test. Mais surtout : est-ce que le modèle est **utile** pour le métier ? Si on refuse trop de bons clients, le coût commercial dépasse le gain sur les impayés.
 
 **6. Déploiement** — *Comment on l'utilise au quotidien ?*
-> Mettre le modèle en production pour qu'il soit utilisé par les équipes de terrain. Monitorer ses performances dans le temps.
+> Intégrer le score de risque dans le workflow d'octroi de crédit. Monitorer les performances dans le temps — la population de demandeurs évolue.
 
 ```{admonition} Ce qui change en pratique
 :class: warning
@@ -75,22 +77,22 @@ Le data scientist construit un modèle techniquement parfait... mais qui ne rép
 "J'ai les données, je commence à modéliser." Non. Les données sont toujours plus sales qu'on le croit. Prévoyez la moitié du projet juste pour ça.
 
 ### 3. Confondre corrélation et causalité
-Le modèle trouve que les pompes proches d'une route sont plus souvent en panne. Est-ce que la route **cause** la panne ? Ou est-ce que les pompes proches des routes sont juste plus visibles et donc plus souvent inspectées ?
+Le modèle trouve que les passagers de 1re classe du Titanic survivent plus souvent. Est-ce que la classe **cause** la survie ? Ou est-ce que les cabines de 1re classe étaient simplement plus proches des canots de sauvetage ?
 
 ### 4. Ignorer le déploiement
 Un modèle dans un notebook Jupyter ne sert à personne. Il faut penser dès le début à comment il sera utilisé en production.
 
 ### 5. Ne pas monitorer après le déploiement
-Les données changent avec le temps. Un modèle entraîné en 2023 peut devenir mauvais en 2025 parce que les types de pompes installées ont évolué. C'est le **model drift**.
+Les données changent avec le temps. Un modèle entraîné en 2023 peut devenir mauvais en 2025 parce que la distribution des données en production a évolué. C'est le **model drift**.
 
 ```{admonition} Sur le terrain
 :class: tip
-**La question à 1000 euros pour démarrer un projet ML dans votre entreprise :**
+**Les 5 questions à 1000 euros pour démarrer un projet ML dans votre entreprise :**
 
-1. Quel est le problème métier ? (pas "je veux faire du ML", mais "je veux réduire les pannes de 20%")
+1. Quel est le problème métier ? (pas "je veux faire du ML", mais "je veux réduire le taux d'erreur de 20%")
 2. Est-ce que j'ai des données historiques avec la réponse que je veux prédire ?
 3. Qu'est-ce qu'on fait aujourd'hui sans ML ? (c'est votre baseline à battre)
-4. Si le modèle se trompe, quelles sont les conséquences ? (prédire qu'une pompe marche alors qu'elle est en panne = des gens sans eau)
+4. Si le modèle se trompe, quelles sont les conséquences ? (un faux positif en détection de fraude = un client bloqué injustement)
 5. Qui va utiliser les résultats et comment ?
 
 Si vous savez répondre à ces 5 questions, vous avez un projet ML viable.

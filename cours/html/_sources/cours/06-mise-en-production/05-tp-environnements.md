@@ -12,10 +12,10 @@ Ce TP se fait **entièrement dans un terminal** — pas dans un notebook. L'idé
 
 ## Lancer le conteneur sandbox
 
-Depuis la **racine du dossier stagiaire** (là où se trouvent `cours-ml-exe.sh` et `sandbox-exe.sh`), ouvrez un terminal et lancez :
+Depuis la **racine du dossier stagiaire** (là où se trouve `cours-ml-exe.sh`), ouvrez un terminal et lancez :
 
 ```sh
-./sandbox-exe.sh
+./cours-ml-exe.sh sandbox
 ```
 
 Ce script démarre un conteneur `continuumio/miniconda3` interactif avec :

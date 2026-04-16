@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Deep learning &#8212; Pensez comme un Datascientist</title>
+    <title>Introduction au Deep Learning &#8212; Pensez comme un Datascientist</title>
   
   
   
@@ -69,6 +69,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"RR": "\\mathbb{R}", "NN": "\\mathbb{N}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'cours/09-deep-learning/01-deep-learning';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Recherche" href="../../search.html" />
@@ -76,7 +78,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Réduction de dimensions" href="../../cours-exe/08-advanced-feature-engineering/04-dimensionality-reduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
-    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+    <meta name="docbuild:last-update" content="16 avr. 2026"/>
   </head>
   
   
@@ -215,6 +217,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/08-ydata-profiling.html">EDA automatisée avec YData Profiling</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
 <ul class="nav bd-sidenav">
@@ -246,7 +249,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Deep learning</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction au Deep Learning</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
 <ul class="nav bd-sidenav">
@@ -417,7 +420,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -428,11 +433,70 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Deep learning</h1>
+    <h1>Introduction au Deep Learning</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objectifs-de-ce-chapitre">Objectifs de ce chapitre</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#positionnement-ai-ml-dl-llm-qui-est-qui">Positionnement — AI, ML, DL, LLM… qui est qui ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-reseaux-de-neurones">Les réseaux de neurones</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-neurone-artificiel-la-brique-de-base">Le neurone artificiel — la brique de base</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-perceptron-le-premier-reseau-1957">Le perceptron — le premier réseau (1957)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-reseau-de-neurones-dense-fully-connected">Le réseau de neurones dense (<em>fully connected</em>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-apprentissage-propagation-avant-et-arriere">L’apprentissage : propagation avant et arrière</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-fonctions-d-activation-pourquoi-la-non-linearite-est-indispensable">Les fonctions d’activation — pourquoi la non-linéarité est indispensable</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#les-3-fonctions-classiques">Les 3 fonctions classiques</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-reseaux-de-neurones-convolutionnels-cnn">Les réseaux de neurones convolutionnels (CNN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-un-reseau-specifique-pour-les-images">Pourquoi un réseau spécifique pour les images ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-peu-d-histoire-de-lenet-a-resnet">Un peu d’histoire : de LeNet à ResNet</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-qu-on-peut-faire-avec-les-cnn-aujourd-hui">Ce qu’on peut faire avec les CNN aujourd’hui</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-type-d-un-cnn">Architecture type d’un CNN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-reseaux-de-neurones-recurrents-rnn">Les réseaux de neurones récurrents (RNN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-probleme-des-sequences">Le problème des séquences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-idee-du-rnn-ajouter-de-la-memoire">L’idée du RNN : ajouter de la mémoire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-architectures-rnn">Les architectures RNN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limites-des-rnn">Limites des RNN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-traitement-du-langage-naturel-nlp">Le traitement du langage naturel (NLP)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-est-quoi-le-nlp">C’est quoi le NLP ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-probleme-fondamental-comment-representer-les-mots">Le problème fondamental : comment représenter les mots ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-1-l-encodage-basique-insuffisant">Étape 1 — L’encodage basique (insuffisant)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-2-les-embeddings-la-vraie-solution">Étape 2 — Les embeddings (la vraie solution)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-transformers-la-revolution-de-2017">Les Transformers — la révolution de 2017</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-les-transformers">Pourquoi les Transformers ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-attention-l-idee-cle">L’attention — l’idée clé</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-llm-pourquoi-large">Les LLM — pourquoi « Large » ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-3-familles-de-transformers">Les 3 familles de Transformers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modeles-fermes-ouverts-et-totalement-ouverts">Modèles fermés, ouverts, et totalement ouverts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-le-deep-learning-en-contexte">🎯 Pour résumer — le deep learning en contexte</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-utiliser-le-deep-learning">Quand utiliser le deep learning ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-avantages-du-deep-learning">Les avantages du deep learning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-inconvenients">Les inconvénients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-regle-d-or-pour-un-data-scientist">La règle d’or pour un data scientist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-aller-plus-loin">Pour aller plus loin</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -442,9 +506,605 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="deep-learning">
-<h1>Deep learning<a class="headerlink" href="#deep-learning" title="Lien permanent vers cette rubrique">#</a></h1>
-<p><a class="reference download internal" download="" href="../../_downloads/c986aba94975b9a8f0f32759c23d6cd8/deep-learning.pdf"><code class="xref download docutils literal notranslate"><span class="pre">Voir</span> <span class="pre">les</span> <span class="pre">diapos</span></code></a></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="introduction-au-deep-learning">
+<h1>Introduction au Deep Learning<a class="headerlink" href="#introduction-au-deep-learning" title="Lien permanent vers cette rubrique">#</a></h1>
+<section id="objectifs-de-ce-chapitre">
+<h2>Objectifs de ce chapitre<a class="headerlink" href="#objectifs-de-ce-chapitre" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>À la fin de ce chapitre, vous saurez :</p>
+<ul class="simple">
+<li><p><strong>Positionner</strong> le deep learning par rapport au machine learning classique (ce qui change, ce qui reste pareil).</p></li>
+<li><p>Comprendre le <strong>principe de fonctionnement</strong> d’un réseau de neurones (neurone, couches, propagation, fonctions d’activation).</p></li>
+<li><p>Distinguer les <strong>grandes architectures</strong> :</p>
+<ul>
+<li><p><strong>Réseaux convolutionnels (CNN)</strong> — pour les images.</p></li>
+<li><p><strong>Réseaux récurrents (RNN)</strong> — pour les séquences et les séries temporelles.</p></li>
+<li><p><strong>Transformers</strong> — l’architecture qui a révolutionné le NLP et donné naissance aux LLM (GPT, Claude, Mistral…).</p></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<div><p><strong>Ce chapitre est une introduction « culture générale ».</strong> On ne va pas coder de réseau de neurones — c’est un sujet qui demande une formation dédiée (PyTorch, TensorFlow). L’objectif est que vous compreniez <strong>de quoi on parle</strong> quand on dit <em>« deep learning »</em>, <em>« CNN »</em>, <em>« transformer »</em>, <em>« LLM »</em> — et que vous sachiez <strong>quand</strong> ces technologies sont pertinentes par rapport au ML classique qu’on a vu jusqu’ici.</p>
+</div></blockquote>
+</section>
+<section id="positionnement-ai-ml-dl-llm-qui-est-qui">
+<h2>Positionnement — AI, ML, DL, LLM… qui est qui ?<a class="headerlink" href="#positionnement-ai-ml-dl-llm-qui-est-qui" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Le deep learning n’est pas « à côté » du machine learning — il est <strong>dedans</strong>. La hiérarchie est la suivante :</p>
+<ul class="simple">
+<li><p><strong>Intelligence Artificielle (AI)</strong> — le champ le plus large : toute technique qui permet à une machine de « simuler » une forme d’intelligence.</p>
+<ul>
+<li><p><strong>Machine Learning (ML)</strong> — une branche de l’AI : la machine <strong>apprend</strong> à partir de données, au lieu d’être programmée explicitement.</p>
+<ul>
+<li><p><strong>Deep Learning (DL)</strong> — une branche du ML : on utilise des <strong>réseaux de neurones avec beaucoup de couches</strong> (d’où « deep » = profond).</p>
+<ul>
+<li><p><strong>IA Générative</strong> — une branche du DL : le modèle <strong>génère</strong> du contenu (texte, images, code, musique…).</p>
+<ul>
+<li><p><strong>LLM (<em>Large Language Models</em>)</strong> — des modèles de langage très grands (GPT, Claude, Mistral, Llama…).</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img alt="Hiérarchie AI / ML / DL / GenAI / LLM" src="../../_images/ai-ml-dl-hierarchy.png" /></p>
+<blockquote>
+<div><p><strong>À retenir :</strong> tout ce qu’on a appris dans ce cours (arbres de décision, Random Forest, XGBoost, feature engineering, pipelines…) est du <strong>ML classique</strong>. Le deep learning est une extension du ML, pas un remplacement. Sur les <strong>données tabulaires</strong> (tableaux avec des colonnes), le ML classique (XGBoost, LightGBM) reste souvent <strong>supérieur</strong> au deep learning. Le DL brille sur les données <strong>non structurées</strong> : images, texte, audio, vidéo.</p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="les-reseaux-de-neurones">
+<h2>Les réseaux de neurones<a class="headerlink" href="#les-reseaux-de-neurones" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="le-neurone-artificiel-la-brique-de-base">
+<h3>Le neurone artificiel — la brique de base<a class="headerlink" href="#le-neurone-artificiel-la-brique-de-base" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>L’idée originale vient d’une <strong>analogie biologique</strong> (Warren McCulloch et Walter Pitts, 1943) :</p>
+<p><strong>Neurone biologique :</strong></p>
+<ul class="simple">
+<li><p>Les <strong>dendrites</strong> captent des signaux (neurotransmetteurs) provenant d’autres neurones.</p></li>
+<li><p>Les signaux s’accumulent dans le <strong>noyau</strong>.</p></li>
+<li><p>Si l’accumulation dépasse un certain <strong>seuil</strong>, un message est envoyé via l”<strong>axone</strong> vers d’autres neurones.</p></li>
+</ul>
+<p><strong>Neurone artificiel — la même chose, en maths :</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Entrées</strong> : des nombres <span class="math notranslate nohighlight">\(X_1, X_2, \dots, X_n\)</span> (les features, ou les sorties d’autres neurones).</p></li>
+<li><p><strong>Poids</strong> : chaque entrée est multipliée par un <strong>poids</strong> (un coefficient) <span class="math notranslate nohighlight">\(w_1, w_2, \dots, w_n\)</span>.</p></li>
+<li><p><strong>Somme pondérée</strong> : <span class="math notranslate nohighlight">\(z = w_1 X_1 + w_2 X_2 + \dots + w_n X_n + b\)</span> (le biais <span class="math notranslate nohighlight">\(b\)</span> est un offset).</p></li>
+<li><p><strong>Fonction d’activation</strong> : on applique une fonction <span class="math notranslate nohighlight">\(f\)</span> au résultat → <span class="math notranslate nohighlight">\(Y = f(z)\)</span>.</p></li>
+<li><p><strong>Sortie</strong> : <span class="math notranslate nohighlight">\(Y\)</span> est envoyé aux neurones de la couche suivante (ou est la prédiction finale).</p></li>
+</ol>
+<p><img alt="Neurone biologique vs neurone artificiel" src="../../_images/neurone-biologique-artificiel.png" /></p>
+<blockquote>
+<div><p><strong>En une phrase :</strong> un neurone artificiel, c’est une <strong>régression linéaire</strong> (<span class="math notranslate nohighlight">\(z = \sum w_i X_i + b\)</span>) suivie d’une <strong>fonction non-linéaire</strong> (l’activation). C’est tout. Un réseau de neurones, c’est un <strong>empilement</strong> de milliers de ces briques.</p>
+</div></blockquote>
+</section>
+<section id="le-perceptron-le-premier-reseau-1957">
+<h3>Le perceptron — le premier réseau (1957)<a class="headerlink" href="#le-perceptron-le-premier-reseau-1957" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Frank Rosenblatt crée le <strong>perceptron</strong> en 1957 : un neurone unique, muni d’une règle d’apprentissage qui ajuste automatiquement les poids.</p>
+<ul class="simple">
+<li><p>C’est un <strong>classifieur linéaire</strong> : il trace un hyperplan (une droite en 2D) qui sépare deux classes — exactement comme la régression logistique.</p></li>
+<li><p><strong>Limite majeure :</strong> il ne peut résoudre que des problèmes <strong>linéairement séparables</strong>. Le fameux problème du XOR (ou exclusif) est impossible avec un seul neurone.</p></li>
+<li><p><strong>Solution :</strong> empiler plusieurs couches de neurones → le <strong>perceptron multicouche</strong> (MLP).</p></li>
+</ul>
+</section>
+<section id="le-reseau-de-neurones-dense-fully-connected">
+<h3>Le réseau de neurones dense (<em>fully connected</em>)<a class="headerlink" href="#le-reseau-de-neurones-dense-fully-connected" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Un réseau de neurones, c’est un empilement de <strong>couches de neurones</strong> :</p>
+<ul class="simple">
+<li><p><strong>Couche d’entrée</strong> : reçoit les features brutes du dataset (ex : les 784 pixels de MNIST).</p></li>
+<li><p><strong>Couches cachées</strong> (<em>hidden layers</em>) : une ou plusieurs couches intermédiaires. Chaque neurone est connecté à <strong>tous</strong> les neurones de la couche précédente (d’où le nom <em>fully connected</em> ou <em>dense</em>). C’est ici que le réseau « apprend » des représentations de plus en plus abstraites.</p></li>
+<li><p><strong>Couche de sortie</strong> : produit la prédiction finale (une probabilité par classe en classification, ou un nombre en régression).</p></li>
+</ul>
+<p><img alt="Réseau dense — fully connected" src="../../_images/reseau-dense-fully-connected.png" /></p>
+<blockquote>
+<div><p><strong>Idée clé :</strong> on ne choisit <strong>pas</strong> ce que les couches cachées apprennent. On donne juste les entrées et les sorties attendues, et l’algorithme d’apprentissage trouve <strong>tout seul</strong> les bons poids pour que les couches intermédiaires capturent les patterns utiles. C’est ce qui distingue le deep learning du feature engineering manuel : le réseau <strong>fabrique ses propres features</strong>.</p>
+</div></blockquote>
+</section>
+<section id="l-apprentissage-propagation-avant-et-arriere">
+<h3>L’apprentissage : propagation avant et arrière<a class="headerlink" href="#l-apprentissage-propagation-avant-et-arriere" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>L’entraînement d’un réseau de neurones suit un cycle en 3 étapes, répété des milliers de fois :</p>
+<p><strong>1. Propagation avant (<em>forward propagation</em>)</strong> : on envoie un exemple dans le réseau, couche par couche, de l’entrée à la sortie. Chaque neurone fait sa somme pondérée + activation. À la fin, on obtient une <strong>prédiction</strong>.</p>
+<p><strong>2. Calcul de l’erreur (<em>loss function</em>)</strong> : on compare la prédiction à la vraie réponse. L’écart est mesuré par une <strong>fonction de perte</strong> (la MSE en régression, la <em>cross-entropy</em> en classification).</p>
+<p><strong>3. Propagation arrière (<em>backpropagation</em>)</strong> : c’est l’étape clé. L’algorithme calcule, pour <strong>chaque poids</strong> du réseau, <em>« de combien l’erreur changerait si on modifiait ce poids un peu ? »</em>. C’est le <strong>gradient</strong>. Puis il ajuste les poids dans la direction qui <strong>réduit l’erreur</strong>. C’est la <strong>descente de gradient</strong>.</p>
+<p><img alt="Cycle forward propagation → erreur → backpropagation" src="../../_images/forward-backward-propagation.png" /></p>
+<blockquote>
+<div><p><strong>L’analogie à garder en tête :</strong> imagine un randonneur perdu dans le brouillard sur une colline. Il ne voit pas le paysage, mais il peut sentir la pente sous ses pieds. À chaque pas, il descend un peu dans la direction la plus pentue. C’est exactement ce que fait la descente de gradient : on ne « voit » pas la solution, mais on <strong>suit la pente</strong> de l’erreur vers le minimum.</p>
+</div></blockquote>
+</section>
+<section id="les-fonctions-d-activation-pourquoi-la-non-linearite-est-indispensable">
+<h3>Les fonctions d’activation — pourquoi la non-linéarité est indispensable<a class="headerlink" href="#les-fonctions-d-activation-pourquoi-la-non-linearite-est-indispensable" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Le problème :</strong> si on empile des couches de neurones <strong>sans</strong> fonction d’activation non-linéaire, le résultat est <strong>toujours linéaire</strong>. Peu importe le nombre de couches, le réseau global est équivalent à une seule couche — il ne peut tracer que des droites, pas des courbes.</p>
+<p><strong>La solution :</strong> insérer une <strong>fonction d’activation non-linéaire</strong> après chaque somme pondérée. C’est ce qui permet au réseau de capturer des relations <strong>complexes</strong> et d’aller bien au-delà de ce qu’un modèle linéaire peut faire.</p>
+<section id="les-3-fonctions-classiques">
+<h4>Les 3 fonctions classiques<a class="headerlink" href="#les-3-fonctions-classiques" title="Lien permanent vers cette rubrique">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Fonction</p></th>
+<th class="head"><p>Formule</p></th>
+<th class="head"><p>Plage de sortie</p></th>
+<th class="head"><p>Quand l’utiliser</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Sigmoïde</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(g(z) = \frac{1}{1 + e^{-z}}\)</span></p></td>
+<td><p>[0, 1]</p></td>
+<td><p>Couche de <strong>sortie</strong> pour classification binaire (probabilité). Rarement en couches cachées (problème de <em>vanishing gradient</em>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Tanh</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(g(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}\)</span></p></td>
+<td><p>[-1, 1]</p></td>
+<td><p>Comme la sigmoïde mais centrée sur 0. Un peu meilleure en couches cachées, mais même problème de gradient.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>ReLU</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(g(z) = \max(0, z)\)</span></p></td>
+<td><p>[0, +∞)</p></td>
+<td><p><strong>Le choix par défaut</strong> pour les couches cachées. Simple, rapide, résout le problème de vanishing gradient.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img alt="Fonctions d'activation : Sigmoïde, Tanh, ReLU" src="../../_images/fonctions-activation.png" /></p>
+<blockquote>
+<div><p><strong>Pourquoi ReLU domine-t-il ?</strong> C’est la fonction la plus simple (<span class="math notranslate nohighlight">\(\max(0, z)\)</span>) mais aussi la plus efficace en pratique : elle est rapide à calculer, rapide à dériver, et ne souffre pas du problème de « gradient qui disparaît » qui plombe les sigmoïdes et tanh dans les réseaux profonds. Quasiment tous les réseaux modernes utilisent ReLU (ou ses variantes : LeakyReLU, GeLU, SiLU).</p>
+</div></blockquote>
+<div class="tip admonition">
+<p class="admonition-title">Expérimentez vous-même !</p>
+<p>Le <a class="reference external" href="http://playground.tensorflow.org/">Playground TensorFlow</a> permet de visualiser en temps réel l’apprentissage d’un réseau de neurones : ajoutez des couches, changez les fonctions d’activation, observez comment la frontière de décision évolue.</p>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="les-reseaux-de-neurones-convolutionnels-cnn">
+<h2>Les réseaux de neurones convolutionnels (CNN)<a class="headerlink" href="#les-reseaux-de-neurones-convolutionnels-cnn" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="pourquoi-un-reseau-specifique-pour-les-images">
+<h3>Pourquoi un réseau spécifique pour les images ?<a class="headerlink" href="#pourquoi-un-reseau-specifique-pour-les-images" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Un réseau dense « classique » traite chaque pixel comme une feature <strong>indépendante</strong>. Pour une image 28×28, ça donne 784 entrées — gérable. Mais pour une photo HD (1920×1080×3 couleurs), ça fait <strong>6 millions</strong> d’entrées, chacune connectée à chaque neurone de la première couche cachée → des <strong>milliards</strong> de poids à apprendre. C’est impossible.</p>
+<p>De plus, un réseau dense ne « comprend » pas la <strong>structure spatiale</strong> de l’image. Le pixel en haut à gauche et son voisin juste à droite sont traités de la même façon que deux pixels aux extrêmes opposés de l’image.</p>
+<blockquote>
+<div><p><strong>L’idée du CNN :</strong> au lieu de connecter chaque pixel à chaque neurone, on fait glisser un <strong>petit filtre</strong> (par exemple 3×3 ou 5×5) sur toute l’image. Ce filtre détecte un <strong>pattern local</strong> (un bord, une texture, un coin…). Les mêmes poids sont <strong>réutilisés partout</strong> dans l’image. Résultat : beaucoup moins de poids à apprendre, et le réseau est naturellement sensible aux structures spatiales.</p>
+</div></blockquote>
+</section>
+<section id="un-peu-d-histoire-de-lenet-a-resnet">
+<h3>Un peu d’histoire : de LeNet à ResNet<a class="headerlink" href="#un-peu-d-histoire-de-lenet-a-resnet" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><img alt="Yann LeCun, MNIST et l'architecture LeNet-5 (1998)" src="../../_images/lenet-mnist.png" /></p>
+<ul class="simple">
+<li><p><strong>1998 — LeNet-5</strong> (Yann LeCun) : premier CNN fonctionnel, appliqué à la reconnaissance de chiffres manuscrits (MNIST). 2 couches de convolution, 60 000 paramètres.</p></li>
+<li><p><strong>2012 — AlexNet</strong> : premier CNN à gagner le concours <strong>ILSVRC (ImageNet)</strong> avec un score de 16% d’erreur (contre 26% pour les méthodes classiques). C’est le <strong>moment fondateur</strong> du deep learning moderne — le monde réalise que les réseaux profonds + GPU changent tout.</p></li>
+<li><p><strong>2013–2015 — VGG, GoogLeNet, ResNet</strong> : les réseaux deviennent de plus en plus profonds (VGG = 19 couches, ResNet = <strong>152 couches</strong>) et l’erreur descend à <strong>3,6%</strong> — en dessous de la performance humaine (~5%).</p></li>
+</ul>
+<p><img alt="Évolution des scores ILSVRC — de 28% d'erreur à 3%, en dessous du niveau humain" src="../../_images/ilsvrc-evolution.png" /></p>
+<blockquote>
+<div><p><strong>La leçon clé :</strong> en 4 ans (2012→2016), les CNN sont passés de « curiosité académique » à « surhumains en reconnaissance d’images ». C’est cette progression fulgurante qui a déclenché l’engouement mondial pour le deep learning.</p>
+</div></blockquote>
+</section>
+<section id="ce-qu-on-peut-faire-avec-les-cnn-aujourd-hui">
+<h3>Ce qu’on peut faire avec les CNN aujourd’hui<a class="headerlink" href="#ce-qu-on-peut-faire-avec-les-cnn-aujourd-hui" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><img alt="Classification, localisation, détection d'objets" src="../../_images/vision-classification-detection.png" /></p>
+<p><img alt="Reconnaissance, segmentation sémantique, détection, segmentation d'instance" src="../../_images/vision-segmentation.png" /></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tâche</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Exemple d’usage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Classification</strong></p></td>
+<td><p><em>« Cette image contient-elle un chat ? »</em></p></td>
+<td><p>Reconnaissance de produits, diagnostic médical</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Classification + localisation</strong></p></td>
+<td><p><em>« Il y a un chat, et il est ici »</em> (boîte englobante)</p></td>
+<td><p>Contrôle qualité industriel</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Object Detection</strong></p></td>
+<td><p>Trouver <strong>tous</strong> les objets dans l’image + les nommer</p></td>
+<td><p>Voitures autonomes, vidéosurveillance</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Segmentation sémantique</strong></p></td>
+<td><p>Colorier <strong>chaque pixel</strong> selon sa classe</p></td>
+<td><p>Imagerie médicale (détourer une tumeur)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Segmentation d’instance</strong></p></td>
+<td><p>Comme la segmentation, mais distingue chaque <strong>instance</strong></p></td>
+<td><p>Comptage de cellules en bio</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="architecture-type-d-un-cnn">
+<h3>Architecture type d’un CNN<a class="headerlink" href="#architecture-type-d-un-cnn" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><img alt="Architecture d'un CNN : Feature Learning (convolution + pooling) → Classification (flatten + FC + softmax)" src="../../_images/architecture-cnn.png" /></p>
+<p>Un CNN est composé de deux parties :</p>
+<ol class="arabic simple">
+<li><p><strong>Feature Learning</strong> (extraction automatique de features) :</p>
+<ul class="simple">
+<li><p><strong>Couches de convolution</strong> : des filtres glissent sur l’image et détectent des patterns (bords → textures → formes → objets). Plus on avance dans le réseau, plus les patterns sont <strong>abstraits</strong>.</p></li>
+<li><p><strong>Couches de pooling</strong> : réduisent la taille spatiale (par exemple en gardant le maximum dans chaque zone 2×2). Ça réduit le calcul et rend le réseau tolérant aux petits décalages.</p></li>
+</ul>
+</li>
+<li><p><strong>Classification</strong> (prédiction finale) :</p>
+<ul class="simple">
+<li><p>Les feature maps sont <strong>aplaties</strong> (<em>flatten</em>) en un vecteur 1D.</p></li>
+<li><p>Ce vecteur passe dans un réseau dense classique (<em>fully connected</em>).</p></li>
+<li><p>La dernière couche utilise <strong>softmax</strong> pour donner une probabilité par classe.</p></li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<div><p><strong>L’intuition à retenir :</strong> le CNN fait <strong>automatiquement</strong> le feature engineering que vous feriez à la main en traitement d’image classique. Les premières couches détectent des <strong>bords</strong> (horizontaux, verticaux, diagonaux), les suivantes combinent ces bords en <strong>textures</strong>, puis en <strong>formes</strong> (yeux, pattes, roues), puis en <strong>objets</strong> (chat, voiture, chien). Tout ça est <strong>appris</strong> à partir des données, pas programmé.</p>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="les-reseaux-de-neurones-recurrents-rnn">
+<h2>Les réseaux de neurones récurrents (RNN)<a class="headerlink" href="#les-reseaux-de-neurones-recurrents-rnn" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="le-probleme-des-sequences">
+<h3>Le problème des séquences<a class="headerlink" href="#le-probleme-des-sequences" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Les réseaux denses et les CNN traitent chaque entrée <strong>indépendamment</strong> : l’image 1 n’a rien à voir avec l’image 2. Mais beaucoup de données sont <strong>séquentielles</strong> — l’ordre compte :</p>
+<ul class="simple">
+<li><p><strong>Texte</strong> : <em>« le chat mange la souris »</em> ≠ <em>« la souris mange le chat »</em>. Les mots ont un sens qui dépend du contexte.</p></li>
+<li><p><strong>Séries temporelles</strong> : la température de demain dépend de celle d’aujourd’hui et d’hier.</p></li>
+<li><p><strong>Audio/parole</strong> : un phonème se comprend dans le contexte des phonèmes précédents.</p></li>
+<li><p><strong>Vidéo</strong> : une image se comprend par rapport aux images précédentes.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Le problème :</strong> un réseau dense traite chaque entrée comme un « paquet isolé ». Il n’a <strong>aucune mémoire</strong> de ce qu’il a vu avant. Pour les séquences, c’est rédhibitoire.</p>
+</div></blockquote>
+</section>
+<section id="l-idee-du-rnn-ajouter-de-la-memoire">
+<h3>L’idée du RNN : ajouter de la mémoire<a class="headerlink" href="#l-idee-du-rnn-ajouter-de-la-memoire" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Un <strong>RNN (Recurrent Neural Network)</strong> ajoute une notion de <strong>mémoire</strong> : à chaque pas de temps, le réseau reçoit non seulement l’entrée courante, mais aussi un <strong>état caché</strong> (<em>hidden state</em>) qui résume tout ce qu’il a vu auparavant.</p>
+<blockquote>
+<div><p><strong>L’analogie :</strong> imagine que tu lis un livre phrase par phrase. À chaque nouvelle phrase, tu ne « réinitialises » pas ta compréhension — tu gardes en tête le <strong>contexte</strong> de ce que tu as lu avant. Le RNN fait pareil : il maintient un « résumé courant » qui évolue à chaque mot/pas de temps.</p>
+</div></blockquote>
+</section>
+<section id="les-architectures-rnn">
+<h3>Les architectures RNN<a class="headerlink" href="#les-architectures-rnn" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><img alt="Les 4 architectures RNN : one-to-one, one-to-many, many-to-one, many-to-many" src="../../_images/rnn-architectures.png" /></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Architecture</p></th>
+<th class="head"><p>Entrée → Sortie</p></th>
+<th class="head"><p>Exemple</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>one-to-one</strong></p></td>
+<td><p>1 entrée → 1 sortie</p></td>
+<td><p>Réseau dense classique (pas vraiment un RNN)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>one-to-many</strong></p></td>
+<td><p>1 entrée → séquence</p></td>
+<td><p>Génération de texte à partir d’une image (captioning)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>many-to-one</strong></p></td>
+<td><p>Séquence → 1 sortie</p></td>
+<td><p>Analyse de sentiment (<em>« ce tweet est positif ou négatif ? »</em>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>many-to-many</strong></p></td>
+<td><p>Séquence → séquence</p></td>
+<td><p>Traduction automatique, sous-titrage vidéo</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="limites-des-rnn">
+<h3>Limites des RNN<a class="headerlink" href="#limites-des-rnn" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong>Mémoire à court terme</strong> : en pratique, les RNN simples « oublient » les informations anciennes après quelques dizaines de pas de temps. Des variantes comme <strong>LSTM</strong> (<em>Long Short-Term Memory</em>) et <strong>GRU</strong> corrigent partiellement ce problème.</p></li>
+<li><p><strong>Entraînement séquentiel</strong> : chaque pas de temps dépend du précédent → <strong>impossible de paralléliser</strong> → très lent sur les GPU.</p></li>
+<li><p><strong>Largement remplacés par les Transformers</strong> depuis 2017, qui n’ont pas ces limitations.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="le-traitement-du-langage-naturel-nlp">
+<h2>Le traitement du langage naturel (NLP)<a class="headerlink" href="#le-traitement-du-langage-naturel-nlp" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="c-est-quoi-le-nlp">
+<h3>C’est quoi le NLP ?<a class="headerlink" href="#c-est-quoi-le-nlp" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Le <strong>NLP</strong> (<em>Natural Language Processing</em> — Traitement Automatique du Langage Naturel) est le domaine qui donne aux machines la capacité de <strong>comprendre</strong> et de <strong>générer</strong> du langage humain (écrit ou parlé). C’est l’interface entre la linguistique et l’informatique.</p>
+<p><strong>Exemples de tâches NLP :</strong></p>
+<ul class="simple">
+<li><p><strong>Classification de texte</strong> : spam/pas spam, analyse de sentiment, catégorisation de documents.</p></li>
+<li><p><strong>NER (<em>Named Entity Recognition</em>)</strong> : repérer les noms de personnes, lieux, entreprises dans un texte.</p></li>
+<li><p><strong>Traduction automatique</strong> : français → anglais, chinois → français…</p></li>
+<li><p><strong>Résumé automatique</strong> : condenser un article en quelques phrases.</p></li>
+<li><p><strong>Question-Answering</strong> : répondre à une question posée en langage naturel.</p></li>
+<li><p><strong>Génération de texte</strong> : écrire du texte (articles, code, emails, poésie…).</p></li>
+</ul>
+</section>
+<section id="le-probleme-fondamental-comment-representer-les-mots">
+<h3>Le problème fondamental : comment représenter les mots ?<a class="headerlink" href="#le-probleme-fondamental-comment-representer-les-mots" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Les algorithmes de ML ne comprennent que des <strong>nombres</strong>. Comment transformer le mot <em>« chat »</em> en un nombre exploitable ?</p>
+<section id="etape-1-l-encodage-basique-insuffisant">
+<h4>Étape 1 — L’encodage basique (insuffisant)<a class="headerlink" href="#etape-1-l-encodage-basique-insuffisant" title="Lien permanent vers cette rubrique">#</a></h4>
+<p><strong>One-hot encoding</strong> : chaque mot est représenté par un vecteur avec un seul <code class="docutils literal notranslate"><span class="pre">1</span></code> et le reste à <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<p><em>Exemple :</em> vocabulaire = {the, little, cat, and, dog}</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mot</p></th>
+<th class="head"><p>Vecteur</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>the</p></td>
+<td><p>[1, 0, 0, 0, 0]</p></td>
+</tr>
+<tr class="row-odd"><td><p>little</p></td>
+<td><p>[0, 1, 0, 0, 0]</p></td>
+</tr>
+<tr class="row-even"><td><p>cat</p></td>
+<td><p>[0, 0, 1, 0, 0]</p></td>
+</tr>
+<tr class="row-odd"><td><p>dog</p></td>
+<td><p>[0, 0, 0, 0, 1]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img alt="One-hot encoding des mots d'une phrase" src="../../_images/nlp-embeddings-onehot.png" /></p>
+<p><strong>Problèmes :</strong></p>
+<ul class="simple">
+<li><p>Avec un vocabulaire de 100 000 mots, chaque vecteur fait 100 000 éléments → <strong>explosion de mémoire</strong>.</p></li>
+<li><p><em>« chat »</em> et <em>« chaton »</em> ont des vecteurs <strong>aussi différents</strong> que <em>« chat »</em> et <em>« avion »</em>. <strong>Aucune notion de similarité.</strong></p></li>
+</ul>
+</section>
+<section id="etape-2-les-embeddings-la-vraie-solution">
+<h4>Étape 2 — Les embeddings (la vraie solution)<a class="headerlink" href="#etape-2-les-embeddings-la-vraie-solution" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>Un <strong>embedding</strong> (<em>plongement</em>) transforme chaque mot en un <strong>vecteur dense de petite taille</strong> (typiquement 100 à 300 dimensions), <strong>appris</strong> à partir des données. Les mots qui apparaissent dans des contextes similaires obtiennent des vecteurs <strong>proches</strong>.</p>
+<p><img alt="King - Man + Woman = Queen — les embeddings capturent des relations sémantiques" src="../../_images/nlp-embeddings-king-queen.png" /></p>
+<blockquote>
+<div><p><strong>La propriété magique des embeddings :</strong></p>
+<div class="math notranslate nohighlight">
+\[\text{King} - \text{Man} + \text{Woman} \approx \text{Queen}\]</div>
+<p>Les vecteurs capturent des <strong>relations sémantiques</strong> sous forme d’arithmétique vectorielle. La direction <em>« masculin → féminin »</em> dans l’espace est la même pour <em>King→Queen</em> que pour <em>Man→Woman</em>.</p>
+</div></blockquote>
+<p><strong>Comment mesurer la similarité ?</strong> Avec la <strong>similarité cosinus</strong> : on mesure l’angle entre deux vecteurs. Angle petit → mots proches sémantiquement (ex : chat/chaton). Angle grand → mots éloignés (ex : chat/avion).</p>
+<p><strong>Outils célèbres pour les embeddings :</strong> Word2Vec (Google, 2013), GloVe (Stanford), FastText (Facebook).</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="les-transformers-la-revolution-de-2017">
+<h2>Les Transformers — la révolution de 2017<a class="headerlink" href="#les-transformers-la-revolution-de-2017" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="pourquoi-les-transformers">
+<h3>Pourquoi les Transformers ?<a class="headerlink" href="#pourquoi-les-transformers" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Les RNN avaient deux défauts majeurs :</p>
+<ol class="arabic simple">
+<li><p><strong>Mémoire limitée</strong> : ils « oublient » le début d’un texte long.</p></li>
+<li><p><strong>Pas parallélisables</strong> : chaque mot dépend du précédent → lent sur GPU.</p></li>
+</ol>
+<p>En 2017, l’équipe de Google publie le papier <strong>« Attention is All You Need »</strong> (Vaswani et al.) et propose une architecture radicalement différente : le <strong>Transformer</strong>. Plus de récurrence, uniquement de l”<strong>attention</strong>.</p>
+<p><img alt="Le papier « Attention is All You Need » (2017) et l'architecture Transformer" src="../../_images/transformer-attention-paper.png" /></p>
+</section>
+<section id="l-attention-l-idee-cle">
+<h3>L’attention — l’idée clé<a class="headerlink" href="#l-attention-l-idee-cle" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>L’analogie :</strong> quand vous lisez la phrase <em>« La banque du fleuve était couverte de mousse »</em>, votre cerveau comprend que « banque » signifie « rive » (pas l’institution financière) grâce au <strong>contexte</strong> — les mots « fleuve » et « mousse ». Le mécanisme d”<strong>attention</strong> fait exactement ça : pour comprendre un mot, le modèle regarde <strong>tous les autres mots</strong> de la phrase et décide lesquels sont <strong>pertinents</strong> pour ce mot-là.</p>
+</div></blockquote>
+<p><strong>Avantage décisif sur les RNN :</strong></p>
+<ul class="simple">
+<li><p>Le Transformer peut « voir » <strong>toute la séquence d’un coup</strong> — pas besoin de la lire mot par mot. Le mot 1 peut directement « regarder » le mot 500.</p></li>
+<li><p>Tout se calcule <strong>en parallèle</strong> → entraînement massivement accéléré sur GPU.</p></li>
+</ul>
+</section>
+<section id="les-llm-pourquoi-large">
+<h3>Les LLM — pourquoi « Large » ?<a class="headerlink" href="#les-llm-pourquoi-large" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Les modèles de langage basés sur les Transformers sont devenus <strong>extrêmement grands</strong> :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Aspect</p></th>
+<th class="head"><p>Ordres de grandeur</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Paramètres</strong></p></td>
+<td><p>GPT-3 : 175 milliards. GPT-4 : estimé ~1 000 milliards. Claude : non communiqué.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Données d’entraînement</strong></p></td>
+<td><p>~500 milliards de mots (quasi tout l’internet accessible).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Puissance de calcul</strong></p></td>
+<td><p>Entraîner GPT-3 : ~5 millions de dollars, 5 mois sur 200 GPU haut de gamme.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Infrastructure</strong></p></td>
+<td><p>Jean Zay (supercalculateur CNRS, 2023) : 1 700 GPU. Azure AI (Microsoft) : 10 000 GPU + 285 000 CPU.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>Pourquoi c’est intéressant pour le data scientist ?</strong> Parce que ces modèles, une fois entraînés, sont <strong>réutilisables</strong> via des APIs ou du fine-tuning. Vous n’avez pas besoin de 200 GPU — vous utilisez le modèle de quelqu’un d’autre et vous l’adaptez à votre problème.</p>
+</div></blockquote>
+</section>
+<section id="les-3-familles-de-transformers">
+<h3>Les 3 familles de Transformers<a class="headerlink" href="#les-3-familles-de-transformers" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Famille</p></th>
+<th class="head"><p>Ce qu’elle fait bien</p></th>
+<th class="head"><p>Exemples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Encoder-only</strong></p></td>
+<td><p><strong>Comprendre</strong> un texte (classification, NER, extraction d’info)</p></td>
+<td><p>BERT, RoBERTa, DistilBERT, DeBERTa, ELECTRA</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Encoder-Decoder</strong></p></td>
+<td><p><strong>Transformer</strong> un texte en un autre (traduction, résumé)</p></td>
+<td><p>T5, BART, M2M-100, BigBird</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Decoder-only</strong></p></td>
+<td><p><strong>Générer</strong> du texte à partir d’un prompt</p></td>
+<td><p>GPT-2/3/4, Claude, Mistral, Llama, Falcon</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img alt="Les 3 familles de Transformers et leurs cas d'usage" src="../../_images/transformer-3-families.png" /></p>
+<blockquote>
+<div><p><strong>En langage courant :</strong></p>
+<ul class="simple">
+<li><p><strong>Encoder</strong> = « je lis et je comprends ».</p></li>
+<li><p><strong>Decoder</strong> = « j’écris ».</p></li>
+<li><p><strong>Encoder-Decoder</strong> = « je lis, puis j’écris autre chose ».</p></li>
+<li><p><strong>Decoder-only</strong> = « tu me donnes le début, je continue ».</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="modeles-fermes-ouverts-et-totalement-ouverts">
+<h3>Modèles fermés, ouverts, et totalement ouverts<a class="headerlink" href="#modeles-fermes-ouverts-et-totalement-ouverts" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Le paysage des LLM se divise aujourd’hui en trois catégories :</p>
+<p><img alt="Closed, Open et Fully Open models" src="../../_images/llm-closed-open-models.png" /></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Catégorie</p></th>
+<th class="head"><p>Exemples</p></th>
+<th class="head"><p>Ce qu’on a accès</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Closed Model APIs</strong></p></td>
+<td><p>GPT-4 (OpenAI), Claude (Anthropic), Gemini (Google), DeepSeek</p></td>
+<td><p>Accès uniquement via API. Pas les poids, pas le code, pas les données d’entraînement. Impossible de tourner le modèle en local.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Open Model Weights</strong></p></td>
+<td><p>Llama (Meta), Mistral (Mistral AI)</p></td>
+<td><p>Les <strong>poids</strong> sont publiés → on peut tourner le modèle en local, le fine-tuner. Mais les données et le code d’entraînement restent fermés.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Fully Open Models</strong></p></td>
+<td><p>BLOOM, StarCoder2, LUCIE</p></td>
+<td><p>Tout est ouvert : poids, code, <strong>et</strong> données d’entraînement. Reproductibilité scientifique maximale.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>Pourquoi ça compte ?</strong></p>
+<ul class="simple">
+<li><p><strong>Modèle fermé</strong> : simple d’utilisation (API), mais dépendance totale au fournisseur. Pas de fine-tuning avancé possible.</p></li>
+<li><p><strong>Poids ouverts</strong> : on peut tout adapter, mais on ne sait pas exactement sur quoi le modèle a été entraîné (biais potentiels, contamination de benchmarks).</p></li>
+<li><p><strong>Totalement ouvert</strong> : le graal pour la recherche et la transparence, mais rares (très coûteux à produire).</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="pour-resumer-le-deep-learning-en-contexte">
+<h2>🎯 Pour résumer — le deep learning en contexte<a class="headerlink" href="#pour-resumer-le-deep-learning-en-contexte" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="quand-utiliser-le-deep-learning">
+<h3>Quand utiliser le deep learning ?<a class="headerlink" href="#quand-utiliser-le-deep-learning" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type de données</p></th>
+<th class="head"><p>ML classique ou DL ?</p></th>
+<th class="head"><p>Pourquoi ?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Données tabulaires</strong> (tableaux CSV)</p></td>
+<td><p><strong>ML classique</strong> (XGBoost, LightGBM)</p></td>
+<td><p>Les arbres boostés sont encore <strong>état de l’art</strong> et beaucoup plus simples à utiliser.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Images</strong></p></td>
+<td><p><strong>DL (CNN)</strong></p></td>
+<td><p>Les CNN exploitent la structure spatiale que les modèles classiques ignorent.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Texte</strong></p></td>
+<td><p><strong>DL (Transformers)</strong></p></td>
+<td><p>Les embeddings + attention capturent le sens contextuel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Audio / Parole</strong></p></td>
+<td><p><strong>DL</strong></p></td>
+<td><p>Spectrogrammes → CNN ou Transformers (Whisper, Wav2Vec).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Vidéo</strong></p></td>
+<td><p><strong>DL</strong></p></td>
+<td><p>Combinaisons CNN (spatial) + Transformers (temporel).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Séries temporelles simples</strong></p></td>
+<td><p><strong>ML classique</strong> souvent suffisant</p></td>
+<td><p>XGBoost avec features temporelles bat souvent les RNN.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Séries temporelles complexes</strong></p></td>
+<td><p><strong>DL (Transformers)</strong></p></td>
+<td><p>Pour les très longues séquences multicanaux.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="les-avantages-du-deep-learning">
+<h3>Les avantages du deep learning<a class="headerlink" href="#les-avantages-du-deep-learning" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>✅ <strong>Feature engineering automatique</strong> : le réseau apprend ses propres features, pas besoin de les concevoir à la main.</p></li>
+<li><p>✅ <strong>Performances inégalées</strong> sur images, texte, audio — les modèles deep learning sont <strong>état de l’art</strong> dans ces domaines.</p></li>
+<li><p>✅ <strong>Transfer learning</strong> : on peut réutiliser un modèle pré-entraîné (ImageNet pour les images, BERT/GPT pour le texte) et l’adapter à son problème avec peu de données.</p></li>
+<li><p>✅ <strong>Scalabilité</strong> : les performances s’améliorent avec plus de données et plus de calcul, presque sans plafond.</p></li>
+</ul>
+</section>
+<section id="les-inconvenients">
+<h3>Les inconvénients<a class="headerlink" href="#les-inconvenients" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>⚠️ <strong>Nécessite beaucoup de données</strong> : un CNN pour la classification d’images a besoin de milliers d’exemples par classe (sauf avec le transfer learning).</p></li>
+<li><p>⚠️ <strong>Coûteux en calcul</strong> : il faut souvent des <strong>GPU</strong> (voire des clusters de GPU) pour l’entraînement. Pas possible sur un laptop classique pour des problèmes réels.</p></li>
+<li><p>⚠️ <strong>Boîte noire</strong> : l’interprétabilité est <strong>beaucoup plus difficile</strong> qu’avec un arbre de décision ou une régression logistique. C’est un vrai problème dans les domaines réglementés (santé, finance, justice).</p></li>
+<li><p>⚠️ <strong>Plus d’overfitting</strong> : un réseau avec des millions de paramètres peut overfitter violemment si on n’a pas assez de données. Il faut des techniques de régularisation spécifiques (dropout, data augmentation, early stopping).</p></li>
+<li><p>⚠️ <strong>Plus complexe à mettre en œuvre</strong> : choix de l’architecture, hyperparamètres nombreux (learning rate, batch size, nombre de couches, nombre de neurones par couche…), debugging plus difficile.</p></li>
+</ul>
+</section>
+<section id="la-regle-d-or-pour-un-data-scientist">
+<h3>La règle d’or pour un data scientist<a class="headerlink" href="#la-regle-d-or-pour-un-data-scientist" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>Commence toujours par le ML classique.</strong> Si un XGBoost avec un bon feature engineering donne 95% de performance, tu n’as probablement pas besoin de deep learning. Passe au DL seulement quand :</p>
+<ol class="arabic simple">
+<li><p>Tes données sont <strong>non structurées</strong> (images, texte, audio) — le ML classique ne saura pas les traiter.</p></li>
+<li><p>Tu as <strong>beaucoup de données</strong> (au moins des dizaines de milliers d’exemples).</p></li>
+<li><p>Tu as accès à du <strong>GPU</strong> pour l’entraînement.</p></li>
+<li><p>La performance du ML classique <strong>plafonne</strong> malgré tes efforts de feature engineering.</p></li>
+</ol>
+<p><strong>Le deep learning est un outil puissant, pas une solution universelle.</strong> L’art du data scientist, c’est de savoir quand il est nécessaire — et quand il ne l’est pas.</p>
+</div></blockquote>
+</section>
+<section id="pour-aller-plus-loin">
+<h3>Pour aller plus loin<a class="headerlink" href="#pour-aller-plus-loin" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Sujet</p></th>
+<th class="head"><p>Ressource recommandée</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Cours complet deep learning</strong></p></td>
+<td><p><a class="reference external" href="https://www.coursera.org/specializations/deep-learning">Deep Learning Specialization</a> (Andrew Ng, Coursera) — le classique</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Pratique PyTorch</strong></p></td>
+<td><p><a class="reference external" href="https://pytorch.org/tutorials/">PyTorch tutorials</a> — officiel, bien fait</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Transformers en pratique</strong></p></td>
+<td><p><a class="reference external" href="https://huggingface.co/course">Hugging Face Course</a> — gratuit, très bien fait</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Playground CNN</strong></p></td>
+<td><p><a class="reference external" href="https://poloclub.github.io/cnn-explainer/">CNN Explainer</a> — visualisation interactive</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Playground réseau de neurones</strong></p></td>
+<td><p><a class="reference external" href="http://playground.tensorflow.org/">TensorFlow Playground</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Livre de référence</strong></p></td>
+<td><p><em>Deep Learning</em> (Goodfellow, Bengio, Courville) — disponible gratuitement en ligne</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a class="reference download internal" download="" href="../../_downloads/c986aba94975b9a8f0f32759c23d6cd8/deep-learning.pdf"><code class="xref download docutils literal notranslate"><span class="pre">Version</span> <span class="pre">PDF</span> <span class="pre">des</span> <span class="pre">diapos</span> <span class="pre">originales</span></code></a></p>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -502,6 +1162,72 @@ document.write(`
             
             
               
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objectifs-de-ce-chapitre">Objectifs de ce chapitre</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#positionnement-ai-ml-dl-llm-qui-est-qui">Positionnement — AI, ML, DL, LLM… qui est qui ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-reseaux-de-neurones">Les réseaux de neurones</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-neurone-artificiel-la-brique-de-base">Le neurone artificiel — la brique de base</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-perceptron-le-premier-reseau-1957">Le perceptron — le premier réseau (1957)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-reseau-de-neurones-dense-fully-connected">Le réseau de neurones dense (<em>fully connected</em>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-apprentissage-propagation-avant-et-arriere">L’apprentissage : propagation avant et arrière</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-fonctions-d-activation-pourquoi-la-non-linearite-est-indispensable">Les fonctions d’activation — pourquoi la non-linéarité est indispensable</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#les-3-fonctions-classiques">Les 3 fonctions classiques</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-reseaux-de-neurones-convolutionnels-cnn">Les réseaux de neurones convolutionnels (CNN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-un-reseau-specifique-pour-les-images">Pourquoi un réseau spécifique pour les images ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-peu-d-histoire-de-lenet-a-resnet">Un peu d’histoire : de LeNet à ResNet</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-qu-on-peut-faire-avec-les-cnn-aujourd-hui">Ce qu’on peut faire avec les CNN aujourd’hui</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-type-d-un-cnn">Architecture type d’un CNN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-reseaux-de-neurones-recurrents-rnn">Les réseaux de neurones récurrents (RNN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-probleme-des-sequences">Le problème des séquences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-idee-du-rnn-ajouter-de-la-memoire">L’idée du RNN : ajouter de la mémoire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-architectures-rnn">Les architectures RNN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limites-des-rnn">Limites des RNN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-traitement-du-langage-naturel-nlp">Le traitement du langage naturel (NLP)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-est-quoi-le-nlp">C’est quoi le NLP ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-probleme-fondamental-comment-representer-les-mots">Le problème fondamental : comment représenter les mots ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-1-l-encodage-basique-insuffisant">Étape 1 — L’encodage basique (insuffisant)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#etape-2-les-embeddings-la-vraie-solution">Étape 2 — Les embeddings (la vraie solution)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-transformers-la-revolution-de-2017">Les Transformers — la révolution de 2017</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pourquoi-les-transformers">Pourquoi les Transformers ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#l-attention-l-idee-cle">L’attention — l’idée clé</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-llm-pourquoi-large">Les LLM — pourquoi « Large » ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-3-familles-de-transformers">Les 3 familles de Transformers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modeles-fermes-ouverts-et-totalement-ouverts">Modèles fermés, ouverts, et totalement ouverts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-resumer-le-deep-learning-en-contexte">🎯 Pour résumer — le deep learning en contexte</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-utiliser-le-deep-learning">Quand utiliser le deep learning ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-avantages-du-deep-learning">Les avantages du deep learning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-inconvenients">Les inconvénients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-regle-d-or-pour-un-data-scientist">La règle d’or pour un data scientist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pour-aller-plus-loin">Pour aller plus loin</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
             
           </div>
           <footer class="bd-footer-content">
@@ -530,7 +1256,7 @@ Par David Toussaint
   
   <div class="footer-item">
     <p class="last-updated">
-  Mis à jour le 15 avr. 2026.
+  Mis à jour le 16 avr. 2026.
   <br/>
 </p>
   </div>

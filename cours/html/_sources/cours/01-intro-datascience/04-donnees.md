@@ -10,15 +10,15 @@ Sans données, pas de ML. Mais toutes les données ne se valent pas. Avant de se
 
 C'est le format qu'on va utiliser dans cette formation : des lignes (observations) et des colonnes (variables/features). Un tableau Excel, un export CSV, une table SQL.
 
-Notre dataset Water Pump ressemble à ça :
+Par exemple, un dataset classique comme celui des passagers du Titanic ressemble à ça :
 
-| id | amount_tsh | funder | installer | longitude | latitude | population | status_group |
-|----|-----------|---------|-----------|-----------|----------|-----------|--------------|
-| 69572 | 6000 | Roman | Roman | 34.93 | -9.85 | 321 | functional |
-| 8776 | 0 | Grumeti | GRUMETI | 34.69 | -2.14 | 25 | functional needs repair |
-| 34310 | 25 | Lindi | ... | 35.41 | -7.98 | 0 | non functional |
+| PassengerId | Survived | Pclass | Name | Sex | Age | SibSp | Parch | Fare | Cabin | Embarked |
+|-------------|----------|--------|------|-----|-----|-------|-------|------|-------|----------|
+| 1 | 0 | 3 | Braund, Mr. Owen Harris | male | 22 | 1 | 0 | 7.25 | NaN | S |
+| 2 | 1 | 1 | Cumings, Mrs. John | female | 38 | 1 | 0 | 71.28 | C85 | C |
+| 3 | 1 | 3 | Heikkinen, Miss. Laina | female | 26 | 0 | 0 | 7.92 | NaN | S |
 
-Chaque ligne = une pompe. Chaque colonne = une caractéristique de cette pompe. La dernière colonne (`status_group`) = ce qu'on veut prédire.
+Chaque ligne = un passager. Chaque colonne = une caractéristique. La colonne `Survived` = ce qu'on veut prédire (0 = décédé, 1 = survie).
 
 ### Autres types de données
 
@@ -32,30 +32,25 @@ Dans cette formation, on se concentre sur les **données tabulaires** car c'est 
 
 ## Les vrais problèmes avec les données
 
-La théorie présente souvent des datasets propres. La réalité est très différente. Voici ce qu'on rencontre systématiquement — et qu'on va vivre avec le Water Pump :
+La théorie présente souvent des datasets propres. La réalité est très différente. Voici ce qu'on rencontre systématiquement :
 
 ### Valeurs manquantes
 
-Certaines cellules sont vides. Pourquoi ? Le capteur était en panne, l'opérateur a oublié de remplir le champ, l'information n'existait pas à l'époque...
+Certaines cellules sont vides (NaN). Pourquoi ? L'information n'a pas été enregistrée, le document a été perdu, la donnée n'existait pas à l'époque...
 
-Dans notre dataset : la colonne `funder` (qui finance la pompe) a des centaines de valeurs manquantes. On ne peut pas les ignorer — il faudra décider quoi en faire.
+Dans le dataset Titanic par exemple : la colonne `Age` a environ **20% de valeurs manquantes** et la colonne `Cabin` environ **77% de NaN**. On ne peut pas les ignorer — il faudra décider quoi en faire.
+
+### Données à haute cardinalité
+
+Une colonne `Name` contient un nom unique par passager — inutilisable directement par un modèle. Mais elle peut contenir un titre (Mr., Mrs., Miss., Master...) qu'on peut extraire et qui est très informatif. C'est un cas classique : trop de valeurs distinctes pour être utilisées telles quelles, mais de l'information précieuse à en extraire.
 
 ### Données incohérentes
 
-Des coordonnées GPS à (0, 0) — au milieu de l'océan Atlantique. Une population de "0" pour un village. Un installateur nommé "0" ou "-". Ces données existent dans le vrai dataset et il faudra les traiter.
-
-### Cardinalité élevée
-
-La colonne `installer` (qui a installé la pompe) contient **plus de 2 000 valeurs différentes**, avec des variantes comme "Government", "GOVERNMENT", "Goverment", "government of tanzania"... C'est le même installateur écrit de 4 façons différentes.
+Des coordonnées GPS à (0, 0) — au milieu de l'océan Atlantique. Une population de "0" pour un village. Un installateur nommé "0" ou "-". Ces cas existent dans les vrais datasets et il faut les traiter.
 
 ### Déséquilibre des classes
 
-Sur nos 59 400 pompes :
-- ~54% sont fonctionnelles
-- ~38% sont en panne
-- ~7% ont besoin de réparation
-
-La classe "à réparer" est sous-représentée. Si le modèle prédit toujours "fonctionnelle", il a déjà raison dans plus de la moitié des cas — mais il est inutile.
+Dans beaucoup de problèmes réels, les classes ne sont pas représentées de façon égale. Par exemple, sur les passagers du Titanic : ~62% sont décédés, ~38% ont survécu. Si le modèle prédit toujours "décédé", il a déjà raison dans plus de 6 cas sur 10 — mais il est inutile. En détection de fraude, c'est encore pire : 99,9% de transactions légitimes.
 
 ```{admonition} Point clé
 :class: important
@@ -68,8 +63,8 @@ On entend souvent parler de "Big Data" comme si c'était un prérequis du ML. **
 
 - Avec **trop peu** de données, le modèle n'a pas assez d'exemples pour apprendre des patterns fiables
 - Avec **trop** de données non pertinentes, on ajoute du bruit sans améliorer les résultats
-- Certains algorithmes fonctionnent très bien avec quelques milliers de lignes
-- Notre dataset de 59 400 lignes est un volume tout à fait raisonnable pour du ML classique
+- Certains algorithmes fonctionnent très bien avec quelques centaines de lignes
+- Un dataset de 891 lignes est un volume modeste mais suffisant pour du ML classique, surtout en classification binaire
 
 Ce qui compte, c'est la **qualité** et la **représentativité** des données, pas uniquement leur volume.
 
@@ -77,7 +72,7 @@ Ce qui compte, c'est la **qualité** et la **représentativité** des données, 
 :class: tip
 Quand on vous dit "on a pas assez de données pour faire du ML", posez ces questions :
 - **Combien d'exemples de chaque classe ?** 50 exemples par classe, c'est souvent un minimum viable. 500, c'est confortable.
-- **Les données sont-elles représentatives ?** Si vous voulez prédire des pannes mais que votre historique ne contient que des pompes neuves, même 1 million de lignes ne suffira pas.
+- **Les données sont-elles représentatives ?** Si vous voulez prédire la survie mais que votre historique ne contient que des passagers de 1re classe, même 10 000 lignes ne suffira pas.
 - **La qualité est-elle là ?** 1 000 lignes propres valent mieux que 100 000 lignes avec 90% de bruit.
 ```
 

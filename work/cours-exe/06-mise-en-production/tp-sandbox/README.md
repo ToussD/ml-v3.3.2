@@ -2,14 +2,14 @@
 
 Ce dossier est **votre bac à sable** pour le TP du module 6. Il est monté en
 lecture/écriture sur `/workspace` à l'intérieur du conteneur lancé par
-`sandbox-exe.sh` (depuis la racine du dossier stagiaire).
+`cours-ml-exe.sh sandbox` (depuis la racine du dossier stagiaire).
 
 ## Lancer le sandbox
 
 Depuis la racine du dossier stagiaire :
 
 ```sh
-./sandbox-exe.sh
+./cours-ml-exe.sh sandbox
 ```
 
 Vous tombez dans un shell `bash` avec `python`, `conda` et `pixi` déjà

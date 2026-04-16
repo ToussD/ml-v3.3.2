@@ -76,7 +76,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Les données" href="04-donnees.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
-    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+    <meta name="docbuild:last-update" content="16 avr. 2026"/>
   </head>
   
   
@@ -215,6 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/08-ydata-profiling.html">EDA automatisée avec YData Profiling</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
 <ul class="nav bd-sidenav">
@@ -246,7 +247,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Introduction au Deep Learning</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
 <ul class="nav bd-sidenav">
@@ -443,7 +444,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-que-fait-un-data-scientist-en-vrai">Ce que fait un Data Scientist (en vrai)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-competences-necessaires">Les compétences nécessaires</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-processus-crisp-dm">Le processus : CRISP-DM</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-6-etapes-appliquees-a-notre-fil-rouge">Les 6 étapes, appliquées à notre fil rouge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-6-etapes-illustrees-sur-un-exemple-concret">Les 6 étapes, illustrées sur un exemple concret</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-classiques-d-un-projet-ml">Les pièges classiques d’un projet ML</a><ul class="nav section-nav flex-column">
@@ -525,31 +526,32 @@ document.write(`
 <h2>Le processus : CRISP-DM<a class="headerlink" href="#le-processus-crisp-dm" title="Lien permanent vers cette rubrique">#</a></h2>
 <p>CRISP-DM (Cross Industry Standard Process for Data Mining) est la méthodologie de référence pour structurer un projet de data science. C’est un processus <strong>itératif</strong> — on ne fait pas les étapes une seule fois, on boucle.</p>
 <p><img alt="CRISP-DM" src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Diagramme_du_Processus_CRISP-DM.png" /></p>
-<section id="les-6-etapes-appliquees-a-notre-fil-rouge">
-<h3>Les 6 étapes, appliquées à notre fil rouge<a class="headerlink" href="#les-6-etapes-appliquees-a-notre-fil-rouge" title="Lien permanent vers cette rubrique">#</a></h3>
+<section id="les-6-etapes-illustrees-sur-un-exemple-concret">
+<h3>Les 6 étapes, illustrées sur un exemple concret<a class="headerlink" href="#les-6-etapes-illustrees-sur-un-exemple-concret" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Prenons un cas classique : une banque veut prédire quels clients risquent de ne pas rembourser leur crédit.</p>
 <p><strong>1. Compréhension métier</strong> — <em>Qu’est-ce qu’on essaie de résoudre ?</em></p>
 <blockquote>
-<div><p>Le ministère de l’Eau veut savoir quelles pompes envoyer en maintenance. L’objectif n’est pas d’avoir le modèle le plus précis possible, c’est d”<strong>optimiser l’allocation des équipes de terrain</strong>.</p>
+<div><p>Réduire le taux de défaut de paiement en identifiant les dossiers à risque avant l’octroi du crédit. L’objectif n’est pas d’avoir le modèle le plus précis possible, c’est de <strong>prendre de meilleures décisions d’octroi</strong>.</p>
 </div></blockquote>
 <p><strong>2. Compréhension des données</strong> — <em>Qu’est-ce qu’on a ?</em></p>
 <blockquote>
-<div><p>59 400 pompes, 40 variables, des données GPS, des catégories textuelles, des dates. Beaucoup de bruit.</p>
+<div><p>50 000 dossiers de crédit historiques, 30 variables (revenus, ancienneté, nombre de crédits en cours, historique d’incidents…), et on sait lesquels ont fait défaut. Beaucoup de valeurs manquantes sur les revenus déclarés.</p>
 </div></blockquote>
 <p><strong>3. Préparation des données</strong> — <em>Comment les rendre exploitables ?</em></p>
 <blockquote>
-<div><p>Nettoyer les coordonnées GPS aberrantes, regrouper les installateurs qui ont 50 orthographes différentes, encoder les variables catégorielles, gérer les valeurs manquantes.</p>
+<div><p>Gérer les revenus manquants, encoder les variables catégorielles (type de contrat, secteur d’activité), créer de nouvelles features (ratio dette/revenu, ancienneté chez l’employeur actuel).</p>
 </div></blockquote>
 <p><strong>4. Modélisation</strong> — <em>Quel algorithme choisir ?</em></p>
 <blockquote>
-<div><p>On teste plusieurs approches : arbre de décision pour comprendre, Random Forest pour la performance, Gradient Boosting pour grappiller quelques points.</p>
+<div><p>On teste plusieurs approches : régression logistique pour l’interprétabilité, Random Forest pour la performance, Gradient Boosting pour grappiller quelques points.</p>
 </div></blockquote>
 <p><strong>5. Évaluation</strong> — <em>Est-ce que ça marche ?</em></p>
 <blockquote>
-<div><p>On regarde les métriques sur le jeu de test. Mais surtout : est-ce que le modèle est <strong>utile</strong> pour le métier ? Si on prédit bien les pompes fonctionnelles mais mal celles en panne, ça ne sert à rien.</p>
+<div><p>On regarde les métriques sur le jeu de test. Mais surtout : est-ce que le modèle est <strong>utile</strong> pour le métier ? Si on refuse trop de bons clients, le coût commercial dépasse le gain sur les impayés.</p>
 </div></blockquote>
 <p><strong>6. Déploiement</strong> — <em>Comment on l’utilise au quotidien ?</em></p>
 <blockquote>
-<div><p>Mettre le modèle en production pour qu’il soit utilisé par les équipes de terrain. Monitorer ses performances dans le temps.</p>
+<div><p>Intégrer le score de risque dans le workflow d’octroi de crédit. Monitorer les performances dans le temps — la population de demandeurs évolue.</p>
 </div></blockquote>
 <div class="warning admonition">
 <p class="admonition-title">Ce qui change en pratique</p>
@@ -575,7 +577,7 @@ document.write(`
 </section>
 <section id="confondre-correlation-et-causalite">
 <h3>3. Confondre corrélation et causalité<a class="headerlink" href="#confondre-correlation-et-causalite" title="Lien permanent vers cette rubrique">#</a></h3>
-<p>Le modèle trouve que les pompes proches d’une route sont plus souvent en panne. Est-ce que la route <strong>cause</strong> la panne ? Ou est-ce que les pompes proches des routes sont juste plus visibles et donc plus souvent inspectées ?</p>
+<p>Le modèle trouve que les passagers de 1re classe du Titanic survivent plus souvent. Est-ce que la classe <strong>cause</strong> la survie ? Ou est-ce que les cabines de 1re classe étaient simplement plus proches des canots de sauvetage ?</p>
 </section>
 <section id="ignorer-le-deploiement">
 <h3>4. Ignorer le déploiement<a class="headerlink" href="#ignorer-le-deploiement" title="Lien permanent vers cette rubrique">#</a></h3>
@@ -583,15 +585,15 @@ document.write(`
 </section>
 <section id="ne-pas-monitorer-apres-le-deploiement">
 <h3>5. Ne pas monitorer après le déploiement<a class="headerlink" href="#ne-pas-monitorer-apres-le-deploiement" title="Lien permanent vers cette rubrique">#</a></h3>
-<p>Les données changent avec le temps. Un modèle entraîné en 2023 peut devenir mauvais en 2025 parce que les types de pompes installées ont évolué. C’est le <strong>model drift</strong>.</p>
+<p>Les données changent avec le temps. Un modèle entraîné en 2023 peut devenir mauvais en 2025 parce que la distribution des données en production a évolué. C’est le <strong>model drift</strong>.</p>
 <div class="tip admonition">
 <p class="admonition-title">Sur le terrain</p>
-<p><strong>La question à 1000 euros pour démarrer un projet ML dans votre entreprise :</strong></p>
+<p><strong>Les 5 questions à 1000 euros pour démarrer un projet ML dans votre entreprise :</strong></p>
 <ol class="arabic simple">
-<li><p>Quel est le problème métier ? (pas « je veux faire du ML », mais « je veux réduire les pannes de 20% »)</p></li>
+<li><p>Quel est le problème métier ? (pas « je veux faire du ML », mais « je veux réduire le taux d’erreur de 20% »)</p></li>
 <li><p>Est-ce que j’ai des données historiques avec la réponse que je veux prédire ?</p></li>
 <li><p>Qu’est-ce qu’on fait aujourd’hui sans ML ? (c’est votre baseline à battre)</p></li>
-<li><p>Si le modèle se trompe, quelles sont les conséquences ? (prédire qu’une pompe marche alors qu’elle est en panne = des gens sans eau)</p></li>
+<li><p>Si le modèle se trompe, quelles sont les conséquences ? (un faux positif en détection de fraude = un client bloqué injustement)</p></li>
 <li><p>Qui va utiliser les résultats et comment ?</p></li>
 </ol>
 <p>Si vous savez répondre à ces 5 questions, vous avez un projet ML viable.</p>
@@ -667,7 +669,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-que-fait-un-data-scientist-en-vrai">Ce que fait un Data Scientist (en vrai)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-competences-necessaires">Les compétences nécessaires</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-processus-crisp-dm">Le processus : CRISP-DM</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-6-etapes-appliquees-a-notre-fil-rouge">Les 6 étapes, appliquées à notre fil rouge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-6-etapes-illustrees-sur-un-exemple-concret">Les 6 étapes, illustrées sur un exemple concret</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-classiques-d-un-projet-ml">Les pièges classiques d’un projet ML</a><ul class="nav section-nav flex-column">
@@ -711,7 +713,7 @@ Par David Toussaint
   
   <div class="footer-item">
     <p class="last-updated">
-  Mis à jour le 15 avr. 2026.
+  Mis à jour le 16 avr. 2026.
   <br/>
 </p>
   </div>

@@ -76,7 +76,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Introduction" href="../../intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
-    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+    <meta name="docbuild:last-update" content="16 avr. 2026"/>
   </head>
   
   
@@ -215,6 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/08-ydata-profiling.html">EDA automatisée avec YData Profiling</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
 <ul class="nav bd-sidenav">
@@ -246,7 +247,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Introduction au Deep Learning</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
 <ul class="nav bd-sidenav">
@@ -441,7 +442,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objectifs">Objectifs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notre-fil-rouge-les-pompes-a-eau-en-tanzanie">Notre fil rouge : les pompes à eau en Tanzanie</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notre-approche">Notre approche</a></li>
 </ul>
             </nav>
         </div>
@@ -463,22 +464,11 @@ document.write(`
 <li><p>Distinguer les grands types d’apprentissage (supervisé, non supervisé, etc.)</p></li>
 <li><p>Comprendre pourquoi les données sont au centre de tout</p></li>
 <li><p>Situer le rôle du Data Scientist et son processus de travail</p></li>
-<li><p>Avoir une vision claire du problème qu’on va résoudre ensemble tout au long de cette formation</p></li>
 </ul>
 </section>
-<section id="notre-fil-rouge-les-pompes-a-eau-en-tanzanie">
-<h2>Notre fil rouge : les pompes à eau en Tanzanie<a class="headerlink" href="#notre-fil-rouge-les-pompes-a-eau-en-tanzanie" title="Lien permanent vers cette rubrique">#</a></h2>
-<p>Tout au long de cette formation, on va travailler sur un <strong>vrai problème</strong> issu de données réelles.</p>
-<p><strong>Le contexte</strong> : en Tanzanie, des milliers de pompes à eau alimentent la population. Certaines fonctionnent, d’autres sont en panne, d’autres encore ont besoin de réparation. Le ministère de l’Eau dispose de données sur ces pompes (localisation GPS, type de pompe, qui l’a installée, qui la finance, la source d’eau, etc.) mais il y en a <strong>plus de 59 000</strong> et les équipes de maintenance ne peuvent pas tout vérifier sur le terrain.</p>
-<p><strong>La question</strong> : peut-on prédire quelles pompes sont en panne ou vont tomber en panne, pour envoyer les équipes de maintenance au bon endroit ?</p>
-<p><strong>Pourquoi ce cas est parfait pour apprendre</strong> :</p>
-<ul class="simple">
-<li><p>C’est un <strong>vrai dataset</strong> (issu de la compétition DrivenData « Pump it Up »)</p></li>
-<li><p>Les données sont <strong>sales</strong> : valeurs manquantes, colonnes avec des milliers de catégories, coordonnées GPS erronées, doublons</p></li>
-<li><p>C’est un problème de <strong>classification multi-classe</strong> (3 états : fonctionnelle / à réparer / en panne) avec des classes déséquilibrées</p></li>
-<li><p>Il y a un <strong>vrai enjeu humain et économique</strong> : des gens n’ont plus accès à l’eau potable</p></li>
-<li><p>Les difficultés qu’on y rencontre sont exactement celles que vous retrouverez dans vos projets métier</p></li>
-</ul>
+<section id="notre-approche">
+<h2>Notre approche<a class="headerlink" href="#notre-approche" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Tout au long de cette formation, on illustrera les concepts avec des <strong>vrais datasets</strong> issus de problèmes réels : maintenance prédictive, scoring de crédit, survie de passagers, détection de fraude… Les difficultés qu’on y rencontre — données manquantes, classes déséquilibrées, variables inutilisables — sont exactement celles que vous retrouverez dans vos projets métier.</p>
 <div class="tip admonition">
 <p class="admonition-title">Sur le terrain</p>
 <p>Ce type de problème — prédire un état, une catégorie, un risque à partir de données historiques — c’est le quotidien du ML en entreprise. Que vous soyez dans l’industrie (maintenance prédictive), la banque (scoring de crédit), la santé (détection de pathologies) ou le retail (prédiction de churn), la mécanique est la même.</p>
@@ -551,7 +541,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objectifs">Objectifs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notre-fil-rouge-les-pompes-a-eau-en-tanzanie">Notre fil rouge : les pompes à eau en Tanzanie</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notre-approche">Notre approche</a></li>
 </ul>
   </nav></div>
 
@@ -585,7 +575,7 @@ Par David Toussaint
   
   <div class="footer-item">
     <p class="last-updated">
-  Mis à jour le 15 avr. 2026.
+  Mis à jour le 16 avr. 2026.
   <br/>
 </p>
   </div>

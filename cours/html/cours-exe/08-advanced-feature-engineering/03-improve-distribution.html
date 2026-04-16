@@ -78,7 +78,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Traitement des valeurs manquantes — compléments" href="02-null-values-advanced.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
-    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+    <meta name="docbuild:last-update" content="16 avr. 2026"/>
   </head>
   
   
@@ -217,6 +217,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/08-ydata-profiling.html">EDA automatisée avec YData Profiling</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
 <ul class="nav bd-sidenav">
@@ -248,7 +249,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Introduction au Deep Learning</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
 <ul class="nav bd-sidenav">
@@ -556,12 +557,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/conda/lib/python3.11/site-packages/sklearn/datasets/_openml.py:1002: FutureWarning: The default value of `parser` will change from `&#39;liac-arff&#39;` to `&#39;auto&#39;` in 1.4. You can set `parser=&#39;auto&#39;` to silence this warning. Therefore, an `ImportError` will be raised from 1.4 if the dataset is dense and pandas is not installed. Note that the pandas parser may return different data types. See the Notes Section in fetch_openml&#39;s API doc for details.
-  warn(
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="creation-des-jeux-d-apprentissage-et-de-test">
@@ -637,9 +632,9 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pclass
-1.0    82.752701
-2.0    21.298985
-3.0    13.410947
+1    82.752701
+2    21.298985
+3    13.410947
 Name: fare, dtype: float64
 </pre></div>
 </div>
@@ -672,14 +667,14 @@ Name: fare, dtype: float64
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(pclass
- 1.0    39.778325
- 2.0    29.574292
- 3.0    24.637874
+ 1    39.778325
+ 2    29.574292
+ 3    24.637874
  Name: age, dtype: float64,
  pclass
- 1.0    14.287973
- 2.0    13.380506
- 3.0    11.802561
+ 1    14.287973
+ 2    13.380506
+ 3    11.802561
  Name: age, dtype: float64)
 </pre></div>
 </div>
@@ -720,17 +715,7 @@ Name: fare, dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-  if pd.api.types.is_categorical_dtype(vector):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-  if pd.api.types.is_categorical_dtype(vector):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-</pre></div>
-</div>
-<img alt="../../_images/7f9951e3c074a54a86a292c99a55bd2e0ea91997643e23a1ad27e175454f7f2e.png" src="../../_images/7f9951e3c074a54a86a292c99a55bd2e0ea91997643e23a1ad27e175454f7f2e.png" />
+<img alt="../../_images/63b270c6b42382e09f48d6640d624c48b12b8cdd5e24b0e0f6a023415f20df7a.png" src="../../_images/63b270c6b42382e09f48d6640d624c48b12b8cdd5e24b0e0f6a023415f20df7a.png" />
 </div>
 </div>
 <p><strong>La valorisation n’a pas radicalement déformé la distribution</strong> — c’est bon signe. L’imputation conditionnelle avec tirage aléatoire préserve mieux la forme naturelle que l’imputation par une constante.</p>
@@ -781,51 +766,51 @@ Name: fare, dtype: float64
   <tbody>
     <tr>
       <th>3</th>
-      <td>1.0</td>
+      <td>1</td>
       <td>male</td>
       <td>30.000000</td>
-      <td>1.0</td>
-      <td>2.0</td>
+      <td>1</td>
+      <td>2</td>
       <td>151.5500</td>
       <td>S</td>
     </tr>
     <tr>
       <th>798</th>
-      <td>3.0</td>
+      <td>3</td>
       <td>male</td>
-      <td>15.845669</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>23.850556</td>
+      <td>0</td>
+      <td>0</td>
       <td>7.0500</td>
       <td>S</td>
     </tr>
     <tr>
       <th>38</th>
-      <td>1.0</td>
+      <td>1</td>
       <td>male</td>
       <td>41.000000</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
       <td>30.5000</td>
       <td>S</td>
     </tr>
     <tr>
       <th>367</th>
-      <td>2.0</td>
+      <td>2</td>
       <td>male</td>
       <td>52.000000</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
       <td>13.5000</td>
       <td>S</td>
     </tr>
     <tr>
       <th>803</th>
-      <td>3.0</td>
+      <td>3</td>
       <td>male</td>
       <td>26.000000</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
       <td>7.8792</td>
       <td>Q</td>
     </tr>
@@ -841,51 +826,51 @@ Name: fare, dtype: float64
     </tr>
     <tr>
       <th>727</th>
-      <td>3.0</td>
+      <td>3</td>
       <td>male</td>
       <td>70.500000</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
       <td>7.7500</td>
       <td>Q</td>
     </tr>
     <tr>
       <th>645</th>
-      <td>3.0</td>
+      <td>3</td>
       <td>male</td>
       <td>23.000000</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
       <td>7.7958</td>
       <td>S</td>
     </tr>
     <tr>
       <th>380</th>
-      <td>2.0</td>
+      <td>2</td>
       <td>female</td>
       <td>22.000000</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
       <td>10.5000</td>
       <td>S</td>
     </tr>
     <tr>
       <th>366</th>
-      <td>2.0</td>
+      <td>2</td>
       <td>male</td>
       <td>54.000000</td>
-      <td>1.0</td>
-      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
       <td>26.0000</td>
       <td>S</td>
     </tr>
     <tr>
       <th>1117</th>
-      <td>3.0</td>
+      <td>3</td>
       <td>male</td>
       <td>21.000000</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
       <td>7.9250</td>
       <td>S</td>
     </tr>
@@ -915,15 +900,15 @@ Index: 981 entries, 3 to 1117
 Data columns (total 8 columns):
  #   Column      Non-Null Count  Dtype  
 ---  ------      --------------  -----  
- 0   pclass      981 non-null    float64
+ 0   pclass      981 non-null    int64  
  1   age         771 non-null    float64
- 2   sibsp       981 non-null    float64
- 3   parch       981 non-null    float64
+ 2   sibsp       981 non-null    int64  
+ 3   parch       981 non-null    int64  
  4   fare        980 non-null    float64
  5   sex_male    981 non-null    bool   
  6   embarked_Q  981 non-null    bool   
  7   embarked_S  981 non-null    bool   
-dtypes: bool(3), float64(5)
+dtypes: bool(3), float64(2), int64(3)
 memory usage: 81.1 KB
 </pre></div>
 </div>
@@ -998,7 +983,7 @@ memory usage: 81.1 KB
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.5923447081289369
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.5790891885486966)
 </pre></div>
 </div>
 </div>
@@ -1008,7 +993,7 @@ memory usage: 81.1 KB
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">((</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">),</span> <span class="p">(</span><span class="n">ax3</span><span class="p">,</span> <span class="n">ax4</span><span class="p">))</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">age</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">age</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Distribution initiale&quot;</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\mathit</span><span class="si">{age}</span><span class="s2">$&quot;</span><span class="p">)</span>
 
@@ -1027,25 +1012,7 @@ memory usage: 81.1 KB
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-  if pd.api.types.is_categorical_dtype(vector):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-  if pd.api.types.is_categorical_dtype(vector):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-  if pd.api.types.is_categorical_dtype(vector):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-  if pd.api.types.is_categorical_dtype(vector):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-</pre></div>
-</div>
-<img alt="../../_images/f29c56b8707f45b12cf91ea7c2a0fe842a3da2f3638342a158a6e9604db6fc1f.png" src="../../_images/f29c56b8707f45b12cf91ea7c2a0fe842a3da2f3638342a158a6e9604db6fc1f.png" />
+<img alt="../../_images/26530cec358af31fbbee44cca684041d9a6691a2c7603e9a7e9a9288b754ddb9.png" src="../../_images/26530cec358af31fbbee44cca684041d9a6691a2c7603e9a7e9a9288b754ddb9.png" />
 </div>
 </div>
 <p><strong>Observation</strong> : la distribution <span class="math notranslate nohighlight">\(\mathit{age}^{0{,}7}\)</span> semble la plus <strong>équilibrée</strong> entre gauche et droite. On le confirme numériquement en comparant les valeurs de skew des trois transformations.</p>
@@ -1056,7 +1023,9 @@ memory usage: 81.1 KB
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-2.1020575312702237, -0.5660094004249648, -0.01895522927713372)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(-2.1244608013540276),
+ np.float64(-0.5853482231012209),
+ np.float64(-0.03543618329078226))
 </pre></div>
 </div>
 </div>
@@ -1082,7 +1051,7 @@ memory usage: 81.1 KB
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.329339554980521
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(4.329339554980521)
 </pre></div>
 </div>
 </div>
@@ -1110,25 +1079,7 @@ memory usage: 81.1 KB
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-  if pd.api.types.is_categorical_dtype(vector):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-  if pd.api.types.is_categorical_dtype(vector):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-  if pd.api.types.is_categorical_dtype(vector):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1498: FutureWarning: is_categorical_dtype is deprecated and will be removed in a future version. Use isinstance(dtype, CategoricalDtype) instead
-  if pd.api.types.is_categorical_dtype(vector):
-/opt/conda/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context(&#39;mode.use_inf_as_na&#39;, True):
-</pre></div>
-</div>
-<img alt="../../_images/c8d4d6b445fb5afd26dfebe08e8128d336aa8a9c5347fb7f2d5031c1a5e7252a.png" src="../../_images/c8d4d6b445fb5afd26dfebe08e8128d336aa8a9c5347fb7f2d5031c1a5e7252a.png" />
+<img alt="../../_images/5aef69f289bf251d50c2df383d2772a93033779e341948561ad8a5736c54803a.png" src="../../_images/5aef69f289bf251d50c2df383d2772a93033779e341948561ad8a5736c54803a.png" />
 </div>
 </div>
 <p><strong>Stratégie :</strong> on teste plusieurs transformations, on regarde visuellement ce qui donne la distribution la plus symétrique, puis on choisit celle qui <strong>minimise le skew</strong>.</p>
@@ -1142,7 +1093,9 @@ memory usage: 81.1 KB
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.48547537906712096, 2.021520169909295, -0.028605542047637985)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(0.48547537906712146),
+ np.float64(2.021520169909295),
+ np.float64(-0.028605542047637742))
 </pre></div>
 </div>
 </div>
@@ -1225,6 +1178,998 @@ z = \frac{x - \mu}{\sigma}
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1868/2098130162.py:6: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value &#39;[-1.55520973  0.85881044 -1.55520973 -0.34819965  0.85881044  0.85881044
+  0.85881044 -1.55520973  0.85881044  0.85881044 -0.34819965 -0.34819965
+  0.85881044 -1.55520973 -0.34819965 -0.34819965 -1.55520973  0.85881044
+  0.85881044  0.85881044  0.85881044 -0.34819965  0.85881044 -0.34819965
+ -1.55520973  0.85881044 -0.34819965 -0.34819965  0.85881044 -0.34819965
+ -1.55520973  0.85881044  0.85881044  0.85881044 -0.34819965 -1.55520973
+  0.85881044 -1.55520973 -1.55520973 -1.55520973  0.85881044 -1.55520973
+ -0.34819965 -1.55520973  0.85881044 -0.34819965 -1.55520973 -0.34819965
+  0.85881044  0.85881044 -1.55520973 -1.55520973  0.85881044  0.85881044
+ -0.34819965  0.85881044  0.85881044 -0.34819965 -0.34819965 -0.34819965
+ -0.34819965 -1.55520973  0.85881044 -1.55520973 -0.34819965 -1.55520973
+  0.85881044  0.85881044 -0.34819965 -0.34819965  0.85881044 -0.34819965
+  0.85881044  0.85881044 -0.34819965  0.85881044  0.85881044 -1.55520973
+ -0.34819965 -1.55520973 -1.55520973 -1.55520973 -1.55520973  0.85881044
+ -1.55520973  0.85881044  0.85881044 -0.34819965 -1.55520973  0.85881044
+ -1.55520973  0.85881044 -1.55520973  0.85881044 -1.55520973  0.85881044
+ -1.55520973 -1.55520973 -0.34819965  0.85881044  0.85881044  0.85881044
+ -1.55520973 -0.34819965  0.85881044  0.85881044  0.85881044 -1.55520973
+  0.85881044 -1.55520973 -1.55520973 -0.34819965  0.85881044 -1.55520973
+  0.85881044 -1.55520973 -1.55520973  0.85881044 -0.34819965  0.85881044
+ -0.34819965  0.85881044  0.85881044  0.85881044 -1.55520973  0.85881044
+  0.85881044  0.85881044  0.85881044 -0.34819965 -1.55520973 -0.34819965
+ -1.55520973 -1.55520973  0.85881044 -0.34819965 -1.55520973  0.85881044
+  0.85881044 -0.34819965 -1.55520973  0.85881044 -0.34819965  0.85881044
+  0.85881044  0.85881044 -1.55520973  0.85881044 -0.34819965 -1.55520973
+  0.85881044 -1.55520973  0.85881044 -0.34819965  0.85881044  0.85881044
+  0.85881044 -0.34819965  0.85881044  0.85881044  0.85881044 -1.55520973
+ -1.55520973  0.85881044  0.85881044 -0.34819965 -0.34819965  0.85881044
+  0.85881044  0.85881044  0.85881044 -0.34819965 -0.34819965  0.85881044
+ -0.34819965 -1.55520973  0.85881044  0.85881044  0.85881044  0.85881044
+  0.85881044  0.85881044  0.85881044 -1.55520973  0.85881044  0.85881044
+  0.85881044  0.85881044 -0.34819965  0.85881044  0.85881044  0.85881044
+ -1.55520973 -1.55520973 -1.55520973  0.85881044  0.85881044 -1.55520973
+  0.85881044  0.85881044  0.85881044  0.85881044  0.85881044  0.85881044
+ -0.34819965 -1.55520973  0.85881044  0.85881044 -1.55520973  0.85881044
+ -1.55520973  0.85881044  0.85881044  0.85881044 -0.34819965  0.85881044
+  0.85881044  0.85881044  0.85881044  0.85881044 -0.34819965  0.85881044
+  0.85881044 -0.34819965  0.85881044 -0.34819965 -1.55520973  0.85881044
+  0.85881044 -1.55520973  0.85881044 -0.34819965 -1.55520973 -0.34819965
+ -0.34819965  0.85881044  0.85881044  0.85881044  0.85881044 -0.34819965
+  0.85881044 -1.55520973  0.85881044 -0.34819965 -0.34819965  0.85881044
+  0.85881044 -0.34819965  0.85881044 -1.55520973 -1.55520973 -0.34819965
+ -0.34819965  0.85881044 -0.34819965  0.85881044  0.85881044  0.85881044
+  0.85881044 -0.34819965  0.85881044  0.85881044 -0.34819965  0.85881044
+ -0.34819965 -0.34819965 -1.55520973  0.85881044  0.85881044 -1.55520973
+  0.85881044 -1.55520973  0.85881044 -1.55520973 -0.34819965  0.85881044
+  0.85881044 -0.34819965 -1.55520973  0.85881044 -1.55520973 -0.34819965
+ -1.55520973 -0.34819965 -0.34819965 -0.34819965 -0.34819965 -0.34819965
+ -1.55520973 -0.34819965  0.85881044 -1.55520973 -0.34819965  0.85881044
+ -1.55520973 -0.34819965 -0.34819965  0.85881044 -0.34819965  0.85881044
+ -0.34819965 -0.34819965  0.85881044 -1.55520973  0.85881044  0.85881044
+  0.85881044  0.85881044 -1.55520973 -1.55520973  0.85881044 -1.55520973
+  0.85881044  0.85881044  0.85881044 -1.55520973 -0.34819965 -1.55520973
+ -1.55520973  0.85881044 -1.55520973  0.85881044 -1.55520973  0.85881044
+ -0.34819965 -0.34819965  0.85881044  0.85881044 -1.55520973  0.85881044
+ -1.55520973 -1.55520973  0.85881044 -0.34819965  0.85881044  0.85881044
+  0.85881044 -1.55520973  0.85881044 -0.34819965  0.85881044  0.85881044
+ -0.34819965 -0.34819965 -1.55520973  0.85881044  0.85881044  0.85881044
+  0.85881044  0.85881044  0.85881044  0.85881044  0.85881044  0.85881044
+  0.85881044 -1.55520973  0.85881044  0.85881044  0.85881044  0.85881044
+ -1.55520973  0.85881044  0.85881044  0.85881044 -1.55520973 -1.55520973
+ -0.34819965 -1.55520973 -1.55520973 -1.55520973 -0.34819965 -0.34819965
+  0.85881044  0.85881044  0.85881044  0.85881044 -0.34819965 -1.55520973
+  0.85881044  0.85881044 -1.55520973  0.85881044  0.85881044  0.85881044
+  0.85881044 -1.55520973 -1.55520973 -1.55520973 -1.55520973  0.85881044
+  0.85881044  0.85881044  0.85881044  0.85881044 -1.55520973 -0.34819965
+  0.85881044 -1.55520973 -1.55520973  0.85881044 -1.55520973  0.85881044
+ -1.55520973 -0.34819965 -0.34819965  0.85881044  0.85881044 -0.34819965
+  0.85881044 -1.55520973 -0.34819965  0.85881044 -1.55520973 -1.55520973
+ -0.34819965 -1.55520973  0.85881044 -1.55520973  0.85881044  0.85881044
+ -0.34819965 -0.34819965  0.85881044  0.85881044  0.85881044  0.85881044
+ -0.34819965  0.85881044 -1.55520973 -1.55520973 -1.55520973 -0.34819965
+  0.85881044  0.85881044  0.85881044  0.85881044 -1.55520973  0.85881044
+ -0.34819965  0.85881044  0.85881044  0.85881044 -0.34819965  0.85881044
+  0.85881044  0.85881044 -1.55520973 -0.34819965  0.85881044  0.85881044
+  0.85881044 -1.55520973  0.85881044 -1.55520973 -0.34819965  0.85881044
+ -0.34819965 -1.55520973 -1.55520973  0.85881044  0.85881044 -0.34819965
+ -0.34819965 -0.34819965 -0.34819965 -1.55520973  0.85881044 -0.34819965
+  0.85881044  0.85881044  0.85881044  0.85881044 -1.55520973  0.85881044
+  0.85881044  0.85881044 -0.34819965  0.85881044 -0.34819965 -1.55520973
+ -0.34819965  0.85881044 -0.34819965 -0.34819965 -0.34819965  0.85881044
+ -1.55520973 -1.55520973  0.85881044  0.85881044  0.85881044  0.85881044
+ -0.34819965  0.85881044 -1.55520973  0.85881044 -0.34819965  0.85881044
+ -1.55520973  0.85881044  0.85881044  0.85881044 -1.55520973 -1.55520973
+  0.85881044 -0.34819965  0.85881044 -1.55520973  0.85881044  0.85881044
+ -0.34819965 -0.34819965 -0.34819965 -0.34819965 -0.34819965  0.85881044
+  0.85881044 -0.34819965 -0.34819965  0.85881044 -1.55520973 -1.55520973
+  0.85881044 -1.55520973  0.85881044  0.85881044  0.85881044 -1.55520973
+  0.85881044 -1.55520973 -0.34819965 -0.34819965 -1.55520973  0.85881044
+  0.85881044 -1.55520973 -0.34819965  0.85881044 -1.55520973  0.85881044
+  0.85881044 -1.55520973  0.85881044  0.85881044 -0.34819965 -1.55520973
+ -1.55520973 -0.34819965  0.85881044 -0.34819965 -0.34819965  0.85881044
+  0.85881044  0.85881044  0.85881044  0.85881044 -1.55520973  0.85881044
+  0.85881044  0.85881044 -0.34819965  0.85881044 -0.34819965  0.85881044
+  0.85881044 -1.55520973 -0.34819965 -0.34819965  0.85881044  0.85881044
+  0.85881044 -0.34819965 -1.55520973  0.85881044 -0.34819965  0.85881044
+ -0.34819965  0.85881044  0.85881044 -0.34819965 -0.34819965  0.85881044
+ -1.55520973  0.85881044  0.85881044 -0.34819965 -1.55520973 -0.34819965
+ -1.55520973  0.85881044 -0.34819965  0.85881044 -0.34819965  0.85881044
+  0.85881044 -0.34819965 -0.34819965  0.85881044  0.85881044  0.85881044
+ -1.55520973  0.85881044 -1.55520973  0.85881044  0.85881044  0.85881044
+  0.85881044  0.85881044  0.85881044  0.85881044  0.85881044  0.85881044
+ -1.55520973  0.85881044 -0.34819965  0.85881044  0.85881044  0.85881044
+  0.85881044  0.85881044 -0.34819965 -0.34819965  0.85881044  0.85881044
+ -1.55520973 -1.55520973 -1.55520973  0.85881044  0.85881044  0.85881044
+  0.85881044 -1.55520973  0.85881044 -0.34819965 -0.34819965  0.85881044
+ -1.55520973 -0.34819965  0.85881044  0.85881044 -0.34819965  0.85881044
+  0.85881044  0.85881044 -0.34819965 -1.55520973  0.85881044 -0.34819965
+  0.85881044 -0.34819965 -1.55520973  0.85881044 -1.55520973  0.85881044
+  0.85881044  0.85881044  0.85881044 -0.34819965 -1.55520973  0.85881044
+  0.85881044 -1.55520973 -1.55520973  0.85881044  0.85881044 -0.34819965
+  0.85881044 -1.55520973  0.85881044  0.85881044  0.85881044  0.85881044
+  0.85881044 -0.34819965  0.85881044  0.85881044  0.85881044 -1.55520973
+  0.85881044  0.85881044  0.85881044 -1.55520973  0.85881044 -1.55520973
+ -0.34819965  0.85881044  0.85881044  0.85881044  0.85881044 -1.55520973
+ -0.34819965 -0.34819965 -1.55520973  0.85881044 -0.34819965 -0.34819965
+  0.85881044 -0.34819965  0.85881044  0.85881044  0.85881044  0.85881044
+  0.85881044 -1.55520973 -0.34819965 -1.55520973  0.85881044  0.85881044
+  0.85881044  0.85881044 -0.34819965 -1.55520973  0.85881044  0.85881044
+  0.85881044 -0.34819965 -1.55520973  0.85881044 -1.55520973  0.85881044
+  0.85881044 -1.55520973 -0.34819965  0.85881044  0.85881044  0.85881044
+ -1.55520973 -0.34819965  0.85881044  0.85881044  0.85881044 -0.34819965
+  0.85881044  0.85881044  0.85881044  0.85881044 -1.55520973 -0.34819965
+  0.85881044  0.85881044  0.85881044  0.85881044 -1.55520973  0.85881044
+ -1.55520973 -1.55520973 -1.55520973 -1.55520973 -0.34819965 -1.55520973
+ -1.55520973 -1.55520973  0.85881044  0.85881044  0.85881044  0.85881044
+ -0.34819965  0.85881044  0.85881044  0.85881044  0.85881044 -1.55520973
+ -0.34819965  0.85881044 -1.55520973 -0.34819965 -0.34819965  0.85881044
+ -0.34819965  0.85881044  0.85881044  0.85881044 -0.34819965  0.85881044
+  0.85881044  0.85881044 -1.55520973  0.85881044  0.85881044 -0.34819965
+  0.85881044 -0.34819965  0.85881044  0.85881044 -1.55520973 -1.55520973
+ -1.55520973 -0.34819965 -0.34819965  0.85881044 -0.34819965 -1.55520973
+  0.85881044 -1.55520973  0.85881044  0.85881044  0.85881044  0.85881044
+ -0.34819965  0.85881044  0.85881044 -0.34819965  0.85881044 -1.55520973
+  0.85881044 -0.34819965 -1.55520973 -1.55520973  0.85881044 -0.34819965
+ -0.34819965  0.85881044 -0.34819965 -1.55520973 -0.34819965  0.85881044
+ -0.34819965 -1.55520973 -0.34819965  0.85881044  0.85881044 -0.34819965
+  0.85881044  0.85881044  0.85881044 -0.34819965  0.85881044  0.85881044
+  0.85881044  0.85881044 -1.55520973  0.85881044  0.85881044  0.85881044
+  0.85881044 -1.55520973  0.85881044 -0.34819965 -0.34819965 -0.34819965
+ -1.55520973 -0.34819965  0.85881044  0.85881044  0.85881044 -0.34819965
+  0.85881044 -1.55520973  0.85881044 -0.34819965 -0.34819965 -1.55520973
+  0.85881044 -1.55520973  0.85881044 -1.55520973  0.85881044 -0.34819965
+  0.85881044  0.85881044  0.85881044 -0.34819965  0.85881044 -0.34819965
+ -1.55520973  0.85881044  0.85881044 -0.34819965 -0.34819965  0.85881044
+  0.85881044 -1.55520973 -0.34819965 -1.55520973  0.85881044  0.85881044
+  0.85881044  0.85881044  0.85881044 -1.55520973  0.85881044 -1.55520973
+ -0.34819965 -0.34819965  0.85881044 -1.55520973 -1.55520973 -0.34819965
+  0.85881044 -1.55520973  0.85881044  0.85881044 -1.55520973 -0.34819965
+ -1.55520973  0.85881044  0.85881044  0.85881044 -1.55520973 -1.55520973
+  0.85881044  0.85881044  0.85881044  0.85881044  0.85881044 -1.55520973
+ -1.55520973  0.85881044  0.85881044 -1.55520973 -1.55520973 -1.55520973
+  0.85881044  0.85881044 -0.34819965  0.85881044 -1.55520973 -0.34819965
+  0.85881044  0.85881044  0.85881044 -0.34819965  0.85881044 -0.34819965
+  0.85881044  0.85881044  0.85881044  0.85881044  0.85881044  0.85881044
+  0.85881044  0.85881044  0.85881044  0.85881044 -1.55520973  0.85881044
+  0.85881044 -0.34819965 -1.55520973 -0.34819965  0.85881044 -1.55520973
+  0.85881044  0.85881044 -1.55520973 -1.55520973 -1.55520973  0.85881044
+  0.85881044 -1.55520973  0.85881044 -0.34819965 -1.55520973  0.85881044
+  0.85881044  0.85881044 -1.55520973  0.85881044 -0.34819965 -0.34819965
+ -0.34819965  0.85881044 -1.55520973  0.85881044  0.85881044  0.85881044
+  0.85881044  0.85881044 -1.55520973  0.85881044 -1.55520973  0.85881044
+ -1.55520973 -1.55520973 -1.55520973  0.85881044  0.85881044  0.85881044
+ -0.34819965 -0.34819965  0.85881044]&#39; has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
+  X_train.iloc[:, :] = scaler.transform(X_train)
+/tmp/ipykernel_1868/2098130162.py:6: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value &#39;[ 0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289  1.37976144  0.45583927  1.37976144
+  3.22760576  0.45583927 -0.46808289 -0.46808289  0.45583927 -0.46808289
+  6.92329442 -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289
+ -0.46808289  0.45583927 -0.46808289  0.45583927 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289  2.3036836   0.45583927 -0.46808289
+  1.37976144  0.45583927 -0.46808289  0.45583927 -0.46808289 -0.46808289
+  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927  0.45583927
+ -0.46808289  0.45583927 -0.46808289 -0.46808289  0.45583927 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+  0.45583927  6.92329442 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927  0.45583927
+ -0.46808289  0.45583927 -0.46808289 -0.46808289  0.45583927  0.45583927
+  0.45583927  0.45583927 -0.46808289 -0.46808289  6.92329442 -0.46808289
+  0.45583927  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927  3.22760576 -0.46808289 -0.46808289  0.45583927
+  0.45583927 -0.46808289 -0.46808289  0.45583927 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+  3.22760576 -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  3.22760576 -0.46808289 -0.46808289  0.45583927 -0.46808289
+  0.45583927 -0.46808289  3.22760576  1.37976144 -0.46808289  2.3036836
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289  3.22760576
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927
+ -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289  1.37976144
+  6.92329442 -0.46808289 -0.46808289  0.45583927  6.92329442 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927  0.45583927
+ -0.46808289  0.45583927 -0.46808289 -0.46808289  0.45583927 -0.46808289
+  4.15152793 -0.46808289 -0.46808289  1.37976144 -0.46808289 -0.46808289
+ -0.46808289  0.45583927  3.22760576 -0.46808289  0.45583927 -0.46808289
+ -0.46808289 -0.46808289  3.22760576 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289 -0.46808289  0.45583927 -0.46808289
+  0.45583927 -0.46808289 -0.46808289 -0.46808289  0.45583927  0.45583927
+  0.45583927  4.15152793  0.45583927 -0.46808289 -0.46808289 -0.46808289
+  2.3036836  -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289
+ -0.46808289  0.45583927 -0.46808289  0.45583927 -0.46808289  0.45583927
+ -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  1.37976144  0.45583927  6.92329442 -0.46808289  0.45583927
+  0.45583927 -0.46808289 -0.46808289  1.37976144  0.45583927  0.45583927
+  0.45583927 -0.46808289 -0.46808289  2.3036836  -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289  0.45583927 -0.46808289 -0.46808289
+  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+  0.45583927  0.45583927 -0.46808289  0.45583927  0.45583927 -0.46808289
+  0.45583927 -0.46808289  0.45583927 -0.46808289 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927  0.45583927 -0.46808289  0.45583927  0.45583927
+ -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289 -0.46808289  0.45583927 -0.46808289
+  0.45583927  0.45583927 -0.46808289 -0.46808289 -0.46808289  2.3036836
+ -0.46808289 -0.46808289  0.45583927  0.45583927  1.37976144 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289  0.45583927  0.45583927  3.22760576  0.45583927
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  1.37976144  0.45583927  0.45583927 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927
+ -0.46808289  0.45583927  0.45583927 -0.46808289  0.45583927 -0.46808289
+ -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289 -0.46808289  1.37976144 -0.46808289
+ -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289
+ -0.46808289 -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289
+  0.45583927 -0.46808289 -0.46808289  1.37976144  0.45583927 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289  2.3036836
+ -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289  1.37976144 -0.46808289  0.45583927 -0.46808289
+ -0.46808289 -0.46808289  0.45583927  0.45583927  0.45583927 -0.46808289
+ -0.46808289 -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289 -0.46808289
+  0.45583927  1.37976144  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289
+  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289 -0.46808289  2.3036836  -0.46808289
+ -0.46808289 -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289  1.37976144 -0.46808289 -0.46808289
+  0.45583927  0.45583927  0.45583927 -0.46808289 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  1.37976144  1.37976144
+ -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289 -0.46808289
+  0.45583927 -0.46808289 -0.46808289  0.45583927 -0.46808289  1.37976144
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  3.22760576 -0.46808289 -0.46808289  0.45583927 -0.46808289
+ -0.46808289 -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289  0.45583927  2.3036836  -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289  0.45583927  0.45583927 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289  1.37976144
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  3.22760576 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289  4.15152793 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927
+ -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289  0.45583927  2.3036836  -0.46808289
+ -0.46808289 -0.46808289  0.45583927 -0.46808289  0.45583927  0.45583927
+ -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+  0.45583927  0.45583927  0.45583927 -0.46808289  6.92329442 -0.46808289
+ -0.46808289 -0.46808289  1.37976144 -0.46808289  0.45583927 -0.46808289
+ -0.46808289 -0.46808289  2.3036836  -0.46808289 -0.46808289 -0.46808289
+  6.92329442 -0.46808289  0.45583927  0.45583927 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+  2.3036836  -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289  0.45583927 -0.46808289  0.45583927
+  0.45583927  0.45583927 -0.46808289  0.45583927 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927
+ -0.46808289 -0.46808289  0.45583927 -0.46808289  0.45583927  0.45583927
+ -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289 -0.46808289
+  0.45583927 -0.46808289  0.45583927  3.22760576 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+  0.45583927 -0.46808289  0.45583927 -0.46808289  0.45583927  0.45583927
+  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927  3.22760576
+  0.45583927 -0.46808289 -0.46808289  0.45583927  0.45583927  0.45583927
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289
+  0.45583927 -0.46808289  0.45583927  2.3036836  -0.46808289  0.45583927
+ -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289  0.45583927  0.45583927 -0.46808289
+  0.45583927  0.45583927 -0.46808289  3.22760576 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289  1.37976144 -0.46808289  0.45583927  0.45583927
+  2.3036836  -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  2.3036836   2.3036836   0.45583927  0.45583927 -0.46808289
+ -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+  4.15152793  0.45583927 -0.46808289 -0.46808289 -0.46808289  0.45583927
+ -0.46808289  0.45583927 -0.46808289  0.45583927 -0.46808289 -0.46808289
+ -0.46808289  3.22760576 -0.46808289  0.45583927 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289  0.45583927  0.45583927 -0.46808289
+ -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289 -0.46808289 -0.46808289  1.37976144 -0.46808289  0.45583927
+  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927
+  1.37976144  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927  0.45583927  1.37976144 -0.46808289  1.37976144
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927  0.45583927
+  0.45583927 -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289
+  0.45583927 -0.46808289  0.45583927  2.3036836   0.45583927 -0.46808289
+ -0.46808289 -0.46808289  2.3036836   0.45583927 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289  3.22760576 -0.46808289  0.45583927
+ -0.46808289 -0.46808289 -0.46808289 -0.46808289  0.45583927 -0.46808289
+ -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289 -0.46808289
+  0.45583927 -0.46808289  0.45583927  0.45583927 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289  0.45583927 -0.46808289 -0.46808289
+ -0.46808289  4.15152793 -0.46808289  0.45583927 -0.46808289 -0.46808289
+  0.45583927 -0.46808289 -0.46808289  0.45583927  0.45583927 -0.46808289
+  3.22760576 -0.46808289 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289 -0.46808289 -0.46808289 -0.46808289
+ -0.46808289  0.45583927 -0.46808289]&#39; has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
+  X_train.iloc[:, :] = scaler.transform(X_train)
+/tmp/ipykernel_1868/2098130162.py:6: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value &#39;[ 2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246   0.7905246
+  2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+  2.02148434 -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246
+ -0.44043514 -0.44043514 -0.44043514  0.7905246   0.7905246  -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+  0.7905246   0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514  0.7905246
+ -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246   0.7905246
+ -0.44043514  2.02148434 -0.44043514 -0.44043514  0.7905246  -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  0.7905246   0.7905246  -0.44043514  3.25244408
+  0.7905246   0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  0.7905246  -0.44043514 -0.44043514  2.02148434 -0.44043514
+ -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514  0.7905246
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514
+ -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514  0.7905246
+  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514
+  0.7905246  -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  5.71436355 -0.44043514 -0.44043514
+ -0.44043514  0.7905246  -0.44043514 -0.44043514  0.7905246   5.71436355
+  0.7905246  -0.44043514  2.02148434 -0.44043514 -0.44043514  0.7905246
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434  5.71436355
+ -0.44043514  5.71436355  0.7905246  -0.44043514 -0.44043514 -0.44043514
+  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434
+  2.02148434 -0.44043514 -0.44043514  0.7905246   2.02148434 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514
+  2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  2.02148434  0.7905246  -0.44043514 -0.44043514 -0.44043514
+  2.02148434 -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514
+  0.7905246   2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+  0.7905246   2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  0.7905246  -0.44043514  0.7905246  -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  3.25244408  0.7905246  -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514  0.7905246
+ -0.44043514  2.02148434  2.02148434 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  0.7905246  -0.44043514  2.02148434 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514
+  2.02148434 -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514
+ -0.44043514  0.7905246   0.7905246  -0.44043514 -0.44043514  0.7905246
+ -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  0.7905246  -0.44043514  2.02148434 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  0.7905246   3.25244408  4.48340381 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514
+ -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514  2.02148434
+ -0.44043514 -0.44043514 -0.44043514  0.7905246   0.7905246  -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246
+  2.02148434 -0.44043514  0.7905246   0.7905246   2.02148434 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  0.7905246   0.7905246  -0.44043514 -0.44043514
+  2.02148434 -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514
+  2.02148434 -0.44043514  0.7905246  -0.44043514  0.7905246  -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514
+ -0.44043514  0.7905246  -0.44043514  0.7905246   2.02148434 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514
+ -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  0.7905246   2.02148434 -0.44043514
+  0.7905246  -0.44043514  2.02148434 -0.44043514  0.7905246  -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  2.02148434  0.7905246  -0.44043514
+  2.02148434 -0.44043514  0.7905246  -0.44043514  0.7905246   2.02148434
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  0.7905246  -0.44043514 -0.44043514  0.7905246  -0.44043514
+ -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514
+  0.7905246  -0.44043514 -0.44043514  0.7905246   0.7905246  -0.44043514
+ -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+  0.7905246   2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  0.7905246  -0.44043514  2.02148434 -0.44043514
+  0.7905246  -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246
+ -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514
+ -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514
+  0.7905246  -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+  2.02148434 -0.44043514 -0.44043514  0.7905246  -0.44043514  2.02148434
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514  2.02148434
+ -0.44043514  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246
+ -0.44043514 -0.44043514  0.7905246  -0.44043514  2.02148434 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434
+ -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514
+  4.48340381 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246
+ -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434  2.02148434
+ -0.44043514 -0.44043514  0.7905246  -0.44043514  0.7905246   2.02148434
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514
+ -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  0.7905246   0.7905246  -0.44043514
+  0.7905246   2.02148434 -0.44043514  0.7905246  -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 10.6382025
+  2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  2.02148434  2.02148434 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+  2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514  4.48340381
+ -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514
+ -0.44043514  2.02148434 -0.44043514  2.02148434 -0.44043514  2.02148434
+  2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  0.7905246   0.7905246  -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246
+  0.7905246  -0.44043514  2.02148434  2.02148434 -0.44043514 -0.44043514
+  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+  0.7905246   2.02148434  6.94532329 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  5.71436355  0.7905246
+  0.7905246  -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  0.7905246   2.02148434
+ -0.44043514 -0.44043514  2.02148434 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  0.7905246  -0.44043514 -0.44043514
+  2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  2.02148434 -0.44043514  2.02148434 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514  2.02148434 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514  2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514  0.7905246   0.7905246  -0.44043514
+  2.02148434 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514 -0.44043514
+ -0.44043514 -0.44043514 -0.44043514]&#39; has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
+  X_train.iloc[:, :] = scaler.transform(X_train)
+/tmp/ipykernel_1868/2098130162.py:6: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value &#39;[ 0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903  -1.3486903
+ -1.3486903  -1.3486903   0.74146007  0.74146007 -1.3486903   0.74146007
+ -1.3486903   0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007
+  0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903  -1.3486903
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007 -1.3486903
+ -1.3486903  -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007
+ -1.3486903   0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007 -1.3486903
+ -1.3486903  -1.3486903   0.74146007  0.74146007  0.74146007 -1.3486903
+  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903
+ -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007
+ -1.3486903   0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007
+ -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007
+ -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007
+ -1.3486903  -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007
+  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007 -1.3486903
+ -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+ -1.3486903  -1.3486903  -1.3486903  -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903  -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+ -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903
+ -1.3486903   0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007 -1.3486903
+ -1.3486903   0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007 -1.3486903  -1.3486903  -1.3486903
+ -1.3486903  -1.3486903   0.74146007  0.74146007 -1.3486903   0.74146007
+  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007 -1.3486903
+  0.74146007 -1.3486903  -1.3486903   0.74146007 -1.3486903  -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903
+ -1.3486903  -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007
+ -1.3486903   0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007
+ -1.3486903  -1.3486903   0.74146007  0.74146007  0.74146007 -1.3486903
+  0.74146007 -1.3486903  -1.3486903  -1.3486903   0.74146007 -1.3486903
+ -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903
+ -1.3486903  -1.3486903  -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007
+ -1.3486903  -1.3486903  -1.3486903  -1.3486903   0.74146007  0.74146007
+  0.74146007 -1.3486903   0.74146007 -1.3486903  -1.3486903   0.74146007
+  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903  -1.3486903
+  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007
+ -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903  -1.3486903  -1.3486903   0.74146007
+  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007 -1.3486903
+ -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007
+  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007 -1.3486903  -1.3486903  -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007
+ -1.3486903  -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007
+ -1.3486903  -1.3486903   0.74146007 -1.3486903  -1.3486903   0.74146007
+  0.74146007  0.74146007 -1.3486903  -1.3486903  -1.3486903   0.74146007
+  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903
+ -1.3486903   0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007
+  0.74146007 -1.3486903   0.74146007 -1.3486903  -1.3486903   0.74146007
+ -1.3486903   0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903
+ -1.3486903  -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007
+ -1.3486903   0.74146007  0.74146007 -1.3486903  -1.3486903  -1.3486903
+  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007
+  0.74146007 -1.3486903  -1.3486903   0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007
+  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007 -1.3486903
+ -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+ -1.3486903  -1.3486903   0.74146007  0.74146007 -1.3486903   0.74146007
+  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007 -1.3486903
+  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007 -1.3486903
+  0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007
+  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007  0.74146007
+  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+ -1.3486903  -1.3486903  -1.3486903  -1.3486903  -1.3486903  -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+ -1.3486903  -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007 -1.3486903  -1.3486903   0.74146007 -1.3486903   0.74146007
+ -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903
+  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903  -1.3486903  -1.3486903  -1.3486903
+ -1.3486903   0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903   0.74146007
+ -1.3486903  -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007
+ -1.3486903   0.74146007 -1.3486903  -1.3486903  -1.3486903   0.74146007
+ -1.3486903  -1.3486903  -1.3486903   0.74146007  0.74146007  0.74146007
+ -1.3486903   0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007
+ -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903  -1.3486903  -1.3486903  -1.3486903
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903
+ -1.3486903   0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903  -1.3486903
+ -1.3486903   0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007 -1.3486903  -1.3486903  -1.3486903  -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903
+ -1.3486903   0.74146007  0.74146007 -1.3486903  -1.3486903  -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007
+  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+ -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007
+ -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007 -1.3486903
+ -1.3486903  -1.3486903   0.74146007 -1.3486903  -1.3486903   0.74146007
+  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+ -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903
+  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903  -1.3486903
+  0.74146007 -1.3486903  -1.3486903  -1.3486903   0.74146007 -1.3486903
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007
+ -1.3486903   0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903
+ -1.3486903   0.74146007  0.74146007 -1.3486903  -1.3486903  -1.3486903
+  0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007
+ -1.3486903  -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007
+ -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903
+  0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903  -1.3486903
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007 -1.3486903
+ -1.3486903  -1.3486903   0.74146007  0.74146007 -1.3486903   0.74146007
+ -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007 -1.3486903
+  0.74146007 -1.3486903  -1.3486903  -1.3486903  -1.3486903   0.74146007
+ -1.3486903  -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007 -1.3486903   0.74146007  0.74146007
+  0.74146007 -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007  0.74146007  0.74146007 -1.3486903  -1.3486903   0.74146007
+ -1.3486903   0.74146007  0.74146007  0.74146007  0.74146007  0.74146007
+  0.74146007 -1.3486903   0.74146007 -1.3486903   0.74146007  0.74146007
+ -1.3486903   0.74146007  0.74146007]&#39; has dtype incompatible with bool, please explicitly cast to a compatible dtype first.
+  X_train.iloc[:, :] = scaler.transform(X_train)
+/tmp/ipykernel_1868/2098130162.py:6: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value &#39;[-0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453  3.0017002
+ -0.33314453  3.0017002  -0.33314453  3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453
+ -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453  3.0017002   3.0017002   3.0017002
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453  3.0017002  -0.33314453  3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002   3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+  3.0017002  -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002   3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453  3.0017002
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453  3.0017002
+ -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453  3.0017002   3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453  3.0017002   3.0017002  -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453  3.0017002   3.0017002  -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453  3.0017002  -0.33314453  3.0017002  -0.33314453  3.0017002
+  3.0017002  -0.33314453 -0.33314453  3.0017002  -0.33314453  3.0017002
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453
+  3.0017002  -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453 -0.33314453
+ -0.33314453 -0.33314453 -0.33314453 -0.33314453  3.0017002  -0.33314453
+ -0.33314453 -0.33314453 -0.33314453]&#39; has dtype incompatible with bool, please explicitly cast to a compatible dtype first.
+  X_train.iloc[:, :] = scaler.transform(X_train)
+/tmp/ipykernel_1868/2098130162.py:6: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value &#39;[ 0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+ -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921
+  0.64465837 -1.55120921 -1.55120921  0.64465837  0.64465837 -1.55120921
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921
+  0.64465837 -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921
+  0.64465837 -1.55120921 -1.55120921  0.64465837  0.64465837 -1.55120921
+  0.64465837 -1.55120921 -1.55120921 -1.55120921  0.64465837 -1.55120921
+  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837 -1.55120921
+  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837 -1.55120921 -1.55120921 -1.55120921
+ -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837 -1.55120921
+  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921 -1.55120921 -1.55120921  0.64465837
+ -1.55120921  0.64465837 -1.55120921 -1.55120921  0.64465837 -1.55120921
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837 -1.55120921 -1.55120921
+ -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921
+  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921
+ -1.55120921  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921
+ -1.55120921  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921 -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837 -1.55120921
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921
+  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921 -1.55120921 -1.55120921  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837 -1.55120921 -1.55120921  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921 -1.55120921
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921 -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921 -1.55120921
+ -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921
+ -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921
+ -1.55120921  0.64465837 -1.55120921  0.64465837  0.64465837 -1.55120921
+  0.64465837 -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+ -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837 -1.55120921
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921 -1.55120921
+ -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921 -1.55120921
+  0.64465837 -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921
+  0.64465837 -1.55120921 -1.55120921 -1.55120921 -1.55120921 -1.55120921
+ -1.55120921 -1.55120921  0.64465837 -1.55120921  0.64465837 -1.55120921
+ -1.55120921 -1.55120921  0.64465837 -1.55120921  0.64465837 -1.55120921
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921
+  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921
+  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837 -1.55120921 -1.55120921  0.64465837 -1.55120921
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921
+  0.64465837 -1.55120921  0.64465837  0.64465837 -1.55120921 -1.55120921
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837
+ -1.55120921  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837 -1.55120921
+  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921 -1.55120921
+  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837
+ -1.55120921 -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921 -1.55120921
+ -1.55120921  0.64465837  0.64465837 -1.55120921 -1.55120921 -1.55120921
+  0.64465837 -1.55120921 -1.55120921 -1.55120921  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837 -1.55120921 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837 -1.55120921
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921 -1.55120921  0.64465837 -1.55120921  0.64465837 -1.55120921
+ -1.55120921  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+ -1.55120921 -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837 -1.55120921  0.64465837  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+ -1.55120921  0.64465837  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837 -1.55120921 -1.55120921 -1.55120921
+  0.64465837 -1.55120921  0.64465837 -1.55120921 -1.55120921 -1.55120921
+ -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921
+  0.64465837  0.64465837 -1.55120921  0.64465837 -1.55120921  0.64465837
+ -1.55120921 -1.55120921 -1.55120921 -1.55120921 -1.55120921  0.64465837
+ -1.55120921 -1.55120921 -1.55120921  0.64465837 -1.55120921 -1.55120921
+  0.64465837  0.64465837 -1.55120921 -1.55120921  0.64465837  0.64465837
+  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837  0.64465837
+  0.64465837 -1.55120921  0.64465837  0.64465837 -1.55120921 -1.55120921
+ -1.55120921 -1.55120921  0.64465837  0.64465837 -1.55120921  0.64465837
+  0.64465837  0.64465837  0.64465837]&#39; has dtype incompatible with bool, please explicitly cast to a compatible dtype first.
+  X_train.iloc[:, :] = scaler.transform(X_train)
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1273,8 +2218,8 @@ z = \frac{x - \mu}{\sigma}
       <td>-9.415959e-17</td>
       <td>-9.053807e-18</td>
       <td>6.880893e-17</td>
-      <td>-4.318666e-16</td>
-      <td>-2.634658e-16</td>
+      <td>-2.335882e-16</td>
+      <td>-2.951541e-16</td>
     </tr>
     <tr>
       <th>std</th>
@@ -1295,7 +2240,7 @@ z = \frac{x - \mu}{\sigma}
       <td>-1.348690e+00</td>
       <td>-3.331445e-01</td>
       <td>-1.551209e+00</td>
-      <td>-2.835236e+00</td>
+      <td>-2.845657e+00</td>
       <td>-4.250874e+00</td>
     </tr>
     <tr>
@@ -1306,7 +2251,7 @@ z = \frac{x - \mu}{\sigma}
       <td>-1.348690e+00</td>
       <td>-3.331445e-01</td>
       <td>-1.551209e+00</td>
-      <td>-5.363947e-01</td>
+      <td>-5.253757e-01</td>
       <td>-6.970509e-01</td>
     </tr>
     <tr>
@@ -1317,7 +2262,7 @@ z = \frac{x - \mu}{\sigma}
       <td>7.414601e-01</td>
       <td>-3.331445e-01</td>
       <td>6.446584e-01</td>
-      <td>-1.049962e-01</td>
+      <td>-1.091990e-01</td>
       <td>-2.402182e-01</td>
     </tr>
     <tr>
@@ -1328,7 +2273,7 @@ z = \frac{x - \mu}{\sigma}
       <td>7.414601e-01</td>
       <td>-3.331445e-01</td>
       <td>6.446584e-01</td>
-      <td>5.534352e-01</td>
+      <td>5.789549e-01</td>
       <td>4.117712e-01</td>
     </tr>
     <tr>
@@ -1339,7 +2284,7 @@ z = \frac{x - \mu}{\sigma}
       <td>7.414601e-01</td>
       <td>3.001700e+00</td>
       <td>6.446584e-01</td>
-      <td>3.256686e+00</td>
+      <td>3.260140e+00</td>
       <td>3.936156e+00</td>
     </tr>
   </tbody>
@@ -1366,10 +2311,10 @@ z = \frac{x - \mu}{\sigma}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.82828283, 0.78571429, 0.85714286, 0.75510204, 0.73469388,
-        0.82653061, 0.78571429, 0.84693878, 0.80612245, 0.83673469]),
- 0.8062976705833849,
- 0.03827733236801413)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.82828283, 0.7755102 , 0.85714286, 0.76530612, 0.74489796,
+        0.82653061, 0.78571429, 0.84693878, 0.80612245, 0.82653061]),
+ np.float64(0.8062976705833849),
+ np.float64(0.03515797139890977))
 </pre></div>
 </div>
 </div>
@@ -1391,10 +2336,10 @@ z = \frac{x - \mu}{\sigma}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.84848485, 0.81632653, 0.87755102, 0.78571429, 0.75510204,
-        0.85714286, 0.78571429, 0.78571429, 0.81632653, 0.80612245]),
- 0.8134199134199134,
- 0.03609428470188344)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([0.84848485, 0.83673469, 0.87755102, 0.78571429, 0.74489796,
+        0.83673469, 0.80612245, 0.80612245, 0.81632653, 0.83673469]),
+ np.float64(0.8195423623995053),
+ np.float64(0.03489420599450202))
 </pre></div>
 </div>
 </div>
@@ -1630,7 +2575,7 @@ Par David Toussaint
   
   <div class="footer-item">
     <p class="last-updated">
-  Mis à jour le 15 avr. 2026.
+  Mis à jour le 16 avr. 2026.
   <br/>
 </p>
   </div>

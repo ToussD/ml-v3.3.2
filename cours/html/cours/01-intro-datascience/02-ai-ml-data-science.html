@@ -76,7 +76,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Introduction à la Data Science" href="01-intro-datascience.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
-    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+    <meta name="docbuild:last-update" content="16 avr. 2026"/>
   </head>
   
   
@@ -215,6 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/08-ydata-profiling.html">EDA automatisée avec YData Profiling</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
 <ul class="nav bd-sidenav">
@@ -246,7 +247,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Introduction au Deep Learning</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
 <ul class="nav bd-sidenav">
@@ -440,11 +441,27 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-goalpost-qui-se-deplace-ca-ce-n-est-pas-vraiment-de-l-ia">Le goalpost qui se déplace : « ça, ce n’est pas vraiment de l’IA »</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mais-au-fait-notre-cerveau-il-fait-comment">Mais au fait, notre cerveau, il fait comment ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#petit-test-completez-cette-phrase">Petit test : complétez cette phrase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deuxieme-test-l-emotion-par-procuration">Deuxième test : l’émotion par procuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troisieme-test-d-ou-viennent-vos-idees">Troisième test : d’où viennent vos idées ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alors-qu-est-ce-qui-nous-distingue-vraiment">Alors, qu’est-ce qui nous distingue vraiment ?</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ia-ml-data-science-qui-fait-quoi">IA, ML, Data Science : qui fait quoi ?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-ia-dans-l-histoire-des-regles-manuelles-au-machine-learning">L’IA dans l’histoire : des règles manuelles au Machine Learning</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-systemes-a-base-de-regles-annees-1970-80">Les systèmes à base de règles (années 1970-80)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-machine-learning-annees-1990-aujourd-hui">Le Machine Learning (années 1990-aujourd’hui)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-deep-learning-annees-2010-aujourd-hui">Le Deep Learning (années 2010-aujourd’hui)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-ia-dans-l-histoire-80-ans-de-hauts-et-de-bas">L’IA dans l’histoire : 80 ans de hauts et de bas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-premier-neurone-artificiel">1943 — Le premier neurone artificiel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#turing-pose-la-question">1950 — Turing pose la question</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dartmouth-la-naissance-officielle-de-l-ia">1956 — Dartmouth : la naissance officielle de l’IA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-perceptron-de-rosenblatt">1958 — Le Perceptron de Rosenblatt</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-premier-hiver-de-l-ia">1969 — Le premier hiver de l’IA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#annees-1980-le-retour-par-les-systemes-experts">Années 1980 — Le retour par les systèmes experts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fin-des-annees-1980-le-deuxieme-hiver">Fin des années 1980 — Le deuxième hiver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#annees-1990-2000-la-revanche-discrete-du-machine-learning">Années 1990-2000 — La revanche discrète du Machine Learning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-revolution-deep-learning">2012 — La révolution Deep Learning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aujourd-hui-l-ere-des-transformers-et-des-llm">2017-aujourd’hui — L’ère des Transformers et des LLM</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-qu-il-faut-retenir-de-cette-histoire">Ce qu’il faut retenir de cette histoire</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-data-science-on-rentre-dans-le-monde-de-l-incertain">La Data Science : on rentre dans le monde de l’incertain</a></li>
@@ -462,14 +479,88 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="intelligence-artificielle-machine-learning-et-data-science">
 <h1>Intelligence Artificielle, Machine Learning et Data Science<a class="headerlink" href="#intelligence-artificielle-machine-learning-et-data-science" title="Lien permanent vers cette rubrique">#</a></h1>
 <blockquote>
-<div><p>« When you’re fundraising, it’s AI. When you’re hiring, it’s ML. When you’re implementing, it’s linear regression. When you’re debugging, it’s printf(). » — Baron Schwartz</p>
+<div><p><em>« When you’re fundraising, it’s AI. When you’re hiring, it’s ML. When you’re implementing, it’s linear regression. When you’re debugging, it’s printf(). »</em> — Baron Schwartz</p>
+<p><em>« Quand tu lèves des fonds, c’est de l’IA. Quand tu recrutes, c’est du ML. Quand tu implémentes, c’est de la régression linéaire. Quand tu débogues, c’est un printf(). »</em></p>
 </div></blockquote>
 <p>Cette citation résume bien la confusion qui règne autour de ces termes. Clarifions.</p>
+<section id="le-goalpost-qui-se-deplace-ca-ce-n-est-pas-vraiment-de-l-ia">
+<h2>Le goalpost qui se déplace : « ça, ce n’est pas vraiment de l’IA »<a class="headerlink" href="#le-goalpost-qui-se-deplace-ca-ce-n-est-pas-vraiment-de-l-ia" title="Lien permanent vers cette rubrique">#</a></h2>
+<blockquote>
+<div><p><em>« As soon as it works, no one calls it AI anymore. »</em> — John McCarthy (celui-là même qui a inventé le terme « Intelligence Artificielle » en 1956)</p>
+<p><em>« Dès que ça fonctionne, plus personne n’appelle ça de l’IA. »</em></p>
+</div></blockquote>
+<blockquote>
+<div><p><em>« AI is whatever hasn’t been done yet. »</em> — Larry Tesler (surnommé <strong>« l’effet IA »</strong>)</p>
+<p><em>« L’IA, c’est tout ce qu’on n’a pas encore réussi à faire. »</em></p>
+</div></blockquote>
+<p>Il y a un phénomène étrange dans l’histoire de l’IA : <strong>à chaque fois qu’une machine réussit une tâche qu’on pensait réservée à l’intelligence humaine, on décide que finalement, cette tâche ne nécessite pas d’intelligence.</strong> Les poteaux du but se déplacent en permanence.</p>
+<p>Petit historique de ce qu’on a successivement décrété « pas vraiment de l’IA » :</p>
+<ul class="simple">
+<li><p><strong>Les échecs (1997)</strong> : quand Deep Blue bat Kasparov, on dit « c’est juste de la force brute, il explore des millions de coups par seconde, un humain ne fait pas ça ». Verdict : ce n’est pas de l’intelligence, c’est du calcul.</p></li>
+<li><p><strong>Jeopardy! (2011)</strong> : Watson d’IBM gagne au jeu télévisé. « C’est juste de la recherche dans une base de données massive, pas de la compréhension. »</p></li>
+<li><p><strong>Le jeu de Go (2016)</strong> : AlphaGo bat Lee Sedol, un exploit qu’on pensait impossible avant 2030. « C’est du renforcement par self-play, le Go est juste un jeu fermé avec des règles parfaites. »</p></li>
+<li><p><strong>StarCraft II (2019)</strong> : AlphaStar bat les pros. « Le modèle triche avec des APM surhumains et voit toute la carte mieux que nous. »</p></li>
+<li><p><strong>Le test de Turing (2023)</strong> : les LLM passent le test de Turing dans des études contrôlées. « Le test de Turing n’était pas un bon test de toute façon. »</p></li>
+<li><p><strong>ChatGPT et les LLM (2022-)</strong> : « Ce ne sont que des <strong>perroquets stochastiques</strong>. Ils ne font que prédire le mot suivant. Il n’y a aucune compréhension, aucun raisonnement. »</p></li>
+<li><p><strong>Les agents autonomes (2024-)</strong> : « Ils ne font qu’enchaîner des appels à des outils, ce n’est pas de l’intelligence, c’est juste un workflow. »</p></li>
+</ul>
+<p>À chaque fois, la même musique. Et à chaque fois, les poteaux reculent un peu plus loin.</p>
+</section>
+<section id="mais-au-fait-notre-cerveau-il-fait-comment">
+<h2>Mais au fait, notre cerveau, il fait comment ?<a class="headerlink" href="#mais-au-fait-notre-cerveau-il-fait-comment" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>C’est là que ça devient intéressant — et que j’aimerais qu’on prenne 5 minutes pour y réfléchir ensemble.</p>
+<p>La critique la plus fréquente contre les LLM, c’est : <em>« Ils ne font que prédire le mot suivant en fonction de probabilités apprises sur des milliards de textes. »</em> C’est factuellement vrai. Mais posons-nous une question dérangeante : <strong>est-ce si différent de ce que fait notre cerveau ?</strong></p>
+<section id="petit-test-completez-cette-phrase">
+<h3>Petit test : complétez cette phrase<a class="headerlink" href="#petit-test-completez-cette-phrase" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><em>« Hier soir, j’avais faim, alors je me suis préparé une … »</em></p>
+</div></blockquote>
+<p>Qu’est-ce qui vous est venu à l’esprit ? <em>Pâtes ? Omelette ? Salade ?</em> Votre cerveau a littéralement prédit le mot suivant. Il l’a fait à partir de votre expérience (ce que vous mangez d’habitude), du contexte (on parle de faim), et de statistiques implicites (les mots qui suivent « préparé une » dans votre vécu).</p>
+<p>Est-ce que vous avez « compris » la phrase ? Oui, probablement. Mais au niveau mécanique, votre cerveau a fait quelque chose de remarquablement similaire à un LLM : <strong>une prédiction conditionnée par le contexte</strong>.</p>
+</section>
+<section id="deuxieme-test-l-emotion-par-procuration">
+<h3>Deuxième test : l’émotion par procuration<a class="headerlink" href="#deuxieme-test-l-emotion-par-procuration" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Vous lisez un roman. L’héroïne perd un être cher. Vous ne connaissez pas cette héroïne, vous n’avez peut-être jamais vécu ce deuil précis — et pourtant, vos yeux s’humidifient. Vous ressentez une émotion que vous n’avez <strong>jamais vécue personnellement</strong>, déclenchée par une suite de symboles sur une page.</p>
+<p>Qu’est-ce qui s’est passé ? Votre cerveau a <strong>simulé</strong> une expérience à partir de descriptions textuelles, en reconstruisant une émotion par analogie avec ce qu’il connaît. Il a recombiné des fragments d’expériences pour créer quelque chose de nouveau.</p>
+<p>Est-ce si différent de ce que fait un modèle qui « génère » une réponse jamais vue en recombinant des patterns appris ?</p>
+</section>
+<section id="troisieme-test-d-ou-viennent-vos-idees">
+<h3>Troisième test : d’où viennent vos idées ?<a class="headerlink" href="#troisieme-test-d-ou-viennent-vos-idees" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Essayez d’inventer une créature totalement nouvelle, qui ne ressemble à aucun animal existant. Essayez vraiment.</p>
+<p>Vous allez probablement obtenir… un mélange. Des ailes d’oiseau, un corps de lézard, la fourrure d’un mammifère, des couleurs vues quelque part. Votre « créativité » est en grande partie une <strong>recombinaison de choses déjà stockées</strong>. Exactement comme un modèle génératif.</p>
+<div class="important admonition">
+<p class="admonition-title">La question piège</p>
+<p>Si un LLM est « juste un perroquet stochastique qui prédit le mot suivant », et que notre cerveau fait (entre autres) quelque chose de très similaire… soit les deux sont intelligents, soit aucun des deux ne l’est. <strong>Où place-t-on le curseur, et pourquoi ?</strong></p>
+</div>
+</section>
+<section id="alors-qu-est-ce-qui-nous-distingue-vraiment">
+<h3>Alors, qu’est-ce qui nous distingue vraiment ?<a class="headerlink" href="#alors-qu-est-ce-qui-nous-distingue-vraiment" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Je ne prétends pas avoir la réponse — personne ne l’a. Mais voici quelques pistes sérieuses qui distinguent (pour l’instant) un cerveau humain d’un LLM :</p>
+<ul class="simple">
+<li><p><strong>L’incarnation</strong> : nous avons un corps qui ressent, qui bouge, qui interagit avec le monde physique. Nos concepts sont ancrés dans cette expérience sensorielle.</p></li>
+<li><p><strong>Les objectifs intrinsèques</strong> : nous avons faim, peur, envie. Un LLM n’a aucun désir propre, seulement l’objectif technique de prédire le token suivant.</p></li>
+<li><p><strong>La mémoire à long terme et la continuité</strong> : nous avons une histoire personnelle qui évolue. Un LLM repart de zéro à chaque conversation (pour l’instant).</p></li>
+<li><p><strong>La conscience (quoi que ça veuille dire)</strong> : c’est le mystère central, et on ne sait toujours pas comment la mesurer, même chez les humains.</p></li>
+<li><p><strong>La capacité à reconnaître qu’on ne sait pas</strong> : un humain peut dire « je ne sais pas » honnêtement. Un LLM hallucine avec aplomb.</p></li>
+</ul>
+<p>Mais remarquez : aucune de ces distinctions n’est sur <em>« la machine fait juste des prédictions statistiques »</em>. Parce que nous aussi, en grande partie, nous faisons des prédictions statistiques.</p>
+<div class="tip admonition">
+<p class="admonition-title">Pourquoi je vous pose ces questions</p>
+<p>Parce qu’en tant que futurs data scientists, vous allez construire des modèles qui « prédisent » des choses. Et vous allez entendre deux discours opposés :</p>
+<ul class="simple">
+<li><p><strong>Les technophiles</strong> : « C’est de l’intelligence ! C’est révolutionnaire ! »</p></li>
+<li><p><strong>Les sceptiques</strong> : « Ce n’est que des statistiques, il n’y a aucune compréhension. »</p></li>
+</ul>
+<p>Les deux ont tort et raison à la fois. Votre job, ce n’est pas de trancher ce débat philosophique. C’est de <strong>comprendre ce que vos modèles font vraiment, leurs limites réelles, et ce qu’ils peuvent ou ne peuvent pas apporter à un problème métier concret</strong>. Pas plus, pas moins.</p>
+</div>
+<p>Gardez cette nuance en tête pendant toute la formation. On va manipuler des outils puissants — ni magiques, ni triviaux.</p>
+</section>
+</section>
 <section id="ia-ml-data-science-qui-fait-quoi">
 <h2>IA, ML, Data Science : qui fait quoi ?<a class="headerlink" href="#ia-ml-data-science-qui-fait-quoi" title="Lien permanent vers cette rubrique">#</a></h2>
 <p>Ces trois termes sont souvent utilisés de façon interchangeable, alors qu’ils désignent des choses différentes :</p>
 <p><strong>L’Intelligence Artificielle (IA)</strong> est le concept le plus large : c’est l’idée de créer des systèmes capables de résoudre des problèmes qu’on associe habituellement à l’intelligence humaine. Reconnaître un visage, comprendre une phrase, jouer aux échecs — tout ça relève de l’IA.</p>
-<p><strong>Le Machine Learning (ML)</strong> est une <strong>façon de faire de l’IA</strong>. Au lieu de programmer des règles à la main (« si le mot <em>gratuit</em> apparaît, c’est un spam »), on donne des exemples à un algorithme et il apprend les règles tout seul à partir des données. C’est le cœur de cette formation.</p>
+<p><strong>Le Machine Learning (ML)</strong> est une <strong>façon de faire de l’IA</strong>. Au lieu de programmer des règles à la main (« si le mot <em>gratuit</em> apparaît, c’est un spam »), on donne des exemples à un algorithme et il apprend les règles tout seul à partir des données. C’est le coeur de cette formation.</p>
 <p><strong>La Data Science</strong> est la <strong>discipline</strong> qui utilise le ML (entre autres outils) pour <strong>extraire de la valeur à partir de données</strong> et aider à la prise de décision. Un data scientist ne fait pas que des modèles : il explore les données, les nettoie, les visualise, communique ses résultats, et s’assure que tout ça a du sens métier.</p>
 <div class="important admonition">
 <p class="admonition-title">En résumé</p>
@@ -480,22 +571,115 @@ document.write(`
 </ul>
 </div>
 </section>
-<section id="l-ia-dans-l-histoire-des-regles-manuelles-au-machine-learning">
-<h2>L’IA dans l’histoire : des règles manuelles au Machine Learning<a class="headerlink" href="#l-ia-dans-l-histoire-des-regles-manuelles-au-machine-learning" title="Lien permanent vers cette rubrique">#</a></h2>
-<p>Historiquement, l’IA a évolué en plusieurs vagues :</p>
-<section id="les-systemes-a-base-de-regles-annees-1970-80">
-<h3>Les systèmes à base de règles (années 1970-80)<a class="headerlink" href="#les-systemes-a-base-de-regles-annees-1970-80" title="Lien permanent vers cette rubrique">#</a></h3>
-<p>Des experts codent leurs connaissances sous forme de règles <code class="docutils literal notranslate"><span class="pre">SI</span> <span class="pre">...</span> <span class="pre">ALORS</span> <span class="pre">...</span></code>. Par exemple, un système expert médical : « si le patient a de la fièvre ET des boutons, alors c’est peut-être la varicelle ».</p>
-<p><strong>Le problème</strong> : ça marche quand le domaine est simple et bien compris. Mais dès que ça se complique (reconnaître un chat sur une photo, traduire un texte), il faudrait écrire des millions de règles — et on ne saurait même pas lesquelles.</p>
+<section id="l-ia-dans-l-histoire-80-ans-de-hauts-et-de-bas">
+<h2>L’IA dans l’histoire : 80 ans de hauts et de bas<a class="headerlink" href="#l-ia-dans-l-histoire-80-ans-de-hauts-et-de-bas" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>L’Intelligence Artificielle n’est pas née avec ChatGPT. Elle a une histoire longue, chaotique, avec des promesses démesurées, des déceptions brutales, et des renaissances inattendues. Comprendre cette histoire, c’est comprendre pourquoi on en est là aujourd’hui — et pourquoi il faut rester humble.</p>
+<section id="le-premier-neurone-artificiel">
+<h3>1943 — Le premier neurone artificiel<a class="headerlink" href="#le-premier-neurone-artificiel" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Bien avant qu’on parle d’IA, deux chercheurs posent les fondations : <strong>Warren McCulloch</strong> (neurophysiologiste) et <strong>Walter Pitts</strong> (logicien). Dans un article intitulé <em>« A Logical Calculus of the Ideas Immanent in Nervous Activity »</em>, ils proposent un modèle mathématique simplifié d’un neurone biologique.</p>
+<p>Leur idée : un neurone reçoit des signaux, les additionne, et s’active (ou non) selon un seuil. C’est binaire, rudimentaire — mais c’est la première fois qu’on montre qu’un réseau de neurones artificiels peut, en théorie, calculer n’importe quelle fonction logique.</p>
+<div class="note admonition">
+<p class="admonition-title">Le neurone de McCulloch-Pitts</p>
+<p>entrées (0 ou 1) → somme pondérée → si somme ≥ seuil alors 1, sinon 0</p>
+<p>C’est exactement le principe des neurones modernes (à quelques raffinements près). 80 ans plus tard, ça reste le fondement du Deep Learning.</p>
+</div>
 </section>
-<section id="le-machine-learning-annees-1990-aujourd-hui">
-<h3>Le Machine Learning (années 1990-aujourd’hui)<a class="headerlink" href="#le-machine-learning-annees-1990-aujourd-hui" title="Lien permanent vers cette rubrique">#</a></h3>
-<p>L’approche inverse : au lieu de dire à la machine <strong>comment</strong> faire, on lui donne des <strong>exemples</strong> et elle apprend. On lui montre 10 000 photos de chats et 10 000 photos de chiens, et elle trouve elle-même les critères qui les distinguent.</p>
-<p>C’est l’approche qu’on va utiliser pour nos pompes à eau : on ne va pas coder « si la pompe a plus de 10 ans ET qu’elle est de type X, alors elle est en panne ». On va donner au modèle les données de 59 000 pompes avec leur état, et il va apprendre tout seul les patterns.</p>
+<section id="turing-pose-la-question">
+<h3>1950 — Turing pose la question<a class="headerlink" href="#turing-pose-la-question" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Alan Turing</strong>, déjà célèbre pour avoir contribué à casser Enigma pendant la Seconde Guerre mondiale, publie <em>« Computing Machinery and Intelligence »</em>. Il y pose la question : <strong>« Les machines peuvent-elles penser ? »</strong> Pour éviter le débat philosophique sur ce que signifie « penser », il propose un test pragmatique — le fameux <strong>test de Turing</strong> : si un humain qui converse à l’aveugle avec une machine ne peut pas la distinguer d’un autre humain, alors on peut considérer qu’elle est « intelligente ».</p>
+<p>Turing ne parle pas encore d’IA — le terme n’existe pas — mais il vient d’en poser les bases philosophiques.</p>
 </section>
-<section id="le-deep-learning-annees-2010-aujourd-hui">
-<h3>Le Deep Learning (années 2010-aujourd’hui)<a class="headerlink" href="#le-deep-learning-annees-2010-aujourd-hui" title="Lien permanent vers cette rubrique">#</a></h3>
-<p>Un cas particulier du ML, inspiré du fonctionnement des neurones biologiques. Très performant pour les images, le texte et le son. On en parlera en fin de formation — pour la plupart des problèmes métier « classiques » (données tabulaires), le ML classique reste souvent le meilleur choix.</p>
+<section id="dartmouth-la-naissance-officielle-de-l-ia">
+<h3>1956 — Dartmouth : la naissance officielle de l’IA<a class="headerlink" href="#dartmouth-la-naissance-officielle-de-l-ia" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Été 1956, <strong>Dartmouth College</strong> (New Hampshire, USA). Un jeune chercheur nommé <strong>John McCarthy</strong> organise un atelier d’été de deux mois avec <strong>Marvin Minsky</strong>, <strong>Claude Shannon</strong> (l’inventeur de la théorie de l’information) et <strong>Nathaniel Rochester</strong> (IBM). Ils réunissent une dizaine de chercheurs pour explorer une idée nouvelle.</p>
+<p>Dans la proposition de l’atelier, McCarthy écrit le terme <strong>« Artificial Intelligence »</strong> pour la première fois. L’ambition est folle :</p>
+<blockquote>
+<div><p><em>« Every aspect of learning or any other feature of intelligence can in principle be so precisely described that a machine can be made to simulate it. »</em></p>
+<p><em>« Tout aspect de l’apprentissage, ou toute autre caractéristique de l’intelligence, peut en principe être décrit avec une telle précision qu’une machine peut être construite pour le simuler. »</em></p>
+</div></blockquote>
+<p>L’atelier de Dartmouth est considéré comme <strong>l’acte de naissance officiel de l’IA</strong> en tant que discipline. Les participants repartent convaincus qu’une machine aussi intelligente qu’un humain sera construite « d’ici une génération ».</p>
+</section>
+<section id="le-perceptron-de-rosenblatt">
+<h3>1958 — Le Perceptron de Rosenblatt<a class="headerlink" href="#le-perceptron-de-rosenblatt" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Frank Rosenblatt</strong>, psychologue à Cornell, construit le <strong>Perceptron</strong> : la première machine capable d”<strong>apprendre</strong>. C’est un neurone artificiel à la McCulloch-Pitts, mais avec une nouveauté géniale : il ajuste automatiquement ses poids en fonction de ses erreurs. On lui montre des exemples, il se trompe, il corrige — et il finit par reconnaître des motifs simples.</p>
+<p>Le <em>New York Times</em> titre en 1958 :</p>
+<blockquote>
+<div><p><em>« The Navy revealed the embryo of an electronic computer today that it expects will be able to walk, talk, see, write, reproduce itself and be conscious of its existence. »</em></p>
+<p><em>« La Marine a dévoilé aujourd’hui l’embryon d’un ordinateur électronique dont elle espère qu’il pourra marcher, parler, voir, écrire, se reproduire et être conscient de sa propre existence. »</em></p>
+</div></blockquote>
+<p>L’euphorie est à son comble. On promet des machines intelligentes pour bientôt.</p>
+</section>
+<section id="le-premier-hiver-de-l-ia">
+<h3>1969 — Le premier hiver de l’IA<a class="headerlink" href="#le-premier-hiver-de-l-ia" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Patatras. Marvin Minsky et Seymour Papert publient un livre, <em>« Perceptrons »</em>, qui démontre mathématiquement les <strong>limites fondamentales</strong> du Perceptron. Il ne peut pas, par exemple, apprendre une fonction aussi simple que le XOR (OU exclusif). Le livre est dévastateur.</p>
+<p>Les financements s’effondrent. Le <strong>rapport Lighthill</strong> (1973) enterre définitivement les espoirs au Royaume-Uni en concluant que l’IA n’a tenu aucune de ses promesses. La DARPA américaine coupe les budgets. C’est le <strong>premier « hiver de l’IA »</strong> : de 1974 à ~1980, les chercheurs qui travaillent sur les réseaux de neurones sont marginalisés, voire ridiculisés.</p>
+<div class="warning admonition">
+<p class="admonition-title">Un hiver de l’IA, c’est quoi ?</p>
+<p>Ce n’est pas une métaphore. C’est une période où les investissements, les publications et l’intérêt pour l’IA s’effondrent, parce que les promesses n’ont pas été tenues. Il y en aura au moins deux.</p>
+</div>
+</section>
+<section id="annees-1980-le-retour-par-les-systemes-experts">
+<h3>Années 1980 — Le retour par les systèmes experts<a class="headerlink" href="#annees-1980-le-retour-par-les-systemes-experts" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>L’IA renaît sous une forme différente : les <strong>systèmes experts</strong>. L’idée : au lieu d’essayer de reproduire l’intelligence générale, on encode les connaissances d’un expert dans un domaine précis sous forme de règles <code class="docutils literal notranslate"><span class="pre">SI</span> <span class="pre">...</span> <span class="pre">ALORS</span> <span class="pre">...</span></code>.</p>
+<p>Le système <strong>MYCIN</strong> (Stanford, années 70-80) diagnostique des infections bactériennes mieux que certains médecins. <strong>XCON</strong> (Digital Equipment Corporation) configure des ordinateurs et fait économiser des millions. Les entreprises s’arrachent les systèmes experts. Un marché de plusieurs milliards de dollars émerge autour du langage LISP et des « machines LISP » spécialisées.</p>
+<p>En parallèle, <strong>Rumelhart, Hinton et Williams</strong> publient en 1986 un article décisif sur la <strong>rétropropagation du gradient</strong> (backpropagation), qui permet d’entraîner des réseaux de neurones à plusieurs couches. On sait enfin dépasser les limites du Perceptron. Mais la communauté reste méfiante, et les ordinateurs de l’époque sont trop lents pour en profiter.</p>
+</section>
+<section id="fin-des-annees-1980-le-deuxieme-hiver">
+<h3>Fin des années 1980 — Le deuxième hiver<a class="headerlink" href="#fin-des-annees-1980-le-deuxieme-hiver" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Les systèmes experts craquent sous leur propre poids. Maintenir des milliers de règles écrites à la main devient un cauchemar. Les « machines LISP » sont ringardisées par les PC qui deviennent plus puissants et moins chers. Le marché s’effondre vers 1987-1993. <strong>Deuxième hiver de l’IA</strong>.</p>
+<div class="important admonition">
+<p class="admonition-title">La leçon à retenir</p>
+<p>Les systèmes à base de règles ont échoué parce qu’on <strong>ne peut pas écrire à la main toutes les règles du monde réel</strong>. Reconnaître un chat sur une photo ? Des millions de règles. Comprendre une phrase ? Idem. C’est ce mur qui va pousser la communauté vers une approche radicalement différente : <strong>laisser la machine apprendre les règles elle-même</strong>.</p>
+</div>
+</section>
+<section id="annees-1990-2000-la-revanche-discrete-du-machine-learning">
+<h3>Années 1990-2000 — La revanche discrète du Machine Learning<a class="headerlink" href="#annees-1990-2000-la-revanche-discrete-du-machine-learning" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Pendant que les systèmes experts meurent, une autre approche monte en puissance : le <strong>Machine Learning statistique</strong>. Au lieu d’encoder des règles, on donne des exemples à des algorithmes et on les laisse trouver les patterns.</p>
+<p>Quelques dates clés :</p>
+<ul class="simple">
+<li><p><strong>1995</strong> : Vapnik et Cortes publient les <strong>Support Vector Machines (SVM)</strong>, qui vont dominer la classification pendant une décennie.</p></li>
+<li><p><strong>1997</strong> : <strong>Deep Blue</strong> (IBM) bat Garry Kasparov aux échecs. C’est un système expert surboosté, pas du ML — mais ça relance l’intérêt du grand public pour l’IA.</p></li>
+<li><p><strong>2001</strong> : Leo Breiman publie l’algorithme <strong>Random Forest</strong>. Simple, robuste, efficace : encore aujourd’hui l’un des meilleurs algorithmes pour les données tabulaires.</p></li>
+<li><p><strong>2006</strong> : Geoffrey Hinton publie un article sur les <strong>réseaux de croyances profonds</strong> et relance l’idée qu’on peut entraîner des réseaux de neurones à beaucoup de couches. Le terme <strong>« Deep Learning »</strong> commence à s’imposer.</p></li>
+</ul>
+<p>Cette période est celle où l’IA cesse d’être une discipline de laboratoire pour devenir un outil industriel. Google, Amazon, Netflix l’utilisent en production pour la recherche, la recommandation, le filtrage de spam.</p>
+</section>
+<section id="la-revolution-deep-learning">
+<h3>2012 — La révolution Deep Learning<a class="headerlink" href="#la-revolution-deep-learning" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Septembre 2012</strong>. La compétition <strong>ImageNet</strong> oppose des algorithmes sur la tâche de classifier 1,2 million d’images en 1 000 catégories. Les meilleurs systèmes jusque-là plafonnaient autour de 26% d’erreur.</p>
+<p><strong>Alex Krizhevsky</strong>, étudiant de Geoffrey Hinton à Toronto, présente <strong>AlexNet</strong> : un réseau de neurones convolutif entraîné sur des GPU. Taux d’erreur : <strong>15,3%</strong>. Un gain gigantesque. La communauté de la vision par ordinateur bascule du jour au lendemain.</p>
+<p>Ce qui a changé depuis les années 60 :</p>
+<ol class="arabic simple">
+<li><p><strong>Les données</strong> : internet a généré des millions d’images étiquetées (ImageNet, CIFAR…).</p></li>
+<li><p><strong>Le calcul</strong> : les GPU permettent d’entraîner des réseaux 100x plus gros.</p></li>
+<li><p><strong>Les algorithmes</strong> : backpropagation, ReLU, dropout — une série de raffinements qui rendent l’entraînement stable.</p></li>
+</ol>
+<p>Les années suivantes voient une cascade de percées : reconnaissance vocale, traduction automatique, AlphaGo (2016) qui bat le champion du monde de Go, GANs qui génèrent des images réalistes.</p>
+</section>
+<section id="aujourd-hui-l-ere-des-transformers-et-des-llm">
+<h3>2017-aujourd’hui — L’ère des Transformers et des LLM<a class="headerlink" href="#aujourd-hui-l-ere-des-transformers-et-des-llm" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>2017</strong> : une équipe de Google publie <em>« Attention is All You Need »</em>, qui introduit l’architecture <strong>Transformer</strong>. Tout va s’accélérer.</p>
+<ul class="simple">
+<li><p><strong>2018</strong> : BERT (Google) révolutionne le traitement du langage naturel.</p></li>
+<li><p><strong>2020</strong> : GPT-3 (OpenAI) montre qu’un modèle assez gros peut faire presque n’importe quoi avec quelques exemples.</p></li>
+<li><p><strong>2022</strong> : ChatGPT démocratise l’IA générative auprès du grand public.</p></li>
+<li><p><strong>2023-2024</strong> : les LLM s’intègrent partout — code, image, audio, vidéo.</p></li>
+</ul>
+<div class="note admonition">
+<p class="admonition-title">Sommes-nous dans un nouvel hiver qui approche ?</p>
+<p>Certains chercheurs s’inquiètent : les investissements sont gigantesques, les attentes démesurées, et les limites des LLM (hallucinations, coûts, raisonnement) réelles. L’histoire nous dit qu’après chaque emballement, il y a un retour de bâton. C’est pour ça qu’il faut rester lucide sur ce que l’IA peut et ne peut pas faire.</p>
+</div>
+</section>
+<section id="ce-qu-il-faut-retenir-de-cette-histoire">
+<h3>Ce qu’il faut retenir de cette histoire<a class="headerlink" href="#ce-qu-il-faut-retenir-de-cette-histoire" title="Lien permanent vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>L’IA n’est pas une discipline jeune.</strong> 80 ans de recherche, avec des hauts et des bas. Les idées d’aujourd’hui (neurones, apprentissage, perceptron) datent des années 40-50.</p></li>
+<li><p><strong>Deux grandes approches coexistent :</strong> les systèmes à règles (symboliques) et l’apprentissage statistique. Le ML a pris le dessus depuis les années 90, mais les deux se complètent encore.</p></li>
+<li><p><strong>Les progrès viennent autant des données et du matériel que des algorithmes.</strong> Le Perceptron existait en 1958 ; il a fallu 50 ans pour avoir assez de données et de GPU pour qu’il donne ses vrais résultats.</p></li>
+<li><p><strong>Les promesses excessives mènent aux hivers.</strong> Restez humble. Un modèle qui marche sur un jeu de test ne marche pas forcément en production.</p></li>
+</ol>
+<p>Dans cette formation, on va faire du <strong>Machine Learning classique</strong> (pas du Deep Learning) sur des données tabulaires. C’est l’héritier direct des travaux des années 90-2000 — et c’est encore aujourd’hui la meilleure approche pour la plupart des problèmes métier concrets.</p>
+<p>Au lieu de coder des règles à la main (« si le client a plus de 3 impayés ET qu’il est là depuis moins d’un an, alors risque élevé »), on va donner au modèle des exemples historiques avec leurs résultats, et il va apprendre tout seul les patterns.</p>
 <div class="tip admonition">
 <p class="admonition-title">Sur le terrain</p>
 <p>Ne tombez pas dans le piège du « il me faut du Deep Learning ». Pour des données tabulaires (les tableurs Excel, les bases de données, les exports CSV que vous avez en entreprise), les algorithmes classiques comme les Random Forests ou le Gradient Boosting sont souvent <strong>plus performants</strong>, <strong>plus rapides</strong> et <strong>plus faciles à expliquer</strong> que le Deep Learning.</p>
@@ -516,11 +700,12 @@ document.write(`
 <p>Ce n’est pas un processus linéaire — c’est un cycle d’itérations. On va le vivre tout au long de cette formation.</p>
 <div class="note admonition">
 <p class="admonition-title">Données → Information → Connaissance → Décision</p>
+<p>Prenons un exemple en banque :</p>
 <ul class="simple">
-<li><p><strong>Données</strong> : « la pompe #4238 est de type <em>communal standpipe</em>, installée en 2003 à la latitude -8.93 »</p></li>
-<li><p><strong>Information</strong> : « les pompes communales installées avant 2005 dans cette région ont un taux de panne de 45% »</p></li>
-<li><p><strong>Connaissance</strong> : « l’âge et le type de pompe sont de bons prédicteurs de panne dans les régions à faible altitude »</p></li>
-<li><p><strong>Décision</strong> : « on envoie l’équipe de maintenance en priorité sur les pompes communales d’avant 2005 de la zone côtière »</p></li>
+<li><p><strong>Données</strong> : « le client #4238 a 3 crédits en cours, un revenu de 2 800 €/mois, 2 incidents de paiement en 6 mois »</p></li>
+<li><p><strong>Information</strong> : « les clients avec plus d’un incident et un ratio dette/revenu &gt; 40% ont un taux de défaut de 35% »</p></li>
+<li><p><strong>Connaissance</strong> : « le nombre d’incidents récents et le ratio d’endettement sont les meilleurs prédicteurs de défaut »</p></li>
+<li><p><strong>Décision</strong> : « on refuse le nouveau crédit ou on propose un montant réduit avec un suivi renforcé »</p></li>
 </ul>
 </div>
 </section>
@@ -590,11 +775,27 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-goalpost-qui-se-deplace-ca-ce-n-est-pas-vraiment-de-l-ia">Le goalpost qui se déplace : « ça, ce n’est pas vraiment de l’IA »</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mais-au-fait-notre-cerveau-il-fait-comment">Mais au fait, notre cerveau, il fait comment ?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#petit-test-completez-cette-phrase">Petit test : complétez cette phrase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deuxieme-test-l-emotion-par-procuration">Deuxième test : l’émotion par procuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troisieme-test-d-ou-viennent-vos-idees">Troisième test : d’où viennent vos idées ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alors-qu-est-ce-qui-nous-distingue-vraiment">Alors, qu’est-ce qui nous distingue vraiment ?</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ia-ml-data-science-qui-fait-quoi">IA, ML, Data Science : qui fait quoi ?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-ia-dans-l-histoire-des-regles-manuelles-au-machine-learning">L’IA dans l’histoire : des règles manuelles au Machine Learning</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-systemes-a-base-de-regles-annees-1970-80">Les systèmes à base de règles (années 1970-80)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-machine-learning-annees-1990-aujourd-hui">Le Machine Learning (années 1990-aujourd’hui)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-deep-learning-annees-2010-aujourd-hui">Le Deep Learning (années 2010-aujourd’hui)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#l-ia-dans-l-histoire-80-ans-de-hauts-et-de-bas">L’IA dans l’histoire : 80 ans de hauts et de bas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-premier-neurone-artificiel">1943 — Le premier neurone artificiel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#turing-pose-la-question">1950 — Turing pose la question</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dartmouth-la-naissance-officielle-de-l-ia">1956 — Dartmouth : la naissance officielle de l’IA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-perceptron-de-rosenblatt">1958 — Le Perceptron de Rosenblatt</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-premier-hiver-de-l-ia">1969 — Le premier hiver de l’IA</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#annees-1980-le-retour-par-les-systemes-experts">Années 1980 — Le retour par les systèmes experts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fin-des-annees-1980-le-deuxieme-hiver">Fin des années 1980 — Le deuxième hiver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#annees-1990-2000-la-revanche-discrete-du-machine-learning">Années 1990-2000 — La revanche discrète du Machine Learning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#la-revolution-deep-learning">2012 — La révolution Deep Learning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aujourd-hui-l-ere-des-transformers-et-des-llm">2017-aujourd’hui — L’ère des Transformers et des LLM</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ce-qu-il-faut-retenir-de-cette-histoire">Ce qu’il faut retenir de cette histoire</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-data-science-on-rentre-dans-le-monde-de-l-incertain">La Data Science : on rentre dans le monde de l’incertain</a></li>
@@ -631,7 +832,7 @@ Par David Toussaint
   
   <div class="footer-item">
     <p class="last-updated">
-  Mis à jour le 15 avr. 2026.
+  Mis à jour le 16 avr. 2026.
   <br/>
 </p>
   </div>

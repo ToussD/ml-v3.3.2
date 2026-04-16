@@ -76,7 +76,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Le Machine Learning" href="03-machine-learning.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
-    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+    <meta name="docbuild:last-update" content="16 avr. 2026"/>
   </head>
   
   
@@ -215,6 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/08-ydata-profiling.html">EDA automatisée avec YData Profiling</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
 <ul class="nav bd-sidenav">
@@ -246,7 +247,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Introduction au Deep Learning</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
 <ul class="nav bd-sidenav">
@@ -448,8 +449,8 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-vrais-problemes-avec-les-donnees">Les vrais problèmes avec les données</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#valeurs-manquantes">Valeurs manquantes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#donnees-a-haute-cardinalite">Données à haute cardinalité</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#donnees-incoherentes">Données incohérentes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cardinalite-elevee">Cardinalité élevée</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#desequilibre-des-classes">Déséquilibre des classes</a></li>
 </ul>
 </li>
@@ -477,51 +478,63 @@ document.write(`
 <section id="donnees-tabulaires-le-quotidien-du-ml-classique">
 <h3>Données tabulaires (le quotidien du ML classique)<a class="headerlink" href="#donnees-tabulaires-le-quotidien-du-ml-classique" title="Lien permanent vers cette rubrique">#</a></h3>
 <p>C’est le format qu’on va utiliser dans cette formation : des lignes (observations) et des colonnes (variables/features). Un tableau Excel, un export CSV, une table SQL.</p>
-<p>Notre dataset Water Pump ressemble à ça :</p>
+<p>Par exemple, un dataset classique comme celui des passagers du Titanic ressemble à ça :</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>id</p></th>
-<th class="head"><p>amount_tsh</p></th>
-<th class="head"><p>funder</p></th>
-<th class="head"><p>installer</p></th>
-<th class="head"><p>longitude</p></th>
-<th class="head"><p>latitude</p></th>
-<th class="head"><p>population</p></th>
-<th class="head"><p>status_group</p></th>
+<tr class="row-odd"><th class="head"><p>PassengerId</p></th>
+<th class="head"><p>Survived</p></th>
+<th class="head"><p>Pclass</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Sex</p></th>
+<th class="head"><p>Age</p></th>
+<th class="head"><p>SibSp</p></th>
+<th class="head"><p>Parch</p></th>
+<th class="head"><p>Fare</p></th>
+<th class="head"><p>Cabin</p></th>
+<th class="head"><p>Embarked</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>69572</p></td>
-<td><p>6000</p></td>
-<td><p>Roman</p></td>
-<td><p>Roman</p></td>
-<td><p>34.93</p></td>
-<td><p>-9.85</p></td>
-<td><p>321</p></td>
-<td><p>functional</p></td>
-</tr>
-<tr class="row-odd"><td><p>8776</p></td>
+<tr class="row-even"><td><p>1</p></td>
 <td><p>0</p></td>
-<td><p>Grumeti</p></td>
-<td><p>GRUMETI</p></td>
-<td><p>34.69</p></td>
-<td><p>-2.14</p></td>
-<td><p>25</p></td>
-<td><p>functional needs repair</p></td>
-</tr>
-<tr class="row-even"><td><p>34310</p></td>
-<td><p>25</p></td>
-<td><p>Lindi</p></td>
-<td><p>…</p></td>
-<td><p>35.41</p></td>
-<td><p>-7.98</p></td>
+<td><p>3</p></td>
+<td><p>Braund, Mr. Owen Harris</p></td>
+<td><p>male</p></td>
+<td><p>22</p></td>
+<td><p>1</p></td>
 <td><p>0</p></td>
-<td><p>non functional</p></td>
+<td><p>7.25</p></td>
+<td><p>NaN</p></td>
+<td><p>S</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>Cumings, Mrs. John</p></td>
+<td><p>female</p></td>
+<td><p>38</p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p>71.28</p></td>
+<td><p>C85</p></td>
+<td><p>C</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>1</p></td>
+<td><p>3</p></td>
+<td><p>Heikkinen, Miss. Laina</p></td>
+<td><p>female</p></td>
+<td><p>26</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>7.92</p></td>
+<td><p>NaN</p></td>
+<td><p>S</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Chaque ligne = une pompe. Chaque colonne = une caractéristique de cette pompe. La dernière colonne (<code class="docutils literal notranslate"><span class="pre">status_group</span></code>) = ce qu’on veut prédire.</p>
+<p>Chaque ligne = un passager. Chaque colonne = une caractéristique. La colonne <code class="docutils literal notranslate"><span class="pre">Survived</span></code> = ce qu’on veut prédire (0 = décédé, 1 = survie).</p>
 </section>
 <section id="autres-types-de-donnees">
 <h3>Autres types de données<a class="headerlink" href="#autres-types-de-donnees" title="Lien permanent vers cette rubrique">#</a></h3>
@@ -537,29 +550,23 @@ document.write(`
 </section>
 <section id="les-vrais-problemes-avec-les-donnees">
 <h2>Les vrais problèmes avec les données<a class="headerlink" href="#les-vrais-problemes-avec-les-donnees" title="Lien permanent vers cette rubrique">#</a></h2>
-<p>La théorie présente souvent des datasets propres. La réalité est très différente. Voici ce qu’on rencontre systématiquement — et qu’on va vivre avec le Water Pump :</p>
+<p>La théorie présente souvent des datasets propres. La réalité est très différente. Voici ce qu’on rencontre systématiquement :</p>
 <section id="valeurs-manquantes">
 <h3>Valeurs manquantes<a class="headerlink" href="#valeurs-manquantes" title="Lien permanent vers cette rubrique">#</a></h3>
-<p>Certaines cellules sont vides. Pourquoi ? Le capteur était en panne, l’opérateur a oublié de remplir le champ, l’information n’existait pas à l’époque…</p>
-<p>Dans notre dataset : la colonne <code class="docutils literal notranslate"><span class="pre">funder</span></code> (qui finance la pompe) a des centaines de valeurs manquantes. On ne peut pas les ignorer — il faudra décider quoi en faire.</p>
+<p>Certaines cellules sont vides (NaN). Pourquoi ? L’information n’a pas été enregistrée, le document a été perdu, la donnée n’existait pas à l’époque…</p>
+<p>Dans le dataset Titanic par exemple : la colonne <code class="docutils literal notranslate"><span class="pre">Age</span></code> a environ <strong>20% de valeurs manquantes</strong> et la colonne <code class="docutils literal notranslate"><span class="pre">Cabin</span></code> environ <strong>77% de NaN</strong>. On ne peut pas les ignorer — il faudra décider quoi en faire.</p>
+</section>
+<section id="donnees-a-haute-cardinalite">
+<h3>Données à haute cardinalité<a class="headerlink" href="#donnees-a-haute-cardinalite" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>Une colonne <code class="docutils literal notranslate"><span class="pre">Name</span></code> contient un nom unique par passager — inutilisable directement par un modèle. Mais elle peut contenir un titre (Mr., Mrs., Miss., Master…) qu’on peut extraire et qui est très informatif. C’est un cas classique : trop de valeurs distinctes pour être utilisées telles quelles, mais de l’information précieuse à en extraire.</p>
 </section>
 <section id="donnees-incoherentes">
 <h3>Données incohérentes<a class="headerlink" href="#donnees-incoherentes" title="Lien permanent vers cette rubrique">#</a></h3>
-<p>Des coordonnées GPS à (0, 0) — au milieu de l’océan Atlantique. Une population de « 0 » pour un village. Un installateur nommé « 0 » ou « - ». Ces données existent dans le vrai dataset et il faudra les traiter.</p>
-</section>
-<section id="cardinalite-elevee">
-<h3>Cardinalité élevée<a class="headerlink" href="#cardinalite-elevee" title="Lien permanent vers cette rubrique">#</a></h3>
-<p>La colonne <code class="docutils literal notranslate"><span class="pre">installer</span></code> (qui a installé la pompe) contient <strong>plus de 2 000 valeurs différentes</strong>, avec des variantes comme « Government », « GOVERNMENT », « Goverment », « government of tanzania »… C’est le même installateur écrit de 4 façons différentes.</p>
+<p>Des coordonnées GPS à (0, 0) — au milieu de l’océan Atlantique. Une population de « 0 » pour un village. Un installateur nommé « 0 » ou « - ». Ces cas existent dans les vrais datasets et il faut les traiter.</p>
 </section>
 <section id="desequilibre-des-classes">
 <h3>Déséquilibre des classes<a class="headerlink" href="#desequilibre-des-classes" title="Lien permanent vers cette rubrique">#</a></h3>
-<p>Sur nos 59 400 pompes :</p>
-<ul class="simple">
-<li><p>~54% sont fonctionnelles</p></li>
-<li><p>~38% sont en panne</p></li>
-<li><p>~7% ont besoin de réparation</p></li>
-</ul>
-<p>La classe « à réparer » est sous-représentée. Si le modèle prédit toujours « fonctionnelle », il a déjà raison dans plus de la moitié des cas — mais il est inutile.</p>
+<p>Dans beaucoup de problèmes réels, les classes ne sont pas représentées de façon égale. Par exemple, sur les passagers du Titanic : ~62% sont décédés, ~38% ont survécu. Si le modèle prédit toujours « décédé », il a déjà raison dans plus de 6 cas sur 10 — mais il est inutile. En détection de fraude, c’est encore pire : 99,9% de transactions légitimes.</p>
 <div class="important admonition">
 <p class="admonition-title">Point clé</p>
 <p><strong>La qualité des données détermine la qualité du modèle.</strong> Un algorithme sophistiqué sur des données pourries donnera de moins bons résultats qu’un algorithme simple sur des données bien préparées. C’est pourquoi on passe en pratique <strong>60 à 80% du temps</strong> d’un projet ML sur la préparation des données.</p>
@@ -572,8 +579,8 @@ document.write(`
 <ul class="simple">
 <li><p>Avec <strong>trop peu</strong> de données, le modèle n’a pas assez d’exemples pour apprendre des patterns fiables</p></li>
 <li><p>Avec <strong>trop</strong> de données non pertinentes, on ajoute du bruit sans améliorer les résultats</p></li>
-<li><p>Certains algorithmes fonctionnent très bien avec quelques milliers de lignes</p></li>
-<li><p>Notre dataset de 59 400 lignes est un volume tout à fait raisonnable pour du ML classique</p></li>
+<li><p>Certains algorithmes fonctionnent très bien avec quelques centaines de lignes</p></li>
+<li><p>Un dataset de 891 lignes est un volume modeste mais suffisant pour du ML classique, surtout en classification binaire</p></li>
 </ul>
 <p>Ce qui compte, c’est la <strong>qualité</strong> et la <strong>représentativité</strong> des données, pas uniquement leur volume.</p>
 <div class="tip admonition">
@@ -581,7 +588,7 @@ document.write(`
 <p>Quand on vous dit « on a pas assez de données pour faire du ML », posez ces questions :</p>
 <ul class="simple">
 <li><p><strong>Combien d’exemples de chaque classe ?</strong> 50 exemples par classe, c’est souvent un minimum viable. 500, c’est confortable.</p></li>
-<li><p><strong>Les données sont-elles représentatives ?</strong> Si vous voulez prédire des pannes mais que votre historique ne contient que des pompes neuves, même 1 million de lignes ne suffira pas.</p></li>
+<li><p><strong>Les données sont-elles représentatives ?</strong> Si vous voulez prédire la survie mais que votre historique ne contient que des passagers de 1re classe, même 10 000 lignes ne suffira pas.</p></li>
 <li><p><strong>La qualité est-elle là ?</strong> 1 000 lignes propres valent mieux que 100 000 lignes avec 90% de bruit.</p></li>
 </ul>
 </div>
@@ -703,8 +710,8 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#les-vrais-problemes-avec-les-donnees">Les vrais problèmes avec les données</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#valeurs-manquantes">Valeurs manquantes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#donnees-a-haute-cardinalite">Données à haute cardinalité</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#donnees-incoherentes">Données incohérentes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cardinalite-elevee">Cardinalité élevée</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#desequilibre-des-classes">Déséquilibre des classes</a></li>
 </ul>
 </li>
@@ -743,7 +750,7 @@ Par David Toussaint
   
   <div class="footer-item">
     <p class="last-updated">
-  Mis à jour le 15 avr. 2026.
+  Mis à jour le 16 avr. 2026.
   <br/>
 </p>
   </div>

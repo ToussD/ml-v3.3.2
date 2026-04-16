@@ -17,11 +17,12 @@ Depuis ce dossier, dans un terminal :
 ./cours-ml-exe.sh
 ```
 
-Au premier lancement, Docker télécharge l'image (environ 2 Go). Les
-exécutions suivantes sont instantanées.
+Au premier lancement, Docker télécharge l'image de base et installe les
+dépendances Python du cours (~1-2 minutes). Les exécutions suivantes sont
+quasi instantanées grâce au cache.
 
-Une fois le container démarré, ouvrez votre navigateur sur :
-<http://localhost:8888>
+Une fois le message *« Jupyter Server is running »* affiché, ouvrez votre
+navigateur sur : <http://localhost:8888>
 
 Les notebooks à exécuter pendant la formation sont dans le dossier `work/`
 (depuis Jupyter, ils s'affichent à la racine).
@@ -39,13 +40,12 @@ fonctionne hors ligne.
 
 Le module 6 — *Mise en production* — propose un TP de gestion d'environnements
 Python (`venv`, `conda`, `pixi`) qui se fait **directement dans un terminal**,
-pas dans Jupyter. Un conteneur sandbox dédié (`continuumio/miniconda3`) est
-fourni pour que vous puissiez expérimenter sans polluer votre machine.
+pas dans Jupyter. Un conteneur sandbox dédié est fourni.
 
 Depuis ce dossier, dans un terminal séparé :
 
 ```sh
-./sandbox-exe.sh
+./cours-ml-exe.sh sandbox
 ```
 
 Vous tombez dans un shell `bash` avec `python`, `conda` et `pixi` déjà prêts
@@ -62,8 +62,8 @@ Pour quitter : tapez `exit` dans le conteneur.
 .
 ├── cours.html                Redirige vers cours/html/intro.html
 ├── cours/html/               Site complet du cours (HTML statique)
-├── cours-ml-exe.sh           Script de lancement de Jupyter (Docker)
-├── sandbox-exe.sh            Script de lancement du sandbox du module 6
+├── cours-ml-exe.sh           Script de lancement (Jupyter + sandbox)
+├── requirements.txt          Dépendances Python (modifiable)
 └── work/                     Dossier monté dans Jupyter
     ├── cours-exe/            Notebooks d'exercices suivis en cours
     ├── labs/                 Exercices pratiques (+ solutions)
@@ -74,13 +74,12 @@ Pour quitter : tapez `exit` dans le conteneur.
 
 ## En cas de problème
 
-- **`./cours-ml-exe.sh: Permission denied`** : `chmod +x cours-ml-exe.sh sandbox-exe.sh`
-- **Port 8888 déjà utilisé** : éditer le script et changer `-p 8888:8888`
-  (par exemple en `-p 8889:8888`) puis ouvrir <http://localhost:8889>.
-- **Installation de pixi échouée dans le sandbox** : pas de réseau dans le
-  conteneur ? Relancez `./sandbox-exe.sh` — `venv` et `conda` restent
-  disponibles dans tous les cas.
+- **`./cours-ml-exe.sh: Permission denied`** : `chmod +x cours-ml-exe.sh`
+- **Port 8888 déjà utilisé** : éditer le script et changer `JUPYTER_PORT=8888`
+  (par exemple en `JUPYTER_PORT=8889`) puis ouvrir <http://localhost:8889>.
 - **Docker indisponible** : installer Docker Desktop (Windows/Mac) ou le
   paquet `docker.io` (Linux), puis démarrer le daemon.
+- **Un package manque dans un notebook** : ajouter la ligne dans
+  `requirements.txt` et relancer `./cours-ml-exe.sh`.
 
 Bonne formation !

@@ -15,11 +15,11 @@ Pour faire du ML, il faut :
 
 Le résultat de l'apprentissage, c'est un **modèle** : une représentation simplifiée de la réalité qui permet de faire des prédictions.
 
-```{admonition} Appliqué à notre fil rouge
+```{admonition} Exemple concret
 :class: note
-- **Données** : 59 400 pompes à eau avec leurs caractéristiques (type, âge, localisation, financeur...) et leur état (fonctionnelle, à réparer, en panne)
+- **Données** : 891 passagers du Titanic avec leurs caractéristiques (classe, sexe, âge, tarif, port d'embarquement...) et s'ils ont survécu ou non
 - **Algorithme** : on en testera plusieurs (arbres de décision, Random Forest, Gradient Boosting...)
-- **Modèle** : un système capable de prédire l'état d'une pompe à partir de ses caractéristiques
+- **Modèle** : un système capable de prédire la survie d'un passager à partir de ses caractéristiques
 ```
 
 ## Les types d'apprentissage
@@ -38,12 +38,11 @@ On veut prédire **à quelle classe** appartient un élément.
 
 | Domaine | Question | Classes possibles |
 |---------|----------|-------------------|
-| Maintenance | Cette pompe est-elle en panne ? | Fonctionnelle / À réparer / En panne |
+| Maritime | Ce passager a-t-il survécu au naufrage ? | Oui / Non |
 | Banque | Ce client va-t-il rembourser son crédit ? | Oui / Non |
 | Telecom | Ce client va-t-il partir chez la concurrence ? | Oui / Non |
 | Santé | Quel type de tumeur ? | Bénigne / Maligne |
-
-Notre fil rouge Water Pump est un problème de **classification à 3 classes**.
+| Industrie | Cette pompe est-elle en panne ? | Fonctionnelle / À réparer / En panne |
 
 #### Régression : prédire un nombre
 
@@ -57,7 +56,7 @@ On veut prédire une **valeur numérique continue**.
 
 #### La frontière entre les deux
 
-Parfois la frontière est mince. "Cette pompe est-elle en panne ?" est une classification. Mais "dans combien de mois cette pompe va-t-elle tomber en panne ?" serait une régression. **La façon dont vous posez la question détermine le type de problème.**
+Parfois la frontière est mince. "Ce passager a-t-il survécu ?" est une classification. Mais "combien de temps un passager a-t-il survécu dans l'eau avant d'être secouru ?" serait une régression. **La façon dont vous posez la question détermine le type de problème.**
 
 ### Le split train/test : la règle d'or
 
@@ -86,7 +85,7 @@ L'algorithme forme des groupes (clusters) de données similaires, sans qu'on lui
 **Exemples concrets** :
 - **Segmentation client** : regrouper les clients par comportement d'achat pour adapter les offres commerciales
 - **Détection de communautés** : identifier des groupes d'utilisateurs sur un réseau social
-- Sur nos pompes : regrouper les pompes par "profil" pourrait révéler des patterns qu'on n'avait pas imaginés
+- **Profils de passagers** : regrouper les passagers d'un navire par profil socio-économique pourrait révéler des patterns qu'on n'avait pas imaginés
 
 #### Détection d'anomalies
 
@@ -109,13 +108,16 @@ Un cas intermédiaire très courant en entreprise : on a **beaucoup de données 
 
 L'algorithme apprend par essai-erreur en interagissant avec un environnement. Il reçoit des **récompenses** quand il fait bien et des **pénalités** quand il fait mal. C'est comme ça qu'on entraîne des robots ou des IA de jeux vidéo. Ce n'est pas le focus de cette formation.
 
-## Quel type pour notre fil rouge ?
+## Quel type de ML pour quel problème ?
 
-Notre problème Water Pump est un cas d'**apprentissage supervisé en classification** :
+Pour choisir, la première question est : **est-ce que j'ai des labels ?**
 
-- On a des **labels** : on connaît l'état de chaque pompe (fonctionnelle, à réparer, en panne)
-- On veut prédire une **catégorie** (pas un nombre)
-- On a **3 classes** (pas juste 2)
+| Situation | Type d'apprentissage | Exemple |
+|-----------|---------------------|---------|
+| J'ai des données étiquetées et je veux prédire une **catégorie** | Supervisé — classification | Prédire si un client va résilier (oui/non) |
+| J'ai des données étiquetées et je veux prédire un **nombre** | Supervisé — régression | Estimer le prix d'un appartement |
+| Je n'ai **pas de labels** et je veux trouver des **groupes** | Non supervisé — clustering | Segmenter des clients par comportement |
+| Je n'ai **pas de labels** et je veux repérer des **anomalies** | Non supervisé — détection d'anomalies | Identifier des transactions frauduleuses |
 
 ```{admonition} Sur le terrain
 :class: tip

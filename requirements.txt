@@ -1,0 +1,22 @@
+# Dépendances Python du cours ML.
+#
+# Ces packages sont installés automatiquement au démarrage du container
+# par cours-ml-exe.sh. L'image de base (jupyter/scipy-notebook) fournit
+# déjà numpy, pandas, matplotlib, seaborn, scipy, scikit-learn.
+#
+# Pour ajouter un package : ajouter une ligne ici et relancer le container.
+# Le cache pip Docker rend les redémarrages quasi instantanés après la
+# première installation.
+
+# Visualisation ML
+yellowbrick>=1.5,<2.0
+
+# Arbres de décision : visualisation avancée
+dtreeviz>=2.0,<3.0
+graphviz>=0.20
+
+# Gradient boosting
+xgboost>=1.7,<3.0
+
+# EDA automatisée (notebook 08-ydata-profiling)
+ydata-profiling[notebook]>=4.6,<5.0

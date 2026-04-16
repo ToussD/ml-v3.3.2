@@ -76,7 +76,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Intelligence Artificielle, Machine Learning et Data Science" href="02-ai-ml-data-science.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
-    <meta name="docbuild:last-update" content="15 avr. 2026"/>
+    <meta name="docbuild:last-update" content="16 avr. 2026"/>
   </head>
   
   
@@ -215,6 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours-exe/04-understand-data/08-ydata-profiling.html">EDA automatisée avec YData Profiling</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
 <ul class="nav bd-sidenav">
@@ -246,7 +247,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Deep learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../09-deep-learning/01-deep-learning.html">Introduction au Deep Learning</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
 <ul class="nav bd-sidenav">
@@ -460,7 +461,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage-par-renforcement">Apprentissage par renforcement</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quel-type-pour-notre-fil-rouge">Quel type pour notre fil rouge ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quel-type-de-ml-pour-quel-probleme">Quel type de ML pour quel problème ?</a></li>
 </ul>
             </nav>
         </div>
@@ -488,11 +489,11 @@ document.write(`
 </ol>
 <p>Le résultat de l’apprentissage, c’est un <strong>modèle</strong> : une représentation simplifiée de la réalité qui permet de faire des prédictions.</p>
 <div class="note admonition">
-<p class="admonition-title">Appliqué à notre fil rouge</p>
+<p class="admonition-title">Exemple concret</p>
 <ul class="simple">
-<li><p><strong>Données</strong> : 59 400 pompes à eau avec leurs caractéristiques (type, âge, localisation, financeur…) et leur état (fonctionnelle, à réparer, en panne)</p></li>
+<li><p><strong>Données</strong> : 891 passagers du Titanic avec leurs caractéristiques (classe, sexe, âge, tarif, port d’embarquement…) et s’ils ont survécu ou non</p></li>
 <li><p><strong>Algorithme</strong> : on en testera plusieurs (arbres de décision, Random Forest, Gradient Boosting…)</p></li>
-<li><p><strong>Modèle</strong> : un système capable de prédire l’état d’une pompe à partir de ses caractéristiques</p></li>
+<li><p><strong>Modèle</strong> : un système capable de prédire la survie d’un passager à partir de ses caractéristiques</p></li>
 </ul>
 </div>
 </section>
@@ -514,9 +515,9 @@ document.write(`
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Maintenance</p></td>
-<td><p>Cette pompe est-elle en panne ?</p></td>
-<td><p>Fonctionnelle / À réparer / En panne</p></td>
+<tr class="row-even"><td><p>Maritime</p></td>
+<td><p>Ce passager a-t-il survécu au naufrage ?</p></td>
+<td><p>Oui / Non</p></td>
 </tr>
 <tr class="row-odd"><td><p>Banque</p></td>
 <td><p>Ce client va-t-il rembourser son crédit ?</p></td>
@@ -530,10 +531,13 @@ document.write(`
 <td><p>Quel type de tumeur ?</p></td>
 <td><p>Bénigne / Maligne</p></td>
 </tr>
+<tr class="row-even"><td><p>Industrie</p></td>
+<td><p>Cette pompe est-elle en panne ?</p></td>
+<td><p>Fonctionnelle / À réparer / En panne</p></td>
+</tr>
 </tbody>
 </table>
 </div>
-<p>Notre fil rouge Water Pump est un problème de <strong>classification à 3 classes</strong>.</p>
 </section>
 <section id="regression-predire-un-nombre">
 <h4>Régression : prédire un nombre<a class="headerlink" href="#regression-predire-un-nombre" title="Lien permanent vers cette rubrique">#</a></h4>
@@ -564,7 +568,7 @@ document.write(`
 </section>
 <section id="la-frontiere-entre-les-deux">
 <h4>La frontière entre les deux<a class="headerlink" href="#la-frontiere-entre-les-deux" title="Lien permanent vers cette rubrique">#</a></h4>
-<p>Parfois la frontière est mince. « Cette pompe est-elle en panne ? » est une classification. Mais « dans combien de mois cette pompe va-t-elle tomber en panne ? » serait une régression. <strong>La façon dont vous posez la question détermine le type de problème.</strong></p>
+<p>Parfois la frontière est mince. « Ce passager a-t-il survécu ? » est une classification. Mais « combien de temps un passager a-t-il survécu dans l’eau avant d’être secouru ? » serait une régression. <strong>La façon dont vous posez la question détermine le type de problème.</strong></p>
 </section>
 </section>
 <section id="le-split-train-test-la-regle-d-or">
@@ -591,7 +595,7 @@ document.write(`
 <ul class="simple">
 <li><p><strong>Segmentation client</strong> : regrouper les clients par comportement d’achat pour adapter les offres commerciales</p></li>
 <li><p><strong>Détection de communautés</strong> : identifier des groupes d’utilisateurs sur un réseau social</p></li>
-<li><p>Sur nos pompes : regrouper les pompes par « profil » pourrait révéler des patterns qu’on n’avait pas imaginés</p></li>
+<li><p><strong>Profils de passagers</strong> : regrouper les passagers d’un navire par profil socio-économique pourrait révéler des patterns qu’on n’avait pas imaginés</p></li>
 </ul>
 </section>
 <section id="detection-d-anomalies">
@@ -618,14 +622,36 @@ document.write(`
 <p>L’algorithme apprend par essai-erreur en interagissant avec un environnement. Il reçoit des <strong>récompenses</strong> quand il fait bien et des <strong>pénalités</strong> quand il fait mal. C’est comme ça qu’on entraîne des robots ou des IA de jeux vidéo. Ce n’est pas le focus de cette formation.</p>
 </section>
 </section>
-<section id="quel-type-pour-notre-fil-rouge">
-<h2>Quel type pour notre fil rouge ?<a class="headerlink" href="#quel-type-pour-notre-fil-rouge" title="Lien permanent vers cette rubrique">#</a></h2>
-<p>Notre problème Water Pump est un cas d”<strong>apprentissage supervisé en classification</strong> :</p>
-<ul class="simple">
-<li><p>On a des <strong>labels</strong> : on connaît l’état de chaque pompe (fonctionnelle, à réparer, en panne)</p></li>
-<li><p>On veut prédire une <strong>catégorie</strong> (pas un nombre)</p></li>
-<li><p>On a <strong>3 classes</strong> (pas juste 2)</p></li>
-</ul>
+<section id="quel-type-de-ml-pour-quel-probleme">
+<h2>Quel type de ML pour quel problème ?<a class="headerlink" href="#quel-type-de-ml-pour-quel-probleme" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Pour choisir, la première question est : <strong>est-ce que j’ai des labels ?</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Situation</p></th>
+<th class="head"><p>Type d’apprentissage</p></th>
+<th class="head"><p>Exemple</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>J’ai des données étiquetées et je veux prédire une <strong>catégorie</strong></p></td>
+<td><p>Supervisé — classification</p></td>
+<td><p>Prédire si un client va résilier (oui/non)</p></td>
+</tr>
+<tr class="row-odd"><td><p>J’ai des données étiquetées et je veux prédire un <strong>nombre</strong></p></td>
+<td><p>Supervisé — régression</p></td>
+<td><p>Estimer le prix d’un appartement</p></td>
+</tr>
+<tr class="row-even"><td><p>Je n’ai <strong>pas de labels</strong> et je veux trouver des <strong>groupes</strong></p></td>
+<td><p>Non supervisé — clustering</p></td>
+<td><p>Segmenter des clients par comportement</p></td>
+</tr>
+<tr class="row-odd"><td><p>Je n’ai <strong>pas de labels</strong> et je veux repérer des <strong>anomalies</strong></p></td>
+<td><p>Non supervisé — détection d’anomalies</p></td>
+<td><p>Identifier des transactions frauduleuses</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="tip admonition">
 <p class="admonition-title">Sur le terrain</p>
 <p><strong>80% des projets ML en entreprise sont du supervisé</strong> (classification ou régression). Avant de vous lancer, la première question à vous poser est : « est-ce que j’ai des données historiques avec la réponse que je veux prédire ? » Si oui, vous êtes dans le supervisé. Si non, réfléchissez à comment obtenir ces labels — c’est souvent la partie la plus longue et la plus coûteuse d’un projet ML.</p>
@@ -718,7 +744,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apprentissage-par-renforcement">Apprentissage par renforcement</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quel-type-pour-notre-fil-rouge">Quel type pour notre fil rouge ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quel-type-de-ml-pour-quel-probleme">Quel type de ML pour quel problème ?</a></li>
 </ul>
   </nav></div>
 
@@ -752,7 +778,7 @@ Par David Toussaint
   
   <div class="footer-item">
     <p class="last-updated">
-  Mis à jour le 15 avr. 2026.
+  Mis à jour le 16 avr. 2026.
   <br/>
 </p>
   </div>

@@ -1,0 +1,888 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Premier modèle avec scikit-learn &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours-exe/03-use-sklearn-algorithms/02-premier-modele-sklearn';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Exercice: Premier modèle scikit-learn" href="../../cours/03-use-sklearn-algorithms/03-lab-premier-modele.html" />
+    <link rel="prev" title="Utiliser les algorithmes de scikit-learn" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="16 mai 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/07-lab-statistics-basics.html">Exercice: <span class="xref myst">Statistiques de base</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python essentiel pour la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-python-bases.html">Exercice: <span class="xref myst">Bases de Python</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/05-python-itertools.html">Itertools et générateurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/06-lab-python-fonctions.html">Exercice: <span class="xref myst">Fonctions et compréhensions</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/07-numpy-matplotlib.html">NumPy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/08-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Premier modèle avec scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/03-lab-premier-modele.html">Exercice: <span class="xref myst">Premier modèle scikit-learn</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="08-cross-validation.html">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="10-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/11-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/08-ydata-profiling.html">EDA automatisée avec YData Profiling</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Introduction au Deep Learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/01-intro-datascience/statistics-basics.html">Exercice: statistiques de base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/01-intro-datascience/statistics-basics-solution.html">Solution: statistiques de base</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/python-bases.html">Exercice: bases de Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/python-bases-solution.html">Solution: bases de Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/python-fonctions.html">Exercice: fonctions et compréhensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/python-fonctions-solution.html">Solution: fonctions et compréhensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/premier-modele.html">Exercice: premier modèle avec scikit-learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/premier-modele-solution.html">Solution: premier modèle avec scikit-learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours-exe/03-use-sklearn-algorithms/02-premier-modele-sklearn.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Premier modèle avec scikit-learn</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-contrat-scikit-learn-en-une-image">Le contrat scikit-learn en une image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#charger-un-dataset">Charger un dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#x-et-y-la-convention-sklearn">X et y : la convention sklearn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decouper-en-train-et-test-pourquoi-et-comment">Découper en train et test : pourquoi et comment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-premier-modele-le-modele-bete-dummyclassifier">Un premier modèle : le « modèle bête » (DummyClassifier)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-modele-un-peu-moins-bete-kneighborsclassifier">Un modèle un peu moins bête : KNeighborsClassifier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predict-vs-predict-proba"><code class="docutils literal notranslate"><span class="pre">predict</span></code> vs <code class="docutils literal notranslate"><span class="pre">predict_proba</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-contrat-universel-ce-qu-il-faut-retenir">Le contrat universel — ce qu’il faut retenir</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="premier-modele-avec-scikit-learn">
+<h1>Premier modèle avec scikit-learn<a class="headerlink" href="#premier-modele-avec-scikit-learn" title="Lien permanent vers cette rubrique">#</a></h1>
+<p>Avant d’attaquer un vrai algorithme (l’arbre de décision dans le notebook suivant), on prend un moment pour comprendre la <strong>convention</strong> de scikit-learn — le « contrat » auquel obéissent <strong>tous</strong> ses modèles, des plus simples (régression linéaire) aux plus complexes (XGBoost, réseaux de neurones via scikit-learn).</p>
+<p>L’idée : une fois ce contrat compris, vous saurez utiliser <strong>n’importe quel</strong> modèle scikit-learn sans avoir à relire la documentation à chaque fois.</p>
+<section id="le-contrat-scikit-learn-en-une-image">
+<h2>Le contrat scikit-learn en une image<a class="headerlink" href="#le-contrat-scikit-learn-en-une-image" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Tout modèle scikit-learn est une <strong>boîte avec deux boutons</strong> :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.fit(X,</span> <span class="pre">y)</span></code> → <strong>apprendre</strong> à partir d’exemples (X = ce qu’on observe, y = la réponse attendue)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.predict(X_nouveaux)</span></code> → <strong>prédire</strong> la réponse pour de nouvelles observations</p></li>
+</ul>
+<p>Plus un troisième bouton utilitaire :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.score(X,</span> <span class="pre">y)</span></code> → <strong>évaluer</strong> la qualité des prédictions sur des données dont on connaît déjà la vraie réponse</p></li>
+</ul>
+<p>Que ce soit un arbre de décision, une régression linéaire ou un Random Forest, le pattern est <strong>toujours</strong> le même. C’est ce qui rend scikit-learn si agréable à utiliser.</p>
+</section>
+<section id="charger-un-dataset">
+<h2>Charger un dataset<a class="headerlink" href="#charger-un-dataset" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Scikit-learn embarque quelques petits datasets « jouets » prêts à l’emploi pour s’entraîner. On va utiliser le plus célèbre : <strong>Iris</strong> — 150 fleurs d’iris, 4 mesures par fleur (longueur/largeur du sépale et du pétale), et 3 espèces à reconnaître.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Le résultat est un objet « Bunch » qui ressemble à un dictionnaire. Les champs utiles :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Les attributs principaux d&#39;un dataset sklearn</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data.shape          :&quot;</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>          <span class="c1"># 150 lignes, 4 colonnes</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;target.shape        :&quot;</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>        <span class="c1"># 150 labels</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;feature_names       :&quot;</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>       <span class="c1"># les 4 mesures</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;target_names        :&quot;</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target_names</span><span class="p">)</span>        <span class="c1"># les 3 espèces</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>data.shape          : (150, 4)
+target.shape        : (150,)
+feature_names       : [&#39;sepal length (cm)&#39;, &#39;sepal width (cm)&#39;, &#39;petal length (cm)&#39;, &#39;petal width (cm)&#39;]
+target_names        : [&#39;setosa&#39; &#39;versicolor&#39; &#39;virginica&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Les 5 premières lignes de data : 4 nombres par fleur</span>
+<span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[5.1, 3.5, 1.4, 0.2],
+       [4.9, 3. , 1.4, 0.2],
+       [4.7, 3.2, 1.3, 0.2],
+       [4.6, 3.1, 1.5, 0.2],
+       [5. , 3.6, 1.4, 0.2]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Les 5 premiers labels : 0 = setosa, 1 = versicolor, 2 = virginica</span>
+<span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0, 0, 0, 0, 0])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="x-et-y-la-convention-sklearn">
+<h2>X et y : la convention sklearn<a class="headerlink" href="#x-et-y-la-convention-sklearn" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Tout au long de scikit-learn, on retrouve <strong>deux variables canoniques</strong> :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Forme</p></th>
+<th class="head"><p>Contenu</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">X</span></code></strong> (majuscule)</p></td>
+<td><p>matrice 2D <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features)</span></code></p></td>
+<td><p>les <strong>caractéristiques</strong> observées</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">y</span></code></strong> (minuscule)</p></td>
+<td><p>vecteur 1D <code class="docutils literal notranslate"><span class="pre">(n_samples,)</span></code></p></td>
+<td><p>la <strong>cible</strong> à prédire</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>À retenir</strong> :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X</span></code> est toujours <strong>2D</strong> (matrice), même quand il n’y a qu’une seule feature — auquel cas il faut quand même <code class="docutils literal notranslate"><span class="pre">X.shape</span> <span class="pre">=</span> <span class="pre">(n,</span> <span class="pre">1)</span></code> et non <code class="docutils literal notranslate"><span class="pre">(n,)</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y</span></code> est <strong>1D</strong> en apprentissage supervisé classique.</p></li>
+<li><p>La majuscule de <code class="docutils literal notranslate"><span class="pre">X</span></code> est une convention mathématique (les matrices s’écrivent en majuscule) et <code class="docutils literal notranslate"><span class="pre">y</span></code> en minuscule (les vecteurs).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span>       <span class="c1"># 150 × 4</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>     <span class="c1"># 150</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X :&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y :&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X : (150, 4) float64
+y : (150,) int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="decouper-en-train-et-test-pourquoi-et-comment">
+<h2>Découper en train et test : pourquoi et comment<a class="headerlink" href="#decouper-en-train-et-test-pourquoi-et-comment" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>On ne va pas entraîner le modèle sur <strong>toutes</strong> les données et l’évaluer sur ces mêmes données. Pourquoi ?</p>
+<div class="tip admonition">
+<p class="admonition-title">💡 L’analogie de l’étudiant qui révise</p>
+<p>Imaginez un étudiant qui révise pour un examen en faisant les exercices d’un livre. Si l’examen final est composé <strong>exactement</strong> des mêmes exercices, l’étudiant peut tricher : il les a appris <strong>par cœur</strong> sans vraiment comprendre.</p>
+<p>Pour évaluer s’il a réellement appris, il faut lui poser des questions qu’il n’a <strong>jamais vues</strong>.</p>
+<p>C’est exactement la même logique en ML : on garde une partie des données <strong>à part</strong> (le « test set ») qu’on ne montre au modèle qu’au moment de l’évaluation.</p>
+</div>
+<p>Scikit-learn fournit la fonction <code class="docutils literal notranslate"><span class="pre">train_test_split</span></code> pour faire ce découpage en une ligne :</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>     <span class="c1"># 25 % en test, 75 % en apprentissage</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>    <span class="c1"># fige le tirage aléatoire pour la reproductibilité</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train :&quot;</span><span class="p">,</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test  :&quot;</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>  <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train : (112, 4) (112,)
+Test  : (38, 4) (38,)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Le paramètre <code class="docutils literal notranslate"><span class="pre">random_state</span></code> mérite un mot : la fonction tire au sort <strong>aléatoirement</strong> quelles lignes vont en train et lesquelles en test. Pour que vos résultats soient <strong>reproductibles</strong> (et comparables avec ceux d’un collègue), on fige cette graine. Le chiffre lui-même n’a aucune importance — c’est juste une étiquette pour le tirage.</p>
+</section>
+<section id="un-premier-modele-le-modele-bete-dummyclassifier">
+<h2>Un premier modèle : le « modèle bête » (DummyClassifier)<a class="headerlink" href="#un-premier-modele-le-modele-bete-dummyclassifier" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Avant de sortir l’artillerie lourde, on commence <strong>toujours</strong> par un modèle aussi simple que possible. Pourquoi ? Pour avoir un <strong>point de comparaison</strong> — une <em>baseline</em> — au-dessus duquel tout vrai modèle doit se situer. Sinon on ne sait pas si une accuracy de 80 % est bonne ou pas.</p>
+<p>Le <code class="docutils literal notranslate"><span class="pre">DummyClassifier</span></code> est exprès <strong>stupide</strong> : avec la stratégie <code class="docutils literal notranslate"><span class="pre">&quot;most_frequent&quot;</span></code>, il prédit toujours la classe <strong>majoritaire</strong> du jeu d’entraînement. Pas d’apprentissage, pas d’intelligence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.dummy</span> <span class="kn">import</span> <span class="n">DummyClassifier</span>
+
+<span class="n">baseline</span> <span class="o">=</span> <span class="n">DummyClassifier</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;most_frequent&quot;</span><span class="p">)</span>
+
+<span class="c1"># Apprentissage</span>
+<span class="n">baseline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Prédiction sur les 5 premières fleurs de test</span>
+<span class="n">baseline</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1, 1, 1, 1, 1])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Score = accuracy par défaut en classification (proportion de bonnes réponses)</span>
+<span class="n">score_baseline</span> <span class="o">=</span> <span class="n">baseline</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Baseline (classe majoritaire) : </span><span class="si">{</span><span class="n">score_baseline</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Baseline (classe majoritaire) : 28.95%
+</pre></div>
+</div>
+</div>
+</div>
+<p>Sur Iris (3 classes équilibrées), prédire toujours la classe majoritaire donne environ <strong>33 %</strong>. C’est notre <strong>plancher</strong> : tout vrai modèle doit faire mieux que ça.</p>
+</section>
+<section id="un-modele-un-peu-moins-bete-kneighborsclassifier">
+<h2>Un modèle un peu moins bête : KNeighborsClassifier<a class="headerlink" href="#un-modele-un-peu-moins-bete-kneighborsclassifier" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Toujours sans entrer dans le détail des algorithmes (c’est le sujet des notebooks suivants), regardons un modèle simple mais qui <strong>apprend</strong> vraiment quelque chose : le <strong>k plus proches voisins</strong> (<code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code>).</p>
+<p><strong>Intuition (en 30 secondes)</strong> : pour classer une nouvelle fleur, le modèle cherche dans le jeu d’entraînement la fleur <strong>la plus ressemblante</strong> (avec <code class="docutils literal notranslate"><span class="pre">n_neighbors=1</span></code>), et copie sa classe. Plus ressemblante = la plus proche au sens des 4 mesures. C’est tout.</p>
+<p>Ce qui nous intéresse ici n’est <strong>pas</strong> l’algorithme — c’est de voir que le pattern <code class="docutils literal notranslate"><span class="pre">fit</span> <span class="pre">/</span> <span class="pre">predict</span> <span class="pre">/</span> <span class="pre">score</span></code> est <strong>strictement identique</strong> à celui du DummyClassifier.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+
+<span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">score_knn</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;KNN (1 voisin) : </span><span class="si">{</span><span class="n">score_knn</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KNN (1 voisin) : 100.00%
+</pre></div>
+</div>
+</div>
+</div>
+<p>Le score est très au-dessus du plancher. Le modèle a <strong>réellement appris</strong> quelque chose de la géométrie des fleurs dans le jeu d’entraînement.</p>
+</section>
+<section id="predict-vs-predict-proba">
+<h2><code class="docutils literal notranslate"><span class="pre">predict</span></code> vs <code class="docutils literal notranslate"><span class="pre">predict_proba</span></code><a class="headerlink" href="#predict-vs-predict-proba" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Un classifieur sait faire deux choses :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.predict(X)</span></code> → la classe prédite (par exemple <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">1</span></code> ou <code class="docutils literal notranslate"><span class="pre">2</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.predict_proba(X)</span></code> → les <strong>probabilités</strong> d’appartenir à chaque classe</p></li>
+</ul>
+<p>Avoir les probabilités est utile quand on veut connaître la <strong>confiance</strong> du modèle, ou fixer un seuil de décision.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sur les 5 premières fleurs de test</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vraies classes :&quot;</span><span class="p">,</span> <span class="n">y_test</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;predict        :&quot;</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:</span><span class="mi">5</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;predict_proba  :&quot;</span><span class="p">)</span>
+<span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Vraies classes : [1 0 2 1 1]
+predict        : [1 0 2 1 1]
+predict_proba  :
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0., 1., 0.],
+       [1., 0., 0.],
+       [0., 0., 1.],
+       [0., 1., 0.],
+       [0., 1., 0.]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="le-contrat-universel-ce-qu-il-faut-retenir">
+<h2>Le contrat universel — ce qu’il faut retenir<a class="headerlink" href="#le-contrat-universel-ce-qu-il-faut-retenir" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Ce qu’on vient de faire avec <code class="docutils literal notranslate"><span class="pre">DummyClassifier</span></code> et <code class="docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code> est <strong>strictement</strong> la même séquence qu’on fera pour :</p>
+<ul class="simple">
+<li><p>un <strong>arbre de décision</strong> (<code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code>) — notebook suivant</p></li>
+<li><p>une <strong>régression</strong> (<code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code>, <code class="docutils literal notranslate"><span class="pre">DecisionTreeRegressor</span></code>…)</p></li>
+<li><p>des <strong>modèles ensemblistes</strong> (<code class="docutils literal notranslate"><span class="pre">RandomForestClassifier</span></code>, <code class="docutils literal notranslate"><span class="pre">XGBClassifier</span></code>…)</p></li>
+<li><p>voire des <strong>réseaux de neurones</strong> (<code class="docutils literal notranslate"><span class="pre">MLPClassifier</span></code>)</p></li>
+</ul>
+<div class="important admonition">
+<p class="admonition-title">🎯 À retenir</p>
+<p><strong>Le contrat scikit-learn</strong> :</p>
+<ol class="arabic simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">X</span></code> est une matrice 2D</strong> <code class="docutils literal notranslate"><span class="pre">(n_samples,</span> <span class="pre">n_features)</span></code>, <strong><code class="docutils literal notranslate"><span class="pre">y</span></code> un vecteur 1D</strong> <code class="docutils literal notranslate"><span class="pre">(n_samples,)</span></code>.</p></li>
+<li><p><strong>Toujours</strong> découper en train/test (<code class="docutils literal notranslate"><span class="pre">train_test_split</span></code>) avant tout entraînement.</p></li>
+<li><p><strong>Toujours</strong> commencer par une baseline (<code class="docutils literal notranslate"><span class="pre">DummyClassifier</span></code> / <code class="docutils literal notranslate"><span class="pre">DummyRegressor</span></code>) pour savoir contre quoi se comparer.</p></li>
+<li><p>Tous les modèles s’utilisent avec la <strong>même triade</strong> : <code class="docutils literal notranslate"><span class="pre">.fit(X_train,</span> <span class="pre">y_train)</span></code> → <code class="docutils literal notranslate"><span class="pre">.predict(X_test)</span></code> → <code class="docutils literal notranslate"><span class="pre">.score(X_test,</span> <span class="pre">y_test)</span></code>.</p></li>
+<li><p>Pour la <strong>confiance</strong> d’un classifieur : <code class="docutils literal notranslate"><span class="pre">.predict_proba(X)</span></code>.</p></li>
+</ol>
+</div>
+<p>Avec ça en tête, on peut maintenant ouvrir la boîte noire d’un vrai algorithme — l’arbre de décision.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours-exe/03-use-sklearn-algorithms"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Utiliser les algorithmes de scikit-learn</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../cours/03-use-sklearn-algorithms/03-lab-premier-modele.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Exercice: <span class="xref myst">Premier modèle scikit-learn</span></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-contrat-scikit-learn-en-une-image">Le contrat scikit-learn en une image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#charger-un-dataset">Charger un dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#x-et-y-la-convention-sklearn">X et y : la convention sklearn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decouper-en-train-et-test-pourquoi-et-comment">Découper en train et test : pourquoi et comment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-premier-modele-le-modele-bete-dummyclassifier">Un premier modèle : le « modèle bête » (DummyClassifier)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#un-modele-un-peu-moins-bete-kneighborsclassifier">Un modèle un peu moins bête : KNeighborsClassifier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predict-vs-predict-proba"><code class="docutils literal notranslate"><span class="pre">predict</span></code> vs <code class="docutils literal notranslate"><span class="pre">predict_proba</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-contrat-universel-ce-qu-il-faut-retenir">Le contrat universel — ce qu’il faut retenir</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 16 mai 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

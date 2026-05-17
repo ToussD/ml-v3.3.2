@@ -1,0 +1,1469 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Cross-validation et courbe d’apprentissage &#8212; Pensez comme un Datascientist</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sidebar-collapse.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Cliquez pour afficher';</script>
+    <script>let toggleHintHide = 'Cliquez pour masquer';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/sidebar-collapse.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"macros": {"RR": "\\mathbb{R}", "NN": "\\mathbb{N}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'cours-exe/03-use-sklearn-algorithms/08-cross-validation';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Exercice: Analyse de la courbe d’apprentissage" href="../../cours/03-use-sklearn-algorithms/09-lab-analyse-learning-curve.html" />
+    <link rel="prev" title="Exercice: Hyperparamètres" href="../../cours/03-use-sklearn-algorithms/07-lab-hyperparameters.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+    <meta name="docbuild:last-update" content="16 mai 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Pensez comme un Datascientist</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 1 — Introduction à la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/02-ai-ml-data-science.html">Intelligence Artificielle, Machine Learning et Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/03-machine-learning.html">Le Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/04-donnees.html">Les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/05-datascientist.html">Le Data Scientist et son processus de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-intro-datascience/06-statistics-basics.html">Un peu de statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/01-intro-datascience/07-lab-statistics-basics.html">Exercice: <span class="xref myst">Statistiques de base</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 2 — Outils Python pour la data science</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/01-python-data-science-tools.html">Les outils Python pour la data science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/02-python.html">Python essentiel pour la Data Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/03-python-basics.html">Premiers pas avec Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/04-lab-python-bases.html">Exercice: <span class="xref myst">Bases de Python</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/05-python-itertools.html">Itertools et générateurs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/06-lab-python-fonctions.html">Exercice: <span class="xref myst">Fonctions et compréhensions</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-python-data-science-tools/07-numpy-matplotlib.html">NumPy et Matplotlib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/02-python-data-science-tools/08-lab-numpy.html">Exercice: <span class="xref myst">Numpy</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 3 — Utiliser les algorithmes de scikit-learn</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/01-use-sklearn-algorithms-objectives.html">Utiliser les algorithmes de scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-premier-modele-sklearn.html">Premier modèle avec scikit-learn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/03-lab-premier-modele.html">Exercice: <span class="xref myst">Premier modèle scikit-learn</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-understand-decision-tree.html">Comprendre les arbres de décision</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-evaluate-regression-model.html">Évaluation d’un modèle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-overfitting-underfitting.html">Overfitting et underfitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/07-lab-hyperparameters.html">Exercice: <span class="xref myst">Hyperparamètres</span></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Cross-validation et courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/09-lab-analyse-learning-curve.html">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="10-gridsearchcv.html">Automatisation de la recherche des hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/03-use-sklearn-algorithms/11-lab-gridsearchcv.html">Exercice: <span class="xref myst">GridSearchCV</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 4 — Comprendre les données</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/01-understand-data.html">Comprendre les données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/02-pandas.html">Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/03-lab-pandas.html">Exercice: <span class="xref myst">Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/04-summarize-data.html">Obtenir une vue synthétique des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/05-lab-pandas-stats-basics.html">Exercice: <span class="xref myst">Pandas Stats - les bases</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/06-multivariate-stats.html">Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/04-understand-data/07-lab-multivariate-stats.html"><span class="xref myst">Exercice: Les statistiques multivariées avec Pandas</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-understand-data/08-ydata-profiling.html">EDA automatisée avec YData Profiling</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 5 — Feature engineering, les bases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/01-feature-engineering.html">Feature engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-feature-engineering-basics/02-feature-engineering-basics.html">Feature engineering — les bases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/05-feature-engineering-basics/03-lab-null-values-basics.html">Exercice: <span class="xref myst">Exercice: Traiter des valeurs manquantes</span></a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 6 — Mise en production</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/01-environnements-python.html">Gérer ses environnements Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/02-methodologie-projet-ml.html">La méthodologie d’un projet ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/03-travail-en-equipe-et-donnees.html">Travailler en équipe sur du ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/04-de-la-recherche-a-la-prod.html">De la recherche à la production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/06-mise-en-production/05-tp-environnements.html">TP — Gérer ses environnements Python au terminal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 7 — Algorithmes de Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/01-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/02-evaluate-classification-model.html">Évaluation d’un modèle de classification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cours/07-machine-learning-algorithms/03-some-machine-learning-algorithms.html">Quelques algorithmes de Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-machine-learning-algorithms/04-isolation-forest.html">Isolation Forest — détecter des anomalies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 8 — Feature engineering, compléments</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/08-advanced-feature-engineering/01-advanced-feature-engineering.html">Feature Engineering: compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/02-null-values-advanced.html">Traitement des valeurs manquantes — compléments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/03-improve-distribution.html">Améliorer une « mauvaise » distribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../08-advanced-feature-engineering/04-dimensionality-reduction.html">Réduction de dimensions</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Module 9 — Deep learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../cours/09-deep-learning/01-deep-learning.html">Introduction au Deep Learning</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Labs</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/01-intro-datascience/01-intro-datascience.html">Introduction à la Data Science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/01-intro-datascience/statistics-basics.html">Exercice: statistiques de base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/01-intro-datascience/statistics-basics-solution.html">Solution: statistiques de base</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/02-python-data-science-tools/02-python-data-science-tools.html">Les outils Python pour la data science</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/python-bases.html">Exercice: bases de Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/python-bases-solution.html">Solution: bases de Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/python-fonctions.html">Exercice: fonctions et compréhensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/python-fonctions-solution.html">Solution: fonctions et compréhensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy.html">Exercice: numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/02-python-data-science-tools/numpy-solution.html">Solution: numpy</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/03-use-sklearn-algorithms.html">Utiliser les algorithmes de scikit-learn</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/premier-modele.html">Exercice: premier modèle avec scikit-learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/premier-modele-solution.html">Solution: premier modèle avec scikit-learn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters.html">Exercice: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/hyperparameters-solution.html">Solution: Hyperparamètres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve.html">Exercice: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/analyse-learning-curve-solution.html">Solution: Analyser une courbe d’apprentissage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv.html">Exercice: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/03-use-sklearn-algorithms/gridsearchcv-solution.html">Solution: Optimiser les hyperparamètres avec GridSearchCV</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/04-understand-data/04-understand-data.html">Comprendre les données</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas.html">Exercice: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-solution.html">Solution: Pandas - Manipuler et analyser vos données</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics.html">Exercice: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/pandas-stats-basics-solution.html">Solution: Pandas Stats - les bases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats.html">Exercice: Les statistiques multivariées avec Pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/04-understand-data/multivariate-stats-solution.html">Solution: Les statistiques multivariées avec Pandas</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labs/05-feature-engineering-basics/05-feature-engineering-basics.html">Feature engineering: les bases</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics.html">Exercice: Traiter des valeurs manquantes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../labs/05-feature-engineering-basics/null-values-basics-solution.html">Solution: Traiter des valeurs manquantes</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Démos</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_classification_basics.html">Iris: classification, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_train-test-split.html">Iris: importance du jeu de test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_regression_basics.html">Prédire l’évolution d’un diabète</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_clustering_basics.html">Iris: clustering, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/diabetes_dimension-reduction.html">Réduction de dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_semi-supervised_basics.html">Iris: apprentissage semi-supervisé, premiers pas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_learning-curve.html">Iris: courbe d’apprentissage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/iris_veracity.html">Iris: Véracité des données</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../demos/car-prices.html">Estimation du prix de voitures d’occasion</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Téléchargez cette page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/cours-exe/03-use-sklearn-algorithms/08-cross-validation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Télécharger le fichier source"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Imprimer au format PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Mode plein écran"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Cross-validation et courbe d’apprentissage</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contenu </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-probleme-comment-regler-les-hyperparametres-honnetement">Le problème : comment régler les hyperparamètres « honnêtement » ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-solution-un-3e-jeu-dit-de-validation">La solution : un 3e jeu, dit <strong>de validation</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeu-de-test">Jeu de test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeux-d-apprentissage-et-de-validation">Jeux d’apprentissage et de validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experimentation">Expérimentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-du-modele">Évaluation du modèle</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decisiontreeregressor-autres-hyperparametres">DecisionTreeRegressor(autres-hyperparamètres)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autre-algorithme">Autre algorithme</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-des-modeles-le-verdict-final">Test des modèles — le verdict final</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limites-de-cette-approche">Limites de cette approche</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation">Cross-validation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-principe-du-k-fold">Le principe du k-fold</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mise-en-oeuvre-dans-scikit-learn">Mise en œuvre dans scikit-learn</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jeu-d-apprentissage-et-de-test">Jeu d’apprentissage et de test</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#calcul-des-scores-sur-10-folds">Calcul des scores sur 10 folds</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#courbe-d-apprentissage">Courbe d’apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comment-lire-une-courbe-d-apprentissage">Comment lire une courbe d’apprentissage ?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-peut-on-deduire-de-ces-courbes">Que peut-on déduire de ces courbes ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-cross-validation-en-pratique">🎯 La cross-validation en pratique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-l-utiliser">Quand l’utiliser ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-variantes-utiles">Les variantes utiles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-a-eviter">Les pièges à éviter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cross-validation-et-courbe-d-apprentissage">
+<h1>Cross-validation et courbe d’apprentissage<a class="headerlink" href="#cross-validation-et-courbe-d-apprentissage" title="Lien permanent vers cette rubrique">#</a></h1>
+<section id="le-probleme-comment-regler-les-hyperparametres-honnetement">
+<h2>Le problème : comment régler les hyperparamètres « honnêtement » ?<a class="headerlink" href="#le-probleme-comment-regler-les-hyperparametres-honnetement" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Quand on veut <strong>améliorer</strong> un modèle en jouant sur ses hyperparamètres (<code class="docutils literal notranslate"><span class="pre">max_depth</span></code>, <code class="docutils literal notranslate"><span class="pre">min_samples_leaf</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code> d’une SVM, <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> d’un boosting…), il faut bien pouvoir <strong>comparer</strong> plusieurs choix et garder le meilleur. Mais sur quelles données comparer ?</p>
+<ul class="simple">
+<li><p>❌ <strong>Pas sur le jeu d’apprentissage</strong> : un modèle plus complexe aura toujours un meilleur score train (il suffit de le laisser overfitter). Ça ne dit rien sur sa qualité réelle.</p></li>
+<li><p>❌ <strong>Pas sur le jeu de test</strong> : le test représente les « données inconnues », celles qu’on n’a pas vues. Si on utilise le test pour <strong>choisir</strong> nos hyperparamètres, on est en train de <em>s’adapter</em> au test, et on perd son rôle de juge impartial. Un modèle qu’on a tuné sur le test ne dira plus rien d’honnête sur sa généralisation.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Analogie :</strong> le jeu de test, c’est l’examen final. Si tu le regardes avant l’examen pour t’entraîner dessus, ton 20/20 ne veut plus rien dire — tu as triché. Le jeu de test doit rester <strong>scellé</strong> jusqu’à la toute fin.</p>
+</div></blockquote>
+</section>
+<section id="la-solution-un-3e-jeu-dit-de-validation">
+<h2>La solution : un 3e jeu, dit <strong>de validation</strong><a class="headerlink" href="#la-solution-un-3e-jeu-dit-de-validation" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>On sépare donc les données en <strong>trois</strong> paquets :</p>
+<ol class="arabic simple">
+<li><p><strong>Train</strong> : sert à entraîner le modèle.</p></li>
+<li><p><strong>Validation</strong> : sert à comparer différents choix d’hyperparamètres et choisir le meilleur.</p></li>
+<li><p><strong>Test</strong> : sert <strong>une seule fois</strong>, à la toute fin, pour estimer la performance réelle du modèle choisi.</p></li>
+</ol>
+<p>C’est ce qu’on met en place dans ce notebook, puis on verra que la <strong>cross-validation</strong> permet de faire cette même chose de manière plus efficace et plus fiable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_diabetes</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">diabetes</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">diabetes</span><span class="o">.</span><span class="n">data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">diabetes</span><span class="o">.</span><span class="n">target</span>
+<span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(442, 10)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="jeu-de-test">
+<h2>Jeu de test<a class="headerlink" href="#jeu-de-test" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>On met de côté <strong>25% des données</strong> (le <em>test set</em>) — et on y touche plus avant la toute fin. Ce paquet représente les « données jamais vues » et ne sert qu’à la mesure finale, <strong>une seule fois</strong>, pour un verdict honnête.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train_full</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train_full</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="jeux-d-apprentissage-et-de-validation">
+<h2>Jeux d’apprentissage et de validation<a class="headerlink" href="#jeux-d-apprentissage-et-de-validation" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Sur les 75% restants (le « train_full »), on extrait encore 33% (soit ≈ 25% du total) comme <strong>jeu de validation</strong>. Il servira à comparer plusieurs configurations d’hyperparamètres et à choisir la meilleure <strong>sans jamais toucher au test</strong>.</p>
+<p><strong>Récap de la répartition :</strong></p>
+<ul class="simple">
+<li><p>50% → train (apprentissage)</p></li>
+<li><p>25% → validation (choix des hyperparamètres)</p></li>
+<li><p>25% → test (verdict final)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X_train_full</span><span class="p">,</span> <span class="n">y_train_full</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="experimentation">
+<h2>Expérimentation<a class="headerlink" href="#experimentation" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>On entraîne un premier modèle avec une configuration donnée d’hyperparamètres, puis on mesure ses performances <strong>sur le jeu de validation</strong> pour savoir si cette configuration est bonne. En pratique, on répéterait cette étape pour plusieurs configurations et on garderait celle qui a le meilleur score de validation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tree_reg</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">tree_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeRegressor(max_depth=4, max_features=5, random_state=2)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;DecisionTreeRegressor<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.tree.DecisionTreeRegressor.html">?<span>Documentation for DecisionTreeRegressor</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>DecisionTreeRegressor(max_depth=4, max_features=5, random_state=2)</pre></div> </div></div></div></div></div></div>
+</div>
+<section id="evaluation-du-modele">
+<h3>Évaluation du modèle<a class="headerlink" href="#evaluation-du-modele" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On compare le score <strong>train</strong> et le score <strong>validation</strong>. L’écart entre les deux est notre baromètre d’overfitting.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">tree_reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">r2_score</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.6337729052225081
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">tree_reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span>
+<span class="n">r2_score</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.21319468333614966
+</pre></div>
+</div>
+</div>
+</div>
+<section id="decisiontreeregressor-autres-hyperparametres">
+<h4>DecisionTreeRegressor(autres-hyperparamètres)<a class="headerlink" href="#decisiontreeregressor-autres-hyperparametres" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>Ici, en pratique, on essaierait plusieurs configurations : <code class="docutils literal notranslate"><span class="pre">max_depth=2</span></code>, <code class="docutils literal notranslate"><span class="pre">max_depth=6</span></code>, <code class="docutils literal notranslate"><span class="pre">min_samples_leaf=5</span></code>… et on garderait celle qui donne le meilleur <strong>score de validation</strong>.</p>
+</section>
+</section>
+<section id="autre-algorithme">
+<h3>Autre algorithme<a class="headerlink" href="#autre-algorithme" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On ferait la même chose avec un autre algo (Random Forest, Gradient Boosting, Ridge…) pour comparer. L’idée est que le <strong>jeu de validation</strong> sert de juge pour <strong>tous</strong> les candidats — train pour apprendre, validation pour comparer, test pour le verdict final.</p>
+</section>
+</section>
+<section id="test-des-modeles-le-verdict-final">
+<h2>Test des modèles — le verdict final<a class="headerlink" href="#test-des-modeles-le-verdict-final" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Une fois les hyperparamètres optimisés sur la validation, on peut <strong>enfin</strong> regarder le test. Un seul chiffre, une seule fois : c’est l”<strong>estimation honnête</strong> de ce que donnera le modèle en production.</p>
+<blockquote>
+<div><p>⚠️ <strong>Attention</strong> : si le test donne un résultat décevant, la tentation est de retourner ajuster les hyperparamètres… mais en faisant ça, le test perd son statut de juge impartial (on a triché). La rigueur veut qu’on accepte le verdict ou qu’on reparte de plus loin (nouveau problème, plus de données, nouvelles features…).</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">tree_reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.045219289320064915
+</pre></div>
+</div>
+</div>
+</div>
+<section id="limites-de-cette-approche">
+<h3>Limites de cette approche<a class="headerlink" href="#limites-de-cette-approche" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Deux problèmes majeurs :</strong></p>
+<ol class="arabic simple">
+<li><p><strong>On gaspille des données pour la validation.</strong> Ici, 25% du jeu ne sert ni à l’apprentissage ni au test final. Sur un petit dataset comme <code class="docutils literal notranslate"><span class="pre">diabetes</span></code> (442 points), ça fait mal : on prive le modèle d’un quart de ses données d’entraînement.</p></li>
+<li><p><strong>Le score de validation est instable.</strong> Il dépend du <em>hasard</em> du split — on a eu de la chance ou pas, selon les patients qui sont tombés dans la validation. Changez <code class="docutils literal notranslate"><span class="pre">random_state</span></code> et le score peut bouger significativement. Un seul chiffre peu fiable sur lequel on prend des décisions d’architecture, c’est risqué.</p></li>
+</ol>
+<p><strong>La cross-validation résout ces deux problèmes d’un coup.</strong></p>
+</section>
+</section>
+<section id="cross-validation">
+<h2>Cross-validation<a class="headerlink" href="#cross-validation" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>L’idée :</strong> au lieu de choisir <em>un seul</em> découpage train/validation au hasard, on en fait <strong>plusieurs</strong>, et on fait la moyenne des scores de validation obtenus. On gagne en <strong>fiabilité</strong> (moyenne sur plusieurs essais au lieu d’un tirage chanceux) et en <strong>efficience</strong> (chaque donnée sert tour à tour à l’entraînement ET à la validation).</p>
+<section id="le-principe-du-k-fold">
+<h3>Le principe du k-fold<a class="headerlink" href="#le-principe-du-k-fold" title="Lien permanent vers cette rubrique">#</a></h3>
+<p>On découpe le jeu d’entraînement en <span class="math notranslate nohighlight">\(k\)</span> morceaux (<em>folds</em>) de taille égale. Puis on répète <span class="math notranslate nohighlight">\(k\)</span> fois l’expérience :</p>
+<ul class="simple">
+<li><p><strong>Itération 1</strong> : on entraîne sur les folds 2, 3, 4, 5 et on valide sur le fold 1.</p></li>
+<li><p><strong>Itération 2</strong> : on entraîne sur les folds 1, 3, 4, 5 et on valide sur le fold 2.</p></li>
+<li><p><strong>Itération 3</strong> : on entraîne sur les folds 1, 2, 4, 5 et on valide sur le fold 3.</p></li>
+<li><p>… et ainsi de suite.</p></li>
+</ul>
+<p>À la fin, on a <span class="math notranslate nohighlight">\(k\)</span> scores de validation. On les résume par :</p>
+<ul class="simple">
+<li><p>leur <strong>moyenne</strong> → le score attendu du modèle ;</p></li>
+<li><p>leur <strong>écart-type</strong> → la <em>stabilité</em> du modèle (un fort écart-type est un signal d’alarme : le modèle est sensible aux données sur lesquelles il est entraîné).</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Le bénéfice :</strong> chaque donnée sert <strong>une fois</strong> à la validation et <strong><span class="math notranslate nohighlight">\(k-1\)</span> fois</strong> à l’entraînement. On utilise <em>toutes</em> les données pour apprendre et pour valider.</p>
+</div></blockquote>
+<p><img alt="Cross validation" src="https://scikit-learn.org/stable/_images/grid_search_cross_validation.png" /></p>
+<p>Voir la <a class="reference external" href="https://scikit-learn.org/stable/modules/cross_validation.html">documentation scikit-learn</a>.</p>
+</section>
+<section id="mise-en-oeuvre-dans-scikit-learn">
+<h3>Mise en œuvre dans scikit-learn<a class="headerlink" href="#mise-en-oeuvre-dans-scikit-learn" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code> fait tout le travail pour nous : on lui passe un modèle non-entraîné, les données, une métrique et un nombre de folds <span class="math notranslate nohighlight">\(k\)</span>, et il renvoie les <span class="math notranslate nohighlight">\(k\)</span> scores de validation.</p>
+<section id="jeu-d-apprentissage-et-de-test">
+<h4>Jeu d’apprentissage et de test<a class="headerlink" href="#jeu-d-apprentissage-et-de-test" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>Le test set reste indispensable — même avec la cross-validation. La cross-validation remplace le <strong>jeu de validation</strong>, pas le <strong>jeu de test</strong>. On garde donc environ 15% pour le test final (inchangé), et on fera la cross-validation sur les 85% restants.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="calcul-des-scores-sur-10-folds">
+<h4>Calcul des scores sur 10 folds<a class="headerlink" href="#calcul-des-scores-sur-10-folds" title="Lien permanent vers cette rubrique">#</a></h4>
+<p>On demande <code class="docutils literal notranslate"><span class="pre">cv=10</span></code> : 10 découpages, donc 10 scores de validation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((442, 10), (375, 10), (67, 10))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+
+<span class="n">tree_reg</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">tree_r2_scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span>
+    <span class="n">tree_reg</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;r2&quot;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+<span class="n">tree_r2_scores</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.12760162,  0.30276536,  0.18162368,  0.41454927,  0.47294672,
+        0.30880572,  0.31275944, -0.0079007 ,  0.45209936,  0.42697687])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tree_r2_scores</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">tree_r2_scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(0.2992227329484779), np.float64(0.14868368776207272))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="courbe-d-apprentissage">
+<h2>Courbe d’apprentissage<a class="headerlink" href="#courbe-d-apprentissage" title="Lien permanent vers cette rubrique">#</a></h2>
+<p><strong>L’idée :</strong> entraîner le même modèle sur des <strong>sous-échantillons de tailles croissantes</strong> du jeu d’apprentissage, et tracer le score (sur train et sur validation, via cross-validation) en fonction de la taille.</p>
+<blockquote>
+<div><p><strong>Intuition :</strong> cette courbe permet de répondre à une question cruciale :</p>
+<p><em>« Est-ce que mon modèle profiterait d’avoir plus de données à manger, ou bien est-ce que j’ai atteint son plafond intrinsèque ? »</em></p>
+</div></blockquote>
+<p>On aura une <strong>courbe train</strong> et une <strong>courbe validation</strong> (souvent appelée « courbe de test » ou « cross-validation »). La façon dont ces deux courbes évoluent et se rapprochent (ou non) nous dit tout sur l’état du modèle.</p>
+<section id="comment-lire-une-courbe-d-apprentissage">
+<h3>Comment lire une courbe d’apprentissage ?<a class="headerlink" href="#comment-lire-une-courbe-d-apprentissage" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong>Les deux courbes se rapprochent à un niveau élevé</strong> → 🎉 le modèle est bien paramétré, plus de données pourraient un peu aider mais ne sont pas urgentes.</p></li>
+<li><p><strong>Les deux courbes plafonnent à un niveau bas</strong> et sont proches l’une de l’autre → <strong>underfitting</strong> : le modèle est trop simple, plus de données ne changeront rien. Il faut un modèle plus complexe (ou de meilleures features).</p></li>
+<li><p><strong>Grand écart entre train (haut) et validation (bas)</strong> qui ne se réduit pas avec plus de données → <strong>overfitting</strong> : il faut régulariser ou simplifier le modèle.</p></li>
+<li><p><strong>Grand écart qui se réduit à mesure que la taille augmente</strong> → <strong>plus de données aiderait</strong> effectivement ; c’est un bon signal pour investir dans la collecte.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tree_reg</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">yellowbrick.model_selection</span> <span class="kn">import</span> <span class="n">LearningCurve</span>
+
+<span class="n">visualizer</span> <span class="o">=</span> <span class="n">LearningCurve</span><span class="p">(</span><span class="n">tree_reg</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;r2&#39;</span><span class="p">)</span>
+<span class="n">visualizer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">visualizer</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e82090cde1433bdd07a510dec9880e6a94810952bf694653568c1ed136db62fe.png" src="../../_images/e82090cde1433bdd07a510dec9880e6a94810952bf694653568c1ed136db62fe.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Les valeurs par défaut des hyperparametres laissent</span>
+<span class="c1"># un grand nombre de degrés de liberté au modèle</span>
+
+<span class="n">tree_reg_default</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">visualizer</span> <span class="o">=</span> <span class="n">LearningCurve</span><span class="p">(</span><span class="n">tree_reg_default</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;r2&#39;</span><span class="p">)</span>
+<span class="n">visualizer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">visualizer</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/5ffa2ac2ab3c4cf34155874463182adecde344df652b9168973a68c37592b90d.png" src="../../_images/5ffa2ac2ab3c4cf34155874463182adecde344df652b9168973a68c37592b90d.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="que-peut-on-deduire-de-ces-courbes">
+<h2>Que peut-on déduire de ces courbes ?<a class="headerlink" href="#que-peut-on-deduire-de-ces-courbes" title="Lien permanent vers cette rubrique">#</a></h2>
+<p>Prenez un moment pour comparer les deux courbes ci-dessus :</p>
+<ul class="simple">
+<li><p><strong>Premier modèle</strong> (<code class="docutils literal notranslate"><span class="pre">max_depth=4,</span> <span class="pre">max_features=3</span></code>) : arbre bridé.</p></li>
+<li><p><strong>Second modèle</strong> (<code class="docutils literal notranslate"><span class="pre">DecisionTreeRegressor()</span></code> par défaut) : arbre sans contrainte, maximum de degrés de liberté.</p></li>
+</ul>
+<p>Trois angles d’analyse :</p>
+<p><strong>En termes de taille du jeu d’apprentissage :</strong></p>
+<ul class="simple">
+<li><p>Jusqu’à quelle taille le score continue-t-il à s’améliorer ? Après, le gain est-il encore significatif ? Ça dit si ça vaut la peine d’aller chercher plus de données.</p></li>
+</ul>
+<p><strong>En termes d’overfitting / underfitting :</strong></p>
+<ul class="simple">
+<li><p>L’arbre bridé → les deux courbes se rejoignent relativement près l’une de l’autre → plutôt <strong>underfitting</strong> (bias &gt; variance).</p></li>
+<li><p>L’arbre par défaut → énorme écart entre train (quasi parfait) et validation (médiocre) → <strong>overfitting</strong> flagrant (variance &gt; bias).</p></li>
+</ul>
+<p><strong>En termes de biais / variance :</strong></p>
+<ul class="simple">
+<li><p>Le premier modèle souffre plus de biais (modèle trop simple).</p></li>
+<li><p>Le second modèle souffre plus de variance (modèle trop flexible, qui mémorise).</p></li>
+<li><p><strong>Le modèle idéal est quelque part entre les deux.</strong> D’où l’intérêt d’utiliser la cross-validation pour <em>chercher</em> ce bon équilibre en testant plusieurs configurations d’hyperparamètres — c’est exactement ce que fait <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>, qu’on verra bientôt.</p></li>
+</ul>
+</section>
+<section id="la-cross-validation-en-pratique">
+<h2>🎯 La cross-validation en pratique<a class="headerlink" href="#la-cross-validation-en-pratique" title="Lien permanent vers cette rubrique">#</a></h2>
+<section id="quand-l-utiliser">
+<h3>Quand l’utiliser ?<a class="headerlink" href="#quand-l-utiliser" title="Lien permanent vers cette rubrique">#</a></h3>
+<p><strong>Dans presque tous les cas</strong> où on règle des hyperparamètres ou qu’on compare plusieurs modèles. C’est devenu un <strong>standard</strong> en machine learning. Les exceptions :</p>
+<ul class="simple">
+<li><p><strong>Deep learning sur très gros dataset</strong> : un simple split train/val/test suffit (la cross-validation est trop coûteuse et les données abondantes rendent le split suffisamment stable).</p></li>
+<li><p><strong>Données temporelles</strong> : on utilise une variante, <code class="docutils literal notranslate"><span class="pre">TimeSeriesSplit</span></code>, qui respecte l’ordre chronologique (on ne peut pas s’entraîner sur le futur pour prédire le passé !).</p></li>
+</ul>
+</section>
+<section id="les-variantes-utiles">
+<h3>Les variantes utiles<a class="headerlink" href="#les-variantes-utiles" title="Lien permanent vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variante</p></th>
+<th class="head"><p>Quand l’utiliser</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">KFold</span></code></strong> (défaut)</p></td>
+<td><p>Cas général, données indépendantes et mélangées</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">StratifiedKFold</span></code></strong></p></td>
+<td><p>Classification avec classes déséquilibrées (garde la même proportion de chaque classe dans chaque fold)</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">TimeSeriesSplit</span></code></strong></p></td>
+<td><p>Séries temporelles (jamais d’info du futur dans l’entraînement)</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">GroupKFold</span></code></strong></p></td>
+<td><p>Quand plusieurs lignes concernent la même entité (patient, utilisateur) — on veut qu’une entité soit <em>soit</em> en train, <em>soit</em> en validation, jamais les deux</p></td>
+</tr>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">LeaveOneOut</span></code></strong></p></td>
+<td><p>Très petits datasets (&lt; 50 échantillons) — <span class="math notranslate nohighlight">\(k\)</span> = nombre d’échantillons</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="les-pieges-a-eviter">
+<h3>Les pièges à éviter<a class="headerlink" href="#les-pieges-a-eviter" title="Lien permanent vers cette rubrique">#</a></h3>
+<ul>
+<li><p>⚠️ <strong>Data leakage</strong> : toutes les transformations (normalisation, imputation, sélection de features) doivent être <strong>apprises sur les données d’entraînement du fold uniquement</strong>, pas sur le jeu entier. Sinon, on « fuite » de l’information depuis la validation vers l’entraînement. Utiliser systématiquement un <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> scikit-learn pour s’en prémunir :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;scaler&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span> <span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">DecisionTreeRegressor</span><span class="p">())])</span>
+<span class="n">cross_val_score</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>⚠️ <strong>Données déséquilibrées en classification</strong> : sans <code class="docutils literal notranslate"><span class="pre">StratifiedKFold</span></code>, on peut tomber sur un fold qui ne contient aucune instance d’une classe minoritaire — le score devient absurde.</p></li>
+<li><p>⚠️ <strong>Choix de <span class="math notranslate nohighlight">\(k\)</span></strong> : <span class="math notranslate nohighlight">\(k = 5\)</span> ou <span class="math notranslate nohighlight">\(k = 10\)</span> est le standard. Trop grand (<span class="math notranslate nohighlight">\(k = n\)</span>, <em>leave-one-out</em>) → très coûteux et score très variable. Trop petit (<span class="math notranslate nohighlight">\(k = 2\)</span> ou 3) → estimation bruitée.</p></li>
+</ul>
+</section>
+<section id="le-mot-de-la-fin">
+<h3>Le mot de la fin<a class="headerlink" href="#le-mot-de-la-fin" title="Lien permanent vers cette rubrique">#</a></h3>
+<blockquote>
+<div><p><strong>Regardez toujours la moyenne ET l’écart-type</strong> des scores de cross-validation. Un modèle avec 0,75 ± 0,02 est bien plus fiable qu’un modèle avec 0,78 ± 0,15, même si son score moyen est un peu plus bas. Un fort écart-type = modèle instable = à éviter en production.</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./cours-exe/03-use-sklearn-algorithms"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../cours/03-use-sklearn-algorithms/07-lab-hyperparameters.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Exercice: <span class="xref myst">Hyperparamètres</span></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../cours/03-use-sklearn-algorithms/09-lab-analyse-learning-curve.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Exercice: <span class="xref myst">Analyse de la courbe d’apprentissage</span></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contenu
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#le-probleme-comment-regler-les-hyperparametres-honnetement">Le problème : comment régler les hyperparamètres « honnêtement » ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-solution-un-3e-jeu-dit-de-validation">La solution : un 3e jeu, dit <strong>de validation</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeu-de-test">Jeu de test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jeux-d-apprentissage-et-de-validation">Jeux d’apprentissage et de validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experimentation">Expérimentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-du-modele">Évaluation du modèle</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decisiontreeregressor-autres-hyperparametres">DecisionTreeRegressor(autres-hyperparamètres)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autre-algorithme">Autre algorithme</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-des-modeles-le-verdict-final">Test des modèles — le verdict final</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limites-de-cette-approche">Limites de cette approche</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation">Cross-validation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-principe-du-k-fold">Le principe du k-fold</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mise-en-oeuvre-dans-scikit-learn">Mise en œuvre dans scikit-learn</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jeu-d-apprentissage-et-de-test">Jeu d’apprentissage et de test</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#calcul-des-scores-sur-10-folds">Calcul des scores sur 10 folds</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#courbe-d-apprentissage">Courbe d’apprentissage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comment-lire-une-courbe-d-apprentissage">Comment lire une courbe d’apprentissage ?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#que-peut-on-deduire-de-ces-courbes">Que peut-on déduire de ces courbes ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#la-cross-validation-en-pratique">🎯 La cross-validation en pratique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quand-l-utiliser">Quand l’utiliser ?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-variantes-utiles">Les variantes utiles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#les-pieges-a-eviter">Les pièges à éviter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#le-mot-de-la-fin">Le mot de la fin</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+Par David Toussaint
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Mis à jour le 16 mai 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

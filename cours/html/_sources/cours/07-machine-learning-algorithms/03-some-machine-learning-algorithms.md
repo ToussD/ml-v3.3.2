@@ -203,7 +203,7 @@ La régression est linéaire **dans ce nouvel espace enrichi**, mais elle captur
 
 ## Scoring d'une régression
 
-Comment mesure-t-on la qualité d'une régression ? Revoir le notebook `03-use-sklearn-algorithms/03-evaluate-regression-model` qui détaille les métriques **MAE, RMSE, R², MAPE**. En résumé :
+Comment mesure-t-on la qualité d'une régression ? Revoir le notebook `03-use-sklearn-algorithms/05-evaluate-regression-model` qui détaille les métriques **MAE, RMSE, R², MAPE**. En résumé :
 
 - **MAE** → erreur moyenne dans les unités de la cible, robuste aux outliers.
 - **RMSE** → idem mais pénalise plus les grosses erreurs (carré).
